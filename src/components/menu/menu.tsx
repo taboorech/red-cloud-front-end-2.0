@@ -12,7 +12,7 @@ const links = [
   { to: '/', icon: MdHome },
   { to: '/', icon: CiSearch },
   { to: '/settings', icon: IoIosSettings },
-  { to: '/premium', icon: TbPremiumRights },
+  { to: '/subscriptions', icon: TbPremiumRights },
   { to: '/info', icon: LuInfo },
 ]
 
