@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { IoCheckmarkCircle, IoMusicalNotes, IoDownload, IoPhonePortrait, IoPeople, IoInfinite, IoSparkles } from "react-icons/io5"
+import { IoCheckmarkCircle, IoMusicalNotes, IoDownload, IoPhonePortrait, IoInfinite } from "react-icons/io5"
 import { Button } from "../../components/button/button"
 
 interface SubscriptionFeature {
@@ -13,11 +13,12 @@ interface SubscriptionPlan {
   price: number
   period: string
   popular?: boolean
+  unavailable?: boolean
   features: SubscriptionFeature[]
   color: string
 }
 
-// TODO: Update subscriptions/subscription rules. Add restrictions based on user status. Maybe remove FAQ section. Connect to backend.
+// TODO: Add restrictions based on user status. Connect to backend.
 const Subscriptions = () => {
   const currentPlan = "free"
   const [selectedPeriod, setSelectedPeriod] = useState<"monthly" | "yearly">("monthly")
@@ -33,33 +34,35 @@ const Subscriptions = () => {
         { text: "Ad-supported streaming", included: true },
         { text: "Standard quality audio", included: true },
         { text: "Limited skips", included: true },
-        { text: "Offline downloads", included: false },
-        { text: "High quality audio", included: false },
+        { text: "Offline listening", included: false },
+        { text: "Unlimited downloads", included: false },
         { text: "Ad-free experience", included: false },
+        { text: "Lyrics support", included: false },
       ],
     },
     {
       id: "premium",
       name: "Premium",
-      price: selectedPeriod === "monthly" ? 9.99 : 99.99,
+      price: selectedPeriod === "monthly" ? 9.99 : 89.91,
       period: selectedPeriod === "monthly" ? "month" : "year",
       popular: true,
       color: "blue",
       features: [
         { text: "Ad-free music streaming", included: true },
-        { text: "High quality audio (320kbps)", included: true },
         { text: "Unlimited skips", included: true },
-        { text: "Download up to 10,000 songs", included: true },
+        { text: "Unlimited downloads", included: true },
+        { text: "Offline listening", included: true },
+        { text: "Lyrics with translation", included: true },
         { text: "Listen on any device", included: true },
-        { text: "Lyrics & music videos", included: true },
       ],
     },
     {
       id: "family",
       name: "Family",
-      price: selectedPeriod === "monthly" ? 14.99 : 149.99,
+      price: selectedPeriod === "monthly" ? 14.99 : 134.91,
       period: selectedPeriod === "monthly" ? "month" : "year",
       color: "purple",
+      unavailable: true,
       features: [
         { text: "All Premium features", included: true },
         { text: "Up to 6 family accounts", included: true },
@@ -90,19 +93,9 @@ const Subscriptions = () => {
       description: "Listen on phone, tablet, desktop",
     },
     {
-      icon: IoPeople,
-      title: "Family Sharing",
-      description: "Share with up to 6 people",
-    },
-    {
       icon: IoInfinite,
       title: "Unlimited Skips",
       description: "Skip as many songs as you want",
-    },
-    {
-      icon: IoSparkles,
-      title: "High Quality",
-      description: "Crystal clear 320kbps audio",
     },
   ]
 
@@ -174,7 +167,7 @@ const Subscriptions = () => {
             >
               Yearly
               <span className="absolute -top-2 -right-2 bg-blue-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">
-                -17%
+                -25%
               </span>
             </button>
           </div>
@@ -182,17 +175,26 @@ const Subscriptions = () => {
 
         <section>
           <h2 className="text-lg font-semibold mb-6">Available Plans</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {plans.map((plan) => (
               <div
                 key={plan.id}
-                className={`relative bg-white/[0.03] border rounded-2xl p-6 transition-all hover:scale-[1.02] ${
+                className={`relative bg-white/[0.03] border rounded-2xl p-6 transition-all ${
+                  plan.unavailable ? "opacity-60" : "hover:scale-[1.02]"
+                } ${
                   plan.popular
                     ? "border-blue-500 shadow-lg shadow-blue-500/20"
                     : "border-white/10"
                 } ${currentPlan === plan.id ? "ring-2 ring-green-500/50" : ""}`}
               >
-                {plan.popular && (
+                {plan.unavailable && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                    <span className="px-4 py-1 bg-gray-600 text-white text-xs font-bold rounded-full shadow-lg">
+                      COMING SOON
+                    </span>
+                  </div>
+                )}
+                {plan.popular && !plan.unavailable && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                     <span className="px-4 py-1 bg-blue-500 text-white text-xs font-bold rounded-full shadow-lg">
                       MOST POPULAR
@@ -245,9 +247,9 @@ const Subscriptions = () => {
                       ? "bg-green-500/20 text-green-400 border-green-500/30 cursor-default"
                       : ""
                   }
-                  disabled={currentPlan === plan.id}
+                  disabled={currentPlan === plan.id || plan.unavailable}
                 >
-                  {currentPlan === plan.id ? "Current Plan" : "Get Started"}
+                  {currentPlan === plan.id ? "Current Plan" : plan.unavailable ? "Coming Soon" : "Get Started"}
                 </Button>
               </div>
             ))}
@@ -256,7 +258,7 @@ const Subscriptions = () => {
 
         <section>
           <h2 className="text-lg font-semibold mb-6">Why Go Premium?</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {benefits.map((benefit, index) => (
               <div
                 key={index}
@@ -273,41 +275,6 @@ const Subscriptions = () => {
                 </div>
               </div>
             ))}
-          </div>
-        </section>
-
-        <section className="pb-6">
-          <h2 className="text-lg font-semibold mb-6">Frequently Asked Questions</h2>
-          <div className="space-y-4">
-            <details className="bg-white/[0.03] border border-white/10 rounded-xl p-5 hover:bg-white/[0.05] transition-all group">
-              <summary className="font-medium cursor-pointer list-none flex justify-between items-center">
-                <span>Can I cancel anytime?</span>
-                <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
-              </summary>
-              <p className="text-gray-400 text-sm mt-3">
-                Yes! You can cancel your subscription at any time. Your subscription will remain active until the end of your billing period.
-              </p>
-            </details>
-
-            <details className="bg-white/[0.03] border border-white/10 rounded-xl p-5 hover:bg-white/[0.05] transition-all group">
-              <summary className="font-medium cursor-pointer list-none flex justify-between items-center">
-                <span>What payment methods do you accept?</span>
-                <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
-              </summary>
-              <p className="text-gray-400 text-sm mt-3">
-                We accept all major credit cards, debit cards, PayPal, and Apple Pay.
-              </p>
-            </details>
-
-            <details className="bg-white/[0.03] border border-white/10 rounded-xl p-5 hover:bg-white/[0.05] transition-all group">
-              <summary className="font-medium cursor-pointer list-none flex justify-between items-center">
-                <span>Can I switch plans?</span>
-                <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
-              </summary>
-              <p className="text-gray-400 text-sm mt-3">
-                Yes, you can upgrade or downgrade your plan at any time. Changes will take effect immediately.
-              </p>
-            </details>
           </div>
         </section>
       </div>
