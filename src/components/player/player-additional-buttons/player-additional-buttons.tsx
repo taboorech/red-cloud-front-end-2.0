@@ -7,6 +7,7 @@ import {
   FaGlobe,
 } from "react-icons/fa";
 import { useNavigate } from "react-router";
+import PremiumFeature from "../../premium-feature/premium-feature";
 
 interface PlayerAdditionalButtonsProps {
   className?: string;
@@ -32,18 +33,26 @@ const PlayerAdditionalButtons = ({
         <FaUserPlus />
       </Button>
 
-      <Button
-        variant="ghost"
-        size="circle"
-        rounded="full"
-        onClick={() => navigate("/lyrics")}
-      >
-        <FaAlignLeft />
-      </Button>
+      <PremiumFeature>
+        <Button
+          variant="ghost"
+          size="circle"
+          rounded="full"
+          onClick={() => navigate("/lyrics")}
+        >
+          <FaAlignLeft />
+        </Button>
+      </PremiumFeature>
 
-      <Button variant="ghost" size="circle" rounded="full">
-        <FaGlobe />
-      </Button>
+      <PremiumFeature>
+        <Button 
+          variant="ghost" 
+          size="circle" 
+          rounded="full"
+        >
+          <FaGlobe />
+        </Button>
+      </PremiumFeature>
     </div>
   );
 };
