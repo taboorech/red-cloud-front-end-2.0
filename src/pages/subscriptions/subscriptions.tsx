@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { IoCheckmarkCircle, IoMusicalNotes, IoDownload, IoPhonePortrait, IoInfinite } from "react-icons/io5"
 import { Button } from "../../components/button/button"
+import { useSubscription } from "../../hooks/use-subscription"
 
 interface SubscriptionFeature {
   text: string
@@ -18,10 +19,17 @@ interface SubscriptionPlan {
   color: string
 }
 
-// TODO: Add restrictions based on user status. Connect to backend.
 const Subscriptions = () => {
-  const currentPlan = "free"
+  const { currentPlan, isLoading } = useSubscription()
   const [selectedPeriod, setSelectedPeriod] = useState<"monthly" | "yearly">("monthly")
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <div className="text-white">Loading...</div>
+      </div>
+    )
+  }
 
   const plans: SubscriptionPlan[] = [
     {

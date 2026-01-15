@@ -1,6 +1,8 @@
 import { IoSettingsSharp } from "react-icons/io5"
+import { TbPremiumRights } from "react-icons/tb"
 import { useNavigate } from "react-router"
 import { Button } from "../../../components/button/button"
+import { useSubscription } from "../../../hooks/use-subscription"
 
 interface ProfileHeaderProps {
   avatar: string
@@ -10,6 +12,7 @@ interface ProfileHeaderProps {
 
 const ProfileHeader = ({ avatar, username, description }: ProfileHeaderProps) => {
   const navigate = useNavigate()
+  const { isPremium, currentPlan } = useSubscription()
 
   return (
     <section className="bg-black p-6 rounded-2xl flex items-center justify-between relative shadow-lg">
@@ -24,6 +27,12 @@ const ProfileHeader = ({ avatar, username, description }: ProfileHeaderProps) =>
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-3">
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">{username}</h1>
+            {isPremium && (
+              <div className="flex items-center gap-1 px-2 py-1 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 rounded-full">
+                <TbPremiumRights className="text-yellow-400" size={14} />
+                <span className="text-yellow-400 text-xs font-bold uppercase">{currentPlan}</span>
+              </div>
+            )}
             <div className="w-3 h-3 bg-gray-400 rounded-full shadow-[0_0_8px_rgba(156,163,175,0.5)]" />
           </div>
           <p className="text-gray-500 text-sm sm:text-base">{description}</p>
