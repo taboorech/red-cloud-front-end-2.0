@@ -5,6 +5,7 @@ import { AudioProvider } from './context/audio-context'
 import Playlist from './pages/playlist/playlist'
 import Auth from './pages/auth/auth'
 import Profile from './pages/profile/profile'
+import ProfileEdit from './pages/profile-edit/profile-edit'
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
           <Route path='/' element={<Home />} />
           <Route path='/playlist' element={<Playlist />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/profile/edit' element={<ProfileEdit />} />
         </Route>
       </Routes>
     </AudioProvider>

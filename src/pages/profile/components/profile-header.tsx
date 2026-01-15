@@ -1,4 +1,5 @@
 import { IoSettingsSharp } from "react-icons/io5"
+import { useNavigate } from "react-router"
 import { Button } from "../../../components/button/button"
 
 interface ProfileHeaderProps {
@@ -8,6 +9,8 @@ interface ProfileHeaderProps {
 }
 
 const ProfileHeader = ({ avatar, username, description }: ProfileHeaderProps) => {
+  const navigate = useNavigate()
+
   return (
     <section className="bg-black p-6 rounded-2xl flex items-center justify-between relative shadow-lg">
       <div className="flex items-center gap-6">
@@ -30,6 +33,7 @@ const ProfileHeader = ({ avatar, username, description }: ProfileHeaderProps) =>
         variant="ghost"
         size="circle"
         rounded="lg"
+        onClick={() => navigate("/profile/edit")}
         className="absolute top-6 right-6 bg-white/5 hover:bg-white/10 border-transparent"
       >
         <IoSettingsSharp size={22} className="text-gray-400" />
