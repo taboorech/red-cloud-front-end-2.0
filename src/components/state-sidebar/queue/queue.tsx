@@ -12,7 +12,6 @@ const Queue = () => {
         image={imageUrl}
         duration="3:45"
         variant="expanded"
-        showDownload={true}
       />
     ));
   }

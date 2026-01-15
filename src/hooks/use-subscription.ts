@@ -37,6 +37,7 @@ export const useSubscription = () => {
     canSkipUnlimited: features?.canSkipUnlimited ?? false,
     hasHighQuality: features?.hasHighQuality ?? false,
     hasLyrics: features?.hasLyrics ?? false,
+    hasTranslation: features?.hasLyrics ?? false,
     isAdFree: features?.isAdFree ?? false,
     canShareFamily: features?.canShareFamily ?? false,
     maxDownloads: features?.maxDownloads ?? 0,
