@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useState, useEffect } from 'react'
+import { useNavigate, useSearchParams } from 'react-router'
 import { useSubscription } from '../../hooks/use-subscription'
 import { MdTranslate } from 'react-icons/md'
 import { PremiumFeatureLock } from '../../components/premium-feature-lock/premium-feature-lock'
-
-type Language = 'en' | 'uk' | 'es' | 'fr' | 'de' | 'it' | 'pl' | 'pt'
+import { useLazyTranslateLyricsQuery } from '../../store/api/lyrics.api'
+import type { SupportedLanguage } from '../../store/api/lyrics.api'
 
 interface LanguageOption {
-  code: Language
+  code: SupportedLanguage
   name: string
   flag: string
 }
 
 const LANGUAGES: LanguageOption[] = [
-  { code: 'en', name: 'English', flag: '🇬🇧' },
+  { code: 'en-US', name: 'English', flag: '🇬🇧' },
   { code: 'uk', name: 'Українська', flag: '🇺🇦' },
   { code: 'es', name: 'Español', flag: '🇪🇸' },
   { code: 'fr', name: 'Français', flag: '🇫🇷' },
   { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
   { code: 'it', name: 'Italiano', flag: '🇮🇹' },
   { code: 'pl', name: 'Polski', flag: '🇵🇱' },
-  { code: 'pt', name: 'Português', flag: '🇵🇹' },
+  { code: 'pt-PT', name: 'Português', flag: '🇵🇹' },
 ]
 
+// TODO: Replace mock lyrics with actual fetched lyrics based on songId. Get original language from metadata if available.
 const LyricsTranslation = () => {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const { hasLyrics: hasTranslation } = useSubscription()
-  const [selectedLanguage, setSelectedLanguage] = useState<Language>('uk')
-  const [originalLanguage] = useState<Language>('en')
+  const [originalLanguage, setOriginalLanguage] = useState<SupportedLanguage>('en-US')
+  const [selectedLanguage, setSelectedLanguage] = useState<SupportedLanguage>('uk')
+  
+  const songId = searchParams.get('id') || 'mockSong1'
+  
+  const [translateLyrics, { data, isLoading, error }] = useLazyTranslateLyricsQuery()
 
-  const mockOriginal = `In the silence of the night
+  useEffect(() => {
+    if (selectedLanguage !== originalLanguage) {
+      translateLyrics({
+        songId,
+        targetLanguage: selectedLanguage,
+        sourceLanguage: originalLanguage,
+      })
+    }
+  }, [selectedLanguage, originalLanguage, songId, translateLyrics])
+
+  const originalLyrics = data?.originalText || `In the silence of the night
 Stars are shining oh so bright
 Whispers carried on the breeze
 Dancing through the willow trees
@@ -38,73 +54,8 @@ We're chasing dreams across the sky
 Learning how to laugh and cry
 Every moment feels so right
 Together in the pale moonlight`
-
-  const mockTranslations: Record<Language, string> = {
-    en: mockOriginal,
-    uk: `У тиші ночі
-Зірки сяють так яскраво
-Шепіт несеться на вітрі
-Танцюючи крізь верби
-
-Ми ганяємось за мріями в небі
-Вчимось сміятись і плакати
-Кожна мить така правильна
-Разом у блідому місячному світлі`,
-    es: `En el silencio de la noche
-Las estrellas brillan tan brillantes
-Susurros llevados por la brisa
-Bailando entre los sauces
-
-Persiguiendo sueños por el cielo
-Aprendiendo a reír y llorar
-Cada momento se siente tan bien
-Juntos bajo la pálida luz de la luna`,
-    fr: `Dans le silence de la nuit
-Les étoiles brillent si fort
-Des murmures portés par la brise
-Dansant à travers les saules
-
-Nous poursuivons des rêves dans le ciel
-Apprenant à rire et à pleurer
-Chaque instant semble si juste
-Ensemble sous la pâle lumière de la lune`,
-    de: `In der Stille der Nacht
-Leuchten die Sterne so hell
-Flüstern auf der Brise getragen
-Tanzend durch die Weiden
-
-Wir jagen Träumen über den Himmel
-Lernen zu lachen und zu weinen
-Jeder Moment fühlt sich so richtig an
-Zusammen im fahlen Mondlicht`,
-    it: `Nel silenzio della notte
-Le stelle brillano così luminose
-Sussurri portati dalla brezza
-Danzando tra i salici
-
-Stiamo inseguendo sogni nel cielo
-Imparando a ridere e piangere
-Ogni momento sembra così giusto
-Insieme nella pallida luce della luna`,
-    pl: `W ciszy nocy
-Gwiazdy świecą tak jasno
-Szepty niesione przez wiatr
-Tańczące wśród wierzb
-
-Goniliśmy marzenia po niebie
-Ucząc się śmiać i płakać
-Każda chwila wydaje się tak słuszna
-Razem w bladym świetle księżyca`,
-    pt: `No silêncio da noite
-As estrelas brilham tão brilhantes
-Sussurros carregados pela brisa
-Dançando entre os salgueiros
-
-Estamos perseguindo sonhos pelo céu
-Aprendendo a rir e chorar
-Cada momento parece tão certo
-Juntos na luz pálida da lua`,
-  }
+  
+  const translatedText = data?.translatedText || ''
 
   if (!hasTranslation) {
     return (
@@ -120,12 +71,26 @@ Juntos na luz pálida da lua`,
 
   return (
     <div className="flex flex-col h-full bg-black p-6">
-      <div className="flex-shrink-0 pb-4 flex items-center justify-end">
+      <div className="flex-shrink-0 pb-4 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-gray-400">Original:</span>
+          <select
+            value={originalLanguage}
+            onChange={(e) => setOriginalLanguage(e.target.value as SupportedLanguage)}
+            className="bg-gray-800 text-white px-3 py-1.5 rounded-lg text-sm border border-gray-700 focus:outline-none focus:border-gray-600"
+          >
+            {LANGUAGES.map((lang) => (
+              <option key={lang.code} value={lang.code}>
+                {lang.flag} {lang.name}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="flex items-center gap-2">
           <span className="text-sm text-gray-400">Translate to:</span>
           <select
             value={selectedLanguage}
-            onChange={(e) => setSelectedLanguage(e.target.value as Language)}
+            onChange={(e) => setSelectedLanguage(e.target.value as SupportedLanguage)}
             className="bg-gray-800 text-white px-3 py-1.5 rounded-lg text-sm border border-gray-700 focus:outline-none focus:border-gray-600"
           >
             {LANGUAGES.map((lang) => (
@@ -146,7 +111,7 @@ Juntos na luz pálida da lua`,
             </h2>
             <div className="flex-1 min-h-0 rounded-2xl p-6 overflow-y-scroll">
               <pre className="font-sans text-base leading-relaxed whitespace-pre-wrap text-gray-300">
-                {mockOriginal}
+                {originalLyrics}
               </pre>
             </div>
           </div>
@@ -157,9 +122,23 @@ Juntos na luz pálida da lua`,
               <span>{LANGUAGES.find(l => l.code === selectedLanguage)?.name}</span>
             </h2>
             <div className="flex-1 min-h-0 bg-purple-900/10 rounded-2xl p-6 border border-purple-500/20 overflow-y-scroll">
-              <pre className="font-sans text-base leading-relaxed whitespace-pre-wrap text-white">
-                {mockTranslations[selectedLanguage]}
-              </pre>
+              {selectedLanguage === originalLanguage ? (
+                <pre className="font-sans text-base leading-relaxed whitespace-pre-wrap text-white">
+                  {originalLyrics}
+                </pre>
+              ) : isLoading ? (
+                <div className="flex items-center justify-center h-full">
+                  <div className="text-gray-400 text-sm">Translating...</div>
+                </div>
+              ) : error ? (
+                <div className="flex items-center justify-center h-full">
+                  <div className="text-red-400 text-sm">Translation failed. Please try again.</div>
+                </div>
+              ) : (
+                <pre className="font-sans text-base leading-relaxed whitespace-pre-wrap text-white">
+                  {translatedText}
+                </pre>
+              )}
             </div>
           </div>
         </div>
