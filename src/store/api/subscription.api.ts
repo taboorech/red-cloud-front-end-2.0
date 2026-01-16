@@ -1,36 +1,10 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { axiosBaseQuery } from '../../api/axios-base-query'
-
-export type SubscriptionType = 'free' | 'premium' | 'family'
-
-export interface Subscription {
-  id: string
-  userId: string
-  plan: SubscriptionType
-  status: 'active' | 'cancelled' | 'expired'
-  startDate: string
-  expiresAt: string | null
-  autoRenew: boolean
-}
-
-export interface SubscriptionResponse {
-  subscription: Subscription
-  features: {
-    canDownload: boolean
-    canSkipUnlimited: boolean
-    hasHighQuality: boolean
-    hasLyrics: boolean
-    isAdFree: boolean
-    canShareFamily: boolean
-    maxDownloads: number
-    skipLimit: number
-  }
-}
-
-export interface UpdateSubscriptionRequest {
-  plan: SubscriptionType
-  period?: 'monthly' | 'yearly'
-}
+import type {
+  SubscriptionType,
+  SubscriptionResponse,
+  UpdateSubscriptionRequest
+} from '../../types/subscription.types'
 
 // Helper function to get features based on plan
 const getFeaturesByPlan = (plan: SubscriptionType) => {
@@ -71,13 +45,13 @@ const getFeaturesByPlan = (plan: SubscriptionType) => {
 
 export const subscriptionApi = createApi({
   reducerPath: 'subscriptionApi',
-  baseQuery: axiosBaseQuery({ baseUrl: '/api' }),
+  baseQuery: axiosBaseQuery(),
   tagTypes: ['Subscription'],
   endpoints: (builder) => ({
     // Get current subscription
     getCurrentSubscription: builder.query<SubscriptionResponse, void>({
       // Real API endpoint (comment out for production use):
-      // query: () => ({ url: '/subscription', method: 'GET' }),
+      // query: () => ({ url: '/v1/subscription', method: 'GET' }),
       
       // Mock implementation for development
       async queryFn() {
@@ -108,7 +82,7 @@ export const subscriptionApi = createApi({
     updateSubscription: builder.mutation<SubscriptionResponse, UpdateSubscriptionRequest>({
       // Real API endpoint (comment out for production use):
       // query: (body) => ({
-      //   url: '/subscription',
+      //   url: '/v1/subscription',
       //   method: 'PUT',
       //   data: body,
       // }),
@@ -142,7 +116,7 @@ export const subscriptionApi = createApi({
     cancelSubscription: builder.mutation<SubscriptionResponse, void>({
       // Real API endpoint (comment out for production use):
       // query: () => ({
-      //   url: '/subscription/cancel',
+      //   url: '/v1/subscription/cancel',
       //   method: 'POST',
       // }),
 

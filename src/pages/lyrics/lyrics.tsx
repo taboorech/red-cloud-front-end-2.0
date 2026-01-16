@@ -3,6 +3,8 @@ import { useSubscription } from '../../hooks/use-subscription'
 import { Button } from '../../components/button/button'
 import { MdTranslate, MdLyrics } from 'react-icons/md'
 import { PremiumFeatureLock } from '../../components/premium-feature-lock/premium-feature-lock'
+import { NoLyricsAvailable } from '../../components/no-lyrics-available/no-lyrics-available'
+import { useGetSongLyricsQuery } from '../../store/api/lyrics.api'
 
 const Lyrics = () => {
   const navigate = useNavigate()
@@ -10,41 +12,10 @@ const Lyrics = () => {
   const { hasLyrics, isPremium } = useSubscription()
 
   const songId = searchParams.get('id') || ''
-
-  const mockLyrics = `In the silence of the night
-Stars are shining oh so bright
-Whispers carried on the breeze
-Dancing through the willow trees
-
-We're chasing dreams across the sky
-Learning how to laugh and cry
-Every moment feels so right
-Together in the pale moonlight
-
-Footsteps echo on the ground
-Magic waiting to be found
-Hearts are beating synchronized
-Wonder gleaming in our eyes
-
-We're chasing dreams across the sky
-Learning how to laugh and cry
-Every moment feels so right
-Together in the pale moonlight
-
-Time may fade but memories stay
-Colors never turn to gray
-In this moment we're alive
-This is where our souls will thrive
-
-We're chasing dreams across the sky
-Learning how to laugh and cry
-Every moment feels so right
-Together in the pale moonlight
-
-As the dawn breaks through the night
-We'll hold on with all our might
-Forever etched in melody
-This beautiful symphony`
+  const { data: lyricsData, isLoading, error } = useGetSongLyricsQuery(songId)
+  
+  const lyrics = lyricsData?.lyrics || ''
+  const hasLyricsAvailable = !!lyrics
 
   if (!hasLyrics) {
     return (
@@ -56,6 +27,18 @@ This beautiful symphony`
         onGoBack={() => navigate(-1)}
       />
     )
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-full bg-black">
+        <div className="text-gray-400 text-sm">Loading lyrics...</div>
+      </div>
+    )
+  }
+
+  if (error || !hasLyricsAvailable) {
+    return <NoLyricsAvailable onGoBack={() => navigate(-1)} />
   }
 
   return (
@@ -80,7 +63,7 @@ This beautiful symphony`
             className="font-sans leading-relaxed whitespace-pre-wrap text-white text-base"
             style={{ lineHeight: '1.8' }}
           >
-            {mockLyrics}
+            {lyrics}
           </pre>
         </div>
       </div>

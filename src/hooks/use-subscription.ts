@@ -1,5 +1,5 @@
 import { useGetCurrentSubscriptionQuery } from '../store/api/subscription.api'
-import type { SubscriptionType } from '../store/api/subscription.api'
+import type { SubscriptionType } from '../types/subscription.types'
 
 export const useSubscription = () => {
   const { data, isLoading, error } = useGetCurrentSubscriptionQuery()
