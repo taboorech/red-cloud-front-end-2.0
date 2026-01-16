@@ -49,6 +49,7 @@ const PlayerAdditionalButtons = ({
           variant="ghost" 
           size="circle" 
           rounded="full"
+          onClick={() => navigate("/lyrics/translation")}
         >
           <FaGlobe />
         </Button>

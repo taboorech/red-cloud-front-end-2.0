@@ -7,6 +7,8 @@ import Auth from './pages/auth/auth'
 import Profile from './pages/profile/profile'
 import ProfileEdit from './pages/profile-edit/profile-edit'
 import Subscriptions from './pages/subscriptions/subscriptions'
+import Lyrics from './pages/lyrics/lyrics'
+import LyricsTranslation from './pages/lyrics-translation/lyrics-translation'
 
 const App = () => {
   return (
@@ -19,6 +21,8 @@ const App = () => {
           <Route path='/profile' element={<Profile />} />
           <Route path='/profile/edit' element={<ProfileEdit />} />
           <Route path='/subscriptions' element={<Subscriptions />} />
+          <Route path='/lyrics' element={<Lyrics />} />
+          <Route path='/lyrics/translation' element={<LyricsTranslation />} />
         </Route>
       </Routes>
     </AudioProvider>

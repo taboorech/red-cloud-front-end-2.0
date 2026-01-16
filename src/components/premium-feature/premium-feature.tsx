@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { useSubscription } from '../../hooks/use-subscription'
-import type { SubscriptionType } from '../../store/api/subscription.api'
+import type { SubscriptionType } from '../../types/subscription.types'
 
 interface PremiumFeatureProps {
   children: ReactNode
