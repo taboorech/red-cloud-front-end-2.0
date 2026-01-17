@@ -2,9 +2,7 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 import { axiosBaseQuery } from '../../api/axios-base-query'
 import type {
   Song,
-  CreateSongRequest,
   CreateSongResponse,
-  UpdateSongRequest,
   UpdateSongResponse,
   GetSongsResponse,
   GetSongResponse,
@@ -32,50 +30,42 @@ export const songsApi = createApi({
       transformResponse: (response: GetSongResponse) => response.data,
       providesTags: (_, __, songId) => [{ type: 'Song', id: songId }],
     }),
-    createSong: builder.mutation<Song, CreateSongRequest>({
-      query: ({ title, artist, album, genre, year, song, image }) => {
-        const formData = new FormData();
-        formData.append('title', title);
-        formData.append('artist', artist);
-        if (album) formData.append('album', album);
-        if (genre) formData.append('genre', genre);
-        if (year) formData.append('year', year.toString());
-        formData.append('song', song);
-        if (image) formData.append('image', image);
-
-        return {
-          url: '/v1/songs',
-          method: 'POST',
-          data: formData,
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        };
-      },
+    createSong: builder.mutation<Song, FormData>({
+      query: (formData) => ({
+        url: '/v1/songs',
+        method: 'POST',
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }),
       transformResponse: (response: CreateSongResponse) => response.data,
       invalidatesTags: ['Song'],
     }),
-    updateSong: builder.mutation<Song, { songId: string } & UpdateSongRequest>({
-      query: ({ songId, title, artist, album, genre, year, image }) => {
-        const formData = new FormData();
-        if (title) formData.append('title', title);
-        if (artist) formData.append('artist', artist);
-        if (album) formData.append('album', album);
-        if (genre) formData.append('genre', genre);
-        if (year) formData.append('year', year.toString());
-        if (image) formData.append('image', image);
-
+    updateSong: builder.mutation<Song, FormData>({
+      query: (formData) => {
+        const songId = formData.get('id') as string;
+        const updateFormData = new FormData();
+        for (const [key, value] of formData.entries()) {
+          if (key !== 'id') {
+            updateFormData.append(key, value);
+          }
+        }
+        
         return {
           url: `/v1/songs/${songId}`,
           method: 'PUT',
-          data: formData,
+          data: updateFormData,
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         };
       },
       transformResponse: (response: UpdateSongResponse) => response.data,
-      invalidatesTags: (_, __, { songId }) => [{ type: 'Song', id: songId }, 'Song'],
+      invalidatesTags: (_, __, formData) => {
+        const songId = formData.get('id') as string;
+        return [{ type: 'Song', id: songId }, 'Song'];
+      },
     }),
     deleteSong: builder.mutation<void, string>({
       query: (songId) => ({

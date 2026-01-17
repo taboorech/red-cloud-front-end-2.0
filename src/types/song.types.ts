@@ -1,38 +1,27 @@
+import type { Genre } from "./genre.types";
+
+interface SongMetadata {
+  release_year?: number;
+}
+
 export interface Song {
   id: string;
   title: string;
-  artist: string;
-  album?: string;
-  duration: number;
-  genre?: string;
-  year?: number;
-  imageUrl?: string;
-  audioUrl: string;
-  isLiked: boolean;
-  isFavorite: boolean;
-  likesCount: number;
-  dislikesCount: number;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface CreateSongRequest {
-  title: string;
-  artist: string;
-  album?: string;
-  genre?: string;
-  year?: number;
-  song: File;
-  image?: File;
-}
-
-export interface UpdateSongRequest {
-  title?: string;
-  artist?: string;
-  album?: string;
-  genre?: string;
-  year?: number;
-  image?: File;
+  description?: string;
+  text?: string;
+  language?: string;
+  duration_seconds: number;
+  url: string;
+  image_url?: string;
+  metadata?: SongMetadata;
+  is_public: boolean;
+  authors?: SongAuthor[];
+  genres?: Genre[];
+  likes_count?: number;
+  dislikes_count?: number;
+  is_favorite?: boolean;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface CreateSongResponse {
@@ -99,9 +88,10 @@ export interface SongFormValues {
   duration: number | "";
   releaseYear: number | "";
   isPublic: boolean;
-  genres: string[];
+  genres: Genre[];
   authors: SongAuthor[];
-  coverImage: File | string | null;
+  image: File | string | null;
+  song: File | string | null;
 }
 
 export interface Language {

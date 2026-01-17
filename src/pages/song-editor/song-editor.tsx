@@ -1,5 +1,6 @@
 import { Field, Formik, Form, type FormikHelpers } from "formik";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router";
 import { z } from "zod";
 import { IoAdd, IoClose, IoSearch, IoMusicalNotes, IoImage, IoSparkles } from "react-icons/io5";
 import Input from "../../components/input/input";
@@ -11,10 +12,14 @@ import { useGetSupportedLanguagesQuery } from "../../store/api/lyrics.api";
 import { useLazyGetGenresQuery } from "../../store/api/genres.api";
 import { useGenerateImageMutation } from "../../store/api/ai.api";
 import { useLazyGetAllUsersQuery } from "../../store/api/users.api";
+import { useCreateSongMutation, useUpdateSongMutation, useGetSongQuery } from "../../store/api/songs.api";
 import { CiMusicNote1 } from "react-icons/ci";
 import type { Genre } from "../../types/genre.types";
 
 const SongEditor = () => {
+  const { songId } = useParams<{ songId: string }>();
+  const navigate = useNavigate();
+  
   const [searchResults, setSearchResults] = useState<User[]>([]);
   const [showUserSearch, setShowUserSearch] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -25,24 +30,60 @@ const SongEditor = () => {
   const [aiImagePrompt, setAiImagePrompt] = useState('');
   const [userSearchInput, setUserSearchInput] = useState('');
   const [genreSearchInput, setGenreSearchInput] = useState('');
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const { data: languages = [], isLoading: languagesLoading } = useGetSupportedLanguagesQuery();
   const [searchGenres, { isLoading: genresLoading }] = useLazyGetGenresQuery();
   const [generateImage, { isLoading: generatingImage }] = useGenerateImageMutation();
   const [searchUsers, { isLoading: usersLoading }] = useLazyGetAllUsersQuery();
+  const [createSong, { isLoading: isCreatingSong }] = useCreateSongMutation();
+  const [updateSong, { isLoading: isUpdatingSong }] = useUpdateSongMutation();
+
+  const { data: existingSong, isLoading: isLoadingSong, error: songError } = useGetSongQuery(songId!, {
+    skip: !songId,
+  });
 
   const initialValues: SongFormValues = {
-    title: '',
-    description: '',
-    text: '',
-    language: '',
-    duration: '',
-    releaseYear: '',
-    isPublic: true,
-    genres: [],
-    authors: [],
-    coverImage: null
+    title: existingSong?.title || '',
+    description: existingSong?.description || '',
+    text: existingSong?.text || '',
+    language: existingSong?.language || '',
+    duration: existingSong?.duration_seconds || '',
+    releaseYear: existingSong?.metadata?.release_year || '',
+    isPublic: existingSong?.is_public ?? true,
+    genres: existingSong?.genres || [],
+    authors: existingSong?.authors || [],
+    image: existingSong?.image_url || null,
+    song: existingSong?.url || null,
   };
+
+  useEffect(() => {
+    if (existingSong?.image_url) {
+      setCoverImagePreview(existingSong.image_url);
+    }
+  }, [existingSong]);
+
+  if (songId && isLoadingSong) {
+    return (
+      <div className="rounded-md bg-black w-full h-full px-4 overflow-y-auto flex items-center justify-center">
+        <div className="text-white text-lg">Loading song data for ID: {songId}...</div>
+      </div>
+    );
+  }
+
+  if (songId && songError) {
+    return (
+      <div className="rounded-md bg-black w-full h-full px-4 overflow-y-auto flex items-center justify-center">
+        <div className="text-red-400 text-lg">
+          Failed to load song with ID: {songId}
+          <div className="text-sm mt-2">
+            {(songError as any)?.data?.message || 'Unknown error occurred'}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const validate = (values: SongFormValues) => {
     const errors: Partial<Record<keyof SongFormValues, string>> = {};
@@ -66,6 +107,10 @@ const SongEditor = () => {
       }
     }
 
+    if (!songId && !values.song) {
+      errors.song = 'Audio file is required for new songs';
+    }
+
     return errors;
   };
 
@@ -74,10 +119,67 @@ const SongEditor = () => {
     { setSubmitting }: FormikHelpers<SongFormValues>
   ) => {
     try {
-      console.log('Submitting song:', values);
-      // Here you would call your API
-    } catch (error) {
+      setSubmitError(null);
+      setSubmitSuccess(false);
+      
+      const formData = new FormData();
+      formData.append('title', values.title);
+      if (values.description) {
+        formData.append('description', values.description);
+      }
+      if (values.text) formData.append('text', values.text);
+      if (values.language) formData.append('language', values.language);
+      formData.append('duration', values.duration.toString());
+      if (values.isPublic !== undefined) formData.append('is_public', values.isPublic.toString());
+
+      if (values.releaseYear) {
+        formData.append('releaseYear', values.releaseYear.toString());
+      }
+
+      if (values.genres.length > 0) {
+        const genreIds = values.genres.map(g => g.id);
+        formData.append('genres', JSON.stringify(genreIds));
+      }
+
+      if (values.authors.length > 0) {
+        formData.append('authors', JSON.stringify(values.authors.map(author => ({
+          userId: author.userId,
+          role: author.role
+        }))));
+      }
+
+      if (values.image) {
+        if (values.image instanceof File) {
+          formData.append('image', values.image); 
+        }
+      }
+
+      if (values.song) {
+        if (typeof values.song !== 'string') {
+          formData.append('song', values.song);
+        }
+      } else if (!songId) {
+        throw new Error('Audio file is required');
+      }
+      
+      let result;
+      if (songId) {
+        formData.append('id', songId);
+        result = await updateSong(formData).unwrap();
+      } else {
+        result = await createSong(formData).unwrap();
+      }
+      
+      setSubmitSuccess(true);
+      console.log('Song saved successfully:', result);
+      
+      setTimeout(() => {
+        navigate('/')
+      }, 1500);
+      
+    } catch (error: any) {
       console.error('Failed to save song:', error);
+      setSubmitError(error?.data?.message || error?.message || 'Failed to save song. Please try again.');
     } finally {
       setSubmitting(false);
     }
@@ -97,13 +199,14 @@ const SongEditor = () => {
     setFieldValue('authors', currentAuthors.filter((_, i) => i !== index));
   };
 
-  const addGenre = (setFieldValue: (field: string, value: unknown) => void, currentGenres: string[], newGenre: string) => {
-    if (newGenre.trim() && !currentGenres.includes(newGenre.trim())) {
-      setFieldValue('genres', [...currentGenres, newGenre.trim()]);
+  const addGenre = (setFieldValue: (field: string, value: unknown) => void, currentGenres: Genre[], newGenre: Genre) => {
+    // Add existing genre from search only
+    if (!currentGenres.find(g => g.id === newGenre.id)) {
+      setFieldValue('genres', [...currentGenres, newGenre]);
     }
   };
 
-  const removeGenre = (setFieldValue: (field: string, value: unknown) => void, currentGenres: string[], index: number) => {
+  const removeGenre = (setFieldValue: (field: string, value: unknown) => void, currentGenres: Genre[], index: number) => {
     setFieldValue('genres', currentGenres.filter((_, i) => i !== index));
   };
 
@@ -151,10 +254,8 @@ const SongEditor = () => {
     }
   };
 
-  const selectGenre = (setFieldValue: (field: string, value: unknown) => void, genre: Genre, currentGenres: string[]) => {
-    if (!currentGenres.includes(genre.title)) {
-      setFieldValue('genres', [...currentGenres, genre.title]);
-    }
+  const selectGenre = (setFieldValue: (field: string, value: unknown) => void, genre: Genre, currentGenres: Genre[]) => {
+    addGenre(setFieldValue, currentGenres, genre);
     setShowGenreSearch(false);
     setGenreSearchInput('');
   };
@@ -168,7 +269,7 @@ const SongEditor = () => {
       }).unwrap();
       
       setCoverImagePreview(result.imageUrl);
-      setFieldValue('coverImage', result.imageUrl);
+      setFieldValue('image', result.imageUrl);
       setAiImagePrompt('');
     } catch (error) {
       console.error('Failed to generate image:', error);
@@ -183,13 +284,21 @@ const SongEditor = () => {
     <div className="rounded-md bg-black w-full h-full px-4 overflow-y-auto">
       <div className="flex items-center gap-3 py-6">
         <IoMusicalNotes className="text-white text-2xl" />
-        <h1 className="text-2xl font-bold text-white">
-          Song Editor
-        </h1>
+        <div>
+          <h1 className="text-2xl font-bold text-white">
+            {songId ? 'Edit Song' : 'Create New Song'}
+          </h1>
+          {existingSong && (
+            <p className="text-gray-400 text-sm mt-1">
+              Editing: "{existingSong.title}"
+            </p>
+          )}
+        </div>
       </div>
 
       <Formik
         initialValues={initialValues}
+        enableReinitialize={true}
         validate={validate}
         onSubmit={handleSubmit}
       >
@@ -305,7 +414,7 @@ const SongEditor = () => {
                     onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                       setCoverImageMethod(e.target.value as 'upload' | 'ai');
                       setCoverImagePreview(null);
-                      setFieldValue('coverImage', null);
+                        setFieldValue('image', null);
                       setAiImagePrompt('');
                     }}
                     className="p-3 rounded border text-white border-white"
@@ -330,7 +439,7 @@ const SongEditor = () => {
                         } else {
                           setCoverImagePreview(null);
                         }
-                        setFieldValue('coverImage', file);
+                        setFieldValue('image', file);
                       }}
                     />
                   ) : (
@@ -349,7 +458,10 @@ const SongEditor = () => {
                           disabled={!aiImagePrompt.trim() || generatingImage}
                           loading={generatingImage}
                         >
-                          <IoSparkles /> Generate
+                          <div className="flex gap-2">
+                            <IoSparkles /> 
+                            Generate
+                          </div>
                         </Button>
                       </div>
                       {coverImagePreview && (
@@ -380,6 +492,30 @@ const SongEditor = () => {
               </div>
             </div>
 
+            {/* Audio File - Only show for new songs */}
+            {!songId && (
+              <div className="space-y-4">
+                <h2 className="text-lg font-semibold text-white">Audio File</h2>
+                
+                <div className="flex flex-col">
+                  <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
+                    <IoMusicalNotes className="inline mr-1" /> Audio File <span className="text-red-500">*</span>
+                  </label>
+                  <FileInput
+                    label=""
+                    accept="audio/*"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      const file = e.target.files?.[0] || null;
+                      setFieldValue('song', file);
+                    }}
+                  />
+                  {touched.song && errors.song && (
+                    <div className="text-red-500 text-sm mt-1">{errors.song}</div>
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* Genres */}
             <div className="space-y-4">
               <h2 className="text-lg font-semibold text-white">Genres</h2>
@@ -387,10 +523,10 @@ const SongEditor = () => {
               <div className="flex flex-wrap gap-2 mb-2">
                 {values.genres.map((genre, index) => (
                   <span
-                    key={index}
+                    key={genre.id}
                     className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2"
                   >
-                    {genre}
+                    {genre.title}
                     <Button
                       type="button"
                       variant="ghost"
@@ -407,23 +543,13 @@ const SongEditor = () => {
               <div className="flex gap-2 relative">
                 <div className="flex-1 relative">
                   <Input
-                    placeholder="Search genres or type custom genre name"
+                    placeholder="Search genres"
                     className="pr-10"
                     value={genreSearchInput}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       const value = e.target.value;
                       setGenreSearchInput(value);
                       handleGenreSearch(value);
-                    }}
-                    onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        if (genreSearchInput.trim()) {
-                          addGenre(setFieldValue, values.genres, genreSearchInput);
-                          setGenreSearchInput('');
-                          setShowGenreSearch(false);
-                        }
-                      }
                     }}
                   />
                   <IoSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -446,33 +572,12 @@ const SongEditor = () => {
                     </div>
                   ) : null}
                 </div>
-                
-                <Button
-                  type="button"
-                  variant="snow"
-                  size="sm"
-                  onClick={() => {
-                    if (genreSearchInput.trim()) {
-                      addGenre(setFieldValue, values.genres, genreSearchInput);
-                      setGenreSearchInput('');
-                      setShowGenreSearch(false);
-                    }
-                  }}
-                  disabled={!genreSearchInput.trim()}
-                >
-                  <div className="flex gap-2">
-                    <IoAdd /> 
-                    Add
-                  </div>
-                </Button>
               </div>
             </div>
 
             {/* Authors */}
             <div className="space-y-4 relative">
               <h2 className="text-lg font-semibold text-white">Authors</h2>
-              
-              {/* User Search Section */}
               <div className="bg-gray-900/20 py-4 rounded-lg space-y-3">
                 <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider">
                   Search and Add Author
@@ -630,25 +735,41 @@ const SongEditor = () => {
             </div>
 
             {/* Submit Button */}
-            <div className="flex flex-row gap-4 pt-6">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => window.history.back()}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                variant="snow"
-                disabled={isSubmitting}
-                loading={isSubmitting}
-              >
-                <div className="flex gap-2">
-                  <IoMusicalNotes /> 
-                  Save Song
+            <div className="flex flex-col gap-4 pt-6">
+              {/* Error Message */}
+              {submitError && (
+                <div className="w-full p-3 bg-red-900/20 border border-red-500/50 rounded-lg text-red-300 text-sm">
+                  {submitError}
                 </div>
-              </Button>
+              )}
+              
+              {/* Success Message */}
+              {submitSuccess && (
+                <div className="w-full p-3 bg-green-900/20 border border-green-500/50 rounded-lg text-green-300 text-sm">
+                  Song saved successfully!
+                </div>
+              )}
+              
+              <div className="flex flex-row gap-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => window.history.back()}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  variant="snow"
+                  disabled={isSubmitting || isCreatingSong || isUpdatingSong}
+                  loading={isSubmitting || isCreatingSong || isUpdatingSong}
+                >
+                  <div className="flex gap-2">
+                    <IoMusicalNotes /> 
+                    {songId ? 'Update Song' : 'Save Song'}
+                  </div>
+                </Button>
+              </div>
             </div>
           </Form>
         )}

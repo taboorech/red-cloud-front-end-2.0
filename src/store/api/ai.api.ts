@@ -15,7 +15,7 @@ export const aiApi = createApi({
   endpoints: (builder) => ({
     generateImage: builder.mutation<GenerateImageResponse, GenerateImageParams>({
       query: (params) => ({
-        url: '/ai/generate-image',
+        url: '/v1/ai/generate-image',
         method: 'POST',
         data: params,
       }),
