@@ -75,7 +75,7 @@ export interface User {
 
 export interface SongAuthor {
   role: SongAuthorsRole;
-  userId: string;
+  user_id: string;
   name: string;
   user?: User;
 }

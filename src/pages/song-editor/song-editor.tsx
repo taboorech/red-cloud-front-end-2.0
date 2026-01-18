@@ -54,10 +54,16 @@ const SongEditor = () => {
     releaseYear: existingSong?.metadata?.release_year || '',
     isPublic: existingSong?.is_public ?? true,
     genres: existingSong?.genres || [],
-    authors: existingSong?.authors || [],
+    authors: existingSong?.authors?.map(author => ({
+      role: author.role,
+      user_id: author.user_id,
+      name: author.user?.username || `User ${author.user_id}`,
+      user: author.user
+    })) || [],
     image: existingSong?.image_url || null,
     song: existingSong?.url || null,
   };
+
 
   useEffect(() => {
     if (existingSong?.image_url) {
@@ -97,7 +103,6 @@ const SongEditor = () => {
         genres: values.genres && values.genres.length > 0 ? values.genres : undefined,
         authors: values.authors && values.authors.length > 0 ? values.authors : undefined,
       };
-      
       songSchema.parse(validationData);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -162,9 +167,9 @@ const SongEditor = () => {
 
       if (values.authors && values.authors.length > 0) {
         const authorsData = values.authors
-          .filter(author => author.userId && author.role)
+          .filter(author => author.user_id && author.role)
           .map(author => ({
-            userId: author.userId,
+            user_id: author.user_id,
             role: author.role
           }));
         if (authorsData.length > 0) {
@@ -466,24 +471,39 @@ const SongEditor = () => {
                   </Field>
                   
                   {coverImageMethod === 'upload' ? (
-                    <FileInput
-                      label=""
-                      accept="image/*"
-                      preview={coverImagePreview || undefined}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        const file = e.target.files?.[0] || null;
-                        if (file) {
-                          const reader = new FileReader();
-                          reader.onloadend = () => {
-                            setCoverImagePreview(reader.result as string);
-                          };
-                          reader.readAsDataURL(file);
-                        } else {
-                          setCoverImagePreview(null);
-                        }
-                        setFieldValue('image', file);
-                      }}
-                    />
+                    <div>
+                      <FileInput
+                        label=""
+                        accept="image/*"
+                        preview={coverImagePreview || undefined}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          const file = e.target.files?.[0] || null;
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                              setCoverImagePreview(reader.result as string);
+                            };
+                            reader.readAsDataURL(file);
+                          } else {
+                            setCoverImagePreview(null);
+                          }
+                          setFieldValue('image', file);
+                        }}
+                      />
+                      {/* Show current cover image for editing */}
+                      {!coverImagePreview && values.image && typeof values.image === 'string' && (
+                        <div className="mt-3">
+                          <div className="text-white text-sm mb-2">Current Cover Image:</div>
+                          <img 
+                            src={values.image} 
+                            alt="Current cover" 
+                            className="w-32 h-32 object-cover rounded-lg border-2 border-gray-600"
+                            onLoad={() => console.log('✅ [COVER] Current image loaded:', values.image)}
+                            onError={() => console.error('❌ [COVER] Current image failed to load:', values.image)}
+                          />
+                        </div>
+                      )}
+                    </div>
                   ) : (
                     <div className="bg-gray-900/20 p-4 rounded-lg space-y-3">
                       <Input
