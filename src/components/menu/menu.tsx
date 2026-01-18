@@ -1,6 +1,5 @@
-import { IoPersonAddSharp } from "react-icons/io5"
 import ButtonsBlock from "./buttons-block/buttons-block"
-import { MdHome } from "react-icons/md"
+import { MdHome, MdFavorite } from "react-icons/md"
 import { CiSearch } from "react-icons/ci"
 import { IoIosSettings } from "react-icons/io"
 import { TbPremiumRights } from "react-icons/tb"
@@ -8,9 +7,9 @@ import { LuInfo } from "react-icons/lu"
 import FriendsBlock from "./friends-block/friends-block"
 
 const links = [
-  { to: '/', icon: IoPersonAddSharp, size: 'text-lg' },
+  { to: '/favorites', icon: MdFavorite, size: 'text-lg' },
   { to: '/', icon: MdHome },
-  { to: '/', icon: CiSearch },
+  { to: '/search', icon: CiSearch },
   { to: '/settings', icon: IoIosSettings },
   { to: '/subscriptions', icon: TbPremiumRights },
   { to: '/info', icon: LuInfo },
