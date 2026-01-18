@@ -175,6 +175,8 @@ const SongEditor = () => {
       if (values.image) {
         if (values.image instanceof File) {
           formData.append('image', values.image);
+        } else if (typeof values.image === 'string') {
+          formData.append('imageUrl', values.image);
         }
       }
 
