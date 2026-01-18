@@ -9,7 +9,6 @@ import ProfileEdit from './pages/profile-edit/profile-edit'
 import Subscriptions from './pages/subscriptions/subscriptions'
 import Lyrics from './pages/lyrics/lyrics'
 import LyricsTranslation from './pages/lyrics-translation/lyrics-translation'
-// import SongDetails from './pages/song-details/song-details'
 import SongEditor from './pages/song-editor/song-editor'
 
 const App = () => {
@@ -26,7 +25,6 @@ const App = () => {
           <Route path='/lyrics' element={<Lyrics />} />
           <Route path='/lyrics/translation' element={<LyricsTranslation />} />
           <Route path='/songs/new' element={<SongEditor />} />
-          {/* <Route path='/songs/:songId' element={<SongDetails />} /> */}
           <Route path='/songs/:songId/edit' element={<SongEditor />} />
         </Route>
       </Routes>
