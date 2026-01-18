@@ -10,6 +10,7 @@ import Subscriptions from './pages/subscriptions/subscriptions'
 import Lyrics from './pages/lyrics/lyrics'
 import LyricsTranslation from './pages/lyrics-translation/lyrics-translation'
 import SongEditor from './pages/song-editor/song-editor'
+import Playlists from './pages/playlists/playlists'
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route element={<Layout />}>
           <Route path='/' element={<Home />} />
           <Route path='/playlist' element={<Playlist />} />
+          <Route path='/playlists' element={<Playlists />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/profile/edit' element={<ProfileEdit />} />
           <Route path='/subscriptions' element={<Subscriptions />} />
