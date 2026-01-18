@@ -5,6 +5,7 @@ import { songsApi } from './api/songs.api'
 import { genresApi } from './api/genres.api'
 import { aiApi } from './api/ai.api'
 import { usersApi } from './api/users.api'
+import { playlistApi } from './api/playlist.api'
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     [genresApi.reducerPath]: genresApi.reducer,
     [aiApi.reducerPath]: aiApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
+    [playlistApi.reducerPath]: playlistApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -22,7 +24,8 @@ export const store = configureStore({
       .concat(songsApi.middleware)
       .concat(genresApi.middleware)
       .concat(aiApi.middleware)
-      .concat(usersApi.middleware),
+      .concat(usersApi.middleware)
+      .concat(playlistApi.middleware),
 })
 
 export type RootState = ReturnType<typeof store.getState>
