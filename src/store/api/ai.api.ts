@@ -6,7 +6,9 @@ export interface GenerateImageParams {
 }
 
 export interface GenerateImageResponse {
-  imageUrl: string;
+  data: {
+    imageUrl: string;
+  }
 }
 
 export const aiApi = createApi({

@@ -301,10 +301,15 @@ const SongEditor = () => {
       const result = await generateImage({
         prompt: aiImagePrompt,
       }).unwrap();
-      
-      setCoverImagePreview(result.imageUrl);
-      setFieldValue('image', result.imageUrl);
-      setAiImagePrompt('');
+      const imageUrl = result.data.imageUrl;
+
+      if (imageUrl) {
+        setCoverImagePreview(imageUrl);
+        setFieldValue('image', imageUrl);
+        setAiImagePrompt('');
+      } else {
+        console.error('❌ No image URL found in result:', result);
+      }
     } catch (error) {
       console.error('Failed to generate image:', error);
     }
@@ -495,13 +500,28 @@ const SongEditor = () => {
                         >
                           <div className="flex gap-2">
                             <IoSparkles /> 
-                            Generate
+                            {generatingImage ? 'Generating...' : 'Generate'}
                           </div>
                         </Button>
+                        {generatingImage && (
+                          <div className="text-white text-sm self-center">
+                            AI is creating your image...
+                          </div>
+                        )}
                       </div>
                       {coverImagePreview && (
                         <div className="mt-3">
-                          <img src={coverImagePreview} alt="Generated preview" className="w-32 h-32 object-cover rounded-lg" />
+                          <div className="text-white text-sm mb-2">Generated Image:</div>
+                          <img 
+                            src={coverImagePreview} 
+                            alt="Generated preview" 
+                            className="w-32 h-32 object-cover rounded-lg border-2 border-gray-600" 
+                            onError={(e) => {
+                              console.error('❌ Image failed to load:', coverImagePreview);
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                            }}
+                          />
                         </div>
                       )}
                     </div>
