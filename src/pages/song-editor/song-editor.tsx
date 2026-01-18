@@ -32,6 +32,7 @@ const SongEditor = () => {
   const [genreSearchInput, setGenreSearchInput] = useState('');
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [audioFileInfo, setAudioFileInfo] = useState<{name: string; size: number} | null>(null);
 
   const { data: languages = [], isLoading: languagesLoading } = useGetSupportedLanguagesQuery();
   const [searchGenres, { isLoading: genresLoading }] = useLazyGetGenresQuery();
@@ -89,13 +90,15 @@ const SongEditor = () => {
     const errors: Partial<Record<keyof SongFormValues, string>> = {};
 
     try {
-      songSchema.parse({
+      const validationData = {
         ...values,
-        duration: values.duration || 0,
-        releaseYear: values.releaseYear || undefined,
-        genres: values.genres.length > 0 ? values.genres : undefined,
-        authors: values.authors.length > 0 ? values.authors : undefined,
-      });
+        duration: typeof values.duration === 'string' ? parseInt(values.duration) || 0 : values.duration || 0,
+        releaseYear: typeof values.releaseYear === 'string' ? parseInt(values.releaseYear) || undefined : values.releaseYear || undefined,
+        genres: values.genres && values.genres.length > 0 ? values.genres : undefined,
+        authors: values.authors && values.authors.length > 0 ? values.authors : undefined,
+      };
+      
+      songSchema.parse(validationData);
     } catch (error) {
       if (error instanceof z.ZodError) {
         error.issues.forEach((issue) => {
@@ -123,43 +126,64 @@ const SongEditor = () => {
       setSubmitSuccess(false);
       
       const formData = new FormData();
-      formData.append('title', values.title);
-      if (values.description) {
-        formData.append('description', values.description);
+      formData.append('title', values.title.trim());
+      if (values.description && values.description.trim()) {
+        formData.append('description', values.description.trim());
       }
-      if (values.text) formData.append('text', values.text);
-      if (values.language) formData.append('language', values.language);
-      formData.append('duration', values.duration.toString());
-      if (values.isPublic !== undefined) formData.append('is_public', values.isPublic.toString());
+      
+      if (values.text && values.text.trim()) {
+        formData.append('text', values.text.trim());
+      }
+      
+      if (values.language) {
+        formData.append('language', values.language);
+      }
+
+      const duration = typeof values.duration === 'string' ? parseInt(values.duration) : values.duration;
+      if (duration && !isNaN(duration) && duration > 0) {
+        formData.append('duration', duration.toString());
+      } else {
+        throw new Error('Valid duration is required');
+      }
+      
+      formData.append('is_public', values.isPublic.toString());
 
       if (values.releaseYear) {
-        formData.append('releaseYear', values.releaseYear.toString());
+        const releaseYear = typeof values.releaseYear === 'string' ? parseInt(values.releaseYear) : values.releaseYear;
+        formData.append('releaseYear', releaseYear.toString());
       }
 
-      if (values.genres.length > 0) {
-        const genreIds = values.genres.map(g => g.id);
-        formData.append('genres', JSON.stringify(genreIds));
+      if (values.genres && values.genres.length > 0) {
+        const genreIds = values.genres.map(g => g.id).filter(id => id);
+        if (genreIds.length > 0) {
+          formData.append('genres', JSON.stringify(genreIds));
+        }
       }
 
-      if (values.authors.length > 0) {
-        formData.append('authors', JSON.stringify(values.authors.map(author => ({
-          userId: author.userId,
-          role: author.role
-        }))));
+      if (values.authors && values.authors.length > 0) {
+        const authorsData = values.authors
+          .filter(author => author.userId && author.role)
+          .map(author => ({
+            userId: author.userId,
+            role: author.role
+          }));
+        if (authorsData.length > 0) {
+          formData.append('authors', JSON.stringify(authorsData));
+        }
       }
 
       if (values.image) {
         if (values.image instanceof File) {
-          formData.append('image', values.image); 
+          formData.append('image', values.image);
         }
       }
 
       if (values.song) {
-        if (typeof values.song !== 'string') {
+        if (values.song instanceof File) {
           formData.append('song', values.song);
         }
       } else if (!songId) {
-        throw new Error('Audio file is required');
+        throw new Error('Audio file is required for new songs');
       }
       
       let result;
@@ -178,8 +202,18 @@ const SongEditor = () => {
       }, 1500);
       
     } catch (error: any) {
-      console.error('Failed to save song:', error);
-      setSubmitError(error?.data?.message || error?.message || 'Failed to save song. Please try again.');
+      
+      let errorMessage = 'Failed to save song. Please try again.';
+      
+      if (error?.data?.message) {
+        errorMessage = error.data.message;
+      } else if (error?.message) {
+        errorMessage = error.message;
+      } else if (error?.data?.error) {
+        errorMessage = error.data.error;
+      }
+      
+      setSubmitError(errorMessage);
     } finally {
       setSubmitting(false);
     }
@@ -302,7 +336,8 @@ const SongEditor = () => {
         validate={validate}
         onSubmit={handleSubmit}
       >
-        {({ values, errors, touched, setFieldValue, isSubmitting }) => (
+        {({ values, errors, touched, setFieldValue, isSubmitting, handleSubmit: formikHandleSubmit }) => {
+          return (
           <Form className="space-y-6 pb-6">
             {/* Basic Information */}
             <div className="space-y-4">
@@ -506,9 +541,52 @@ const SongEditor = () => {
                     accept="audio/*"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       const file = e.target.files?.[0] || null;
+                      if (file) {
+                        setAudioFileInfo({
+                          name: file.name,
+                          size: file.size
+                        });
+                      } else {
+                        setAudioFileInfo(null);
+                      }
                       setFieldValue('song', file);
                     }}
                   />
+                  
+                  {/* Audio File Preview */}
+                  {audioFileInfo && (
+                    <div className="mt-3 p-3 bg-gray-900/30 border border-gray-600 rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div className="flex-shrink-0">
+                          <IoMusicalNotes className="text-blue-400 text-2xl" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-white font-medium text-sm truncate">
+                            {audioFileInfo.name}
+                          </div>
+                          <div className="text-gray-400 text-xs">
+                            {(audioFileInfo.size / (1024 * 1024)).toFixed(2)} MB
+                          </div>
+                        </div>
+                        <div className="flex-shrink-0">
+                          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                        </div>
+                      </div>
+                      {values.song instanceof File && (
+                        <div className="mt-2">
+                          <audio 
+                            controls 
+                            className="w-full h-8" 
+                            style={{ filter: 'invert(1)' }}
+                          >
+                            <source src={URL.createObjectURL(values.song)} type={values.song.type} />
+                            Your browser does not support the audio element.
+                          </audio>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  
                   {touched.song && errors.song && (
                     <div className="text-red-500 text-sm mt-1">{errors.song}</div>
                   )}
@@ -763,6 +841,10 @@ const SongEditor = () => {
                   variant="snow"
                   disabled={isSubmitting || isCreatingSong || isUpdatingSong}
                   loading={isSubmitting || isCreatingSong || isUpdatingSong}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    formikHandleSubmit();
+                  }}
                 >
                   <div className="flex gap-2">
                     <IoMusicalNotes /> 
@@ -772,7 +854,7 @@ const SongEditor = () => {
               </div>
             </div>
           </Form>
-        )}
+        )}}
       </Formik>
     </div>
   );

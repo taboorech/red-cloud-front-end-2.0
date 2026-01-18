@@ -1,7 +1,12 @@
 import { z } from "zod";
 import { SongAuthorsRole } from "../types/song.types";
 
-const genreSchema = z.array(z.string());
+const genreSchema = z.array(
+  z.object({
+    id: z.number().int().positive("Genre ID must be a positive integer"),
+    title: z.string().min(1, "Genre title is required"),
+  }),
+);
 
 const userIdValidation = z.object({
   userId: z.number().int().positive("User ID must be a positive integer"),
@@ -14,7 +19,11 @@ export const songSchema = z.object({
   text: z.string().optional(),
   language: z.string().optional(),
   duration: z.number().int().positive("Duration must be a positive number"),
-  releaseYear: z.number().int().positive("Release year must be positive").optional(),
+  releaseYear: z
+    .number()
+    .int()
+    .positive("Release year must be positive")
+    .optional(),
   isPublic: z.boolean().optional(),
   genres: genreSchema.optional(),
   authors: z
