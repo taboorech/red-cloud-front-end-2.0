@@ -11,6 +11,7 @@ import Lyrics from './pages/lyrics/lyrics'
 import LyricsTranslation from './pages/lyrics-translation/lyrics-translation'
 import SongEditor from './pages/song-editor/song-editor'
 import Playlists from './pages/playlists/playlists'
+import PlaylistEditor from './pages/playlist-editor/playlist-editor'
 
 const App = () => {
   return (
@@ -19,8 +20,10 @@ const App = () => {
         <Route path='/auth' element={<Auth />} />
         <Route element={<Layout />}>
           <Route path='/' element={<Home />} />
-          <Route path='/playlist' element={<Playlist />} />
+          <Route path='/playlist/:playlistId' element={<Playlist />} />
           <Route path='/playlists' element={<Playlists />} />
+          <Route path='/playlists/new' element={<PlaylistEditor />} />
+          <Route path='/playlists/:playlistId/edit' element={<PlaylistEditor />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/profile/edit' element={<ProfileEdit />} />
           <Route path='/subscriptions' element={<Subscriptions />} />

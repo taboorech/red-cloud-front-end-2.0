@@ -15,10 +15,37 @@ export const playlistApi = createApi({
       }),
       transformResponse: (response: GetPlaylistsResponse) => response.data,
       providesTags: ['Playlist'],
-    })
+    }),
+    getPlaylist: builder.query({
+      query: (id: string) => ({
+        url: `/v1/playlists/${id}`,
+        method: 'GET',
+      }),
+      transformResponse: (response: any) => response.data,
+      providesTags: (_result, _error, id) => [{ type: 'Playlist', id }],
+    }),
+    createPlaylist: builder.mutation({
+      query: (formData: FormData) => ({
+        url: '/v1/playlists',
+        method: 'POST',
+        data: formData,
+      }),
+      invalidatesTags: ['Playlist'],
+    }),
+    updatePlaylist: builder.mutation({
+      query: (formData: FormData) => ({
+        url: `/v1/playlists/${formData.get('id')}`,
+        method: 'PUT',
+        data: formData,
+      }),
+      invalidatesTags: ['Playlist'],
+    }),
   }),
 });
 
 export const {
-  useLazyGetPlaylistsQuery
+  useLazyGetPlaylistsQuery,
+  useGetPlaylistQuery,
+  useCreatePlaylistMutation,
+  useUpdatePlaylistMutation,
 } = playlistApi;
