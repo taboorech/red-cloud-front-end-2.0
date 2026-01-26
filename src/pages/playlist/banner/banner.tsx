@@ -61,7 +61,7 @@ const Banner = ({ playlist }: BannerProps) => {
         image={playlist.image_url || ''} 
         duration={{ songs: songsCount, time: totalDuration }}
       />
-      <div className="flex items-center gap-4 mt-6">
+      <div className="flex items-center gap-4">
         {/* Large Play Button */}
         <Button
           variant="snow"
