@@ -50,12 +50,16 @@ const Banner = ({ playlist }: BannerProps) => {
     console.log('More options for playlist:', playlist.title);
   };
 
+  // Calculate total duration from songs
+  const totalDuration = playlist.songs?.reduce((total, song) => total + song.duration_seconds, 0) || 0;
+  const songsCount = playlist.songs?.length || 0;
+
   return (
     <div className="full flex justify-between">
       <BannerMainInfo 
         title={playlist.title} 
         image={playlist.image_url || ''} 
-        duration={{ songs: 0, time: 0 }} // TODO: Add real song count and duration when available
+        duration={{ songs: songsCount, time: totalDuration }}
       />
       <div className="flex items-center gap-4 mt-6">
         {/* Large Play Button */}

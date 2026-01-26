@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { axiosBaseQuery } from "../../api/axios-base-query";
-import type { GetPlaylistsRequest, GetPlaylistsResponse } from "../../types/playlist.types";
+import type { GetPlaylistsRequest, GetPlaylistsResponse, Playlist } from "../../types/playlist.types";
 
 export const playlistApi = createApi({
   reducerPath: 'playlistApi',
@@ -16,10 +16,11 @@ export const playlistApi = createApi({
       transformResponse: (response: GetPlaylistsResponse) => response.data,
       providesTags: ['Playlist'],
     }),
-    getPlaylist: builder.query({
+    getPlaylist: builder.query<Playlist, string>({
       query: (id: string) => ({
         url: `/v1/playlists/${id}`,
         method: 'GET',
+        params: { withSongs: true },
       }),
       transformResponse: (response: any) => response.data,
       providesTags: (_result, _error, id) => [{ type: 'Playlist', id }],

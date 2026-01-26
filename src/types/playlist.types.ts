@@ -1,4 +1,5 @@
 import type { SearchRequestParams } from "./main.types";
+import type { Song } from "./song.types";
 
 export interface GetPlaylistsRequest extends SearchRequestParams {}
 
@@ -14,6 +15,7 @@ export interface Playlist {
   is_public: boolean;
   created_at: string;
   updated_at: string;
+  songs?: Song[];
 }
 
 export type PlaylistFormValues = {

@@ -57,7 +57,7 @@ const Playlists = () => {
             title={playlist.title} 
             variant="expanded"
             image={playlist.image_url || ''}
-            onClick={() => navigate(`/playlists/${playlist.id}`)}
+            onClick={() => navigate(`/playlist/${playlist.id}`)}
           />
         ))}
       </List>

@@ -1,9 +1,9 @@
 import { useParams } from "react-router";
-import { faker } from "@faker-js/faker";
 import List from "../../components/list/list";
 import Song from "../../components/song/song";
 import Banner from "./banner/banner";
 import { useGetPlaylistQuery } from "../../store/api/playlist.api";
+import { formatDuration } from "../../utils/format";
 
 const Playlist = () => {
   const { playlistId } = useParams<{ playlistId: string }>();
@@ -15,8 +15,6 @@ const Playlist = () => {
   } = useGetPlaylistQuery(playlistId!, {
     skip: !playlistId,
   });
-
-  const tmpImage = faker.image.url();  
 
   if (isPlaylistLoading) {
     return (
@@ -48,17 +46,25 @@ const Playlist = () => {
         <Banner playlist={playlist} />
       </div>
       <div className="bg-black p-4 rounded-md flex-1 min-h-0 overflow-hidden">
-        <List gap={3}>
-          { Array.from({ length: 10 }).map((_, index) => (
-            <Song
-              key={index}
-              title={`Song Title ${index + 1}`}
-              image={tmpImage}
-              variant="expanded"
-              duration="3:45"
-            />
-          )) }
-        </List>
+        {playlist.songs && playlist.songs.length > 0 ? (
+          <List gap={3}>
+            {playlist.songs.map((song) => (
+              <Song
+                key={song.id}
+                title={song.title}
+                image={song.image_url || ""}
+                variant="expanded"
+                duration={formatDuration(song.duration_seconds)}
+              />
+            ))}
+          </List>
+        ) : (
+          <div className="flex items-center justify-center h-full">
+            <div className="text-gray-400 text-lg">
+              This playlist is empty
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
