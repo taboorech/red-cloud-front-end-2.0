@@ -1,9 +1,29 @@
-import { faker } from "@faker-js/faker";
+import { useNavigate } from "react-router";
 
-const Playlist = () => {
+interface PlaylistProps {
+  id: number;
+  title: string;
+  image?: string | null;
+}
+
+const Playlist = ({ id, title, image }: PlaylistProps) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/playlist/${id}`);
+  };
+
   return (
-    <div className="h-full rounded-md w-20 overflow-hidden flex-shrink-0 cursor-pointer hover:scale-105 transition-transform">
-      <img src={faker.image.url()} className="h-full w-full object-cover"/>
+    <div 
+      className="h-12 w-12 rounded-md overflow-hidden flex-shrink-0 cursor-pointer hover:scale-105 transition-transform"
+      onClick={handleClick}
+      title={title}
+    >
+      <img 
+        src={image || ''} 
+        alt={title}
+        className="h-full w-full object-cover"
+      />
     </div>
   );
 }

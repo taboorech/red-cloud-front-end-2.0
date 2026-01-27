@@ -1,30 +1,70 @@
-import { faker } from "@faker-js/faker";
+import { useParams } from "react-router";
 import List from "../../components/list/list";
 import Song from "../../components/song/song";
 import Banner from "./banner/banner";
+import { useGetPlaylistQuery } from "../../store/api/playlist.api";
+import { formatDuration } from "../../utils/format";
 
 const Playlist = () => {
+  const { playlistId } = useParams<{ playlistId: string }>();
+  
+  const { 
+    data: playlist, 
+    isLoading: isPlaylistLoading, 
+    error: playlistError 
+  } = useGetPlaylistQuery(playlistId!, {
+    skip: !playlistId,
+  });
 
-  // ! DEV ONLY
-  const tmpImage = faker.image.url();
+  if (isPlaylistLoading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <div className="text-white text-lg">Loading playlist...</div>
+      </div>
+    );
+  }
+
+  if (playlistError || !playlist) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <div className="text-red-400 text-lg">
+          Failed to load playlist
+          <div className="text-sm mt-2">
+            {playlistError && typeof playlistError === 'object' && 'data' in playlistError
+              ? (playlistError as { data?: { message?: string } }).data?.message || 'Unknown error occurred'
+              : 'Unknown error occurred'
+            }
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-5 h-full">
       <div className="bg-black p-4 rounded-md">
-        <Banner/>
+        <Banner playlist={playlist} />
       </div>
       <div className="bg-black p-4 rounded-md flex-1 min-h-0 overflow-hidden">
-        <List gap={3}>
-          { Array.from({ length: 10 }).map((_, index) => (
-            <Song
-              key={index}
-              title={`Song Title ${index + 1}`}
-              image={tmpImage}
-              variant="expanded"
-              duration="3:45"
-            />
-          )) }
-        </List>
+        {playlist.songs && playlist.songs.length > 0 ? (
+          <List gap={3}>
+            {playlist.songs.map((song) => (
+              <Song
+                key={song.id}
+                title={song.title}
+                image={song.image_url || ""}
+                variant="expanded"
+                duration={formatDuration(song.duration_seconds)}
+              />
+            ))}
+          </List>
+        ) : (
+          <div className="flex items-center justify-center h-full">
+            <div className="text-gray-400 text-lg">
+              This playlist is empty
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

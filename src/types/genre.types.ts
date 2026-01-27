@@ -1,3 +1,4 @@
+import type { SearchRequestParams } from "./main.types";
 
 export interface Genre {
   id: number;
@@ -5,12 +6,7 @@ export interface Genre {
   description?: string;
 }
 
-export interface GetGenresParams {
-  offset?: number;
-  limit?: number;
-  search?: string;
-  ids?: number[];
-}
+export interface GetGenresParams extends SearchRequestParams {}
 
 export interface GetGenresResponse {
   data: Genre[];
