@@ -38,9 +38,9 @@ const Playlists = () => {
   }
 
   return (
-    <div className="bg-black p-4 rounded-md h-full overflow-hidden">
+    <div className="bg-black p-4 rounded-md h-full flex flex-col">
       {/* Search Bar */}
-      <div className="mb-4 relative">
+      <div className="mb-4 relative flex-shrink-0">
         <Input
           placeholder="Search playlists..."
           value={searchTerm}
@@ -50,17 +50,19 @@ const Playlists = () => {
         <IoSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
       </div>
 
-      <List gap={3}>
-        {playlists.map((playlist) => (
-          <Song 
-            key={playlist.id}
-            title={playlist.title} 
-            variant="expanded"
-            image={playlist.image_url || ''}
-            onClick={() => navigate(`/playlist/${playlist.id}`)}
-          />
-        ))}
-      </List>
+      <div className="flex-1 overflow-y-auto min-h-0">
+        <List gap={3}>
+          {playlists.map((playlist) => (
+            <Song 
+              key={playlist.id}
+              title={playlist.title} 
+              variant="expanded"
+              image={playlist.image_url || ''}
+              onClick={() => navigate(`/playlist/${playlist.id}`)}
+            />
+          ))}
+        </List>
+      </div>
     </div>
   );
 }
