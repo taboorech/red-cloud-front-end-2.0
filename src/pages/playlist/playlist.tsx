@@ -4,8 +4,10 @@ import Song from "../../components/song/song";
 import Banner from "./banner/banner";
 import { useGetPlaylistQuery } from "../../store/api/playlist.api";
 import { formatDuration } from "../../utils/format";
+import { useAudio } from "../../context/audio-context";
 
 const Playlist = () => {
+  const audio = useAudio();
   const { playlistId } = useParams<{ playlistId: string }>();
   
   const { 
@@ -56,6 +58,13 @@ const Playlist = () => {
                 variant="expanded"
                 duration={formatDuration(song.duration_seconds)}
                 song={song}
+                onClick={() => {
+                  if(!playlist.songs || playlist.songs.length === 0) return;
+
+                  const songIndex = playlist.songs.findIndex(s => s.id === song.id);
+                  audio.setQueue(playlist.songs.map((s, index) => ({ song: s, index, isActive: index > songIndex })));
+                  audio.playFromQueue(songIndex);
+                }}
               />
             ))}
           </List>

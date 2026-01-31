@@ -13,8 +13,8 @@ const Queue = () => {
             <div className="text-gray-400 text-sm">No songs in queue</div>
           </div>
         ) : (
-          audio.queue.map((song, index) => (
-            <Song
+          audio.queue.map(({ song, isActive }, index) => (
+            isActive ? <Song
               key={song.id}
               title={song.title}
               image={song.image_url || ""}
@@ -22,7 +22,7 @@ const Queue = () => {
               variant="expanded"
               song={song}
               onClick={() => audio.playFromQueue(index)}
-            />
+            /> : null
           ))
         )}
       </div>
