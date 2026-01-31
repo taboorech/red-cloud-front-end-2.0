@@ -23,6 +23,8 @@ interface AudioContextProps {
   setDuration: (duration: number) => void;
   currentSong: Song | null;
   setCurrentSong: (song: Song | null) => void;
+  currentPlaylist: string | null;
+  setCurrentPlaylist: (playlistId: string | null) => void;
   queue: QueueItem[];
   setQueue: (queueItem: QueueItem[]) => void;
   currentIndex: number;
@@ -55,6 +57,7 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
+  const [currentPlaylist, setCurrentPlaylist] = useState<string | null>(null);
   const [queue, setQueue] = useState<QueueItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [playMode, setPlayModeState] = useState<'normal' | 'repeat' | 'repeat-one' | 'shuffle'>(() => {
@@ -366,6 +369,7 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
         currentTime, setCurrentTime,
         duration, setDuration,
         currentSong, setCurrentSong,
+        currentPlaylist, setCurrentPlaylist,
         queue, setQueue,
         currentIndex, setCurrentIndex,
         playMode, setPlayMode,
