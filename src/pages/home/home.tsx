@@ -1,18 +1,33 @@
-import { faker } from "@faker-js/faker";
 import Banner from "./banner/banner";
 import SongSection from "../../components/song-section/song-section";
+import { useGetSongsQuery } from "../../store/api/songs.api";
 
 const Home = () => {
-  const generateItems = (count: number) => 
-    Array.from({ length: count }).map(() => ({
-      id: faker.string.uuid(),
-      title: "Name",
-      image: faker.image.urlPicsumPhotos({ width: 300, height: 300 }),
-    }));
+  const { data: songsData, isLoading, error } = useGetSongsQuery({ limit: 12 });
+  
+  // For different sections, you can make separate queries with different parameters
+  const { data: popularSongsData } = useGetSongsQuery({ limit: 12, page: 2 });
+  const { data: newReleasesData } = useGetSongsQuery({ limit: 12, page: 3 });
 
-  const recommendedSongs = generateItems(12);
-  const popularSongs = generateItems(12);
-  const newReleases = generateItems(12);
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <div className="text-white text-lg">Loading songs...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <div className="text-red-400 text-lg">Failed to load songs</div>
+      </div>
+    );
+  }
+
+  const recommendedSongs = songsData || [];
+  const popularSongs = popularSongsData || [];
+  const newReleases = newReleasesData || [];
 
   return (
     <div className="flex flex-col h-full">
@@ -26,9 +41,21 @@ const Home = () => {
 
       <div className="flex-1 overflow-y-auto pb-10 min-h-0">
         <div className="flex flex-col gap-8 pt-8">
-          <SongSection title="Recommended for you" songs={recommendedSongs} />
-          <SongSection title="Popular right now" songs={popularSongs} />
-          <SongSection title="New releases" songs={newReleases} />
+          {recommendedSongs.length > 0 && (
+            <SongSection title="Recommended for you" songs={recommendedSongs} />
+          )}
+          {popularSongs.length > 0 && (
+            <SongSection title="Popular right now" songs={popularSongs} />
+          )}
+          {newReleases.length > 0 && (
+            <SongSection title="New releases" songs={newReleases} />
+          )}
+          
+          {recommendedSongs.length === 0 && popularSongs.length === 0 && newReleases.length === 0 && (
+            <div className="flex items-center justify-center py-12">
+              <div className="text-gray-400 text-lg">No songs available</div>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,4 +1,6 @@
 import classNames from "classnames";
+import { useAudio } from "../../context/audio-context";
+import type { Song as SongType } from "../../types/song.types";
 
 type SongVariant = "small" | "expanded";
 
@@ -8,6 +10,7 @@ interface SongProps {
   duration?: string;
   variant?: SongVariant;
   onClick?: () => void;
+  song?: SongType;
 }
 
 const Song = ({
@@ -16,10 +19,23 @@ const Song = ({
   duration,
   variant = "small",
   onClick,
+  song
 }: SongProps) => {
+  const audio = useAudio()
+  
+  const handleClick = () => {
+    if(song) {
+      audio.playSong(song)
+    }
+
+    if (onClick) {
+      onClick();
+    }
+  }
+
   return (
     <div
-      onClick={onClick}
+      onClick={handleClick}
       className={classNames(
         "group cursor-pointer select-none transition relative",
         variant === "small"

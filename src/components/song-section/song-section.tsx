@@ -1,14 +1,10 @@
-import Song from "../song/song"
 
-interface SongItem {
-  id: string
-  title: string
-  image: string
-}
+import type { Song as SongType } from "../../types/song.types"
+import Song from "../song/song"
 
 interface SongSectionProps {
   title: string
-  songs: SongItem[]
+  songs: SongType[]
 }
 
 const SongSection = ({ title, songs }: SongSectionProps) => {
@@ -22,8 +18,9 @@ const SongSection = ({ title, songs }: SongSectionProps) => {
               <div key={song.id} className="flex-shrink-0 w-[calc((100%-5*1rem)/6)]">
                 <Song
                   title={song.title}
-                  image={song.image}
+                  image={song.image_url || ''}
                   variant="small"
+                  song={song}
                 />
               </div>
             ))}

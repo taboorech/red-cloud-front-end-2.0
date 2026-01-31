@@ -55,6 +55,7 @@ const Playlist = () => {
                 image={song.image_url || ""}
                 variant="expanded"
                 duration={formatDuration(song.duration_seconds)}
+                song={song}
               />
             ))}
           </List>
