@@ -27,7 +27,7 @@ const Banner = ({ playlist }: BannerProps) => {
       audio.toggle();
     } else {
       // Start playing this playlist
-      audio.setQueue(playlist.songs);
+      audio.setQueue(playlist.songs.map((song, index) => ({ song, index, isActive: index > 0 })));
       audio.setCurrentIndex(0);
       audio.setCurrentSong(playlist.songs[0]);
       audio.play();
@@ -55,7 +55,7 @@ const Banner = ({ playlist }: BannerProps) => {
   };
 
   const handleSettings = () => {
-    navigate(`/playlist-editor/${playlist.id}`);
+    navigate(`/playlists/${playlist.id}/edit`);
   };
 
   const handleMoreOptions = () => {

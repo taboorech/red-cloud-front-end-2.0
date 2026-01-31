@@ -10,6 +10,7 @@ interface QueueItem {
 
 interface AudioContextProps {
   playing: boolean;
+  setPlaying: (playing: boolean) => void;
   toggle: () => void;
   play: () => void;
   pause: () => void;
@@ -348,6 +349,11 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
     if (index >= 0 && index < queue.length) {
       setCurrentIndex(index);
       const songToPlay = queue[index];
+
+      setQueue(prev => prev.map((item, idx) => ({
+        ...item,
+        isActive: idx > index
+      })));
       
       playSong(songToPlay.song);
       setPlaying(true);
@@ -363,7 +369,7 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
       />
       
       <AudioContext.Provider value={{
-        playing, toggle, play, pause,
+        playing, setPlaying, toggle, play, pause,
         volume, setVolume,
         isMuted, setIsMuted,
         currentTime, setCurrentTime,

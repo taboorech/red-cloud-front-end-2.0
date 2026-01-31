@@ -15,14 +15,15 @@ const Queue = () => {
         ) : (
           audio.queue.map(({ song, isActive }, index) => (
             isActive ? <Song
-              key={song.id}
+              key={`${song.id}-${index}`}
               title={song.title}
               image={song.image_url || ""}
               duration={formatDuration(song.duration_seconds)}
               variant="expanded"
               song={song}
+              isActive={audio.currentSong?.id === song.id}
               onClick={() => audio.playFromQueue(index)}
-            /> : null
+            /> : null 
           ))
         )}
       </div>

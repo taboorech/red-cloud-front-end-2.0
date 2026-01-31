@@ -27,12 +27,11 @@ const Song = ({
   const audio = useAudio()
   
   const handleClick = () => {
-    if(song) {
-      audio.playSong(song)
-    }
-
     if (onClick) {
       onClick();
+    } else if(song) {
+      audio.playSong(song);
+      audio.setPlaying(true);
     }
   }
 

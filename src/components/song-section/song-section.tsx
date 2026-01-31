@@ -31,7 +31,9 @@ const SongSection = ({ title, songs }: SongSectionProps) => {
                     onClick={() => {
                       audio.setCurrentPlaylist(null);
                       audio.setQueue([{ song, index: 0, isActive: false }]);
-                      audio.playFromQueue(0);
+                      audio.setCurrentIndex(0);
+                      audio.playSong(song);
+                      audio.setPlaying(true);
                     }}
                   />
                 </div>
