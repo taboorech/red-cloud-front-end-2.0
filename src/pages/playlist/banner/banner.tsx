@@ -1,10 +1,9 @@
 import type { Playlist } from "../../../types/playlist.types";
 import BannerMainInfo from "./banner-main-info/banner-main-info";
-import { IoPlay, IoSettings, IoEllipsisHorizontal, IoRepeat, IoShuffle, IoRepeatSharp } from "react-icons/io5";
+import { IoPlay, IoSettings, IoEllipsisHorizontal, IoRepeat, IoShuffle, IoRepeatSharp, IoPause } from "react-icons/io5";
 import { Button } from "../../../components/button/button";
 import { useNavigate } from "react-router";
 import { useAudio } from "../../../context/audio-context";
-import { useState } from "react";
 
 interface BannerProps {
   playlist: Playlist;
@@ -14,22 +13,36 @@ type PlayMode = 'normal' | 'repeat' | 'repeat-one' | 'shuffle';
 
 const Banner = ({ playlist }: BannerProps) => {
   const navigate = useNavigate();
-  const { play } = useAudio();
-  const [playMode, setPlayMode] = useState<PlayMode>('normal');
+  const audio = useAudio();
+
+  const isPlayingThisPlaylist = playlist.songs && playlist.songs.length > 0 && 
+    playlist.songs.some(song => song.id === audio.currentSong?.id);
+  const isPlaying = isPlayingThisPlaylist && audio.playing;
 
   const handlePlay = () => {
-    play();
+    if (!playlist.songs || playlist.songs.length === 0) return;
+
+    if (isPlayingThisPlaylist) {
+      // Toggle current playback
+      audio.toggle();
+    } else {
+      // Start playing this playlist
+      audio.setQueue(playlist.songs.map((song, index) => ({ song, index, isActive: index > 0 })));
+      audio.setCurrentIndex(0);
+      audio.setCurrentSong(playlist.songs[0]);
+      audio.play();
+    }
   };
 
   const handlePlayModeToggle = () => {
     const modes: PlayMode[] = ['normal', 'repeat', 'repeat-one', 'shuffle'];
-    const currentIndex = modes.indexOf(playMode);
+    const currentIndex = modes.indexOf(audio.playMode);
     const nextIndex = (currentIndex + 1) % modes.length;
-    setPlayMode(modes[nextIndex]);
+    audio.setPlayMode(modes[nextIndex]);
   };
 
   const getPlayModeIcon = () => {
-    switch (playMode) {
+    switch (audio.playMode) {
       case 'repeat':
         return <IoRepeat className="text-lg" />;
       case 'repeat-one':
@@ -42,7 +55,7 @@ const Banner = ({ playlist }: BannerProps) => {
   };
 
   const handleSettings = () => {
-    navigate(`/playlist-editor/${playlist.id}`);
+    navigate(`/playlists/${playlist.id}/edit`);
   };
 
   const handleMoreOptions = () => {
@@ -69,9 +82,10 @@ const Banner = ({ playlist }: BannerProps) => {
           rounded="full"
           onClick={handlePlay}
           className="w-12 h-12"
+          disabled={!playlist.songs || playlist.songs.length === 0}
         >
           <div className="flex justify-center items-center">
-            <IoPlay className="text-xl" />
+            {isPlaying ? <IoPause className="text-xl" /> : <IoPlay className="text-xl ml-0.5" />}
           </div>
         </Button>
         

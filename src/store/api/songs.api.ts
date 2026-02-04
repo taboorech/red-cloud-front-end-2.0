@@ -13,15 +13,15 @@ export const songsApi = createApi({
   baseQuery: axiosBaseQuery(),
   tagTypes: ['Song'],
   endpoints: (builder) => ({
-    // getSongs: builder.query<{ songs: Song[]; total: number; page: number; limit: number }, { page?: number; limit?: number; search?: string }>({
-    //   query: ({ page = 1, limit = 20, search }) => ({
-    //     url: '/v1/songs',
-    //     method: 'GET',
-    //     params: { page, limit, search },
-    //   }),
-    //   transformResponse: (response: GetSongsResponse) => response.data,
-    //   providesTags: ['Song'],
-    // }),
+    getSongs: builder.query<Song[], { page?: number; limit?: number; search?: string }>({
+      query: ({ page = 1, limit = 20, search }) => ({
+        url: '/v1/songs',
+        method: 'GET',
+        params: { page, limit, search },
+      }),
+      transformResponse: (response: GetSongsResponse) => response.data,
+      providesTags: ['Song'],
+    }),
     getSong: builder.query<Song, string>({
       query: (songId) => ({
         url: `/v1/songs/${songId}`,
@@ -79,7 +79,7 @@ export const songsApi = createApi({
         url: '/v1/songs/favorites',
         method: 'GET',
       }),
-      transformResponse: (response: GetSongsResponse) => response.data.songs,
+      transformResponse: (response: GetSongsResponse) => response.data,
       providesTags: ['Song'],
     }),
     toggleFavoriteSong: builder.mutation<void, string>({
@@ -107,7 +107,7 @@ export const songsApi = createApi({
 });
 
 export const {
-  // useGetSongsQuery,
+  useGetSongsQuery,
   useGetSongQuery,
   useCreateSongMutation,
   useUpdateSongMutation,

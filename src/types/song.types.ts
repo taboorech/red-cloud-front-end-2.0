@@ -43,12 +43,7 @@ export interface GetSongResponse {
 
 export interface GetSongsResponse {
   success: boolean;
-  data: {
-    songs: Song[];
-    total: number;
-    page: number;
-    limit: number;
-  };
+  data: Song[];
 }
 
 export interface DeleteSongResponse {

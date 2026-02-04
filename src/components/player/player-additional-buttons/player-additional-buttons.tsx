@@ -21,7 +21,7 @@ const PlayerAdditionalButtons = ({
   return (
     <div
       className={classNames(
-        "mx-auto flex items-center justify-center gap-2",
+        "flex items-center justify-center gap-2",
         className
       )}
     >

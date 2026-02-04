@@ -4,8 +4,10 @@ import Song from "../../components/song/song";
 import Banner from "./banner/banner";
 import { useGetPlaylistQuery } from "../../store/api/playlist.api";
 import { formatDuration } from "../../utils/format";
+import { useAudio } from "../../context/audio-context";
 
 const Playlist = () => {
+  const audio = useAudio();
   const { playlistId } = useParams<{ playlistId: string }>();
   
   const { 
@@ -48,15 +50,29 @@ const Playlist = () => {
       <div className="bg-black p-4 rounded-md flex-1 min-h-0 overflow-hidden">
         {playlist.songs && playlist.songs.length > 0 ? (
           <List gap={3}>
-            {playlist.songs.map((song) => (
-              <Song
-                key={song.id}
-                title={song.title}
-                image={song.image_url || ""}
-                variant="expanded"
-                duration={formatDuration(song.duration_seconds)}
-              />
-            ))}
+            {playlist.songs.map((song) => {
+              const isActive = audio.currentSong?.id === song.id && (audio.currentPlaylist === playlistId);
+              
+              return (
+                <Song
+                  key={song.id}
+                  title={song.title}
+                  image={song.image_url || ""}
+                  variant="expanded"
+                  duration={formatDuration(song.duration_seconds)}
+                  song={song}
+                  isActive={isActive}
+                  onClick={() => {
+                    if(!playlist.songs || playlist.songs.length === 0) return;
+
+                    const songIndex = playlist.songs.findIndex(s => s.id === song.id);
+                    audio.setCurrentPlaylist(playlistId!);
+                    audio.setQueue(playlist.songs.map((s, index) => ({ song: s, index, isActive: index > songIndex })));
+                    audio.playFromQueue(songIndex);
+                  }}
+                />
+              );
+            })}
           </List>
         ) : (
           <div className="flex items-center justify-center h-full">

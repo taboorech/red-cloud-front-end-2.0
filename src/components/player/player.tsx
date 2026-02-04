@@ -15,7 +15,7 @@ const Player = () => {
         <SongProgress />
       </div>
 
-      <div className="flex flex-1 items-center">
+      <div className="flex flex-1 items-center justify-end">
         <PlayerAdditionalButtons />
       </div>
     </div>
