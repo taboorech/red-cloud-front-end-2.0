@@ -3,7 +3,11 @@ import { axiosBaseQuery } from '../../api/axios-base-query'
 import type {
   SubscriptionType,
   SubscriptionResponse,
-  UpdateSubscriptionRequest
+  GetPaymentUrlRequest,
+  GetPaymentUrlResponse,
+  ApiSubscriptionResponse,
+  ApiPlansResponse,
+  TransformedPlan
 } from '../../types/subscription.types'
 
 // Helper function to get features based on plan
@@ -50,95 +54,171 @@ export const subscriptionApi = createApi({
   endpoints: (builder) => ({
     // Get current subscription
     getCurrentSubscription: builder.query<SubscriptionResponse, void>({
-      // Real API endpoint (comment out for production use):
-      // query: () => ({ url: '/v1/subscription', method: 'GET' }),
-      
-      // Mock implementation for development
-      async queryFn() {
-        const savedPlan = (localStorage.getItem('subscriptionPlan') as SubscriptionType) || 'free'
-
-        const mockSubscription: SubscriptionResponse = {
+      query: () => ({ url: '/v1/payment/current-subscription', method: 'GET' }),
+      transformResponse: (response: ApiSubscriptionResponse) => {
+        if (response?.status === 'OK' && response?.data) {
+          const data = response.data
+          
+          // Map subscription_plan_id to plan type
+          const getPlanType = (subscriptionPlanId: number): SubscriptionType => {
+            switch (subscriptionPlanId) {
+              case 1: return 'free'
+              case 2: return 'premium'
+              case 3: return 'family'
+              default: return 'free'
+            }
+          }
+          
+          const planType = getPlanType(data.subscription_plan_id || 1)
+          
+          return {
+            subscription: {
+              id: data.id?.toString() || '1',
+              userId: data.user_id?.toString() || 'user-1',
+              plan: planType,
+              status: (data.status === 'cancelled' || data.status === 'expired') ? data.status as 'cancelled' | 'expired' : 'active',
+              startDate: data.started_at || new Date().toISOString(),
+              expiresAt: data.current_period_end || null,
+              autoRenew: data.status === 'active'
+            },
+            features: getFeaturesByPlan(planType)
+          }
+        }
+        
+        // Fallback for users without subscription
+        return {
           subscription: {
             id: '1',
             userId: 'user-1',
-            plan: savedPlan,
-            status: 'active',
+            plan: 'free' as SubscriptionType,
+            status: 'active' as const,
             startDate: new Date().toISOString(),
-            expiresAt:
-              savedPlan !== 'free'
-                ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
-                : null,
-            autoRenew: savedPlan !== 'free',
+            expiresAt: null,
+            autoRenew: false
           },
-          features: getFeaturesByPlan(savedPlan),
+          features: getFeaturesByPlan('free')
         }
-
-        return { data: mockSubscription }
       },
       providesTags: ['Subscription'],
     }),
 
-    // Update subscription (upgrade/downgrade)
-    updateSubscription: builder.mutation<SubscriptionResponse, UpdateSubscriptionRequest>({
-      // Real API endpoint (comment out for production use):
-      // query: (body) => ({
-      //   url: '/v1/subscription',
-      //   method: 'PUT',
-      //   data: body,
-      // }),
+    getPaymentUrl: builder.mutation<GetPaymentUrlResponse, GetPaymentUrlRequest>({
+      query: ({ subscriptionPlanId, priceId }) => ({
+        url: '/v1/payment/subscription',
+        method: 'GET',
+        params: { subscriptionPlanId, priceId },
+      }),
+      transformResponse: (response: { status?: string; data?: string | { url: string } } | { url: string }) => {
+        // Handle different response formats from backend
+        if ('status' in response && response?.status === 'OK') {
+          if (typeof response.data === 'string') {
+            return { url: response.data }
+          }
 
-      // Mock implementation for development
-      async queryFn(arg) {
-        localStorage.setItem('subscriptionPlan', arg.plan)
-
-        const mockResponse: SubscriptionResponse = {
-          subscription: {
-            id: '1',
-            userId: 'user-1',
-            plan: arg.plan,
-            status: 'active',
-            startDate: new Date().toISOString(),
-            expiresAt:
-              arg.plan !== 'free'
-                ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
-                : null,
-            autoRenew: arg.plan !== 'free',
-          },
-          features: getFeaturesByPlan(arg.plan),
+          return response.data as { url: string }
         }
-
-        return { data: mockResponse }
+        // If response is directly { url: "..." }
+        return response as { url: string }
       },
-      invalidatesTags: ['Subscription'],
     }),
 
-    // Cancel subscription
-    cancelSubscription: builder.mutation<SubscriptionResponse, void>({
-      // Real API endpoint (comment out for production use):
-      // query: () => ({
-      //   url: '/v1/subscription/cancel',
-      //   method: 'POST',
-      // }),
+    // Get subscription plans (public endpoint)
+    getPlans: builder.query<TransformedPlan[], void>({
+      query: () => ({ url: '/v1/payment/plans', method: 'GET' }),
+      transformResponse: (response: ApiPlansResponse) => {
+        const plans = response.data || []
+        
+        // Transform backend plans to frontend format
+        const transformedPlans = plans.map(plan => {
+          // Handle Free plan separately
+          if (plan.id === 1 || plan.title.toLowerCase().includes('free')) {
+            return {
+              id: plan.id,
+              subscriptionPlanId: plan.id,
+              priceId: plan.id,
+              name: plan.title,
+              description: plan.description,
+              price: 0,
+              period: 'forever',
+              currency: 'USD',
+              isPopular: false,
+              features: [
+                'Ad-supported streaming',
+                'Standard quality audio',
+                'Limited skips',
+                'Offline listening',
+                'Unlimited downloads', 
+                'Ad-free experience',
+                'Lyrics support'
+              ]
+            }
+          }
 
-      // Mock implementation for development
-      async queryFn() {
-        localStorage.setItem('subscriptionPlan', 'free')
+          // Find monthly and yearly prices
+          const monthlyPrice = plan.prices?.find(p => p.billing_interval === 'month') || plan.prices?.[0]
+          const yearlyPrice = plan.prices?.find(p => p.billing_interval === 'year')
+          
+          return {
+            id: plan.id,
+            subscriptionPlanId: plan.id,
+            priceId: monthlyPrice?.id || plan.id,
+            yearlyPriceId: yearlyPrice?.id,
+            name: plan.title,
+            description: plan.description,
+            price: monthlyPrice?.amount ? parseFloat(monthlyPrice.amount) : 9.99,
+            yearlyPrice: yearlyPrice?.amount ? parseFloat(yearlyPrice.amount) : null,
+            period: 'monthly',
+            currency: monthlyPrice?.currency?.toUpperCase() || 'USD',
+            isPopular: plan.sort_order === 2, // Premium plan is popular
+            features: [
+              'Unlimited skips',
+              'High quality audio',
+              'Ad-free listening',
+              'Offline downloads',
+              'Lyrics support'
+            ]
+          }
+        })
 
-        const mockResponse: SubscriptionResponse = {
-          subscription: {
-            id: '1',
-            userId: 'user-1',
-            plan: 'free',
-            status: 'cancelled',
-            startDate: new Date().toISOString(),
-            expiresAt: null,
-            autoRenew: false,
-          },
-          features: getFeaturesByPlan('free'),
+        // Add mocked Family plan (blocked)
+        const familyPlan: TransformedPlan = {
+          id: 999,
+          subscriptionPlanId: 999,
+          priceId: 999,
+          name: 'Family Plan',
+          description: 'Premium for up to 6 family members',
+          price: 14.99,
+          period: 'monthly',
+          currency: 'USD',
+          isPopular: false,
+          unavailable: true,
+          features: [
+            'All Premium features',
+            'Up to 6 accounts',
+            'Individual profiles',
+            'Kid-safe mode',
+            'Family sharing'
+          ]
         }
 
-        return { data: mockResponse }
+        return [...transformedPlans, familyPlan]
       },
+    }),
+
+    // Activate trial premium
+    activateTrialPremium: builder.mutation<{ message: string }, void>({
+      query: () => ({
+        url: '/v1/payment/trial',
+        method: 'POST',
+      }),
+      invalidatesTags: ['Subscription'],
+    }),
+    // Cancel subscription
+    cancelSubscription: builder.mutation<SubscriptionResponse, void>({
+      query: () => ({
+        url: '/v1/payment/subscription',
+        method: 'POST',
+      }),
       invalidatesTags: ['Subscription'],
     }),
   }),
@@ -146,6 +226,8 @@ export const subscriptionApi = createApi({
 
 export const {
   useGetCurrentSubscriptionQuery,
-  useUpdateSubscriptionMutation,
+  useGetPaymentUrlMutation,
   useCancelSubscriptionMutation,
+  useGetPlansQuery,
+  useActivateTrialPremiumMutation,
 } = subscriptionApi

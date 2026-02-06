@@ -3,7 +3,6 @@ import Menu from "../components/menu/menu";
 import PlaylistsMenu from "../components/playlists-menu/playlists-menu";
 import StateSidebar from "../components/state-sidebar/state-sidebar";
 import Player from "../components/player/player";
-import SubscriptionDevTools from "../components/subscription-dev-tools/subscription-dev-tools";
 import { Outlet } from "react-router";
 
 const Layout = () => {
@@ -27,7 +26,6 @@ const Layout = () => {
       <div className="flex flex-col w-1/6">
         <StateSidebar />
       </div>
-      <SubscriptionDevTools />
     </div>
   )
 }
