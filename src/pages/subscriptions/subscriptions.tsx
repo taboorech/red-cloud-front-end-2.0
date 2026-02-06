@@ -2,6 +2,8 @@ import { useState } from "react"
 import { IoCheckmarkCircle, IoMusicalNotes, IoDownload, IoPhonePortrait, IoInfinite } from "react-icons/io5"
 import { Button } from "../../components/button/button"
 import { useSubscription } from "../../hooks/use-subscription"
+import { useGetPaymentUrlMutation, useGetPlansQuery, useCancelSubscriptionMutation } from "../../store/api/subscription.api"
+import { getCurrentPlanId } from "../../utils/format"
 
 interface SubscriptionFeature {
   text: string
@@ -9,7 +11,9 @@ interface SubscriptionFeature {
 }
 
 interface SubscriptionPlan {
-  id: string
+  id: number
+  subscriptionPlanId: number
+  priceId: number
   name: string
   price: number
   period: string
@@ -22,8 +26,49 @@ interface SubscriptionPlan {
 const Subscriptions = () => {
   const { currentPlan, isLoading } = useSubscription()
   const [selectedPeriod, setSelectedPeriod] = useState<"monthly" | "yearly">("monthly")
+  const [getPaymentUrl, { isLoading: isPaymentLoading }] = useGetPaymentUrlMutation()
+  const [cancelSubscription, { isLoading: isCancelLoading }] = useCancelSubscriptionMutation()
+  const { data: apiPlans, isLoading: isPlansLoading } = useGetPlansQuery()
 
-  if (isLoading) {
+  const handlePlanSelection = async (plan: SubscriptionPlan) => {
+    if (plan.unavailable) return // Unavailable plans
+    
+    // If selecting free plan and user is on paid plan, cancel subscription
+    if (plan.id === 1 && currentPlanId !== 1) {
+      const confirmed = confirm('Are you sure you want to cancel your subscription and switch to the free plan?')
+      if (confirmed) {
+        try {
+          await cancelSubscription().unwrap()
+        } catch (error) {
+          console.error('Failed to cancel subscription:', error)
+        }
+      }
+      return
+    }
+    
+    // If already on this plan, do nothing
+    if (currentPlanId === plan.id) return
+    
+    try {
+      console.log('Requesting payment URL for:', { subscriptionPlanId: plan.subscriptionPlanId, priceId: plan.priceId })
+      const response = await getPaymentUrl({ 
+        subscriptionPlanId: plan.subscriptionPlanId, 
+        priceId: plan.priceId 
+      }).unwrap()
+      console.log('Payment URL response:', response)
+      console.log('Payment URL:', response?.url)
+      
+      if (response?.url) {
+        window.open(response.url, '_blank')
+      } else {
+        console.error('No payment URL received', response)
+      }
+    } catch (error) {
+      console.error('Failed to get payment URL:', error)
+    }
+  }
+
+  if (isLoading || isPlansLoading) {
     return (
       <div className="flex items-center justify-center h-full">
         <div className="text-white">Loading...</div>
@@ -31,58 +76,45 @@ const Subscriptions = () => {
     )
   }
 
-  const plans: SubscriptionPlan[] = [
-    {
-      id: "free",
-      name: "Free",
-      price: 0,
-      period: "forever",
-      color: "gray",
-      features: [
-        { text: "Ad-supported streaming", included: true },
-        { text: "Standard quality audio", included: true },
-        { text: "Limited skips", included: true },
-        { text: "Offline listening", included: false },
-        { text: "Unlimited downloads", included: false },
-        { text: "Ad-free experience", included: false },
-        { text: "Lyrics support", included: false },
-      ],
-    },
-    {
-      id: "premium",
-      name: "Premium",
-      price: selectedPeriod === "monthly" ? 9.99 : 89.91,
-      period: selectedPeriod === "monthly" ? "month" : "year",
-      popular: true,
-      color: "blue",
-      features: [
-        { text: "Ad-free music streaming", included: true },
-        { text: "Unlimited skips", included: true },
-        { text: "Unlimited downloads", included: true },
-        { text: "Offline listening", included: true },
-        { text: "Lyrics with translation", included: true },
-        { text: "Listen on any device", included: true },
-      ],
-    },
-    {
-      id: "family",
-      name: "Family",
-      price: selectedPeriod === "monthly" ? 14.99 : 134.91,
-      period: selectedPeriod === "monthly" ? "month" : "year",
-      color: "purple",
-      unavailable: true,
-      features: [
-        { text: "All Premium features", included: true },
-        { text: "Up to 6 family accounts", included: true },
-        { text: "Family Mix playlist", included: true },
-        { text: "Parental controls", included: true },
-        { text: "Block explicit content", included: true },
-        { text: "Individual profiles", included: true },
-      ],
-    },
-  ]
+  // Transform API plans to component format
+  const plans: SubscriptionPlan[] = (apiPlans || []).map(apiPlan => {
+    // Define which features are included based on plan type
+    const getFeatures = () => {
+      if (apiPlan.id === 1 || apiPlan.name.toLowerCase().includes('free')) {
+        return [
+          { text: 'Ad-supported streaming', included: true },
+          { text: 'Standard quality audio', included: true },
+          { text: 'Limited skips', included: true },
+          { text: 'Offline listening', included: false },
+          { text: 'Unlimited downloads', included: false },
+          { text: 'Ad-free experience', included: false },
+          { text: 'Lyrics support', included: false }
+        ]
+      }
+      
+      // Premium and other paid plans
+      return apiPlan.features.map((feature: string) => ({
+        text: feature,
+        included: true
+      }))
+    }
 
-  const currentSubscription = plans.find((p) => p.id === currentPlan)
+    return {
+      id: apiPlan.id,
+      subscriptionPlanId: apiPlan.subscriptionPlanId,
+      priceId: selectedPeriod === 'yearly' && apiPlan.yearlyPriceId ? apiPlan.yearlyPriceId : apiPlan.priceId,
+      name: apiPlan.name,
+      price: selectedPeriod === 'yearly' && apiPlan.yearlyPrice ? apiPlan.yearlyPrice : apiPlan.price,
+      period: apiPlan.period === 'forever' ? 'forever' : (selectedPeriod === 'monthly' ? 'month' : 'year'),
+      popular: apiPlan.isPopular,
+      unavailable: apiPlan.unavailable,
+      color: apiPlan.unavailable ? 'purple' : (apiPlan.isPopular ? 'blue' : 'gray'),
+      features: getFeatures()
+    }
+  })
+
+  const currentPlanId = getCurrentPlanId(currentPlan || 'free')
+  const currentSubscription = plans.find((p) => p.id === currentPlanId)
 
   const benefits = [
     {
@@ -143,9 +175,24 @@ const Subscriptions = () => {
                     )}
                   </p>
                 </div>
-                {currentSubscription.id !== "free" && (
-                  <Button variant="ghost" size="sm" className="bg-white/5 hover:bg-white/10">
-                    Manage Subscription
+                {currentPlanId !== 1 && (
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="bg-red-500/10 hover:bg-red-500/20 text-red-400 border-red-500/30"
+                    disabled={isCancelLoading}
+                    onClick={async () => {
+                      const confirmed = confirm('Are you sure you want to cancel your subscription? You will be switched to the free plan.')
+                      if (confirmed) {
+                        try {
+                          await cancelSubscription().unwrap()
+                        } catch (error) {
+                          console.error('Failed to cancel subscription:', error)
+                        }
+                      }
+                    }}
+                  >
+                    {isCancelLoading ? 'Cancelling...' : 'Cancel Subscription'}
                   </Button>
                 )}
               </div>
@@ -193,7 +240,7 @@ const Subscriptions = () => {
                   plan.popular
                     ? "border-blue-500 shadow-lg shadow-blue-500/20"
                     : "border-white/10"
-                } ${currentPlan === plan.id ? "ring-2 ring-green-500/50" : ""}`}
+                } ${currentPlanId === plan.id ? "ring-2 ring-green-500/50" : ""}`}
               >
                 {plan.unavailable && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
@@ -249,15 +296,19 @@ const Subscriptions = () => {
 
                 <Button
                   fullWidth
-                  variant={currentPlan === plan.id ? "ghost" : plan.popular ? "primary" : "outline"}
+                  variant={currentPlanId === plan.id ? "ghost" : plan.popular ? "primary" : "outline"}
                   className={
-                    currentPlan === plan.id
+                    currentPlanId === plan.id
                       ? "bg-green-500/20 text-green-400 border-green-500/30 cursor-default"
                       : ""
                   }
-                  disabled={currentPlan === plan.id || plan.unavailable}
+                  disabled={plan.unavailable || isPaymentLoading || isCancelLoading}
+                  onClick={() => handlePlanSelection(plan)}
                 >
-                  {currentPlan === plan.id ? "Current Plan" : plan.unavailable ? "Coming Soon" : "Get Started"}
+                  {currentPlanId === plan.id ? "Current Plan" : 
+                   plan.unavailable ? "Coming Soon" : 
+                   plan.id === 1 && currentPlanId !== 1 ? "Switch to Free" :
+                   isPaymentLoading || isCancelLoading ? "Loading..." : "Get Started"}
                 </Button>
               </div>
             ))}
