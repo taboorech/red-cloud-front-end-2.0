@@ -1,5 +1,5 @@
 import Avatar from "../../../avatar-block/avatar/avatar";
-import type { Friend as FriendType } from "../../../../services/socket.service";
+import type { Friend as FriendType } from "../../../../types/friend.types";
 
 interface FriendProps {
   friend: FriendType;

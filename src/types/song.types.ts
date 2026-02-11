@@ -1,4 +1,5 @@
 import type { Genre } from "./genre.types";
+import type { User } from "./user.types";
 
 interface SongMetadata {
   release_year?: number;
@@ -60,13 +61,6 @@ export const SongAuthorsRole = {
 } as const;
 
 export type SongAuthorsRole = typeof SongAuthorsRole[keyof typeof SongAuthorsRole];
-
-export interface User {
-  id: string;
-  username: string;
-  email: string;
-  avatar?: string;
-}
 
 export interface SongAuthor {
   role: SongAuthorsRole;

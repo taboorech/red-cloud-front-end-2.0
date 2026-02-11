@@ -1,19 +1,6 @@
 import { io, Socket } from 'socket.io-client';
 import type { Song } from '../types/song.types';
-
-export interface Friend {
-  id: number;
-  username: string;
-  email: string;
-  avatar?: string;
-  isOnline: boolean;
-  lastSeen?: string;
-}
-
-export interface FriendsOnlineListData {
-  friends: Friend[];
-  timestamp: string;
-}
+import type { FriendsOnlineListData } from '../types/friend.types';
 
 export interface SongState {
   id: string;

@@ -1,16 +1,21 @@
 import { useEffect, useState, useCallback } from 'react';
-import { socketService, type Friend, type FriendsOnlineListData } from '../services/socket.service';
+import { socketService } from '../services/socket.service';
+import type { Friend, FriendsOnlineListData } from '../types/friend.types';
+import { useGetFriendsQuery } from '../store/api/friends.api';
 
 export const useFriends = () => {
-  const [friends, setFriends] = useState<Friend[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [onlineFriends, setOnlineFriends] = useState<Friend[]>([]);
+  const [isSocketLoading, setIsSocketLoading] = useState(false);
+
+  const { data: friendsData, isLoading: isApiLoading } = useGetFriendsQuery();
+  const allFriends = friendsData?.data?.map(friendship => friendship.friend) || [];
 
   useEffect(() => {
     const checkConnection = () => {
       const connected = socketService.getConnectionStatus();
       
-      if (connected && friends.length === 0 && !isLoading) {
-        loadFriends();
+      if (connected && onlineFriends.length === 0 && !isSocketLoading) {
+        loadOnlineFriends();
       }
     };
 
@@ -18,23 +23,23 @@ export const useFriends = () => {
     checkConnection();
     
     return () => clearInterval(interval);
-  }, [friends.length, isLoading]);
+  }, [onlineFriends.length, isSocketLoading]);
 
-  const loadFriends = useCallback(() => {
+  const loadOnlineFriends = useCallback(() => {
     if (!socketService.getConnectionStatus()) return;
 
-    setIsLoading(true);
+    setIsSocketLoading(true);
     
     const handleFriendsData = (data: FriendsOnlineListData) => {
-      setFriends(data.friends || []);
-      setIsLoading(false);
+      setOnlineFriends(data.friends || []);
+      setIsSocketLoading(false);
     };
     
     socketService.getSocket()?.off('friends-online-list');
     socketService.onFriendsOnlineList(handleFriendsData);
     socketService.getFriendsOnline();
     
-    setTimeout(() => setIsLoading(false), 3000);
+    setTimeout(() => setIsSocketLoading(false), 3000);
   }, []);
 
   useEffect(() => {
@@ -42,19 +47,15 @@ export const useFriends = () => {
     if (!socket) return;
 
     const handleFriendOnline = (friend: Friend) => {
-      setFriends(prev => {
+      setOnlineFriends(prev => {
         const exists = prev.find(f => f.id === friend.id);
-        if (exists) {
-          return prev.map(f => f.id === friend.id ? { ...f, isOnline: true } : f);
-        }
-        return [...prev, { ...friend, isOnline: true }];
+        if (exists) return prev;
+        return [...prev, friend];
       });
     };
 
     const handleFriendOffline = (data: { id: number }) => {
-      setFriends(prev => 
-        prev.map(f => f.id === data.id ? { ...f, isOnline: false } : f)
-      );
+      setOnlineFriends(prev => prev.filter(f => f.id !== data.id));
     };
 
     socket.on('friend-online', handleFriendOnline);
@@ -66,5 +67,16 @@ export const useFriends = () => {
     };
   }, []);
 
-  return { friends, isLoading };
+  const friendsWithStatus = allFriends.map(friend => ({
+    ...friend,
+    isOnline: onlineFriends.some(onlineFriend => onlineFriend.id === friend.id)
+  }));
+
+  const isLoading = isApiLoading || isSocketLoading;
+
+  return { 
+    friends: friendsWithStatus, 
+    onlineFriends,
+    isLoading 
+  };
 };
