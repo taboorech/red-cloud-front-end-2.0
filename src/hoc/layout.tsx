@@ -12,7 +12,7 @@ const Layout = () => {
         <div className="flex-1">
           <AvatarBlock />
         </div>
-        <div className="flex-1 h-3/4">
+        <div className="flex-3">
           <Menu/>
         </div>
       </div>

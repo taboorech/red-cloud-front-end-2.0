@@ -1,6 +1,20 @@
 import { io, Socket } from 'socket.io-client';
 import type { Song } from '../types/song.types';
 
+export interface Friend {
+  id: number;
+  username: string;
+  email: string;
+  avatar?: string;
+  isOnline: boolean;
+  lastSeen?: string;
+}
+
+export interface FriendsOnlineListData {
+  friends: Friend[];
+  timestamp: string;
+}
+
 export interface SongState {
   id: string;
   currentTime: number;
@@ -33,16 +47,33 @@ class SocketService {
 
     this.socket.on('connect', () => {
       this.isConnected = true;
-      console.log('[SOCKET] Connected to server');
+      
+      setTimeout(() => {
+        console.log('[SOCKET] Auto-requesting friends after connect...');
+        this.getFriendsOnline();
+      }, 1000);
     });
 
-    this.socket.on('disconnect', () => {
+    this.socket.on('disconnect', (reason) => {
       this.isConnected = false;
-      console.log('[SOCKET] Disconnected from server');
+      console.log('[SOCKET] Disconnected from server, reason:', reason);
     });
 
-    this.socket.on('connect_error', (error) => {
-      console.error('[SOCKET] Connection error:', error);
+    this.socket.on('connect_error', () => {
+      this.isConnected = false;
+    });
+
+    this.socket.on('error', (error) => {
+      console.error('[SOCKET] Socket error:', error);
+    });
+
+    // Listen for auth errors
+    this.socket.on('unauthorized', (error) => {
+      console.error('[SOCKET] Unauthorized:', error);
+    });
+
+    this.socket.on('auth_error', (error) => {
+      console.error('[SOCKET] Auth error:', error);
     });
   }
 
@@ -97,11 +128,35 @@ class SocketService {
     this.socket?.on('notification', callback);
   }
 
+  onFriendsOnlineList(callback: (data: FriendsOnlineListData) => void) {
+    this.socket?.off('friends-online-list');
+    this.socket?.on('friends-online-list', (data) => {
+      let processedData: FriendsOnlineListData;
+      
+      if (Array.isArray(data)) {
+        processedData = { friends: data, timestamp: new Date().toISOString() };
+      } else {
+        processedData = data;
+      }
+      
+      callback(processedData);
+    });
+  }
+
+  getFriendsOnline() {
+    if (this.isConnected && this.socket) {
+      this.socket.emit('get-friends-online');
+    }
+  }
+
   getConnectionStatus() {
     return this.isConnected;
   }
 
-  // Cleanup
+  getSocket() {
+    return this.socket;
+  }
+
   removeAllListeners() {
     this.socket?.removeAllListeners();
   }
