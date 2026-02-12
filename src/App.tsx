@@ -12,6 +12,7 @@ import LyricsTranslation from './pages/lyrics-translation/lyrics-translation'
 import SongEditor from './pages/song-editor/song-editor'
 import Playlists from './pages/playlists/playlists'
 import PlaylistEditor from './pages/playlist-editor/playlist-editor'
+import About from './pages/about/about'
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
           <Route path='/lyrics/translation' element={<LyricsTranslation />} />
           <Route path='/songs/new' element={<SongEditor />} />
           <Route path='/songs/:songId/edit' element={<SongEditor />} />
+          <Route path='/about' element={<About />} />
         </Route>
       </Routes>
     </AudioProvider>
