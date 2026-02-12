@@ -1,5 +1,11 @@
 import type { User } from "./user.types";
 
+export interface SocketFriend {
+  userId: number; 
+  status: string; 
+  timestamp: string
+}
+
 export interface Friend extends User {
   isOnline?: boolean;
   lastSeen?: string;

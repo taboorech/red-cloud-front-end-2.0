@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { socketService } from '../services/socket.service';
-import type { Friend, FriendsOnlineListData } from '../types/friend.types';
+import type { Friend, FriendsOnlineListData, SocketFriend } from '../types/friend.types';
 import { useGetFriendsQuery } from '../store/api/friends.api';
 
 export const useFriends = () => {
@@ -48,18 +48,23 @@ export const useFriends = () => {
     const socket = socketService.getSocket();
     if (!socket) return;
 
-    const handleFriendOnline = (friend: Friend) => {
-      console.log('Friend came online:', friend);
+    const handleFriendOnline = ({ userId }: SocketFriend) => {
+      const friend = allFriends.find(f => f.id === userId);
+      if (!friend) {
+        console.log('Friend not found in allFriends list:', userId);
+        return;
+      }
+      
       setOnlineFriends(prev => {
-        const exists = prev.find(f => f.id === friend.id);
+        const exists = prev.find(f => f.id === userId);
         if (exists) return prev;
         return [...prev, friend];
       });
     };
 
-    const handleFriendOffline = (data: { id: number }) => {
-      console.log('Friend went offline:', data);
-      setOnlineFriends(prev => prev.filter(f => f.id !== data.id));
+    const handleFriendOffline = ({ userId }: SocketFriend) => {
+      console.log('Friend went offline:', userId);
+      setOnlineFriends(prev => prev.filter(f => f.id !== userId));
     };
 
     socket.on('friend-online', handleFriendOnline);
@@ -69,7 +74,7 @@ export const useFriends = () => {
       socket.off('friend-online', handleFriendOnline);
       socket.off('friend-offline', handleFriendOffline);
     };
-  }, []);
+  }, [allFriends]);
 
   const friendsWithStatus = useMemo(() => 
     allFriends.map(friend => ({
