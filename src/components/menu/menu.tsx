@@ -12,7 +12,7 @@ const links = [
   { to: '/search', icon: CiSearch },
   { to: '/settings', icon: IoIosSettings },
   { to: '/subscriptions', icon: TbPremiumRights },
-  { to: '/info', icon: LuInfo },
+  { to: '/about', icon: LuInfo },
 ]
 
 const Menu = () => {
