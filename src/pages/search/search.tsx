@@ -1,4 +1,5 @@
 import { useState } from 'react'
+// import { useNavigate } from 'react-router'
 import SearchInput from './components/search-input'
 import SearchTabs from './components/search-tabs'
 import type { SearchTab } from './components/search-tabs'
@@ -7,6 +8,7 @@ import AvatarBlock from '../../components/avatar-block/avatar-block'
 import { formatDuration } from '../../utils/format'
 import { useSearchQuery } from '../../store/api/search.api'
 import { SearchType } from '../../types/search.types'
+import { useAudio } from '../../context/audio-context'
 
 const tabToSearchType: Record<SearchTab, SearchType> = {
   all: SearchType.ALL,
@@ -16,6 +18,8 @@ const tabToSearchType: Record<SearchTab, SearchType> = {
 }
 
 const Search = () => {
+  // const navigate = useNavigate()
+  const { currentSong } = useAudio()
   const [searchQuery, setSearchQuery] = useState('')
   const [activeTab, setActiveTab] = useState<SearchTab>('all')
 
@@ -31,11 +35,16 @@ const Search = () => {
   const renderUsers = () => (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 mb-8">
       {users.map((user) => (
-        <AvatarBlock
-          key={user.id}
-          userName={user.username}
-          isStatic={true}
-        />
+        <div 
+          key={user.id} 
+          className="cursor-pointer" 
+          // onClick={() => navigate(`/profile/${user.id}`)}
+        >
+          <AvatarBlock
+            userName={user.username}
+            isStatic={true}
+          />
+        </div>
       ))}
     </div>
   )
@@ -50,6 +59,7 @@ const Search = () => {
           duration={formatDuration(song.duration_seconds)}
           variant="expanded"
           song={song}
+          isActive={currentSong?.id === song.id}
         />
       ))}
     </div>
