@@ -10,7 +10,10 @@ const Layout = () => {
     <div className="h-screen flex p-2 gap-2 bg-neutral-900">
       <div className="flex flex-col w-1/6 gap-0">
         <div className="flex-1">
-          <AvatarBlock />
+          <AvatarBlock 
+            isAuthenticated={true}
+            userName="John Doe"
+          />
         </div>
         <div className="flex-3">
           <Menu/>
