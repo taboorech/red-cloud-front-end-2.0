@@ -4,6 +4,7 @@ import Layout from './hoc/layout'
 import { AudioProvider } from './context/audio-context'
 import Playlist from './pages/playlist/playlist'
 import Auth from './pages/auth/auth'
+import AuthCallback from './pages/auth/auth-callback'
 import Profile from './pages/profile/profile'
 import ProfileEdit from './pages/profile-edit/profile-edit'
 import Subscriptions from './pages/subscriptions/subscriptions'
@@ -20,6 +21,7 @@ const App = () => {
     <AudioProvider>
       <Routes>
         <Route path='/auth' element={<Auth />} />
+        <Route path='/auth/callback' element={<AuthCallback />} />
         <Route element={<Layout />}>
           <Route path='/' element={<Home />} />
           <Route path='/playlist/:playlistId' element={<Playlist />} />

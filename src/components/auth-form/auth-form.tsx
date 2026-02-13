@@ -3,14 +3,15 @@ import { Button } from "../button/button"
 import Input from "../input/input"
 import Checkbox from "../checkbox/checkbox"
 
-interface LoginFormValues {
-  login: string
+export interface LoginFormValues {
+  email: string
   password: string
   rememberMe: boolean
 }
 
-interface RegistrationFormValues {
+export interface RegistrationFormValues {
   email: string
+  username: string
   login: string
   phone: string
   password: string
@@ -26,13 +27,15 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
   const validateLogin = (values: LoginFormValues) => {
     const errors: Partial<LoginFormValues> = {}
     
-    if (!values.login) {
-      errors.login = "Login is required"
+    if (!values.email) {
+      errors.email = "Email is required"
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+      errors.email = "Invalid email address"
     }
     
     if (!values.password) {
       errors.password = "Password is required"
-    } else if (values.password.length < 6) {
+    } else if (values.password.length < 2) {
       errors.password = "Password must be at least 6 characters"
     }
     
@@ -48,6 +51,10 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
       errors.email = "Invalid email address"
     }
     
+    if (!values.username) {
+      errors.username = "Username is required"
+    }
+    
     if (!values.login) {
       errors.login = "Login is required"
     }
@@ -58,7 +65,7 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
     
     if (!values.password) {
       errors.password = "Password is required"
-    } else if (values.password.length < 6) {
+    } else if (values.password.length < 2) {
       errors.password = "Password must be at least 6 characters"
     }
     
@@ -74,7 +81,7 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
   if (type === "login") {
     return (
       <Formik
-        initialValues={{ login: "", password: "", rememberMe: false }}
+        initialValues={{ email: "", password: "", rememberMe: false }}
         validate={validateLogin}
         onSubmit={onSubmit as (values: LoginFormValues, helpers: FormikHelpers<LoginFormValues>) => void}
       >
@@ -86,11 +93,11 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
 
             <div className="space-y-6">
               <Field
-                name="login"
+                name="email"
                 as={Input}
-                type="text"
-                placeholder="Login"
-                error={touched.login && errors.login ? errors.login : undefined}
+                type="email"
+                placeholder="Email"
+                error={touched.email && errors.email ? errors.email : undefined}
               />
 
               <Field
@@ -138,7 +145,7 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
 
   return (
     <Formik
-      initialValues={{ email: "", login: "", phone: "", password: "", confirmPassword: "" }}
+      initialValues={{ email: "", username: "", login: "", phone: "", password: "", confirmPassword: "" }}
       validate={validateRegistration}
       onSubmit={onSubmit as (values: RegistrationFormValues, helpers: FormikHelpers<RegistrationFormValues>) => void}
     >
@@ -155,6 +162,14 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
               type="email"
               placeholder="Gmail"
               error={touched.email && errors.email ? errors.email : undefined}
+            />
+
+            <Field
+              name="username"
+              as={Input}
+              type="text"
+              placeholder="Username"
+              error={touched.username && errors.username ? errors.username : undefined}
             />
 
             <Field
