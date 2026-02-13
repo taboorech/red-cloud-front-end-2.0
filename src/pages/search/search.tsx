@@ -4,58 +4,33 @@ import SearchTabs from './components/search-tabs'
 import type { SearchTab } from './components/search-tabs'
 import Song from '../../components/song/song'
 import AvatarBlock from '../../components/avatar-block/avatar-block'
-import type { User } from '../../types/user.types'
-import type { Song as SongType } from '../../types/song.types'
-import type { Playlist } from '../../types/playlist.types'
 import { formatDuration } from '../../utils/format'
+import { useSearchQuery } from '../../store/api/search.api'
+import { SearchType } from '../../types/search.types'
+
+const tabToSearchType: Record<SearchTab, SearchType> = {
+  all: SearchType.ALL,
+  songs: SearchType.SONGS,
+  users: SearchType.USERS,
+  playlists: SearchType.PLAYLISTS,
+}
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [activeTab, setActiveTab] = useState<SearchTab>('all')
 
-  const mockUsers: User[] = [
-    {
-      id: 1, username: 'Author', avatar: undefined,
-      email: ''
-    },
-    { id: 2, username: 'Author', avatar: undefined, email: '' },
-    { id: 3, username: 'Author', avatar: undefined, email: '' },
-    { id: 4, username: 'Author', avatar: undefined, email: '' },
-    { id: 5, username: 'Author', avatar: undefined, email: '' },
-    { id: 6, username: 'Author', avatar: undefined, email: '' }
-  ]
+  const { data, isFetching } = useSearchQuery(
+    { query: searchQuery, type: tabToSearchType[activeTab] },
+    { skip: searchQuery.trim().length === 0 }
+  )
 
-  const mockSongs: SongType[] = [
-    { id: '1', title: 'Song title', duration_seconds: 192, image_url: 'http://localhost:8080/1768745524657-coca-cola.png', url: '', is_public: true, created_at: '', updated_at: '' },
-    {
-      id: '2', title: 'Song title', duration_seconds: 192, image_url: 'http://localhost:8080/1768745524657-coca-cola.png',
-      url: '',
-      is_public: true,
-      created_at: '',
-      updated_at: ''
-    },
-    { id: '3', title: 'Song title', duration_seconds: 192, image_url: 'http://localhost:8080/1768745524657-coca-cola.png', url: '', is_public: true, created_at: '', updated_at: '' },
-    { id: '4', title: 'Song title', duration_seconds: 192, image_url: 'http://localhost:8080/1768745524657-coca-cola.png', url: '', is_public: true, created_at: '', updated_at: '' },
-    { id: '5', title: 'Song title', duration_seconds: 192, image_url: 'http://localhost:8080/1768745524657-coca-cola.png', url: '', is_public: true, created_at: '', updated_at: '' }
-  ]
-
-  const mockPlaylists: Playlist[] = [
-    {
-      id: 1, title: 'Playlist name', image_url: 'http://localhost:8080/1768745524657-coca-cola.png',
-      owner_id: 0,
-      is_public: true,
-      created_at: '',
-      updated_at: ''
-    },
-    { id: 2, title: 'Playlist name', image_url: 'http://localhost:8080/1768745524657-coca-cola.png', owner_id: 0, is_public: true, created_at: '', updated_at: '' },
-    { id: 3, title: 'Playlist name', image_url: 'http://localhost:8080/1768745524657-coca-cola.png', owner_id: 0, is_public: true, created_at: '', updated_at: '' },
-    { id: 4, title: 'Playlist name', image_url: 'http://localhost:8080/1768745524657-coca-cola.png', owner_id: 0, is_public: true, created_at: '', updated_at: '' },
-    { id: 5, title: 'Playlist name', image_url: 'http://localhost:8080/1768745524657-coca-cola.png', owner_id: 0, is_public: true, created_at: '', updated_at: '' }
-  ]
+  const users = data?.users ?? []
+  const songs = data?.songs ?? []
+  const playlists = data?.playlists ?? []
 
   const renderUsers = () => (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 mb-8">
-      {mockUsers.map((user) => (
+      {users.map((user) => (
         <AvatarBlock
           key={user.id}
           userName={user.username}
@@ -67,14 +42,14 @@ const Search = () => {
 
   const renderSongs = () => (
     <div className="space-y-2">
-      {mockSongs.map((song) => (
+      {songs.map((song) => (
         <Song
           key={song.id}
           title={song.title}
           image={song.image_url || ''}
           duration={formatDuration(song.duration_seconds)}
           variant="expanded"
-          onClick={() => console.log('Song clicked:', song)}
+          song={song}
         />
       ))}
     </div>
@@ -82,7 +57,7 @@ const Search = () => {
 
   const renderPlaylists = () => (
     <div className="space-y-2">
-      {mockPlaylists.map((playlist) => (
+      {playlists.map((playlist) => (
         <Song
           key={playlist.id}
           title={playlist.title}
@@ -95,6 +70,18 @@ const Search = () => {
   )
 
   const renderContent = () => {
+    if (searchQuery.trim().length === 0) {
+      return (
+        <p className="text-white text-center mt-12">Enter a search query to find songs, users, and playlists</p>
+      )
+    }
+
+    if (isFetching) {
+      return (
+        <p className="text-gray-400 text-center mt-12">Searching...</p>
+      )
+    }
+
     switch (activeTab) {
       case 'users':
         return renderUsers()
