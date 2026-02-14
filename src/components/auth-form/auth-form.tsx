@@ -1,4 +1,5 @@
 import { Formik, Form, Field, type FormikHelpers } from "formik"
+import { Link } from "react-router"
 import { Button } from "../button/button"
 import Input from "../input/input"
 import Checkbox from "../checkbox/checkbox"
@@ -114,15 +115,12 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
                   checked={values.rememberMe}
                   onChange={(e) => setFieldValue("rememberMe", e.target.checked)}
                 />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="none"
-                  rounded="none"
-                  className="text-xs text-blue-700 hover:text-blue-600 hover:bg-transparent border-transparent"
+                <Link
+                  to="/auth/forgot-password"
+                  className="text-xs text-blue-700 hover:text-blue-600 transition-colors"
                 >
                   Forgot password?
-                </Button>
+                </Link>
               </div>
 
               <div className="pt-4 flex justify-center">

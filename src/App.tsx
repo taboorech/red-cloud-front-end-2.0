@@ -5,6 +5,8 @@ import { AudioProvider } from './context/audio-context'
 import Playlist from './pages/playlist/playlist'
 import Auth from './pages/auth/auth'
 import AuthCallback from './pages/auth/auth-callback'
+import ForgotPassword from './pages/auth/forgot-password'
+import ResetPassword from './pages/auth/reset-password'
 import Profile from './pages/profile/profile'
 import ProfileEdit from './pages/profile-edit/profile-edit'
 import Subscriptions from './pages/subscriptions/subscriptions'
@@ -22,6 +24,8 @@ const App = () => {
       <Routes>
         <Route path='/auth' element={<Auth />} />
         <Route path='/auth/callback' element={<AuthCallback />} />
+        <Route path='/auth/forgot-password' element={<ForgotPassword />} />
+        <Route path='/auth/reset-password' element={<ResetPassword />} />
         <Route element={<Layout />}>
           <Route path='/' element={<Home />} />
           <Route path='/playlist/:playlistId' element={<Playlist />} />

@@ -52,6 +52,22 @@ export const authApi = createApi({
         method: "GET",
       }),
     }),
+
+    resetPassword: builder.mutation<void, { email: string }>({
+      query: (body) => ({
+        url: "/v1/auth/reset-password",
+        method: "POST",
+        data: body,
+      }),
+    }),
+
+    confirmResetPassword: builder.mutation<void, { token: string; password: string }>({
+      query: (body) => ({
+        url: "/v1/auth/reset-password/confirm",
+        method: "POST",
+        data: body,
+      }),
+    }),
   }),
 });
 
@@ -61,4 +77,6 @@ export const {
   useLazyGetGoogleAuthUrlQuery,
   useRefreshTokensMutation,
   useLogoutMutation,
+  useResetPasswordMutation,
+  useConfirmResetPasswordMutation,
 } = authApi;
