@@ -4,11 +4,8 @@ import { Formik, Form, Field, type FormikHelpers } from "formik"
 import Input from "../../components/input/input"
 import { Button } from "../../components/button/button"
 import { useConfirmResetPasswordMutation } from "../../store/api/auth.api"
-
-interface ResetPasswordValues {
-  password: string
-  confirmPassword: string
-}
+import { resetPasswordSchema, type ResetPasswordSchemaType } from "../../validation/auth.schema"
+import { zodValidate } from "../../utils/zod-validate"
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams()
@@ -41,27 +38,9 @@ const ResetPassword = () => {
     )
   }
 
-  const validate = (values: ResetPasswordValues) => {
-    const errors: Partial<ResetPasswordValues> = {}
-
-    if (!values.password) {
-      errors.password = "Password is required"
-    } else if (values.password.length < 2) {
-      errors.password = "Password must be at least 6 characters"
-    }
-
-    if (!values.confirmPassword) {
-      errors.confirmPassword = "Please confirm your password"
-    } else if (values.password !== values.confirmPassword) {
-      errors.confirmPassword = "Passwords do not match"
-    }
-
-    return errors
-  }
-
   const handleSubmit = async (
-    values: ResetPasswordValues,
-    { setStatus }: FormikHelpers<ResetPasswordValues>
+    values: ResetPasswordSchemaType,
+    { setStatus }: FormikHelpers<ResetPasswordSchemaType>
   ) => {
     try {
       await confirmResetPassword({
@@ -108,7 +87,7 @@ const ResetPassword = () => {
       <div className="w-full max-w-[450px] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
         <Formik
           initialValues={{ password: "", confirmPassword: "" }}
-          validate={validate}
+          validate={zodValidate(resetPasswordSchema)}
           onSubmit={handleSubmit}
         >
           {({ errors, touched, status }) => (

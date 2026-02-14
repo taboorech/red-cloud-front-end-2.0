@@ -3,21 +3,11 @@ import { Link } from "react-router"
 import { Button } from "../button/button"
 import Input from "../input/input"
 import Checkbox from "../checkbox/checkbox"
+import { loginSchema, registrationSchema, type LoginSchemaType, type RegistrationSchemaType } from "../../validation/auth.schema"
+import { zodValidate } from "../../utils/zod-validate"
 
-export interface LoginFormValues {
-  email: string
-  password: string
-  rememberMe: boolean
-}
-
-export interface RegistrationFormValues {
-  email: string
-  username: string
-  login: string
-  phone: string
-  password: string
-  confirmPassword: string
-}
+export type LoginFormValues = LoginSchemaType
+export type RegistrationFormValues = RegistrationSchemaType
 
 interface AuthFormProps {
   type: "login" | "registration"
@@ -25,65 +15,11 @@ interface AuthFormProps {
 }
 
 const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
-  const validateLogin = (values: LoginFormValues) => {
-    const errors: Partial<LoginFormValues> = {}
-    
-    if (!values.email) {
-      errors.email = "Email is required"
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-      errors.email = "Invalid email address"
-    }
-    
-    if (!values.password) {
-      errors.password = "Password is required"
-    } else if (values.password.length < 2) {
-      errors.password = "Password must be at least 6 characters"
-    }
-    
-    return errors
-  }
-
-  const validateRegistration = (values: RegistrationFormValues) => {
-    const errors: Partial<RegistrationFormValues> = {}
-    
-    if (!values.email) {
-      errors.email = "Email is required"
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-      errors.email = "Invalid email address"
-    }
-    
-    if (!values.username) {
-      errors.username = "Username is required"
-    }
-    
-    if (!values.login) {
-      errors.login = "Login is required"
-    }
-    
-    if (!values.phone) {
-      errors.phone = "Phone number is required"
-    }
-    
-    if (!values.password) {
-      errors.password = "Password is required"
-    } else if (values.password.length < 2) {
-      errors.password = "Password must be at least 6 characters"
-    }
-    
-    if (!values.confirmPassword) {
-      errors.confirmPassword = "Confirm password is required"
-    } else if (values.password !== values.confirmPassword) {
-      errors.confirmPassword = "Passwords do not match"
-    }
-    
-    return errors
-  }
-
   if (type === "login") {
     return (
       <Formik
         initialValues={{ email: "", password: "", rememberMe: false }}
-        validate={validateLogin}
+        validate={zodValidate(loginSchema)}
         onSubmit={onSubmit as (values: LoginFormValues, helpers: FormikHelpers<LoginFormValues>) => void}
       >
         {({ errors, touched, values, setFieldValue }) => (
@@ -144,7 +80,7 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
   return (
     <Formik
       initialValues={{ email: "", username: "", login: "", phone: "", password: "", confirmPassword: "" }}
-      validate={validateRegistration}
+      validate={zodValidate(registrationSchema)}
       onSubmit={onSubmit as (values: RegistrationFormValues, helpers: FormikHelpers<RegistrationFormValues>) => void}
     >
       {({ errors, touched }) => (

@@ -4,30 +4,16 @@ import { Formik, Form, Field, type FormikHelpers } from "formik"
 import Input from "../../components/input/input"
 import { Button } from "../../components/button/button"
 import { useResetPasswordMutation } from "../../store/api/auth.api"
-
-interface ForgotPasswordValues {
-  email: string
-}
+import { forgotPasswordSchema, type ForgotPasswordSchemaType } from "../../validation/auth.schema"
+import { zodValidate } from "../../utils/zod-validate"
 
 const ForgotPassword = () => {
   const [resetPassword, { isLoading }] = useResetPasswordMutation()
   const [submitted, setSubmitted] = useState(false)
 
-  const validate = (values: ForgotPasswordValues) => {
-    const errors: Partial<ForgotPasswordValues> = {}
-
-    if (!values.email) {
-      errors.email = "Email is required"
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-      errors.email = "Invalid email address"
-    }
-
-    return errors
-  }
-
   const handleSubmit = async (
-    values: ForgotPasswordValues,
-    { setStatus }: FormikHelpers<ForgotPasswordValues>
+    values: ForgotPasswordSchemaType,
+    { setStatus }: FormikHelpers<ForgotPasswordSchemaType>
   ) => {
     try {
       await resetPassword({ email: values.email }).unwrap()
@@ -66,7 +52,7 @@ const ForgotPassword = () => {
       <div className="w-full max-w-[450px] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
         <Formik
           initialValues={{ email: "" }}
-          validate={validate}
+          validate={zodValidate(forgotPasswordSchema)}
           onSubmit={handleSubmit}
         >
           {({ errors, touched, status }) => (
