@@ -8,6 +8,7 @@ import { usersApi } from './api/users.api'
 import { playlistApi } from './api/playlist.api'
 import { friendsApi } from './api/friends.api'
 import { searchApi } from './api/search.api'
+import { authApi } from './api/auth.api'
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
     [playlistApi.reducerPath]: playlistApi.reducer,
     [friendsApi.reducerPath]: friendsApi.reducer,
     [searchApi.reducerPath]: searchApi.reducer,
+    [authApi.reducerPath]: authApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -31,7 +33,8 @@ export const store = configureStore({
       .concat(usersApi.middleware)
       .concat(playlistApi.middleware)
       .concat(friendsApi.middleware)
-      .concat(searchApi.middleware),
+      .concat(searchApi.middleware)
+      .concat(authApi.middleware),
 })
 
 export type RootState = ReturnType<typeof store.getState>

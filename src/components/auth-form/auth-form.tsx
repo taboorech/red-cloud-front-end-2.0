@@ -1,21 +1,13 @@
 import { Formik, Form, Field, type FormikHelpers } from "formik"
+import { Link } from "react-router"
 import { Button } from "../button/button"
 import Input from "../input/input"
 import Checkbox from "../checkbox/checkbox"
+import { loginSchema, registrationSchema, type LoginSchemaType, type RegistrationSchemaType } from "../../validation/auth.schema"
+import { zodValidate } from "../../utils/zod-validate"
 
-interface LoginFormValues {
-  login: string
-  password: string
-  rememberMe: boolean
-}
-
-interface RegistrationFormValues {
-  email: string
-  login: string
-  phone: string
-  password: string
-  confirmPassword: string
-}
+export type LoginFormValues = LoginSchemaType
+export type RegistrationFormValues = RegistrationSchemaType
 
 interface AuthFormProps {
   type: "login" | "registration"
@@ -23,59 +15,11 @@ interface AuthFormProps {
 }
 
 const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
-  const validateLogin = (values: LoginFormValues) => {
-    const errors: Partial<LoginFormValues> = {}
-    
-    if (!values.login) {
-      errors.login = "Login is required"
-    }
-    
-    if (!values.password) {
-      errors.password = "Password is required"
-    } else if (values.password.length < 6) {
-      errors.password = "Password must be at least 6 characters"
-    }
-    
-    return errors
-  }
-
-  const validateRegistration = (values: RegistrationFormValues) => {
-    const errors: Partial<RegistrationFormValues> = {}
-    
-    if (!values.email) {
-      errors.email = "Email is required"
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-      errors.email = "Invalid email address"
-    }
-    
-    if (!values.login) {
-      errors.login = "Login is required"
-    }
-    
-    if (!values.phone) {
-      errors.phone = "Phone number is required"
-    }
-    
-    if (!values.password) {
-      errors.password = "Password is required"
-    } else if (values.password.length < 6) {
-      errors.password = "Password must be at least 6 characters"
-    }
-    
-    if (!values.confirmPassword) {
-      errors.confirmPassword = "Confirm password is required"
-    } else if (values.password !== values.confirmPassword) {
-      errors.confirmPassword = "Passwords do not match"
-    }
-    
-    return errors
-  }
-
   if (type === "login") {
     return (
       <Formik
-        initialValues={{ login: "", password: "", rememberMe: false }}
-        validate={validateLogin}
+        initialValues={{ email: "", password: "", rememberMe: false }}
+        validate={zodValidate(loginSchema)}
         onSubmit={onSubmit as (values: LoginFormValues, helpers: FormikHelpers<LoginFormValues>) => void}
       >
         {({ errors, touched, values, setFieldValue }) => (
@@ -86,11 +30,11 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
 
             <div className="space-y-6">
               <Field
-                name="login"
+                name="email"
                 as={Input}
-                type="text"
-                placeholder="Login"
-                error={touched.login && errors.login ? errors.login : undefined}
+                type="email"
+                placeholder="Email"
+                error={touched.email && errors.email ? errors.email : undefined}
               />
 
               <Field
@@ -107,15 +51,12 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
                   checked={values.rememberMe}
                   onChange={(e) => setFieldValue("rememberMe", e.target.checked)}
                 />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="none"
-                  rounded="none"
-                  className="text-xs text-blue-700 hover:text-blue-600 hover:bg-transparent border-transparent"
+                <Link
+                  to="/auth/forgot-password"
+                  className="text-xs text-blue-700 hover:text-blue-600 transition-colors"
                 >
                   Forgot password?
-                </Button>
+                </Link>
               </div>
 
               <div className="pt-4 flex justify-center">
@@ -138,8 +79,8 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
 
   return (
     <Formik
-      initialValues={{ email: "", login: "", phone: "", password: "", confirmPassword: "" }}
-      validate={validateRegistration}
+      initialValues={{ email: "", username: "", login: "", phone: "", password: "", confirmPassword: "" }}
+      validate={zodValidate(registrationSchema)}
       onSubmit={onSubmit as (values: RegistrationFormValues, helpers: FormikHelpers<RegistrationFormValues>) => void}
     >
       {({ errors, touched }) => (
@@ -155,6 +96,14 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
               type="email"
               placeholder="Gmail"
               error={touched.email && errors.email ? errors.email : undefined}
+            />
+
+            <Field
+              name="username"
+              as={Input}
+              type="text"
+              placeholder="Username"
+              error={touched.username && errors.username ? errors.username : undefined}
             />
 
             <Field
