@@ -2,8 +2,11 @@ import { faker } from "@faker-js/faker"
 import ProfileHeader from "./components/profile-header"
 import RecentPlaylists from "./components/recent-playlists"
 import ProfileStats from "./components/profile-stats"
+import { useGetProfileQuery } from "../../store/api/profile.api"
 
 const Profile = () => {
+  const { data: profile, isLoading } = useGetProfileQuery()
+
   const playlists = Array.from({ length: 4 }).map(() => ({
     id: faker.string.uuid(),
     title: "Playlist title",
@@ -11,12 +14,19 @@ const Profile = () => {
     image: faker.image.urlPicsumPhotos({ width: 200, height: 200 }),
   }))
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-full text-gray-400">
+        Loading...
+      </div>
+    )
+  }
+
   return (
     <div className="flex flex-col gap-6 h-full text-white overflow-y-auto">
       <ProfileHeader 
-        avatar={faker.image.avatar()}
-        username="Kainless"
-        description="Description"
+        avatar={profile?.avatar ?? faker.image.avatar()}
+        username={profile?.username ?? "Unknown"}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">

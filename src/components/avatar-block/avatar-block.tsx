@@ -4,14 +4,15 @@ import Avatar from "./avatar/avatar"
 interface AvatarBlockProps {
   isAuthenticated?: boolean
   userName: string
+  avatarUrl?: string
   isStatic?: boolean
 }
 
-const AvatarBlock = ({ isAuthenticated = false, userName, isStatic = false }: AvatarBlockProps) => {
+const AvatarBlock = ({ isAuthenticated = false, avatarUrl, userName, isStatic = false }: AvatarBlockProps) => {
   return (
     <div className="flex flex-col gap-6 rounded-md p-4 bg-black">
       <div className="flex justify-center items-center w-24 h-24 max-w-full mx-auto">
-        <Avatar/>
+        <Avatar src={avatarUrl} />
       </div>
       <div className="flex justify-center items-center">
         {isAuthenticated || isStatic ? (
