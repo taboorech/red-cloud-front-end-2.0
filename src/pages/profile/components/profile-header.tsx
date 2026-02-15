@@ -7,10 +7,10 @@ import { useSubscription } from "../../../hooks/use-subscription"
 interface ProfileHeaderProps {
   avatar: string
   username: string
-  description: string
+  // description: string
 }
 
-const ProfileHeader = ({ avatar, username, description }: ProfileHeaderProps) => {
+const ProfileHeader = ({ avatar, username }: ProfileHeaderProps) => {
   const navigate = useNavigate()
   const { isPremium, currentPlan } = useSubscription()
 
@@ -33,9 +33,8 @@ const ProfileHeader = ({ avatar, username, description }: ProfileHeaderProps) =>
                 <span className="text-yellow-400 text-xs font-bold uppercase">{currentPlan}</span>
               </div>
             )}
-            <div className="w-3 h-3 bg-gray-400 rounded-full shadow-[0_0_8px_rgba(156,163,175,0.5)]" />
           </div>
-          <p className="text-gray-500 text-sm sm:text-base">{description}</p>
+          {/* <p className="text-gray-500 text-sm sm:text-base">{description}</p> */}
         </div>
       </div>
       <Button 
