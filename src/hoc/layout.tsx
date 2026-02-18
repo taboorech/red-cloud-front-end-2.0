@@ -4,15 +4,19 @@ import PlaylistsMenu from "../components/playlists-menu/playlists-menu";
 import StateSidebar from "../components/state-sidebar/state-sidebar";
 import Player from "../components/player/player";
 import { Outlet } from "react-router";
+import { useGetProfileQuery } from "../store/api/profile.api";
 
 const Layout = () => {
+  const { data: profile } = useGetProfileQuery();
+
   return (
     <div className="h-screen flex p-2 gap-2 bg-neutral-900">
       <div className="flex flex-col w-1/6 gap-0">
         <div className="flex-1">
           <AvatarBlock 
-            isAuthenticated={true}
-            userName="John Doe"
+            isAuthenticated={!!profile}
+            avatarUrl={profile?.avatar}
+            userName={profile?.username ?? ""}
           />
         </div>
         <div className="flex-3">
