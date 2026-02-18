@@ -1,7 +1,9 @@
 import type { SearchRequestParams } from "./main.types";
 import type { Song } from "./song.types";
 
-export interface GetPlaylistsRequest extends SearchRequestParams {}
+export interface GetPlaylistsRequest extends SearchRequestParams {
+  onlyPublic?: boolean;
+}
 
 export interface GetPlaylistsResponse {
   data: Playlist[];

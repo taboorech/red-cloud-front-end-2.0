@@ -20,3 +20,14 @@ export interface ChangePasswordRequest {
   currentPassword: string;
   password: string;
 }
+
+export interface ProfileStats {
+  likedCount: number;
+  dislikedCount: number;
+  listeningsCount: number;
+  playlistsCount: number;
+}
+
+export interface ProfileStatsResponse {
+  data: ProfileStats;
+}

@@ -12,7 +12,7 @@ const Playlists = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getPlaylists({ offset: 0, limit: 20, search: searchTerm || undefined });
+    getPlaylists({ offset: 0, limit: 20, search: searchTerm || undefined, onlyPublic: true });
   }, [searchTerm, getPlaylists]);
 
   const playlists = data || [];

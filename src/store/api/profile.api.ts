@@ -5,7 +5,10 @@ import type {
   ProfileResponse,
   UpdateProfileRequest,
   ChangePasswordRequest,
+  ProfileStats,
+  ProfileStatsResponse,
 } from "../../types/user.types";
+
 
 export const profileApi = createApi({
   reducerPath: "profileApi",
@@ -43,6 +46,14 @@ export const profileApi = createApi({
         data: body,
       }),
     }),
+    getProfileStats: builder.query<ProfileStats, void>({
+      query: () => ({
+        url: "/v1/profile/stats",
+        method: "GET",
+      }),
+      transformResponse: (response: ProfileStatsResponse) => response.data,
+      providesTags: ["Profile"],
+    }),
   }),
 });
 
@@ -50,4 +61,5 @@ export const {
   useGetProfileQuery,
   useUpdateProfileMutation,
   useChangePasswordMutation,
+  useGetProfileStatsQuery,
 } = profileApi;
