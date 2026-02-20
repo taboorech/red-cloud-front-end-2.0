@@ -63,12 +63,21 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [playMode, setPlayModeState] = useState<'normal' | 'repeat' | 'repeat-one' | 'shuffle'>(() => {
     const saved = localStorage.getItem('audioPlayerPlayMode');
-    console.log('[AUDIO] Initializing play mode from localStorage:', saved);
     return (saved as 'normal' | 'repeat' | 'repeat-one' | 'shuffle') || 'normal';
   });
   
   const audioRef = useRef<HTMLAudioElement>(null);
   const lastSyncTimeRef = useRef<number>(0);
+  const isTransitioningRef = useRef(false);
+
+  // Keep refs up-to-date for use in event handlers (avoids stale closures)
+  const queueRef = useRef(queue);
+  const currentIndexRef = useRef(currentIndex);
+  const playModeRef = useRef(playMode);
+
+  useEffect(() => { queueRef.current = queue; }, [queue]);
+  useEffect(() => { currentIndexRef.current = currentIndex; }, [currentIndex]);
+  useEffect(() => { playModeRef.current = playMode; }, [playMode]);
 
   // Socket integration for state synchronization
   useEffect(() => {
@@ -158,9 +167,8 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
     };
 
     const handleEnded = () => {
-      console.log('END');
-      
-      nextSong();
+      console.log('[AUDIO] Song ended');
+      nextSongRef.current();
     };
 
     const handleLoadedMetadata = () => {
@@ -168,11 +176,15 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
     };
 
     const handlePlay = () => {
-      setPlaying(true);
+      if (!isTransitioningRef.current) {
+        setPlaying(true);
+      }
     };
 
     const handlePause = () => {
-      setPlaying(false);
+      if (!isTransitioningRef.current) {
+        setPlaying(false);
+      }
     };
 
     audio.addEventListener('timeupdate', handleTimeUpdate);
@@ -258,6 +270,7 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
   };
 
   const playSong = (song: Song) => {
+    isTransitioningRef.current = true;
     setCurrentSong(song);
     setCurrentTime(0);
     
@@ -266,76 +279,105 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
       audio.src = song.url;
       audio.currentTime = 0;
       audio.load();
+      
+      // Wait for the audio to be ready, then play
+      const onCanPlay = () => {
+        audio.removeEventListener('canplay', onCanPlay);
+        isTransitioningRef.current = false;
+        audio.play().catch(console.error);
+      };
+      audio.addEventListener('canplay', onCanPlay);
     }
   };
 
   const getNextIndex = () => {
-    if (playMode === 'shuffle') {
-      return Math.floor(Math.random() * queue.length);
+    const q = queueRef.current;
+    const idx = currentIndexRef.current;
+    const mode = playModeRef.current;
+    if (mode === 'shuffle') {
+      return Math.floor(Math.random() * q.length);
     }
-    return (currentIndex + 1) % queue.length;
+    return (idx + 1) % q.length;
   };
 
   const getPrevIndex = () => {
-    if (playMode === 'shuffle') {
-      return Math.floor(Math.random() * queue.length);
+    const q = queueRef.current;
+    const idx = currentIndexRef.current;
+    const mode = playModeRef.current;
+    if (mode === 'shuffle') {
+      return Math.floor(Math.random() * q.length);
     }
-    return currentIndex === 0 ? queue.length - 1 : currentIndex - 1;
+    return idx === 0 ? q.length - 1 : idx - 1;
   };
 
   const nextSong = () => {
-    console.log('[AUDIO] Next song, current play mode:', playMode);
+    const mode = playModeRef.current;
+    const q = queueRef.current;
+    console.log('[AUDIO] Next song, play mode:', mode, 'queue length:', q.length);
 
-    if (playMode === 'repeat-one') {
-      // Restart current song
+    if (mode === 'repeat-one') {
       const audio = audioRef.current;
       if (audio) {
         audio.currentTime = 0;
         setCurrentTime(0);
-        setPlaying(true);
-
-        setTimeout(() => {
-          audio.play().catch(console.error);
-        }, 50);
+        audio.play().catch(console.error);
       }
       return;
     }
 
-    if (queue.length === 0) {
+    if (q.length === 0) {
       console.log('[AUDIO] No songs in queue');
+      setPlaying(false);
       return;
     }
 
     const nextIndex = getNextIndex();
-    const nextSongToPlay = queue[nextIndex];
-    
+
+    // In normal mode, if we've looped back to 0, check if we should stop
+    if (mode === 'normal' && nextIndex === 0 && currentIndexRef.current === q.length - 1) {
+      // Last song in normal mode — stop (no repeat)
+      setPlaying(false);
+      return;
+    }
+
+    const nextSongToPlay = q[nextIndex];
     if (!nextSongToPlay) {
       console.log('[AUDIO] Next song not found at index:', nextIndex);
+      setPlaying(false);
       return;
     }
     
     console.log('[AUDIO] Playing next song:', nextSongToPlay.song.title);
     setCurrentIndex(nextIndex);
+    currentIndexRef.current = nextIndex;
     setQueue(prev => prev.map((item, idx) => ({
       ...item,
       isActive: idx > nextIndex
     })));
     playSong(nextSongToPlay.song);
+    setPlaying(true);
   };
 
+  // Keep a ref to nextSong so the ended event handler always has the latest version
+  const nextSongRef = useRef(nextSong);
+  useEffect(() => { nextSongRef.current = nextSong; });
+
   const prevSong = () => {
-    if (queue.length === 0) return;
+    const q = queueRef.current;
+    if (q.length === 0) return;
     
     if (currentTime < 3) {
       const prevIndex = getPrevIndex();
       setCurrentIndex(prevIndex);
-      const prevSongToPlay = queue[prevIndex];
+      currentIndexRef.current = prevIndex;
+      const prevSongToPlay = q[prevIndex];
       
       setQueue(prev => prev.map((item, idx) => ({
         ...item,
         isActive: idx > prevIndex
       })));
       playSong(prevSongToPlay.song);
+      setPlaying(true);
     } else {
       const audio = audioRef.current;
       if (audio) {
