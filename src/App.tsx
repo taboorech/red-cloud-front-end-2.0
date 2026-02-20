@@ -18,6 +18,7 @@ import PlaylistEditor from './pages/playlist-editor/playlist-editor'
 import About from './pages/about/about'
 import Search from './pages/search/search'
 import NotFound from './pages/not-found/not-found'
+import Favorites from './pages/favorites/favorites'
 
 const App = () => {
   return (
@@ -42,6 +43,7 @@ const App = () => {
           <Route path='/songs/:songId/edit' element={<SongEditor />} />
           <Route path='/about' element={<About />} />
           <Route path='/search' element={<Search />} />
+          <Route path='/favorites' element={<Favorites />} />
           <Route path='*' element={<NotFound />} />
         </Route>
       </Routes>
