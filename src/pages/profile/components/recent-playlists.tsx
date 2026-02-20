@@ -1,5 +1,8 @@
+import { useState } from "react"
 import { useNavigate } from "react-router"
 import type { Playlist } from "../../../types/playlist.types"
+import { useContextMenu } from "../../../hooks/use-context-menu"
+import PlaylistContextMenu from "../../../components/context-menu/menus/playlist-context-menu"
 
 interface RecentPlaylistsProps {
   playlists: Playlist[]
@@ -7,6 +10,13 @@ interface RecentPlaylistsProps {
 
 const RecentPlaylists = ({ playlists }: RecentPlaylistsProps) => {
   const navigate = useNavigate()
+  const contextMenu = useContextMenu()
+  const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(null)
+
+  const handleContextMenu = (e: React.MouseEvent, playlist: Playlist) => {
+    setSelectedPlaylist(playlist)
+    contextMenu.open(e)
+  }
 
   return (
     <div className="lg:col-span-8 bg-black p-6 rounded-2xl flex flex-col gap-4 shadow-md">
@@ -19,6 +29,7 @@ const RecentPlaylists = ({ playlists }: RecentPlaylistsProps) => {
               key={playlist.id} 
               className="flex items-center justify-between group hover:bg-white/5 p-3 rounded-xl transition-colors cursor-pointer"
               onClick={() => navigate(`/playlist/${playlist.id}`)}
+              onContextMenu={(e) => handleContextMenu(e, playlist)}
             >
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-lg overflow-hidden shadow-md bg-white/5">
@@ -37,6 +48,14 @@ const RecentPlaylists = ({ playlists }: RecentPlaylistsProps) => {
           ))
         )}
       </div>
+
+      {contextMenu.isOpen && selectedPlaylist && (
+        <PlaylistContextMenu
+          playlist={selectedPlaylist}
+          position={contextMenu.position}
+          onClose={contextMenu.close}
+        />
+      )}
     </div>
   )
 }
