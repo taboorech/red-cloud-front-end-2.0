@@ -32,6 +32,8 @@ interface AudioContextProps {
   setCurrentIndex: (index: number) => void;
   playMode: 'normal' | 'repeat' | 'repeat-one' | 'shuffle';
   setPlayMode: (mode: 'normal' | 'repeat' | 'repeat-one' | 'shuffle') => void;
+  autoReplay: boolean;
+  setAutoReplay: (enabled: boolean) => void;
   nextSong: () => void;
   prevSong: () => void;
   playFromQueue: (index: number) => void;
@@ -65,6 +67,12 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
     const saved = localStorage.getItem('audioPlayerPlayMode');
     return (saved as 'normal' | 'repeat' | 'repeat-one' | 'shuffle') || 'normal';
   });
+  const [autoReplay, setAutoReplayState] = useState<boolean>(() => {
+    try {
+      const settings = localStorage.getItem('app_settings');
+      return settings ? JSON.parse(settings).autoReplay === true : false;
+    } catch { return false; }
+  });
   
   const audioRef = useRef<HTMLAudioElement>(null);
   const lastSyncTimeRef = useRef<number>(0);
@@ -78,6 +86,14 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
   useEffect(() => { queueRef.current = queue; }, [queue]);
   useEffect(() => { currentIndexRef.current = currentIndex; }, [currentIndex]);
   useEffect(() => { playModeRef.current = playMode; }, [playMode]);
+
+  // Sync native loop property with playMode
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.loop = playMode === 'repeat-one';
+    }
+  }, [playMode]);
 
   // Socket integration for state synchronization
   useEffect(() => {
@@ -168,6 +184,7 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
 
     const handleEnded = () => {
       console.log('[AUDIO] Song ended');
+      isTransitioningRef.current = true;
       nextSongRef.current();
     };
 
@@ -269,6 +286,19 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
     localStorage.setItem('audioPlayerPlayMode', mode);
   };
 
+  const setAutoReplay = (enabled: boolean) => {
+    setAutoReplayState(enabled);
+    if (enabled) {
+      setPlayMode('repeat-one');
+    }
+  };
+
+  useEffect(() => {
+    if (autoReplay && playMode !== 'repeat-one') {
+      setPlayMode('repeat-one');
+    }
+  }, []);
+
   const playSong = (song: Song) => {
     isTransitioningRef.current = true;
     setCurrentSong(song);
@@ -316,13 +346,7 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
     console.log('[AUDIO] Next song, play mode:', mode, 'queue length:', q.length);
 
     if (mode === 'repeat-one') {
-      const audio = audioRef.current;
-      if (audio) {
-        audio.currentTime = 0;
-        setCurrentTime(0);
-        audio.play().catch(console.error);
-      }
-      return;
+      return
     }
 
     if (q.length === 0) {
@@ -421,6 +445,7 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
         queue, setQueue,
         currentIndex, setCurrentIndex,
         playMode, setPlayMode,
+        autoReplay, setAutoReplay,
         nextSong, prevSong, playFromQueue, playSong,
         audioRef: audioRef as React.RefObject<HTMLAudioElement>,
       }}>
