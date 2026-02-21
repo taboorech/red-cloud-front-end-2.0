@@ -3,16 +3,24 @@ import Menu from "../components/menu/menu";
 import PlaylistsMenu from "../components/playlists-menu/playlists-menu";
 import StateSidebar from "../components/state-sidebar/state-sidebar";
 import Player from "../components/player/player";
-import { Outlet } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import { useGetProfileQuery } from "../store/api/profile.api";
+import classNames from "classnames";
 
 const Layout = () => {
   const { data: profile } = useGetProfileQuery();
+  const navigate = useNavigate();
+
+  const profileClickHandler = () => {
+    if (profile) {
+      navigate('/profile');
+    }
+  }
 
   return (
     <div className="h-screen flex p-2 gap-2 bg-neutral-900">
       <div className="flex flex-col w-1/6 gap-0">
-        <div className="flex-1">
+        <div className={classNames("flex-1", profile ? "cursor-pointer" : "")} onClick={profileClickHandler}>
           <AvatarBlock 
             isAuthenticated={!!profile}
             avatarUrl={profile?.avatar}
