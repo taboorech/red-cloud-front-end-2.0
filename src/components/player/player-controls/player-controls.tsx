@@ -37,7 +37,8 @@ const PlayerControls = () => {
         size="circle"
         rounded="full"
         onClick={handlePlayModeToggle}
-        title={`Play mode: ${audio.playMode}`}
+        disabled={audio.autoReplay}
+        title={audio.autoReplay ? "Auto replay is enabled in Settings" : `Play mode: ${audio.playMode}`}
       >
         {getPlayModeIcon()}
       </Button>
