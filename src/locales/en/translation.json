@@ -1,0 +1,28 @@
+{
+  "loading": "Loading songs...",
+  "loadingError": "Failed to load songs",
+  "noSongs": "No songs available",
+  "comingSoon": "Coming soon",
+  "banner": {
+    "title": "Discover New Music Everyday",
+    "buttonText": "Listen Now"
+  },
+  "sections": {
+    "recommendedForYou": "Recommended for you",
+    "popularRightNow": "Popular right now",
+    "newReleases": "New releases"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "languageDescription": "Choose your preferred interface language",
+    "autoReplay": "Auto replay",
+    "autoReplayDescription": "Automatically restart the current track when it ends",
+    "quality": {
+      "label": "Audio quality",
+      "highQualityRequirePremium": "High and Very High quality require Premium",
+      "auto": "Automatic quality setting",
+      "autoDescription": "Adjust audio quality automatically based on your network connection."
+    }
+  }
+}
