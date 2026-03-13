@@ -12,7 +12,7 @@ const Lyrics = () => {
   const { hasLyrics, isPremium } = useSubscription()
 
   const songId = searchParams.get('id') || ''
-  const { data: lyricsData, isLoading, error } = useGetSongLyricsQuery(songId)
+  const { data: lyricsData, isLoading, error } = useGetSongLyricsQuery(songId, { skip: !songId })
   
   const lyrics = lyricsData?.lyrics || ''
   const hasLyricsAvailable = !!lyrics

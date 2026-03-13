@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router"
 import { Button } from "../button/button"
 import Avatar from "./avatar/avatar"
 
@@ -9,6 +10,8 @@ interface AvatarBlockProps {
 }
 
 const AvatarBlock = ({ isAuthenticated = false, avatarUrl, userName, isStatic = false }: AvatarBlockProps) => {
+  const navigation = useNavigate()
+
   return (
     <div className="flex flex-col gap-6 rounded-md p-4 bg-black">
       <div className="flex justify-center items-center w-24 h-24 max-w-full mx-auto">
@@ -18,7 +21,9 @@ const AvatarBlock = ({ isAuthenticated = false, avatarUrl, userName, isStatic = 
         {isAuthenticated || isStatic ? (
           <span className="text-lg text-white font-medium">{userName}</span>
         ) : (
-          <Button variant="snow" size="md" fullWidth rounded="full">
+          <Button variant="snow" size="md" fullWidth rounded="full" onClick={() => {
+            navigation('/auth')
+          }}>
             Login
           </Button>
         )}
