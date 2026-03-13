@@ -8,6 +8,7 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import PremiumFeature from "../../premium-feature/premium-feature";
+import { useAudio } from "../../../context/audio-context";
 
 interface PlayerAdditionalButtonsProps {
   className?: string;
@@ -17,6 +18,7 @@ const PlayerAdditionalButtons = ({
   className,
 }: PlayerAdditionalButtonsProps) => {
   const navigate = useNavigate();
+  const { currentSong } = useAudio();
 
   return (
     <div
@@ -38,7 +40,8 @@ const PlayerAdditionalButtons = ({
           variant="ghost"
           size="circle"
           rounded="full"
-          onClick={() => navigate("/lyrics")}
+          onClick={() => currentSong && navigate(`/lyrics?id=${currentSong.id}`)}
+          disabled={!currentSong}
         >
           <FaAlignLeft />
         </Button>
@@ -49,7 +52,8 @@ const PlayerAdditionalButtons = ({
           variant="ghost" 
           size="circle" 
           rounded="full"
-          onClick={() => navigate("/lyrics/translation")}
+          onClick={() => currentSong && navigate(`/lyrics/translation?id=${currentSong.id}`)}
+          disabled={!currentSong}
         >
           <FaGlobe />
         </Button>

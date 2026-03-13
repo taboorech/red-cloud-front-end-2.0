@@ -7,7 +7,7 @@ import Input from "../../components/input/input";
 import FileInput from "../../components/file-input/file-input";
 import { Button } from "../../components/button/button";
 import { songSchema } from "../../validation/song.scheme";
-import { SongAuthorsRole, type SongFormValues, type User, type SongAuthor } from "../../types/song.types";
+import { SongAuthorsRole, type SongFormValues, type SongAuthor } from "../../types/song.types";
 import { useGetSupportedLanguagesQuery } from "../../store/api/lyrics.api";
 import { useLazyGetGenresQuery } from "../../store/api/genres.api";
 import { useGenerateImageMutation } from "../../store/api/ai.api";
@@ -15,6 +15,7 @@ import { useLazyGetAllUsersQuery } from "../../store/api/users.api";
 import { useCreateSongMutation, useUpdateSongMutation, useGetSongQuery } from "../../store/api/songs.api";
 import { CiMusicNote1 } from "react-icons/ci";
 import type { Genre } from "../../types/genre.types";
+import type { User } from "../../types/user.types";
 
 const SongEditor = () => {
   const { songId } = useParams<{ songId: string }>();

@@ -20,7 +20,7 @@ const LyricsTranslation = () => {
   const songId = searchParams.get('id') || ''
   
   const { data: languages = [], isLoading: languagesLoading } = useGetSupportedLanguagesQuery()
-  const { data: lyricsData } = useGetSongLyricsQuery(songId)
+  const { data: lyricsData } = useGetSongLyricsQuery(songId, { skip: !songId })
   const [translateLyrics, { data, isLoading, error }] = useLazyTranslateLyricsQuery()
 
   const originalLanguage: SupportedLanguage = lyricsData?.language || 'EN'
