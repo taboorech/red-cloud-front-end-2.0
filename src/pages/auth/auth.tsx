@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router"
 import classNames from "classnames"
 import { FcGoogle } from "react-icons/fc"
+import { useTranslation } from "react-i18next"
 import AuthForm from "../../components/auth-form/auth-form"
 import type { LoginFormValues, RegistrationFormValues } from "../../components/auth-form/auth-form"
 import { Button } from "../../components/button/button"
@@ -11,6 +12,7 @@ type AuthTab = "authorization" | "registration"
 
 const Auth = () => {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const [activeTab, setActiveTab] = useState<AuthTab>("authorization")
 
   const [login] = useLoginMutation()
@@ -65,7 +67,7 @@ const Auth = () => {
               activeTab === "authorization" && "!bg-[#282828]"
             )}
           >
-            Authorization
+            {t('auth.authorization')}
           </Button>
           <Button
             onClick={() => setActiveTab("registration")}
@@ -77,7 +79,7 @@ const Auth = () => {
               activeTab === "registration" && "!bg-[#282828]"
             )}
           >
-            Registration
+            {t('auth.registration')}
           </Button>
         </div>
 
@@ -90,7 +92,7 @@ const Auth = () => {
 
           <div className="mt-6 flex items-center gap-3">
             <div className="flex-1 h-px bg-gray-700" />
-            <span className="text-gray-500 text-xs">or</span>
+            <span className="text-gray-500 text-xs">{t('auth.or')}</span>
             <div className="flex-1 h-px bg-gray-700" />
           </div>
 
@@ -104,7 +106,7 @@ const Auth = () => {
               leftIcon={<FcGoogle className="text-xl" />}
               onClick={handleGoogleAuth}
             >
-              Continue with Google
+              {t('auth.googleAuth')}
             </Button>
           </div>
         </div>

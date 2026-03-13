@@ -3,6 +3,8 @@
  * @param seconds - duration in seconds
  * @returns formatted duration string (e.g., "3:45", "12:03")
  */
+import { SubscriptionType } from '../types/subscription.types'
+
 export const formatDuration = (seconds: number): string => {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
@@ -14,11 +16,11 @@ export const formatDuration = (seconds: number): string => {
  * @param currentPlan - subscription plan type
  * @returns numeric plan ID
  */
-export const getCurrentPlanId = (currentPlan: 'free' | 'premium' | 'family'): number => {
+export const getCurrentPlanId = (currentPlan: SubscriptionType): number => {
   switch (currentPlan) {
-    case 'free': return 1
-    case 'premium': return 2
-    case 'family': return 3
+    case SubscriptionType.FREE: return 1
+    case SubscriptionType.PREMIUM: return 2
+    case SubscriptionType.FAMILY: return 3
     default: return 1
   }
 };

@@ -8,6 +8,7 @@ import PremiumFeature from "../../components/premium-feature/premium-feature"
 import { useSubscription } from "../../hooks/use-subscription"
 import { useGetSupportedLanguagesQuery } from "../../store/api/lyrics.api"
 import { useAudio } from "../../context/audio-context"
+import { SubscriptionType } from "../../types/subscription.types"
 
 const AUDIO_QUALITIES = [
   { value: "low", label: "Low (96 kbps)" },
@@ -162,7 +163,7 @@ const Settings = () => {
                 )}
               </div>
               <PremiumFeature
-                requiredPlan={["premium", "family"]}
+                requiredPlan={[SubscriptionType.PREMIUM, SubscriptionType.FAMILY]}
                 fallback={
                   <select
                     value={

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
+import { useTranslation } from 'react-i18next'
 import { useSubscription } from '../../hooks/use-subscription'
 import { MdTranslate } from 'react-icons/md'
 import { PremiumFeatureLock } from '../../components/premium-feature-lock/premium-feature-lock'
@@ -13,6 +14,7 @@ import type { SupportedLanguage } from '../../types/lyrics.types'
 
 const LyricsTranslation = () => {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const [searchParams] = useSearchParams()
   const { hasLyrics: hasTranslation } = useSubscription()
   const [selectedLanguage, setSelectedLanguage] = useState<SupportedLanguage>('UK')
@@ -50,8 +52,8 @@ const LyricsTranslation = () => {
     return (
       <PremiumFeatureLock
         icon={<MdTranslate className="w-24 h-24 mx-auto mb-6 text-gray-400" />}
-        title="Premium Feature"
-        description="Lyrics translation is available only for Premium and Family subscribers. Upgrade your plan to unlock translations."
+        title={t('lyrics.premiumTitle')}
+        description={t('lyrics.translationPremiumDescription')}
         onUpgrade={() => navigate('/subscriptions')}
         onGoBack={() => navigate(-1)}
       />
@@ -61,7 +63,7 @@ const LyricsTranslation = () => {
   if (languagesLoading) {
     return (
       <div className="flex items-center justify-center h-full bg-black">
-        <div className="text-gray-400 text-sm">Loading languages...</div>
+        <div className="text-gray-400 text-sm">{t('lyrics.loadingLanguages')}</div>
       </div>
     )
   }
@@ -74,13 +76,13 @@ const LyricsTranslation = () => {
     <div className="flex flex-col h-full bg-black p-6">
       <div className="flex-shrink-0 pb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-400">Original:</span>
+          <span className="text-sm text-gray-400">{t('lyrics.original')}</span>
           <div className="bg-gray-800 text-white px-3 py-1.5 rounded-lg text-sm border border-gray-700">
             <span>{originalLanguageFlag} {originalLanguageDisplay}</span>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-400">Translate to:</span>
+          <span className="text-sm text-gray-400">{t('lyrics.translateTo')}</span>
           <select
             value={selectedLanguage}
             onChange={(e) => setSelectedLanguage(e.target.value as SupportedLanguage)}
@@ -104,7 +106,7 @@ const LyricsTranslation = () => {
             </h2>
             <div className="flex-1 min-h-0 rounded-2xl p-6 overflow-y-scroll">
               <pre className="font-sans text-base leading-relaxed whitespace-pre-wrap text-gray-300">
-                {originalLyrics || 'No lyrics available'}
+                {originalLyrics || t('lyrics.noLyricsAvailable')}
               </pre>
             </div>
           </div>
@@ -117,7 +119,7 @@ const LyricsTranslation = () => {
             <div className="flex-1 min-h-0 bg-purple-900/10 rounded-2xl p-6 border border-purple-500/20 overflow-y-scroll">
               {selectedLanguage === originalLanguage ? (
                 <pre className="font-sans text-base leading-relaxed whitespace-pre-wrap text-white">
-                  {originalLyrics || 'No lyrics available'}
+                  {originalLyrics || t('lyrics.noLyricsAvailable')}
                 </pre>
               ) : isLoading ? (
                 <div className="flex items-center justify-center h-full">

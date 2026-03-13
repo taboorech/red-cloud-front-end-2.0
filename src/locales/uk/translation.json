@@ -1,8 +1,22 @@
 {
-  "loading": "Завантаження пісень...",
-  "loadingError": "Не вдалося завантажити пісні",
-  "noSongs": "Пісні недоступні",
   "comingSoon": "Скоро буде доступно",
+  "common": {
+    "loading": "Завантаження...",
+    "listenNow": "Слухати зараз",
+    "language": "Мова",
+    "english": "English",
+    "ukrainian": "Українська",
+    "song": "пісня",
+    "songs": "пісень",
+    "play": "Відтворити",
+    "goBack": "Назад",
+    "save": "Зберегти",
+    "saved": "Збережено!"
+  },
+  "home": {
+    "loadingError": "Не вдалося завантажити пісні",
+    "noSongs": "Пісні недоступні"
+  },
   "banner": {
     "title": "Відкривайте нову музику щодня",
     "buttonText": "Слухати зараз"
@@ -24,5 +38,92 @@
       "auto": "Автоматична настройка качества",
       "autoDescription": "Автоматично регулируйте качество звука в зависимости от вашего сетевого соединения."
     }
+  },
+  "about": {
+    "title": "Про нас"
+  },
+  "favorites": {
+    "title": "Улюблені пісні",
+    "playlist": "Плейлист"
+  },
+  "auth": {
+    "authorization": "Авторизація",
+    "registration": "Реєстрація",
+    "or": "або",
+    "googleAuth": "Продовжити з Google"
+  },
+  "search": {
+    "placeholder": "Введіть запит для пошуку пісень, користувачів та плейлистів",
+    "tabs": {
+      "all": "Все",
+      "songs": "Пісні",
+      "users": "Користувачі",
+      "playlists": "Плейлисти"
+    }
+  },
+  "subscriptions": {
+    "title": "Оберіть ваш план",
+    "subtitle": "Отримайте необмежену музику та преміум функції",
+    "currentPlan": "Поточний план",
+    "availablePlans": "Доступні плани",
+    "whyGoPremium": "Навіщо Преміум?",
+    "active": "Активно",
+    "freeForever": "Безкоштовно назавжди",
+    "renewsAutomatically": "Подовжується автоматично",
+    "cancelSubscription": "Скасувати підписку",
+    "cancelling": "Скасування...",
+    "currentPlanButton": "Поточний план",
+    "comingSoon": "Незабаром",
+    "switchToFree": "Перейти на безкоштовний",
+    "getStarted": "Почати",
+    "monthly": "Місячно",
+    "yearly": "Річно",
+    "mostPopular": "НАЙПОПУЛЯРНІШЕ",
+    "comingSoonBadge": "НЕВДОВЗІ",
+    "billedAnnually": "річна плата",
+    "cancelWarning": "Ви впевнені, що хочете скасувати підписку? Ви втратите доступ до преміум-функцій наприкінці платіжного періоду.",
+    "confirmCancel": "Так, скасувати",
+    "keepSubscription": "Залишити підписку",
+    "cancelConfirm": "Ви впевнені, що хочете скасувати підписку та перейти на безкоштовний план?",
+    "cancelConfirmDetailed": "Ви впевнені, що хочете скасувати підписку? Вас буде переключено на безкоштовний план.",
+    "benefits": {
+      "unlimitedMusic": "Необмежена музика",
+      "unlimitedMusicDesc": "Доступ до мільйонів пісень",
+      "offlineListening": "Офлайн прослуховування",
+      "offlineListeningDesc": "Завантажуйте та слухайте будь-де",
+      "multiDevice": "Мульти-пристрій",
+      "multiDeviceDesc": "Слухайте на телефоні, планшеті, комп’ютері",
+      "unlimitedSkips": "Необмежені пропуски",
+      "unlimitedSkipsDesc": "Пропускайте стільки пісень, скільки захочете"
+    },
+    "features": {
+      "adSupported": "Стрімінг з рекламою",
+      "standardQuality": "Стандартна якість звуку",
+      "limitedSkips": "Обмежені пропуски",
+      "offlineListening": "Офлайн прослуховування",
+      "unlimitedDownloads": "Необмежені завантаження",
+      "adFree": "Без реклами",
+      "lyricsSupport": "Підтримка текстів пісень",
+      "unlimitedSkips": "Необмежені пропуски",
+      "highQuality": "Висока якість звуку",
+      "adFreeListening": "Прослуховування без реклами",
+      "allPremiumFeatures": "Всі Преміум функції",
+      "upToSixAccounts": "До 6 акаунтів",
+      "individualProfiles": "Індивідуальні профілі",
+      "kidSafeMode": "Безпечний режим для дітей",
+      "familySharing": "Сімейний доступ"
+    }
+  },
+  "lyrics": {
+    "translate": "Перекласти",
+    "noLyricsTitle": "Текст недоступний",
+    "noLyricsDescription": "Текст цієї пісні наразі недоступний.",
+    "noLyricsAvailable": "Текст недоступний",
+    "premiumTitle": "Преміум функція",
+    "premiumDescription": "Тексти пісень доступні тільки для Premium і Family підписників. Оновіть ваш план, щоб отримати доступ до текстів пісень.",
+    "translationPremiumDescription": "Переклад текстів пісень доступний тільки для Premium і Family підписників. Оновіть ваш план, щоб отримати доступ до перекладів.",
+    "loadingLanguages": "Завантаження мов...",
+    "original": "Оригінал:",
+    "translateTo": "Перекласти на:"
   }
 }

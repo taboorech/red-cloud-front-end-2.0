@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { useSubscription } from '../../hooks/use-subscription'
-import type { SubscriptionType } from '../../types/subscription.types'
+import { SubscriptionType } from '../../types/subscription.types'
 
 interface PremiumFeatureProps {
   children: ReactNode
@@ -10,7 +10,7 @@ interface PremiumFeatureProps {
 
 const PremiumFeature = ({ 
   children, 
-  requiredPlan = ['premium', 'family'],
+  requiredPlan = [SubscriptionType.PREMIUM, SubscriptionType.FAMILY],
   fallback = null,
 }: PremiumFeatureProps) => {
   const { currentPlan } = useSubscription()

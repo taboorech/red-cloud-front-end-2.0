@@ -1,5 +1,6 @@
 import { useState } from 'react'
 // import { useNavigate } from 'react-router'
+import { useTranslation } from 'react-i18next'
 import SearchInput from './components/search-input'
 import SearchTabs from './components/search-tabs'
 import type { SearchTab } from './components/search-tabs'
@@ -19,6 +20,7 @@ const tabToSearchType: Record<SearchTab, SearchType> = {
 
 const Search = () => {
   // const navigate = useNavigate()
+  const { t } = useTranslation()
   const { currentSong } = useAudio()
   const [searchQuery, setSearchQuery] = useState('')
   const [activeTab, setActiveTab] = useState<SearchTab>('all')
@@ -82,13 +84,13 @@ const Search = () => {
   const renderContent = () => {
     if (searchQuery.trim().length === 0) {
       return (
-        <p className="text-white text-center mt-12">Enter a search query to find songs, users, and playlists</p>
+        <p className="text-white text-center mt-12">{t('search.placeholder')}</p>
       )
     }
 
     if (isFetching) {
       return (
-        <p className="text-gray-400 text-center mt-12">Searching...</p>
+        <p className="text-gray-400 text-center mt-12">{t('common.loading')}</p>
       )
     }
 

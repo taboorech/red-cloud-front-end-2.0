@@ -1,4 +1,10 @@
-export type SubscriptionType = 'free' | 'premium' | 'family'
+export const SubscriptionType = {
+  FREE: 'free',
+  PREMIUM: 'premium',
+  FAMILY: 'family'
+} as const
+
+export type SubscriptionType = typeof SubscriptionType[keyof typeof SubscriptionType]
 
 export interface Subscription {
   id: string
@@ -88,5 +94,5 @@ export interface TransformedPlan {
   currency: string
   isPopular: boolean
   unavailable?: boolean
-  features: string[]
+  planType: SubscriptionType
 }

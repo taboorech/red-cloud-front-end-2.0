@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 export type SearchTab = 'all' | 'songs' | 'users' | 'playlists'
 
 export interface SearchTabsProps {
@@ -6,11 +8,13 @@ export interface SearchTabsProps {
 }
 
 const SearchTabs = ({ activeTab, onTabChange }: SearchTabsProps) => {
+  const { t } = useTranslation()
+  
   const tabs: { key: SearchTab; label: string }[] = [
-    { key: 'all', label: 'All' },
-    { key: 'songs', label: 'Songs' },
-    { key: 'users', label: 'Users' },
-    { key: 'playlists', label: 'Playlists' }
+    { key: 'all', label: t('search.tabs.all') },
+    { key: 'songs', label: t('search.tabs.songs') },
+    { key: 'users', label: t('search.tabs.users') },
+    { key: 'playlists', label: t('search.tabs.playlists') }
   ]
 
   return (

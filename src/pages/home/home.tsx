@@ -14,7 +14,7 @@ const Home = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-white text-lg">{t('loading')}</div>
+        <div className="text-white text-lg">{t('common.loading')}</div>
       </div>
     );
   }
@@ -22,7 +22,7 @@ const Home = () => {
   if (error) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-red-400 text-lg">{t('loadingError')}</div>
+        <div className="text-red-400 text-lg">{t('home.loadingError')}</div>
       </div>
     );
   }
@@ -55,7 +55,7 @@ const Home = () => {
           
           {recommendedSongs.length === 0 && popularSongs.length === 0 && newReleases.length === 0 && (
             <div className="flex items-center justify-center py-12">
-              <div className="text-gray-400 text-lg">{t('noSongs')}</div>
+              <div className="text-gray-400 text-lg">{t('home.noSongs')}</div>
             </div>
           )}
         </div>

@@ -1,8 +1,22 @@
 {
-  "loading": "Loading songs...",
-  "loadingError": "Failed to load songs",
-  "noSongs": "No songs available",
   "comingSoon": "Coming soon",
+  "common": {
+    "loading": "Loading...",
+    "listenNow": "Listen Now",
+    "language": "Language",
+    "english": "English",
+    "ukrainian": "Українська",
+    "song": "song",
+    "songs": "songs",
+    "play": "Play",
+    "goBack": "Go Back",
+    "save": "Save",
+    "saved": "Saved!"
+  },
+  "home": {
+    "loadingError": "Failed to load songs",
+    "noSongs": "No songs available"
+  },
   "banner": {
     "title": "Discover New Music Everyday",
     "buttonText": "Listen Now"
@@ -24,5 +38,92 @@
       "auto": "Automatic quality setting",
       "autoDescription": "Adjust audio quality automatically based on your network connection."
     }
+  },
+  "about": {
+    "title": "About"
+  },
+  "favorites": {
+    "title": "Favorite Songs",
+    "playlist": "Playlist"
+  },
+  "auth": {
+    "authorization": "Authorization",
+    "registration": "Registration",
+    "or": "or",
+    "googleAuth": "Continue with Google"
+  },
+  "search": {
+    "placeholder": "Enter a search query to find songs, users, and playlists",
+    "tabs": {
+      "all": "All",
+      "songs": "Songs", 
+      "users": "Users",
+      "playlists": "Playlists"
+    }
+  },
+  "subscriptions": {
+    "title": "Choose Your Plan",
+    "subtitle": "Unlock unlimited music and premium features",
+    "currentPlan": "Current Plan",
+    "availablePlans": "Available Plans",
+    "whyGoPremium": "Why Go Premium?",
+    "active": "Active",
+    "freeForever": "Free forever",
+    "renewsAutomatically": "Renews automatically",
+    "cancelSubscription": "Cancel Subscription",
+    "cancelling": "Cancelling...",
+    "currentPlanButton": "Current Plan",
+    "comingSoon": "Coming Soon",
+    "switchToFree": "Switch to Free",
+    "getStarted": "Get Started",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "mostPopular": "MOST POPULAR",
+    "comingSoonBadge": "COMING SOON",
+    "billedAnnually": "billed annually",
+    "cancelWarning": "Are you sure you want to cancel your subscription? You'll lose access to premium features at the end of your billing cycle.",
+    "confirmCancel": "Yes, Cancel",
+    "keepSubscription": "Keep Subscription",
+    "cancelConfirm": "Are you sure you want to cancel your subscription and switch to the free plan?",
+    "cancelConfirmDetailed": "Are you sure you want to cancel your subscription? You will be switched to the free plan.",
+    "benefits": {
+      "unlimitedMusic": "Unlimited Music",
+      "unlimitedMusicDesc": "Access to millions of songs",
+      "offlineListening": "Offline Listening",
+      "offlineListeningDesc": "Download and listen anywhere",
+      "multiDevice": "Multi-Device",
+      "multiDeviceDesc": "Listen on phone, tablet, desktop",
+      "unlimitedSkips": "Unlimited Skips",
+      "unlimitedSkipsDesc": "Skip as many songs as you want"
+    },
+    "features": {
+      "adSupported": "Ad-supported streaming",
+      "standardQuality": "Standard quality audio",
+      "limitedSkips": "Limited skips",
+      "offlineListening": "Offline listening",
+      "unlimitedDownloads": "Unlimited downloads",
+      "adFree": "Ad-free experience",
+      "lyricsSupport": "Lyrics support",
+      "unlimitedSkips": "Unlimited skips",
+      "highQuality": "High quality audio",
+      "adFreeListening": "Ad-free listening",
+      "allPremiumFeatures": "All Premium features",
+      "upToSixAccounts": "Up to 6 accounts",
+      "individualProfiles": "Individual profiles",
+      "kidSafeMode": "Kid-safe mode",
+      "familySharing": "Family sharing"
+    }
+  },
+  "lyrics": {
+    "translate": "Translate",
+    "noLyricsTitle": "No Lyrics Available",
+    "noLyricsDescription": "Lyrics for this song are not available at the moment.",
+    "noLyricsAvailable": "No lyrics available",
+    "premiumTitle": "Premium Feature",
+    "premiumDescription": "Lyrics are available only for Premium and Family subscribers. Upgrade your plan to unlock song lyrics.",
+    "translationPremiumDescription": "Lyrics translation is available only for Premium and Family subscribers. Upgrade your plan to unlock translations.",
+    "loadingLanguages": "Loading languages...",
+    "original": "Original:",
+    "translateTo": "Translate to:"
   }
 }
