@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { type InputHTMLAttributes } from "react";
-
+import { useTranslation } from "react-i18next";
 interface FileInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
   error?: string;
   label: string;
@@ -9,6 +9,8 @@ interface FileInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'ty
 }
 
 const FileInput = ({ error, label, accept, preview, className, ...props }: FileInputProps) => {
+  const { t } = useTranslation();
+  
   return (
     <div className="w-full">
       <label className="block text-gray-300 text-sm mb-2">{label}</label>
@@ -20,7 +22,7 @@ const FileInput = ({ error, label, accept, preview, className, ...props }: FileI
             className
           )}
         >
-          <span>Choose File</span>
+          <span>{t('fileInput.chooseFile')}</span>
           <input
             type="file"
             accept={accept}

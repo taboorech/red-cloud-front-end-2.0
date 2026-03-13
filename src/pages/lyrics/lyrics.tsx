@@ -1,4 +1,5 @@
 import { useNavigate, useSearchParams } from 'react-router'
+import { useTranslation } from 'react-i18next'
 import { useSubscription } from '../../hooks/use-subscription'
 import { Button } from '../../components/button/button'
 import { MdTranslate, MdLyrics } from 'react-icons/md'
@@ -8,6 +9,7 @@ import { useGetSongLyricsQuery } from '../../store/api/lyrics.api'
 
 const Lyrics = () => {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const [searchParams] = useSearchParams()
   const { hasLyrics, isPremium } = useSubscription()
 
@@ -21,8 +23,8 @@ const Lyrics = () => {
     return (
       <PremiumFeatureLock
         icon={<MdLyrics className="w-24 h-24 mx-auto mb-6 text-gray-400" />}
-        title="Premium Feature"
-        description="Lyrics are available only for Premium and Family subscribers. Upgrade your plan to unlock song lyrics."
+        title={t('lyrics.premiumTitle')}
+        description={t('lyrics.premiumDescription')}
         onUpgrade={() => navigate('/subscriptions')}
         onGoBack={() => navigate(-1)}
       />
@@ -32,7 +34,7 @@ const Lyrics = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-full bg-black">
-        <div className="text-gray-400 text-sm">Loading lyrics...</div>
+        <div className="text-gray-400 text-sm">{t('common.loading')}</div>
       </div>
     )
   }
@@ -51,7 +53,7 @@ const Lyrics = () => {
           >
             <div className="flex items-center gap-2">
               <MdTranslate className="w-4 h-4" />
-              <span className="text-sm">Translate</span>
+              <span className="text-sm">{t('lyrics.translate')}</span>
             </div>
           </Button>
         )}

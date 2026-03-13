@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { axiosBaseQuery } from '../../api/axios-base-query'
+import { SubscriptionType } from '../../types/subscription.types'
 import type {
-  SubscriptionType,
   SubscriptionResponse,
   GetPaymentUrlRequest,
   GetPaymentUrlResponse,
@@ -13,7 +13,7 @@ import type {
 // Helper function to get features based on plan
 const getFeaturesByPlan = (plan: SubscriptionType) => {
   const featuresMap = {
-    free: {
+    [SubscriptionType.FREE]: {
       canDownload: false,
       canSkipUnlimited: false,
       hasHighQuality: false,
@@ -23,7 +23,7 @@ const getFeaturesByPlan = (plan: SubscriptionType) => {
       maxDownloads: 0,
       skipLimit: 6,
     },
-    premium: {
+    [SubscriptionType.PREMIUM]: {
       canDownload: true,
       canSkipUnlimited: true,
       hasHighQuality: true,
@@ -33,7 +33,7 @@ const getFeaturesByPlan = (plan: SubscriptionType) => {
       maxDownloads: Infinity,
       skipLimit: Infinity,
     },
-    family: {
+    [SubscriptionType.FAMILY]: {
       canDownload: true,
       canSkipUnlimited: true,
       hasHighQuality: true,
@@ -62,10 +62,10 @@ export const subscriptionApi = createApi({
           // Map subscription_plan_id to plan type
           const getPlanType = (subscriptionPlanId: number): SubscriptionType => {
             switch (subscriptionPlanId) {
-              case 1: return 'free'
-              case 2: return 'premium'
-              case 3: return 'family'
-              default: return 'free'
+              case 1: return SubscriptionType.FREE
+              case 2: return SubscriptionType.PREMIUM
+              case 3: return SubscriptionType.FAMILY
+              default: return SubscriptionType.FREE
             }
           }
           
@@ -90,13 +90,13 @@ export const subscriptionApi = createApi({
           subscription: {
             id: '1',
             userId: 'user-1',
-            plan: 'free' as SubscriptionType,
+            plan: SubscriptionType.FREE,
             status: 'active' as const,
             startDate: new Date().toISOString(),
             expiresAt: null,
             autoRenew: false
           },
-          features: getFeaturesByPlan('free')
+          features: getFeaturesByPlan(SubscriptionType.FREE)
         }
       },
       providesTags: ['Subscription'],
@@ -142,15 +142,7 @@ export const subscriptionApi = createApi({
               period: 'forever',
               currency: 'USD',
               isPopular: false,
-              features: [
-                'Ad-supported streaming',
-                'Standard quality audio',
-                'Limited skips',
-                'Offline listening',
-                'Unlimited downloads', 
-                'Ad-free experience',
-                'Lyrics support'
-              ]
+              planType: SubscriptionType.FREE
             }
           }
 
@@ -170,13 +162,7 @@ export const subscriptionApi = createApi({
             period: 'monthly',
             currency: monthlyPrice?.currency?.toUpperCase() || 'USD',
             isPopular: plan.sort_order === 2, // Premium plan is popular
-            features: [
-              'Unlimited skips',
-              'High quality audio',
-              'Ad-free listening',
-              'Offline downloads',
-              'Lyrics support'
-            ]
+            planType: SubscriptionType.PREMIUM
           }
         })
 
@@ -192,13 +178,7 @@ export const subscriptionApi = createApi({
           currency: 'USD',
           isPopular: false,
           unavailable: true,
-          features: [
-            'All Premium features',
-            'Up to 6 accounts',
-            'Individual profiles',
-            'Kid-safe mode',
-            'Family sharing'
-          ]
+          planType: SubscriptionType.FAMILY
         }
 
         return [...transformedPlans, familyPlan]

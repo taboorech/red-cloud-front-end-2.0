@@ -5,14 +5,16 @@ import Song from "../../components/song/song";
 import Input from "../../components/input/input";
 import { useLazyGetPlaylistsQuery } from "../../store/api/playlist.api";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 
 const Playlists = () => {
+  const { t } = useTranslation()
   const [searchTerm, setSearchTerm] = useState('');
   const [getPlaylists, { data, error, isLoading }] = useLazyGetPlaylistsQuery();
   const navigate = useNavigate();
 
   useEffect(() => {
-    getPlaylists({ offset: 0, limit: 20, search: searchTerm || undefined, onlyPublic: true });
+    getPlaylists({ offset: 0, limit: 20, search: searchTerm || undefined });
   }, [searchTerm, getPlaylists]);
 
   const playlists = data || [];
@@ -24,7 +26,7 @@ const Playlists = () => {
   if (isLoading) {
     return (
       <div className="bg-black p-4 rounded-md h-full flex items-center justify-center">
-        <div className="text-white text-lg">Loading playlists...</div>
+        <div className="text-white text-lg">{t('playlists.loadingPlaylists')}</div>
       </div>
     );
   }
@@ -32,7 +34,7 @@ const Playlists = () => {
   if (error) {
     return (
       <div className="bg-black p-4 rounded-md h-full flex items-center justify-center">
-        <div className="text-red-400 text-lg">Failed to load playlists</div>
+        <div className="text-red-400 text-lg">{t('playlists.failedToLoadPlaylists')}</div>
       </div>
     );
   }
@@ -42,7 +44,7 @@ const Playlists = () => {
       {/* Search Bar */}
       <div className="mb-4 relative flex-shrink-0">
         <Input
-          placeholder="Search playlists..."
+          placeholder={t('playlists.searchPlaylists')}
           value={searchTerm}
           onChange={handleSearchChange}
           className="pr-10"

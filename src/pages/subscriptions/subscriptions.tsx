@@ -1,9 +1,11 @@
 import { useState } from "react"
-import { IoCheckmarkCircle, IoMusicalNotes, IoDownload, IoPhonePortrait, IoInfinite } from "react-icons/io5"
+import { IoCheckmarkCircle, IoMusicalNotes, IoPhonePortrait, IoInfinite } from "react-icons/io5"
+import { useTranslation } from "react-i18next"
 import { Button } from "../../components/button/button"
 import { useSubscription } from "../../hooks/use-subscription"
 import { useGetPaymentUrlMutation, useGetPlansQuery, useCancelSubscriptionMutation } from "../../store/api/subscription.api"
 import { getCurrentPlanId } from "../../utils/format"
+import { SubscriptionType } from "../../types/subscription.types"
 
 interface SubscriptionFeature {
   text: string
@@ -24,6 +26,7 @@ interface SubscriptionPlan {
 }
 
 const Subscriptions = () => {
+  const { t } = useTranslation()
   const { currentPlan, isLoading } = useSubscription()
   const [selectedPeriod, setSelectedPeriod] = useState<"monthly" | "yearly">("monthly")
   const [getPaymentUrl, { isLoading: isPaymentLoading }] = useGetPaymentUrlMutation()
@@ -35,7 +38,7 @@ const Subscriptions = () => {
     
     // If selecting free plan and user is on paid plan, cancel subscription
     if (plan.id === 1 && currentPlanId !== 1) {
-      const confirmed = confirm('Are you sure you want to cancel your subscription and switch to the free plan?')
+      const confirmed = confirm(t('subscriptions.cancelConfirm'))
       if (confirmed) {
         try {
           await cancelSubscription().unwrap()
@@ -71,7 +74,7 @@ const Subscriptions = () => {
   if (isLoading || isPlansLoading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-white">Loading...</div>
+        <div className="text-white">{t('common.loading')}</div>
       </div>
     )
   }
@@ -80,23 +83,40 @@ const Subscriptions = () => {
   const plans: SubscriptionPlan[] = (apiPlans || []).map(apiPlan => {
     // Define which features are included based on plan type
     const getFeatures = () => {
-      if (apiPlan.id === 1 || apiPlan.name.toLowerCase().includes('free')) {
+      if (apiPlan.planType === SubscriptionType.FREE) {
         return [
-          { text: 'Ad-supported streaming', included: true },
-          { text: 'Standard quality audio', included: true },
-          { text: 'Limited skips', included: true },
-          { text: 'Offline listening', included: false },
-          { text: 'Unlimited downloads', included: false },
-          { text: 'Ad-free experience', included: false },
-          { text: 'Lyrics support', included: false }
+          { text: t('subscriptions.features.adSupported'), included: true },
+          { text: t('subscriptions.features.standardQuality'), included: true },
+          { text: t('subscriptions.features.limitedSkips'), included: true },
+          { text: t('subscriptions.features.offlineListening'), included: false },
+          { text: t('subscriptions.features.unlimitedDownloads'), included: false },
+          { text: t('subscriptions.features.adFree'), included: false },
+          { text: t('subscriptions.features.lyricsSupport'), included: false }
         ]
       }
       
-      // Premium and other paid plans
-      return apiPlan.features.map((feature: string) => ({
-        text: feature,
-        included: true
-      }))
+      if (apiPlan.planType === SubscriptionType.PREMIUM) {
+        return [
+          { text: t('subscriptions.features.unlimitedSkips'), included: true },
+          { text: t('subscriptions.features.highQuality'), included: true },
+          { text: t('subscriptions.features.adFreeListening'), included: true },
+          { text: t('subscriptions.features.offlineListening'), included: true },
+          { text: t('subscriptions.features.lyricsSupport'), included: true }
+        ]
+      }
+
+      if (apiPlan.planType === SubscriptionType.FAMILY) {
+        return [
+          { text: t('subscriptions.features.allPremiumFeatures'), included: true },
+          { text: t('subscriptions.features.upToSixAccounts'), included: true },
+          { text: t('subscriptions.features.individualProfiles'), included: true },
+          { text: t('subscriptions.features.kidSafeMode'), included: true },
+          { text: t('subscriptions.features.familySharing'), included: true }
+        ]
+      }
+
+      // Fallback
+      return []
     }
 
     return {
@@ -119,23 +139,18 @@ const Subscriptions = () => {
   const benefits = [
     {
       icon: IoMusicalNotes,
-      title: "Unlimited Music",
-      description: "Access to millions of songs",
-    },
-    {
-      icon: IoDownload,
-      title: "Offline Listening",
-      description: "Download and listen anywhere",
+      title: t('subscriptions.benefits.unlimitedMusic'),
+      description: t('subscriptions.benefits.unlimitedMusicDesc'),
     },
     {
       icon: IoPhonePortrait,
-      title: "Multi-Device",
-      description: "Listen on phone, tablet, desktop",
+      title: t('subscriptions.benefits.multiDevice'),
+      description: t('subscriptions.benefits.multiDeviceDesc'),
     },
     {
       icon: IoInfinite,
-      title: "Unlimited Skips",
-      description: "Skip as many songs as you want",
+      title: t('subscriptions.benefits.unlimitedSkips'),
+      description: t('subscriptions.benefits.unlimitedSkipsDesc'),
     },
   ]
 
@@ -144,10 +159,10 @@ const Subscriptions = () => {
       <div className="sticky top-0 bg-gradient-to-b from-black via-black/95 to-transparent backdrop-blur-xl z-20 border-b border-white/5">
         <div className="px-6 py-8">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">
-            Choose Your Plan
+            {t('subscriptions.title')}
           </h1>
           <p className="text-gray-400 text-sm sm:text-base">
-            Unlock unlimited music and premium features
+            {t('subscriptions.subtitle')}
           </p>
         </div>
       </div>
@@ -155,22 +170,23 @@ const Subscriptions = () => {
       <div className="px-6 space-y-10">
         {currentSubscription && (
           <section className="mt-6">
-            <h2 className="text-lg font-semibold mb-4">Current Plan</h2>
+            <h2 className="text-lg font-semibold mb-4">{t('subscriptions.currentPlan')}</h2>
             <div className="bg-gradient-to-br from-white/[0.08] to-white/[0.03] border border-white/10 p-6 rounded-2xl">
               <div className="flex items-center justify-between flex-wrap gap-4">
                 <div>
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-2xl font-bold">{currentSubscription.name}</h3>
                     <span className="px-3 py-1 bg-green-500/20 text-green-400 text-xs font-medium rounded-full border border-green-500/30">
-                      Active
+                      {t('subscriptions.active')}
                     </span>
                   </div>
                   <p className="text-gray-400">
                     {currentSubscription.price === 0 ? (
-                      "Free forever"
+                      t('subscriptions.freeForever')
                     ) : (
                       <>
-                        ${currentSubscription.price}/{currentSubscription.period} • Renews automatically
+                        {/* ${currentSubscription.price}/{currentSubscription.period} •  */}
+                        {t('subscriptions.renewsAutomatically')}
                       </>
                     )}
                   </p>
@@ -182,7 +198,7 @@ const Subscriptions = () => {
                     className="bg-red-500/10 hover:bg-red-500/20 text-red-400 border-red-500/30"
                     disabled={isCancelLoading}
                     onClick={async () => {
-                      const confirmed = confirm('Are you sure you want to cancel your subscription? You will be switched to the free plan.')
+                      const confirmed = confirm(t('subscriptions.cancelConfirmDetailed'))
                       if (confirmed) {
                         try {
                           await cancelSubscription().unwrap()
@@ -192,7 +208,7 @@ const Subscriptions = () => {
                       }
                     }}
                   >
-                    {isCancelLoading ? 'Cancelling...' : 'Cancel Subscription'}
+                    {isCancelLoading ? t('subscriptions.cancelling') : t('subscriptions.cancelSubscription')}
                   </Button>
                 )}
               </div>
@@ -210,7 +226,7 @@ const Subscriptions = () => {
                   : "text-gray-400 hover:text-white"
               }`}
             >
-              Monthly
+              {t('subscriptions.monthly')}
             </button>
             <button
               onClick={() => setSelectedPeriod("yearly")}
@@ -220,7 +236,7 @@ const Subscriptions = () => {
                   : "text-gray-400 hover:text-white"
               }`}
             >
-              Yearly
+              {t('subscriptions.yearly')}
               <span className="absolute -top-2 -right-2 bg-blue-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">
                 -25%
               </span>
@@ -229,7 +245,7 @@ const Subscriptions = () => {
         </div>
 
         <section>
-          <h2 className="text-lg font-semibold mb-6">Available Plans</h2>
+          <h2 className="text-lg font-semibold mb-6">{t('subscriptions.availablePlans')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {plans.map((plan) => (
               <div
@@ -245,14 +261,14 @@ const Subscriptions = () => {
                 {plan.unavailable && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                     <span className="px-4 py-1 bg-gray-600 text-white text-xs font-bold rounded-full shadow-lg">
-                      COMING SOON
+                      {t('subscriptions.comingSoonBadge')}
                     </span>
                   </div>
                 )}
                 {plan.popular && !plan.unavailable && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                     <span className="px-4 py-1 bg-blue-500 text-white text-xs font-bold rounded-full shadow-lg">
-                      MOST POPULAR
+                      {t('subscriptions.mostPopular')}
                     </span>
                   </div>
                 )}
@@ -267,7 +283,7 @@ const Subscriptions = () => {
                   </div>
                   {selectedPeriod === "yearly" && plan.price > 0 && (
                     <p className="text-xs text-gray-500 mt-1">
-                      ${(plan.price / 12).toFixed(2)}/month billed annually
+                      ${(plan.price / 12).toFixed(2)}/month {t('subscriptions.billedAnnually')}
                     </p>
                   )}
                 </div>
@@ -305,10 +321,10 @@ const Subscriptions = () => {
                   disabled={plan.unavailable || isPaymentLoading || isCancelLoading}
                   onClick={() => handlePlanSelection(plan)}
                 >
-                  {currentPlanId === plan.id ? "Current Plan" : 
-                   plan.unavailable ? "Coming Soon" : 
-                   plan.id === 1 && currentPlanId !== 1 ? "Switch to Free" :
-                   isPaymentLoading || isCancelLoading ? "Loading..." : "Get Started"}
+                  {currentPlanId === plan.id ? t('subscriptions.currentPlanButton') : 
+                   plan.unavailable ? t('subscriptions.comingSoon') : 
+                   plan.id === 1 && currentPlanId !== 1 ? t('subscriptions.switchToFree') :
+                   isPaymentLoading || isCancelLoading ? t('common.loading') : t('subscriptions.getStarted')}
                 </Button>
               </div>
             ))}
@@ -316,7 +332,7 @@ const Subscriptions = () => {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold mb-6">Why Go Premium?</h2>
+          <h2 className="text-lg font-semibold mb-6">{t('subscriptions.whyGoPremium')}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {benefits.map((benefit, index) => (
               <div

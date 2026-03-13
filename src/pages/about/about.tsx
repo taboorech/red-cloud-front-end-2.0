@@ -22,7 +22,7 @@ const About = () => {
 
   return (
     <div className="bg-black text-white min-h-screen rounded p-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="mx-auto">
         <AboutHeader />
         
         {sections.map((section, index) => (

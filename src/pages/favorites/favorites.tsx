@@ -6,8 +6,10 @@ import { Button } from "../../components/button/button";
 import { useGetFavoriteSongsQuery } from "../../store/api/songs.api";
 import { useAudio } from "../../context/audio-context";
 import { formatDuration } from "../../utils/format";
+import { useTranslation } from "react-i18next";
 
 const Favorites = () => {
+  const { t } = useTranslation();
   const { data: favorites, isLoading, error } = useGetFavoriteSongsQuery();
   const audio = useAudio();
 
@@ -33,7 +35,7 @@ const Favorites = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-white text-lg">Loading favorites...</div>
+        <div className="text-white text-lg">{t('common.loading')}</div>
       </div>
     );
   }
@@ -41,7 +43,7 @@ const Favorites = () => {
   if (error) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-red-400 text-lg">Error loading favorites</div>
+        <div className="text-red-400 text-lg">{t('home.loadingError')}</div>
       </div>
     );
   }
@@ -51,10 +53,10 @@ const Favorites = () => {
       {/* Header */}
       <div className="bg-gradient-to-b from-pink-900/40 to-black p-6 rounded-md flex items-end gap-6">
         <div className="flex flex-col gap-2 min-w-0">
-          <span className="text-xs font-semibold uppercase tracking-wider text-gray-300">Playlist</span>
-          <h1 className="text-4xl font-bold text-white truncate">Favorite Songs</h1>
+          <span className="text-xs font-semibold uppercase tracking-wider text-gray-300">{t('favorites.playlist')}</span>
+          <h1 className="text-4xl font-bold text-white truncate">{t('favorites.title')}</h1>
           <p className="text-sm text-gray-400">
-            {favorites?.length ?? 0} {favorites?.length === 1 ? "song" : "songs"} · {totalDuration}
+            {favorites?.length ?? 0} {favorites?.length === 1 ? t('common.song') : t('common.songs')} · {totalDuration}
           </p>
           <div className="flex items-center gap-3 mt-3">
             <Button
@@ -65,7 +67,7 @@ const Favorites = () => {
               onClick={handlePlayAll}
               disabled={!favorites?.length}
             >
-              Play
+              {t('common.play')}
             </Button>
           </div>
         </div>

@@ -1,12 +1,14 @@
 import { useState, useCallback, useEffect, useRef } from "react"
 import { IoArrowBack, IoSettingsOutline } from "react-icons/io5"
 import { useNavigate } from "react-router"
+import { useTranslation } from 'react-i18next'
 import { Button } from "../../components/button/button"
 import Checkbox from "../../components/checkbox/checkbox"
 import PremiumFeature from "../../components/premium-feature/premium-feature"
 import { useSubscription } from "../../hooks/use-subscription"
 import { useGetSupportedLanguagesQuery } from "../../store/api/lyrics.api"
 import { useAudio } from "../../context/audio-context"
+import { SubscriptionType } from "../../types/subscription.types"
 
 const AUDIO_QUALITIES = [
   { value: "low", label: "Low (96 kbps)" },
@@ -39,13 +41,13 @@ const loadSettings = (): SettingsState => {
 
 const Settings = () => {
   const navigate = useNavigate()
+  const { t, i18n } = useTranslation()
   const { hasHighQuality } = useSubscription()
   const { data: languages = [] } = useGetSupportedLanguagesQuery()
   const { setAutoReplay } = useAudio()
   const [settings, setSettings] = useState<SettingsState>(loadSettings)
   const [saved, setSaved] = useState(false)
   const savedSettingsRef = useRef<SettingsState>(loadSettings())
-
   const isDirty = JSON.stringify(settings) !== JSON.stringify(savedSettingsRef.current)
 
   const update = useCallback(
@@ -85,33 +87,32 @@ const Settings = () => {
             >
               <IoArrowBack size={20} className="text-white" />
             </Button>
-            <h1 className="text-xl font-semibold tracking-tight">Settings</h1>
+            <h1 className="text-xl font-semibold tracking-tight">{t('settings.title')}</h1>
           </div>
         </div>
       </div>
 
       <div className="mx-auto w-full px-6 py-10 flex flex-col gap-10">
         {/* Language */}
-        <section className="flex flex-col gap-6 relative">
+        <section className="flex flex-col gap-6">
           <div className="flex items-center gap-3 px-2">
             <div className="p-2 bg-white/5 rounded-lg text-gray-400">
               <IoSettingsOutline size={20} />
             </div>
-            <h2 className="text-lg font-medium">Language</h2>
-            <span className="text-xs text-yellow-500 bg-yellow-500/10 border border-yellow-500/20 px-2.5 py-0.5 rounded-full">Coming soon</span>
+            <h2 className="text-lg font-medium">{t('settings.language')}</h2>
           </div>
-          <div className="bg-white/[0.03] border border-white/10 p-8 rounded-[2rem] opacity-40 pointer-events-none select-none">
+          <div className="bg-white/[0.03] border border-white/10 p-8 rounded-[2rem]">
             <div className="flex items-center justify-between gap-4">
               <p className="text-sm text-gray-400">
-                Choose your preferred interface language.
+                {t('settings.languageDescription')}
               </p>
               <select
-                value={settings.language}
-                disabled
-                className="bg-[#1a1a1a] border border-gray-700 text-white text-sm rounded-lg px-4 py-2 min-w-[180px] outline-none cursor-not-allowed appearance-none"
+                value={i18n.language}
+                onChange={(e) => i18n.changeLanguage(e.target.value)}
+                className="bg-[#1a1a1a] border border-gray-700 text-white text-sm rounded-lg px-4 py-2 min-w-[180px] outline-none hover:border-gray-600 focus:border-blue-500 transition-colors appearance-none cursor-pointer"
               >
                 {languages.map((lang) => (
-                  <option key={lang.code} value={lang.code}>
+                  <option key={lang.code} value={lang.code.toLowerCase()}>
                     {lang.flag} {lang.name}
                   </option>
                 ))}
@@ -126,12 +127,12 @@ const Settings = () => {
             <div className="p-2 bg-white/5 rounded-lg text-gray-400">
               <IoSettingsOutline size={20} />
             </div>
-            <h2 className="text-lg font-medium">Auto replay</h2>
+            <h2 className="text-lg font-medium">{t('settings.autoReplay')}</h2>
           </div>
           <div className="bg-white/[0.03] border border-white/10 p-8 rounded-[2rem]">
             <div className="flex items-center justify-between gap-4">
               <p className="text-sm text-gray-400">
-                Automatically restart the current track when it ends.
+                {t('settings.autoReplayDescription')}
               </p>
               <Checkbox
                 checked={settings.autoReplay}
@@ -147,22 +148,22 @@ const Settings = () => {
             <div className="p-2 bg-white/5 rounded-lg text-gray-400">
               <IoSettingsOutline size={20} />
             </div>
-            <h2 className="text-lg font-medium">Quality</h2>
-            <span className="text-xs text-yellow-500 bg-yellow-500/10 border border-yellow-500/20 px-2.5 py-0.5 rounded-full">Coming soon</span>
+            <h2 className="text-lg font-medium">{t('settings.quality.label')}</h2>
+            <span className="text-xs text-yellow-500 bg-yellow-500/10 border border-yellow-500/20 px-2.5 py-0.5 rounded-full">{t('comingSoon')}</span>
           </div>
           <div className="bg-white/[0.03] border border-white/10 p-8 rounded-[2rem] space-y-6 opacity-40 pointer-events-none select-none">
             {/* Audio Quality */}
             <div className="flex items-center justify-between gap-4">
               <div className="flex flex-col gap-1">
-                <p className="text-sm text-white font-medium">Audio quality</p>
+                <p className="text-sm text-white font-medium">{t('settings.quality.label')}</p>
                 {!hasHighQuality && (
                   <p className="text-xs text-gray-500">
-                    High and Very High quality require Premium.
+                    {t('settings.quality.highQualityRequirePremium')}
                   </p>
                 )}
               </div>
               <PremiumFeature
-                requiredPlan={["premium", "family"]}
+                requiredPlan={[SubscriptionType.PREMIUM, SubscriptionType.FAMILY]}
                 fallback={
                   <select
                     value={
@@ -206,11 +207,10 @@ const Settings = () => {
             <div className="flex items-center justify-between gap-4">
               <div className="flex flex-col gap-1">
                 <p className="text-sm text-white font-medium">
-                  Automatic quality setting
+                  {t('settings.quality.auto')}
                 </p>
                 <p className="text-xs text-gray-500">
-                  Adjust audio quality automatically based on your network
-                  connection.
+                  {t('settings.quality.autoDescription')}
                 </p>
               </div>
               <Checkbox

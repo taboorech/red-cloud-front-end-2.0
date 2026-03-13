@@ -1,5 +1,5 @@
 import { useGetCurrentSubscriptionQuery } from '../store/api/subscription.api'
-import type { SubscriptionType } from '../types/subscription.types'
+import { SubscriptionType } from '../types/subscription.types'
 
 export const useSubscription = () => {
   const { data, isLoading, error } = useGetCurrentSubscriptionQuery()
@@ -7,9 +7,9 @@ export const useSubscription = () => {
   const subscription = data?.subscription
   const features = data?.features
 
-  const isPremium = subscription?.plan === 'premium' || subscription?.plan === 'family'
-  const isFree = subscription?.plan === 'free'
-  const isFamily = subscription?.plan === 'family'
+  const isPremium = subscription?.plan === SubscriptionType.PREMIUM || subscription?.plan === SubscriptionType.FAMILY
+  const isFree = subscription?.plan === SubscriptionType.FREE
+  const isFamily = subscription?.plan === SubscriptionType.FAMILY
 
   const hasFeature = (requiredPlans: SubscriptionType[]) => {
     return subscription ? requiredPlans.includes(subscription.plan) : false
@@ -17,7 +17,7 @@ export const useSubscription = () => {
 
   return {
     // Subscription data
-    currentPlan: subscription?.plan || 'free',
+    currentPlan: subscription?.plan || SubscriptionType.FREE,
     subscription,
     isLoading,
     error,
