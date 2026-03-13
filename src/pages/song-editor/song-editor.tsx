@@ -16,8 +16,10 @@ import { useCreateSongMutation, useUpdateSongMutation, useGetSongQuery } from ".
 import { CiMusicNote1 } from "react-icons/ci";
 import type { Genre } from "../../types/genre.types";
 import type { User } from "../../types/user.types";
+import { useTranslation } from "react-i18next";
 
 const SongEditor = () => {
+  const { t } = useTranslation();
   const { songId } = useParams<{ songId: string }>();
   const navigate = useNavigate();
   
@@ -75,7 +77,7 @@ const SongEditor = () => {
   if (songId && isLoadingSong) {
     return (
       <div className="rounded-md bg-black w-full h-full px-4 overflow-y-auto flex items-center justify-center">
-        <div className="text-white text-lg">Loading song data for ID: {songId}...</div>
+        <div className="text-white text-lg">{t('songEditor.loadingSongData')} {songId}...</div>
       </div>
     );
   }
@@ -84,9 +86,9 @@ const SongEditor = () => {
     return (
       <div className="rounded-md bg-black w-full h-full px-4 overflow-y-auto flex items-center justify-center">
         <div className="text-red-400 text-lg">
-          Failed to load song with ID: {songId}
+          {t('songEditor.failedToLoadSong')} {songId}
           <div className="text-sm mt-2">
-            {(songError as any)?.data?.message || 'Unknown error occurred'}
+            {(songError as any)?.data?.message || t('songEditor.unknownError')}
           </div>
         </div>
       </div>
@@ -333,11 +335,11 @@ const SongEditor = () => {
         <IoMusicalNotes className="text-white text-2xl" />
         <div>
           <h1 className="text-2xl font-bold text-white">
-            {songId ? 'Edit Song' : 'Create New Song'}
+            {songId ? t('songEditor.editSong') : t('songEditor.createNewSong')}
           </h1>
           {existingSong && (
             <p className="text-gray-400 text-sm mt-1">
-              Editing: "{existingSong.title}"
+              {t('songEditor.editing')}: "{existingSong.title}"
             </p>
           )}
         </div>
@@ -354,28 +356,28 @@ const SongEditor = () => {
           <Form className="space-y-6 pb-6">
             {/* Basic Information */}
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-white">Basic Information</h2>
+              <h2 className="text-lg font-semibold text-white">{t('songEditor.basicInformation')}</h2>
               
               <div className="flex flex-col">
                 <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
-                  Title <span className="text-red-500">*</span>
+                  {t('songEditor.title')} <span className="text-red-500">*</span>
                 </label>
                 <Field
                   as={Input}
                   name="title"
-                  placeholder="Enter song title"
+                  placeholder={t('songEditor.enterSongTitle')}
                   error={touched.title && errors.title ? errors.title : undefined}
                 />
               </div>
 
               <div className="flex flex-col">
                 <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
-                  Description
+                  {t('songEditor.description')}
                 </label>
                 <Field
                   as="textarea"
                   name="description"
-                  placeholder="Enter song description"
+                  placeholder={t('songEditor.enterDescription')}
                   className="p-3 rounded border resize-none h-24 text-white border-white placeholder-gray-400"
                 />
               </div>
@@ -383,7 +385,7 @@ const SongEditor = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex flex-col">
                   <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
-                    Duration (seconds) <span className="text-red-500">*</span>
+                    {t('songEditor.durationSeconds')} <span className="text-red-500">*</span>
                   </label>
                   <Field
                     as={Input}
@@ -401,7 +403,7 @@ const SongEditor = () => {
 
                 <div className="flex flex-col">
                   <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
-                    Release Year
+                    {t('songEditor.releaseYear')}
                   </label>
                   <Field
                     as={Input}
@@ -421,17 +423,17 @@ const SongEditor = () => {
 
               <div className="flex flex-col">
                 <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
-                  Language
+                  {t('songEditor.language')}
                 </label>
                 {languagesLoading ? (
-                  <div className="text-white">Loading languages...</div>
+                  <div className="text-white">{t('songEditor.loadingLanguages')}</div>
                 ) : (
                   <Field
                     as="select"
                     name="language"
                     className="p-3 rounded border text-white"
                   >
-                    <option value="">Select language</option>
+                    <option value="">{t('songEditor.selectLanguage')}</option>
                     {languages.map((language) => (
                       <option key={language.code} value={language.code}>
                         {getLanguageName(language)}
@@ -447,12 +449,12 @@ const SongEditor = () => {
                   name="isPublic"
                   className="rounded"
                 />
-                <label className="text-white text-sm">Make song public</label>
+                <label className="text-white text-sm">{t('songEditor.makeSongPublic')}</label>
               </div>
 
               <div className="flex flex-col">
                 <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
-                  <IoImage className="inline mr-1" /> Cover Image
+                  <IoImage className="inline mr-1" /> {t('songEditor.coverImage')}
                 </label>
                 
                 <div className="space-y-3">
@@ -467,8 +469,8 @@ const SongEditor = () => {
                     }}
                     className="p-3 rounded border text-white border-white"
                   >
-                    <option value="upload">Upload File</option>
-                    <option value="ai">Generate with AI</option>
+                    <option value="upload">{t('songEditor.uploadFile')}</option>
+                    <option value="ai">{t('songEditor.generateWithAI')}</option>
                   </Field>
                   
                   {coverImageMethod === 'upload' ? (
@@ -494,7 +496,7 @@ const SongEditor = () => {
                       {/* Show current cover image for editing */}
                       {!coverImagePreview && values.image && typeof values.image === 'string' && (
                         <div className="mt-3">
-                          <div className="text-white text-sm mb-2">Current Cover Image:</div>
+                          <div className="text-white text-sm mb-2">{t('songEditor.currentCoverImage')}:</div>
                           <img 
                             src={values.image} 
                             alt="Current cover" 
@@ -508,7 +510,7 @@ const SongEditor = () => {
                   ) : (
                     <div className="bg-gray-900/20 p-4 rounded-lg space-y-3">
                       <Input
-                        placeholder="Describe the image you want to generate..."
+                        placeholder={t('songEditor.describeImage')}
                         value={aiImagePrompt}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAiImagePrompt(e.target.value)}
                       />
@@ -523,18 +525,18 @@ const SongEditor = () => {
                         >
                           <div className="flex gap-2">
                             <IoSparkles /> 
-                            {generatingImage ? 'Generating...' : 'Generate'}
+                            {generatingImage ? t('songEditor.generating') : t('songEditor.generate')}
                           </div>
                         </Button>
                         {generatingImage && (
                           <div className="text-white text-sm self-center">
-                            AI is creating your image...
+                            {t('songEditor.aiIsCreatingImage')}
                           </div>
                         )}
                       </div>
                       {coverImagePreview && (
                         <div className="mt-3">
-                          <div className="text-white text-sm mb-2">Generated Image:</div>
+                          <div className="text-white text-sm mb-2">{t('songEditor.generatedImage')}:</div>
                           <img 
                             src={coverImagePreview} 
                             alt="Generated preview" 
@@ -555,16 +557,16 @@ const SongEditor = () => {
 
             {/* Lyrics */}
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-white">Lyrics</h2>
+              <h2 className="text-lg font-semibold text-white">{t('songEditor.lyrics')}</h2>
               
               <div className="flex flex-col">
                 <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
-                  Song Text/Lyrics
+                  {t('songEditor.songTextLyrics')}
                 </label>
                 <Field
                   as="textarea"
                   name="text"
-                  placeholder="Enter song lyrics"
+                  placeholder={t('songEditor.enterLyrics')}
                   className="p-3 rounded border border-white resize-none h-40 text-white placeholder-gray-400"
                 />
               </div>
@@ -573,11 +575,11 @@ const SongEditor = () => {
             {/* Audio File - Only show for new songs */}
             {!songId && (
               <div className="space-y-4">
-                <h2 className="text-lg font-semibold text-white">Audio File</h2>
+                <h2 className="text-lg font-semibold text-white">{t('songEditor.audioFile')}</h2>
                 
                 <div className="flex flex-col">
                   <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
-                    <IoMusicalNotes className="inline mr-1" /> Audio File <span className="text-red-500">*</span>
+                    <IoMusicalNotes className="inline mr-1" /> {t('songEditor.audioFile')} <span className="text-red-500">*</span>
                   </label>
                   <FileInput
                     label=""
@@ -623,7 +625,7 @@ const SongEditor = () => {
                             style={{ filter: 'invert(1)' }}
                           >
                             <source src={URL.createObjectURL(values.song)} type={values.song.type} />
-                            Your browser does not support the audio element.
+                            {t('songEditor.browserDoesNotSupport')}
                           </audio>
                         </div>
                       )}
@@ -639,7 +641,7 @@ const SongEditor = () => {
 
             {/* Genres */}
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-white">Genres</h2>
+              <h2 className="text-lg font-semibold text-white">{t('songEditor.genres')}</h2>
               
               <div className="flex flex-wrap gap-2 mb-2">
                 {values.genres.map((genre, index) => (
@@ -664,7 +666,7 @@ const SongEditor = () => {
               <div className="flex gap-2 relative">
                 <div className="flex-1 relative">
                   <Input
-                    placeholder="Search genres"
+                    placeholder={t('songEditor.searchGenres')}
                     className="pr-10"
                     value={genreSearchInput}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -678,7 +680,7 @@ const SongEditor = () => {
                   {(showGenreSearch && genreSearchResults.length > 0) || genresLoading ? (
                     <div className="absolute top-full left-0 right-0 bg-black border border-gray-600 rounded-b shadow-lg z-50 max-h-40 overflow-y-auto mt-1">
                       {genresLoading ? (
-                        <div className="p-2 text-center text-gray-300">Searching...</div>
+                        <div className="p-2 text-center text-gray-300">{t('songEditor.searching')}...</div>
                       ) : (
                         genreSearchResults.map((genre) => (
                           <div
@@ -698,16 +700,16 @@ const SongEditor = () => {
 
             {/* Authors */}
             <div className="space-y-4 relative">
-              <h2 className="text-lg font-semibold text-white">Authors</h2>
+              <h2 className="text-lg font-semibold text-white">{t('songEditor.authors')}</h2>
               <div className="bg-gray-900/20 py-4 rounded-lg space-y-3">
                 <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider">
-                  Search and Add Author
+                  {t('songEditor.searchAndAddAuthor')}
                 </label>
                 
                 <div className="flex gap-2 relative">
                   <div className="flex-1 relative">
                     <Input
-                      placeholder="Search user by name"
+                      placeholder={t('songEditor.searchUserByName')}
                       className="pr-10"
                       value={userSearchInput}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -721,7 +723,7 @@ const SongEditor = () => {
                     {(showUserSearch && searchResults.length > 0) || usersLoading ? (
                       <div className="absolute top-full left-0 right-0 bg-black border border-gray-600 rounded-b shadow-lg z-50 max-h-40 overflow-y-auto mt-1">
                         {usersLoading ? (
-                          <div className="p-2 text-center text-gray-300">Searching users...</div>
+                          <div className="p-2 text-center text-gray-300">{t('songEditor.searchingUsers')}...</div>
                         ) : (
                           searchResults.map((user) => (
                             <div
@@ -780,7 +782,7 @@ const SongEditor = () => {
                     <div className="flex gap-2 items-end">
                       <div className="flex-1">
                         <label className="text-[11px] font-medium text-gray-400 uppercase tracking-wider mb-1 block">
-                          Select Role
+                          {t('songEditor.selectRole')}
                         </label>
                         <div className="flex gap-3">
                           <select
@@ -807,7 +809,7 @@ const SongEditor = () => {
                           >
                             <div className="flex gap-2">
                               <IoAdd /> 
-                              Add Author
+                              {t('songEditor.addAuthor')}
                             </div>
                           </Button>
                         </div>
@@ -821,7 +823,7 @@ const SongEditor = () => {
               {values.authors.length > 0 && (
                 <div className="space-y-2">
                   <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider">
-                    Added Authors
+                    {t('songEditor.addedAuthors')}
                   </label>
                   {values.authors.map((author, index) => (
                     <div key={index} className="bg-transparent border border-white/10 p-3 rounded flex items-center justify-between">
@@ -867,7 +869,7 @@ const SongEditor = () => {
               {/* Success Message */}
               {submitSuccess && (
                 <div className="w-full p-3 bg-green-900/20 border border-green-500/50 rounded-lg text-green-300 text-sm">
-                  Song saved successfully!
+                    {t('songEditor.songSavedSuccessfully')}
                 </div>
               )}
               
@@ -877,7 +879,7 @@ const SongEditor = () => {
                   variant="outline"
                   onClick={() => window.history.back()}
                 >
-                  Cancel
+                  {t('common.cancel')}
                 </Button>
                 <Button
                   type="submit"
@@ -891,7 +893,7 @@ const SongEditor = () => {
                 >
                   <div className="flex gap-2">
                     <IoMusicalNotes /> 
-                    {songId ? 'Update Song' : 'Save Song'}
+                    {songId ? t('songEditor.updateSong') : t('songEditor.saveSong')}
                   </div>
                 </Button>
               </div>

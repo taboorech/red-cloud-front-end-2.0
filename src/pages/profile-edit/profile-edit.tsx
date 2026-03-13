@@ -16,8 +16,10 @@ import {
 } from "../../store/api/profile.api";
 import { profileEditSchema } from "../../validation/profile.schema";
 import { zodValidate } from "../../utils/zod-validate";
+import { useTranslation } from "react-i18next";
 
 const ProfileEdit = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate();
   const { data: profile, isLoading } = useGetProfileQuery();
   const [updateProfile] = useUpdateProfileMutation();
@@ -43,7 +45,7 @@ const ProfileEdit = () => {
   if (isLoading || !profile) {
     return (
       <div className="flex items-center justify-center h-full text-gray-400">
-        Loading...
+        {t('common.loading')}
       </div>
     );
   }
@@ -97,7 +99,7 @@ const ProfileEdit = () => {
                     <IoArrowBack size={20} className="text-white" />
                   </Button>
                   <h1 className="text-xl font-semibold tracking-tight">
-                    Edit Profile
+                    {t('profile.editProfile')}
                   </h1>
                 </div>
                 {hasChanges && (
@@ -107,14 +109,14 @@ const ProfileEdit = () => {
                       variant="ghost"
                       onClick={() => navigate("/profile")}
                     >
-                      Cancel
+                      {t('common.cancel')}
                     </Button>
                     <Button
                       type="submit"
                       form="profile-edit-form"
                       variant={"outline"}
                     >
-                      Save Changes
+                      {t('common.update')}
                     </Button>
                   </div>
                 )}
@@ -147,10 +149,9 @@ const ProfileEdit = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-1 text-center sm:text-left">
-                    <h3 className="text-lg font-medium">Profile Image</h3>
+                    <h3 className="text-lg font-medium">{t('profile.profileImage')}</h3>
                     <p className="text-sm text-gray-500 max-w-[240px]">
-                      Update your photo manually or upload a new file.
-                      Recommended 400x400px.
+                      {t('profile.profileImageDescription')}
                     </p>
                   </div>
                 </div>
@@ -166,19 +167,19 @@ const ProfileEdit = () => {
                     <div className="p-2 bg-white/5 rounded-lg text-gray-400">
                       <IoPersonOutline size={20} />
                     </div>
-                    <h2 className="text-lg font-medium">General Information</h2>
+                    <h2 className="text-lg font-medium">{t('profile.generalInformation')}</h2>
                   </div>
 
                   <div className="bg-white/[0.03] border border-white/10 p-8 rounded-[2rem] space-y-6">
                     <div className="grid grid-cols-1 gap-6">
                       <div className="flex flex-col gap-2">
                         <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider ml-1">
-                          Username
+                          {t('profile.username')}
                         </label>
                         <Field
                           name="username"
                           as={Input}
-                          placeholder="e.g. Kainless"
+                          placeholder={t('profile.usernamePlaceholder')}
                           error={
                             touched.username && errors.username
                               ? errors.username
@@ -190,13 +191,13 @@ const ProfileEdit = () => {
 
                       <div className="flex flex-col gap-2">
                         <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider ml-1">
-                          Email Address
+                          {t('profile.email')}
                         </label>
                         <Input
                           type="email"
                           value={profile.email ?? ""}
                           disabled
-                          placeholder="user@example.com"
+                          placeholder={t('profile.emailPlaceholder')}
                           className="bg-black/40 border-white/5 opacity-50 cursor-not-allowed"
                         />
                       </div>
@@ -209,19 +210,19 @@ const ProfileEdit = () => {
                     <div className="p-2 bg-white/5 rounded-lg text-gray-400">
                       <IoShieldCheckmarkOutline size={20} />
                     </div>
-                    <h2 className="text-lg font-medium">Security & Password</h2>
+                    <h2 className="text-lg font-medium">{t('profile.securityAndPassword')}</h2>
                   </div>
 
                   <div className="bg-white/[0.03] border border-white/10 p-8 rounded-[2rem] space-y-6">
                     <div className="flex flex-col gap-2">
                       <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider ml-1">
-                        Current Password
+                        {t('profile.currentPassword')}
                       </label>
                       <Field
                         name="currentPassword"
                         as={Input}
                         type="password"
-                        placeholder="Confirm current password"
+                        placeholder={t('profile.currentPasswordPlaceholder')}
                         error={
                           touched.currentPassword && errors.currentPassword
                             ? errors.currentPassword
@@ -234,13 +235,13 @@ const ProfileEdit = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div className="flex flex-col gap-2">
                         <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider ml-1">
-                          New Password
+                          {t('profile.newPassword')}
                         </label>
                         <Field
                           name="newPassword"
                           as={Input}
                           type="password"
-                          placeholder="New password"
+                          placeholder={t('profile.newPasswordPlaceholder')}
                           error={
                             touched.newPassword && errors.newPassword
                               ? errors.newPassword
@@ -251,13 +252,13 @@ const ProfileEdit = () => {
                       </div>
                       <div className="flex flex-col gap-2">
                         <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider ml-1">
-                          Confirm New
+                          {t('profile.confirmPassword')}
                         </label>
                         <Field
                           name="confirmPassword"
                           as={Input}
                           type="password"
-                          placeholder="Repeat password"
+                          placeholder={t('profile.confirmPasswordPlaceholder')}
                           error={
                             touched.confirmPassword && errors.confirmPassword
                               ? errors.confirmPassword

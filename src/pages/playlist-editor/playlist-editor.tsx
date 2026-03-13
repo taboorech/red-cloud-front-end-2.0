@@ -13,8 +13,10 @@ import {
   useUpdatePlaylistMutation,
   useGetPlaylistQuery,
 } from "../../store/api/playlist.api";
+import { useTranslation } from "react-i18next";
 
 const PlaylistEditor = () => {
+  const { t } = useTranslation();
   const { playlistId } = useParams<{ playlistId: string }>();
   const navigate = useNavigate();
 
@@ -44,7 +46,7 @@ const PlaylistEditor = () => {
   if (playlistId && isLoadingPlaylist) {
     return (
       <div className="rounded-md bg-black w-full h-full px-4 overflow-y-auto flex items-center justify-center">
-        <div className="text-white text-lg">Loading playlist data for ID: {playlistId}...</div>
+        <div className="text-white text-lg">{t('playlistEditor.loadingPlaylistData')} {playlistId}...</div>
       </div>
     );
   }
@@ -53,11 +55,11 @@ const PlaylistEditor = () => {
     return (
       <div className="rounded-md bg-black w-full h-full px-4 overflow-y-auto flex items-center justify-center">
         <div className="text-red-400 text-lg">
-          Failed to load playlist with ID: {playlistId}
+          {t('playlistEditor.failedToLoadPlaylist')} {playlistId}
           <div className="text-sm mt-2">
             {playlistError && typeof playlistError === 'object' && 'data' in playlistError
-              ? (playlistError as { data?: { message?: string } }).data?.message || 'Unknown error occurred'
-              : 'Unknown error occurred'
+              ? (playlistError as { data?: { message?: string } }).data?.message || t('playlistEditor.unknownError')
+              : t('playlistEditor.unknownError')
             }
           </div>
         </div>
@@ -146,11 +148,11 @@ const PlaylistEditor = () => {
       <div className="flex items-center gap-3 py-6">
         <div>
           <h1 className="text-2xl font-bold text-white">
-            {playlistId ? 'Edit Playlist' : 'Create New Playlist'}
+            {playlistId ? t('playlistEditor.editPlaylist') : t('playlistEditor.createNewPlaylist')}
           </h1>
           {existingPlaylist && (
             <p className="text-gray-400 text-sm mt-1">
-              Editing: "{existingPlaylist.title}"
+              {t('playlistEditor.editing')}: "{existingPlaylist.title}"
             </p>
           )}
         </div>
@@ -167,16 +169,16 @@ const PlaylistEditor = () => {
             <Form className="space-y-6 pb-6">
               {/* Basic Information */}
               <div className="space-y-4">
-                <h2 className="text-lg font-semibold text-white">Basic Information</h2>
+                <h2 className="text-lg font-semibold text-white">{t('playlistEditor.basicInformation')}</h2>
                 
                 <div className="flex flex-col">
                   <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
-                    Title <span className="text-red-500">*</span>
+                    {t('playlistEditor.title')} <span className="text-red-500">*</span>
                   </label>
                   <Field
                     as={Input}
                     name="title"
-                    placeholder="Enter playlist title"
+                    placeholder={t('playlistEditor.enterPlaylistTitle')}
                     error={touched.title && errors.title ? errors.title : undefined}
                   />
                 </div>
@@ -184,7 +186,7 @@ const PlaylistEditor = () => {
                 {/* Privacy Setting */}
                 <div className="flex flex-col">
                   <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
-                    Visibility
+                    {t('playlistEditor.visibility')}
                   </label>
                   <div 
                     className="flex items-center gap-3 p-3 border border-white rounded cursor-pointer hover:bg-gray-900/30 transition-colors"
@@ -196,9 +198,9 @@ const PlaylistEditor = () => {
                       <IoSquareOutline className="text-white text-xl" />
                     )}
                     <div className="text-white">
-                      <div className="font-medium">Public Playlist</div>
+                      <div className="font-medium">{t('playlistEditor.publicPlaylist')}</div>
                       <div className="text-sm text-gray-400">
-                        {values.isPublic ? 'Anyone can see this playlist' : 'Only you can see this playlist'}
+                        {values.isPublic ? t('playlistEditor.anyoneCanSee') : t('playlistEditor.onlyYouCanSee')}
                       </div>
                     </div>
                   </div>
@@ -207,11 +209,11 @@ const PlaylistEditor = () => {
 
               {/* Cover Image */}
               <div className="space-y-4">
-                <h2 className="text-lg font-semibold text-white">Cover Image</h2>
+                <h2 className="text-lg font-semibold text-white">{t('playlistEditor.coverImage')}</h2>
                 
                 <div className="flex flex-col">
                   <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
-                    <IoImage className="inline mr-1" /> Cover Image
+                    <IoImage className="inline mr-1" /> {t('playlistEditor.coverImage')}
                   </label>
                   
                   <FileInput
@@ -237,7 +239,7 @@ const PlaylistEditor = () => {
                   <div className="mt-4 space-y-2">
                     {coverImagePreview && (
                       <div className="space-y-2">
-                        <div className="text-white text-sm">Current Cover:</div>
+                        <div className="text-white text-sm">{t('playlistEditor.currentCover')}:</div>
                         <img 
                           src={coverImagePreview} 
                           alt="Cover preview" 
@@ -263,7 +265,7 @@ const PlaylistEditor = () => {
                 {/* Success Message */}
                 {submitSuccess && (
                   <div className="w-full p-3 bg-green-900/20 border border-green-500/50 rounded-lg text-green-300 text-sm">
-                    Playlist saved successfully!
+                    {t('playlistEditor.playlistSavedSuccessfully')}
                   </div>
                 )}
                 
@@ -273,7 +275,7 @@ const PlaylistEditor = () => {
                     variant="outline"
                     onClick={() => window.history.back()}
                   >
-                    Cancel
+                    {t('playlistEditor.cancel')}
                   </Button>
                   <Button
                     type="submit"
@@ -286,7 +288,7 @@ const PlaylistEditor = () => {
                     }}
                   >
                     <div className="flex gap-2">
-                      {playlistId ? 'Update Playlist' : 'Save Playlist'}
+                      {playlistId ? t('playlistEditor.updatePlaylist') : t('playlistEditor.savePlaylist')}
                     </div>
                   </Button>
                 </div>

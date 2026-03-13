@@ -3,12 +3,14 @@ import { useNavigate } from "react-router"
 import type { Playlist } from "../../../types/playlist.types"
 import { useContextMenu } from "../../../hooks/use-context-menu"
 import PlaylistContextMenu from "../../../components/context-menu/menus/playlist-context-menu"
+import { useTranslation } from "react-i18next"
 
 interface RecentPlaylistsProps {
   playlists: Playlist[]
 }
 
 const RecentPlaylists = ({ playlists }: RecentPlaylistsProps) => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const contextMenu = useContextMenu()
   const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(null)
@@ -22,7 +24,7 @@ const RecentPlaylists = ({ playlists }: RecentPlaylistsProps) => {
     <div className="lg:col-span-8 bg-black p-6 rounded-2xl flex flex-col gap-4 shadow-md">
       <div className="flex flex-col gap-1">
         {playlists.length === 0 ? (
-          <p className="text-gray-500 text-sm text-center py-4">No playlists yet</p>
+          <p className="text-gray-500 text-sm text-center py-4">{t('profile.noPlaylistsYet')}</p>
         ) : (
           playlists.map((playlist) => (
             <div 
@@ -42,7 +44,7 @@ const RecentPlaylists = ({ playlists }: RecentPlaylistsProps) => {
                 </span>
               </div>
               <span className="text-xs font-mono text-gray-600 group-hover:text-gray-400 transition-colors">
-                {playlist.songs?.length ?? 0} songs
+                {playlist.songs?.length ?? 0} {t('common.songs')}
               </span>
             </div>
           ))

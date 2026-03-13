@@ -4,8 +4,10 @@ import RecentPlaylists from "./components/recent-playlists"
 import ProfileStats from "./components/profile-stats"
 import { useGetProfileQuery, useGetProfileStatsQuery } from "../../store/api/profile.api"
 import { useLazyGetPlaylistsQuery } from "../../store/api/playlist.api"
+import { useTranslation } from "react-i18next"
 
 const Profile = () => {
+  const { t } = useTranslation()
   const { data: profile, isLoading } = useGetProfileQuery()
   const { data: stats, isLoading: statsLoading } = useGetProfileStatsQuery()
   const [getPlaylists, { data: playlists, isLoading: playlistsLoading }] = useLazyGetPlaylistsQuery()
@@ -17,7 +19,7 @@ const Profile = () => {
   if (isLoading || statsLoading || playlistsLoading) {
     return (
       <div className="flex items-center justify-center h-full text-gray-400">
-        Loading...
+        {t('common.loading')}
       </div>
     )
   }
