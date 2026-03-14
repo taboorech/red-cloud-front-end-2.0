@@ -20,8 +20,8 @@ export const PremiumFeatureLock = ({
     <div className="flex flex-col items-center justify-center h-full text-center px-6">
       <div className="max-w-md">
         {icon}
-        <h2 className="text-2xl font-bold mb-3 text-white">{title}</h2>
-        <p className="text-gray-400 mb-6">{description}</p>
+        <h2 className="text-2xl font-bold mb-3 text-gray-900 dark:text-white">{title}</h2>
+        <p className="text-gray-500 dark:text-gray-400 mb-6">{description}</p>
         <div className="flex gap-3 justify-center">
           <Button variant='snow' onClick={onUpgrade}>Upgrade to Premium</Button>
           <Button variant='outline' onClick={onGoBack}>

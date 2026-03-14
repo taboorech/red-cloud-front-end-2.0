@@ -24,7 +24,7 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
       >
         {({ errors, touched, values, setFieldValue }) => (
           <Form className="space-y-8">
-            <h1 className="text-2xl font-light text-white text-center">
+            <h1 className="text-2xl font-light text-gray-900 dark:text-white text-center">
               Authorization
             </h1>
 
@@ -53,7 +53,7 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
                 />
                 <Link
                   to="/auth/forgot-password"
-                  className="text-xs text-blue-700 hover:text-blue-600 transition-colors"
+                  className="text-xs text-blue-600 dark:text-blue-700 hover:text-blue-500 dark:hover:text-blue-600 transition-colors"
                 >
                   Forgot password?
                 </Link>
@@ -85,7 +85,7 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
     >
       {({ errors, touched }) => (
         <Form className="space-y-6">
-          <h1 className="text-2xl font-light text-white text-center">
+          <h1 className="text-2xl font-light text-gray-900 dark:text-white text-center">
             Registration
           </h1>
 

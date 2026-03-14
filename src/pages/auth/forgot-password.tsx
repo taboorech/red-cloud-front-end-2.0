@@ -26,18 +26,18 @@ const ForgotPassword = () => {
 
   if (submitted) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0d0d0d] p-4">
-        <div className="w-full max-w-[450px] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
-          <h1 className="text-2xl font-light text-white text-center mb-4">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0d0d0d] p-4">
+        <div className="w-full max-w-[450px] bg-white dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
+          <h1 className="text-2xl font-light text-gray-900 dark:text-white text-center mb-4">
             Check your email
           </h1>
-          <p className="text-gray-400 text-sm text-center mb-8">
+          <p className="text-gray-500 dark:text-gray-400 text-sm text-center mb-8">
             We've sent a password reset link to your email address. The link will expire in 15 minutes.
           </p>
           <div className="flex justify-center">
             <Link
               to="/auth"
-              className="text-sm text-white hover:text-gray-100 transition-colors"
+              className="text-sm text-blue-600 dark:text-white hover:text-blue-500 dark:hover:text-gray-100 transition-colors"
             >
               Back to login
             </Link>
@@ -48,8 +48,8 @@ const ForgotPassword = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0d0d0d] p-4">
-      <div className="w-full max-w-[450px] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0d0d0d] p-4">
+      <div className="w-full max-w-[450px] bg-white dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
         <Formik
           initialValues={{ email: "" }}
           validate={zodValidate(forgotPasswordSchema)}
@@ -57,11 +57,11 @@ const ForgotPassword = () => {
         >
           {({ errors, touched, status }) => (
             <Form className="space-y-8">
-              <h1 className="text-2xl font-light text-white text-center">
+              <h1 className="text-2xl font-light text-gray-900 dark:text-white text-center">
                 Reset password
               </h1>
 
-              <p className="text-gray-400 text-sm text-center">
+              <p className="text-gray-500 dark:text-gray-400 text-sm text-center">
                 Enter your email address and we'll send you a link to reset your password.
               </p>
 
@@ -96,7 +96,7 @@ const ForgotPassword = () => {
               <div className="flex justify-center">
                 <Link
                   to="/auth"
-                  className="text-sm text-white hover:text-gray-100 transition-colors"
+                  className="text-sm text-blue-600 dark:text-white hover:text-blue-500 dark:hover:text-gray-100 transition-colors"
                 >
                   Back to login
                 </Link>

@@ -10,8 +10,8 @@ const AboutSection = ({ title, content, level }: SectionProps) => {
     : "text-lg font-semibold mb-4 ml-4"
     
   const textStyles = level === 1
-    ? "text-gray-300 leading-relaxed text-lg ml-0"
-    : "text-gray-300 leading-relaxed text-base ml-8"
+    ? "text-gray-600 dark:text-gray-300 leading-relaxed text-lg ml-0"
+    : "text-gray-600 dark:text-gray-300 leading-relaxed text-base ml-8"
     
   return (
     <section className="mb-12">

@@ -3,7 +3,7 @@ import SongInfo from "./song-info/song-info";
 
 const StateSidebar = () => {
   return (
-    <div className="flex flex-col h-full bg-black rounded-md p-2 gap-2">
+    <div className="flex flex-col h-full bg-white dark:bg-black border border-gray-200 dark:border-white/10 rounded-md p-2 gap-2">
       <div className="h-1/3 min-h-0 flex-shrink-0">
         <SongInfo />
       </div>

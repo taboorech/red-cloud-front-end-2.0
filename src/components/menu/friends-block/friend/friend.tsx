@@ -11,13 +11,13 @@ const Friend = ({ friend }: FriendProps) => {
       <div className="relative h-10 w-10">
         <Avatar src={friend.avatar} alt={friend.username} />
         <div 
-          className={`absolute right-[2%] bottom-[2%] h-2 w-2 rounded-full border-1 border-white ${
+          className={`absolute right-[2%] bottom-[2%] h-2 w-2 rounded-full border-1 border-gray-100 dark:border-white ${
             friend.isOnline ? 'bg-green-500' : 'bg-gray-400'
           }`}
         />
       </div>
       <div className="flex-1">
-        <span className="block text-sm font-medium text-white">
+        <span className="block text-sm font-medium text-gray-900 dark:text-white">
           {friend.username}
         </span>
       </div>

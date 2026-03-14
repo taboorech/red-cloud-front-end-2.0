@@ -29,8 +29,8 @@ const ContextMenuItem = ({
       className={classNames(
         "flex items-center justify-between w-full px-4 py-2.5 text-sm text-left transition-colors cursor-pointer",
         danger
-          ? "text-red-400 hover:bg-white/5 hover:text-red-300"
-          : "text-gray-200 hover:bg-white/10 hover:text-white",
+          ? "text-red-500 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-red-600 dark:hover:text-red-300"
+          : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white",
         disabled && "opacity-40 cursor-not-allowed"
       )}
     >

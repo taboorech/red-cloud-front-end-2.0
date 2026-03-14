@@ -50,7 +50,7 @@ const Banner = ({ playlist }: BannerProps) => {
       case 'shuffle':
         return <IoShuffle className="text-lg" />;
       default:
-        return <IoRepeat className="text-lg text-gray-600" />;
+        return <IoRepeat className="text-lg text-gray-400 dark:text-gray-600" />;
     }
   };
 

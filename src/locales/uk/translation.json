@@ -23,7 +23,8 @@
     "generating": "Генерування...",
     "upload": "Завантажити",
     "unknownError": "Виникла невідома помилка",
-    "chooseFile": "Обрати файл"
+    "chooseFile": "Обрати файл",
+    "home": "Головна"
   },
   "home": {
     "loadingError": "Не вдалося завантажити пісні",
@@ -42,6 +43,10 @@
     "title": "Налаштування",
     "language": "Мова",
     "languageDescription": "Оберіть бажану мову інтерфейсу",
+    "theme": "Тема",
+    "themeDescription": "Оберіть бажану кольорову схему",
+    "themeLight": "Світла",
+    "themeDark": "Темна",
     "autoReplay": "Автоповтор",
     "autoReplayDescription": "Автоматично перезапускати поточний трек після завершення",
     "quality": {
@@ -241,5 +246,14 @@
     "failedToLoadSong": "Не вдалося завантажити пісню з ID",
     "unknownError": "Виникла невідома помилка",
     "loadingLanguages": "Завантаження мов..."
+  },
+  "notFound": {
+    "title": "Сторінка не знайдена",
+    "description": "Сторінка, яку ви шукаєте, не існує або була переміщена."
+  },
+  "sidebar": {
+    "noSongsInQueue": "Немає пісень в черзі",
+    "noSongPlaying": "Немає пісні в відтворенні",
+    "noSongSelected": "Немає обраної пісні"
   }
 }

@@ -25,22 +25,22 @@ const Playlists = () => {
 
   if (isLoading) {
     return (
-      <div className="bg-black p-4 rounded-md h-full flex items-center justify-center">
-        <div className="text-white text-lg">{t('playlists.loadingPlaylists')}</div>
+      <div className="bg-white dark:bg-black p-4 rounded-md border border-gray-200 dark:border-transparent h-full flex items-center justify-center">
+        <div className="text-gray-900 dark:text-white text-lg">{t('playlists.loadingPlaylists')}</div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="bg-black p-4 rounded-md h-full flex items-center justify-center">
+      <div className="bg-white dark:bg-black p-4 rounded-md border border-gray-200 dark:border-transparent h-full flex items-center justify-center">
         <div className="text-red-400 text-lg">{t('playlists.failedToLoadPlaylists')}</div>
       </div>
     );
   }
 
   return (
-    <div className="bg-black p-4 rounded-md h-full flex flex-col">
+    <div className="bg-white dark:bg-black p-4 rounded-md border border-gray-200 dark:border-transparent h-full flex flex-col">
       {/* Search Bar */}
       <div className="mb-4 relative flex-shrink-0">
         <Input

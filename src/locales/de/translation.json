@@ -23,7 +23,8 @@
     "generating": "Generieren...",
     "upload": "Hochladen",
     "unknownError": "Unbekannter Fehler aufgetreten",
-    "chooseFile": "Datei wählen"
+    "chooseFile": "Datei wählen",
+    "home": "Startseite"
   },
   "home": {
     "loadingError": "Fehler beim Laden der Songs",
@@ -42,6 +43,10 @@
     "title": "Einstellungen",
     "language": "Sprache",
     "languageDescription": "Wähle deine bevorzugte Sprache",
+    "theme": "Design",
+    "themeDescription": "Wähle dein bevorzugtes Farbschema",
+    "themeLight": "Hell",
+    "themeDark": "Dunkel",
     "autoReplay": "Automatische Wiederholung",
     "autoReplayDescription": "Aktuellen Titel am Ende automatisch neu starten",
     "quality": {
@@ -230,5 +235,14 @@
     "loadingSongData": "Lade Daten...",
     "failedToLoadSong": "Laden fehlgeschlagen",
     "loadingLanguages": "Lade Sprachen..."
+  },
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "description": "Die gesuchte Seite existiert nicht oder wurde verschoben."
+  },
+  "sidebar": {
+    "noSongsInQueue": "Keine Songs in der Warteschlange",
+    "noSongPlaying": "Kein Song wird abgespielt",
+    "noSongSelected": "Kein Song ausgewählt"
   }
 }

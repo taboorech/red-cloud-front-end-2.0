@@ -23,7 +23,8 @@
     "generating": "Génération...",
     "upload": "Téléverser",
     "unknownError": "Une erreur inconnue est survenue",
-    "chooseFile": "Choisir un fichier"
+    "chooseFile": "Choisir un fichier",
+    "home": "Accueil"
   },
   "home": {
     "loadingError": "Échec du chargement des chansons",
@@ -42,6 +43,10 @@
     "title": "Paramètres",
     "language": "Langue",
     "languageDescription": "Choisissez votre langue d'interface préférée",
+    "theme": "Thème",
+    "themeDescription": "Choisissez votre palette de couleurs préférée",
+    "themeLight": "Clair",
+    "themeDark": "Sombre",
     "autoReplay": "Lecture automatique",
     "autoReplayDescription": "Redémarrer automatiquement la piste à la fin",
     "quality": {
@@ -230,5 +235,14 @@
     "loadingSongData": "Chargement...",
     "failedToLoadSong": "Erreur de chargement",
     "loadingLanguages": "Chargement des langues..."
+  },
+  "notFound": {
+    "title": "Page Non Trouvée",
+    "description": "La page que vous recherchez n'existe pas ou a été déplacée."
+  },
+  "sidebar": {
+    "noSongsInQueue": "Aucune chanson dans la file d'attente",
+    "noSongPlaying": "Aucune chanson en cours de lecture",
+    "noSongSelected": "Aucune chanson sélectionnée"
   }
 }

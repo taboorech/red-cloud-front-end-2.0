@@ -73,20 +73,20 @@ const LyricsTranslation = () => {
   }
 
   return (
-    <div className="flex flex-col h-full bg-black p-6">
+    <div className="flex flex-col h-full bg-white dark:bg-black p-6">
       <div className="flex-shrink-0 pb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-400">{t('lyrics.original')}</span>
-          <div className="bg-gray-800 text-white px-3 py-1.5 rounded-lg text-sm border border-gray-700">
+          <span className="text-sm text-gray-500 dark:text-gray-400">{t('lyrics.original')}</span>
+          <div className="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white px-3 py-1.5 rounded-lg text-sm border border-gray-300 dark:border-gray-700">
             <span>{originalLanguageFlag} {originalLanguageDisplay}</span>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-400">{t('lyrics.translateTo')}</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">{t('lyrics.translateTo')}</span>
           <select
             value={selectedLanguage}
             onChange={(e) => setSelectedLanguage(e.target.value as SupportedLanguage)}
-            className="bg-gray-800 text-white px-3 py-1.5 rounded-lg text-sm border border-gray-700 focus:outline-none focus:border-gray-600"
+            className="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white px-3 py-1.5 rounded-lg text-sm border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-gray-600"
           >
             {languages.map((lang) => (
               <option key={lang.code} value={lang.code}>
@@ -105,20 +105,20 @@ const LyricsTranslation = () => {
               <span>Original ({originalLanguageDisplay})</span>
             </h2>
             <div className="flex-1 min-h-0 rounded-2xl p-6 overflow-y-scroll">
-              <pre className="font-sans text-base leading-relaxed whitespace-pre-wrap text-gray-300">
+              <pre className="font-sans text-base leading-relaxed whitespace-pre-wrap text-gray-600 dark:text-gray-300">
                 {originalLyrics || t('lyrics.noLyricsAvailable')}
               </pre>
             </div>
           </div>
 
           <div className="flex flex-col min-h-0">
-            <h2 className="text-sm font-medium text-white mb-3 flex items-center gap-2 flex-shrink-0">
+            <h2 className="text-sm font-medium text-gray-900 dark:text-white mb-3 flex items-center gap-2 flex-shrink-0">
               <span>{languages.find(l => l.code === selectedLanguage)?.flag}</span>
               <span>{languages.find(l => l.code === selectedLanguage)?.name}</span>
             </h2>
-            <div className="flex-1 min-h-0 bg-purple-900/10 rounded-2xl p-6 border border-purple-500/20 overflow-y-scroll">
+            <div className="flex-1 min-h-0 bg-purple-50 dark:bg-purple-900/10 rounded-2xl p-6 border border-purple-200 dark:border-purple-500/20 overflow-y-scroll">
               {selectedLanguage === originalLanguage ? (
-                <pre className="font-sans text-base leading-relaxed whitespace-pre-wrap text-white">
+                <pre className="font-sans text-base leading-relaxed whitespace-pre-wrap text-gray-900 dark:text-white">
                   {originalLyrics || t('lyrics.noLyricsAvailable')}
                 </pre>
               ) : isLoading ? (
@@ -130,7 +130,7 @@ const LyricsTranslation = () => {
                   <div className="text-red-400 text-sm">Translation failed. Please try again.</div>
                 </div>
               ) : (
-                <pre className="font-sans text-base leading-relaxed whitespace-pre-wrap text-white">
+                <pre className="font-sans text-base leading-relaxed whitespace-pre-wrap text-gray-900 dark:text-white">
                   {translatedText || 'Translation not available'}
                 </pre>
               )}

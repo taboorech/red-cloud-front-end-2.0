@@ -23,7 +23,8 @@
     "generating": "Generating...",
     "upload": "Upload",
     "unknownError": "Unknown error occurred",
-    "chooseFile": "Choose File"
+    "chooseFile": "Choose File",
+    "home": "Home"
   },
   "home": {
     "loadingError": "Failed to load songs",
@@ -42,6 +43,10 @@
     "title": "Settings",
     "language": "Language",
     "languageDescription": "Choose your preferred interface language",
+    "theme": "Theme",
+    "themeDescription": "Choose your preferred color scheme",
+    "themeLight": "Light",
+    "themeDark": "Dark",
     "autoReplay": "Auto replay",
     "autoReplayDescription": "Automatically restart the current track when it ends",
     "quality": {
@@ -230,5 +235,14 @@
     "loadingSongData": "Loading song data for ID",
     "failedToLoadSong": "Failed to load song with ID",
     "loadingLanguages": "Loading languages..."
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you're looking for doesn't exist or has been moved."
+  },
+  "sidebar": {
+    "noSongsInQueue": "No songs in queue",
+    "noSongPlaying": "No song playing",
+    "noSongSelected": "No song selected"
   }
 }

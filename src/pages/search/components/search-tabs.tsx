@@ -25,8 +25,8 @@ const SearchTabs = ({ activeTab, onTabChange }: SearchTabsProps) => {
           onClick={() => onTabChange(tab.key)}
           className={`px-6 py-2 rounded-full whitespace-nowrap cursor-pointer transition-colors ${
             activeTab === tab.key
-              ? 'bg-white text-black'
-              : 'bg-transparent text-gray-300 hover:text-white'
+              ? 'bg-gray-900 dark:bg-white text-white dark:text-black'
+              : 'bg-transparent text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
           }`}
         >
           {tab.label}

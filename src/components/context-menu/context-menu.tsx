@@ -68,7 +68,7 @@ const ContextMenu = ({ position, onClose, children, className }: ContextMenuProp
       ref={menuRef}
       style={{ top: adjustedPosition.y, left: adjustedPosition.x }}
       className={classNames(
-        "fixed z-[9999] min-w-[200px] py-1 bg-[#282828] rounded-lg shadow-xl shadow-black/50 border border-white/10",
+        "fixed z-[9999] min-w-[200px] py-1 bg-white dark:bg-[#282828] rounded-lg shadow-xl shadow-black/20 dark:shadow-black/50 border border-gray-200 dark:border-white/10",
         "animate-[contextMenuFadeIn_0.15s_ease-out]",
         className
       )}

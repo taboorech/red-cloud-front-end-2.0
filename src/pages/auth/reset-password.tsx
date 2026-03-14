@@ -17,18 +17,18 @@ const ResetPassword = () => {
 
   if (!token) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0d0d0d] p-4">
-        <div className="w-full max-w-[450px] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
-          <h1 className="text-2xl font-light text-white text-center mb-4">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0d0d0d] p-4">
+        <div className="w-full max-w-[450px] bg-white dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
+          <h1 className="text-2xl font-light text-gray-900 dark:text-white text-center mb-4">
             Invalid link
           </h1>
-          <p className="text-gray-400 text-sm text-center mb-8">
+          <p className="text-gray-500 dark:text-gray-400 text-sm text-center mb-8">
             The password reset link is invalid or has expired. Please request a new one.
           </p>
           <div className="flex justify-center">
             <Link
               to="/auth/forgot-password"
-              className="text-sm text-white hover:text-gray-100 transition-colors"
+              className="text-sm text-blue-600 dark:text-white hover:text-blue-500 dark:hover:text-gray-100 transition-colors"
             >
               Request new link
             </Link>
@@ -57,12 +57,12 @@ const ResetPassword = () => {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0d0d0d] p-4">
-        <div className="w-full max-w-[450px] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
-          <h1 className="text-2xl font-light text-white text-center mb-4">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0d0d0d] p-4">
+        <div className="w-full max-w-[450px] bg-white dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
+          <h1 className="text-2xl font-light text-gray-900 dark:text-white text-center mb-4">
             Password reset successful
           </h1>
-          <p className="text-gray-400 text-sm text-center mb-8">
+          <p className="text-gray-500 dark:text-gray-400 text-sm text-center mb-8">
             Your password has been updated. You can now log in with your new password.
           </p>
           <div className="flex justify-center">
@@ -83,8 +83,8 @@ const ResetPassword = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0d0d0d] p-4">
-      <div className="w-full max-w-[450px] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0d0d0d] p-4">
+      <div className="w-full max-w-[450px] bg-white dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
         <Formik
           initialValues={{ password: "", confirmPassword: "" }}
           validate={zodValidate(resetPasswordSchema)}
@@ -92,11 +92,11 @@ const ResetPassword = () => {
         >
           {({ errors, touched, status }) => (
             <Form className="space-y-8">
-              <h1 className="text-2xl font-light text-white text-center">
+              <h1 className="text-2xl font-light text-gray-900 dark:text-white text-center">
                 Set new password
               </h1>
 
-              <p className="text-gray-400 text-sm text-center">
+              <p className="text-gray-500 dark:text-gray-400 text-sm text-center">
                 Enter your new password below.
               </p>
 
@@ -143,7 +143,7 @@ const ResetPassword = () => {
               <div className="flex justify-center">
                 <Link
                   to="/auth"
-                  className="text-sm text-white hover:text-gray-100 transition-colors"
+                  className="text-sm text-blue-600 dark:text-white hover:text-blue-500 dark:hover:text-gray-100 transition-colors"
                 >
                   Back to login
                 </Link>

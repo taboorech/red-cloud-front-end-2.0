@@ -17,7 +17,7 @@ const SearchInput = ({ value, onChange, placeholder = "Request" }: SearchInputPr
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full bg-[#1E1E1E] text-white rounded-full py-3 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full bg-gray-100 dark:bg-[#1E1E1E] text-gray-900 dark:text-white rounded-full py-3 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
     </div>
   )

@@ -67,7 +67,7 @@ const Song = ({
             src={image}
             alt={title}
             className={classNames(
-              "object-cover rounded-md bg-gray-800",
+              "object-cover rounded-md bg-gray-200 dark:bg-gray-800",
               variant === "small" ? "w-full aspect-square" : "w-14 h-14",
             )}
           />
@@ -80,11 +80,11 @@ const Song = ({
               : "flex-1 min-w-0 flex items-center gap-2",
           )}
         >
-          <p className="text-white text-sm font-medium truncate">{title}</p>
+          <p className="text-gray-900 dark:text-white text-sm font-medium truncate">{title}</p>
         </div>
 
         {variant === "expanded" && duration && (
-          <span className="text-gray-400 text-xs tabular-nums">{duration}</span>
+          <span className="text-gray-500 dark:text-gray-400 text-xs tabular-nums">{duration}</span>
         )}
       </div>
 

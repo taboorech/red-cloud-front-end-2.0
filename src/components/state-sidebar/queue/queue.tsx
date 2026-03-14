@@ -1,8 +1,10 @@
 import Song from "../../song/song";
 import { useAudio } from "../../../context/audio-context";
 import { formatDuration } from "../../../utils/format";
+import { useTranslation } from "react-i18next";
 
 const Queue = () => {
+  const { t } = useTranslation();
   const audio = useAudio();
 
   return (
@@ -10,7 +12,7 @@ const Queue = () => {
       <div className="flex-1 overflow-y-auto min-h-0 py-3 gap-3 flex flex-col">
         {audio.queue.length === 0 ? (
           <div className="flex items-center justify-center h-full">
-            <div className="text-gray-400 text-sm">No songs in queue</div>
+            <div className="text-gray-500 dark:text-gray-400 text-sm">{t("sidebar.noSongsInQueue")}</div>
           </div>
         ) : (
           audio.queue.map(({ song, isActive }, index) => (

@@ -33,8 +33,8 @@ const Lyrics = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-full bg-black">
-        <div className="text-gray-400 text-sm">{t('common.loading')}</div>
+      <div className="flex items-center justify-center h-full bg-white dark:bg-black">
+        <div className="text-gray-500 dark:text-gray-400 text-sm">{t('common.loading')}</div>
       </div>
     )
   }
@@ -44,7 +44,7 @@ const Lyrics = () => {
   }
 
   return (
-    <div className="flex flex-col h-full bg-black p-6">
+    <div className="flex flex-col h-full bg-white dark:bg-black p-6">
       <div className="flex-shrink-0 pb-2 flex items-center justify-end">
         {isPremium && (
           <Button
@@ -62,7 +62,7 @@ const Lyrics = () => {
       <div className="flex-1 min-h-0 rounded-2xl p-8 pt-0 overflow-y-scroll">
         <div className="w-full max-w-2xl mx-auto text-center">
           <pre
-            className="font-sans leading-relaxed whitespace-pre-wrap text-white text-base"
+            className="font-sans leading-relaxed whitespace-pre-wrap text-gray-900 dark:text-white text-base"
             style={{ lineHeight: '1.8' }}
           >
             {lyrics}

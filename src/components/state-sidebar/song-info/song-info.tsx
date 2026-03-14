@@ -1,6 +1,8 @@
+import { useTranslation } from "react-i18next";
 import { useAudio } from "../../../context/audio-context";
 
 const SongInfo = () => {
+  const { t } = useTranslation();
   const audio = useAudio();
 
   return (
@@ -13,13 +15,13 @@ const SongInfo = () => {
             className="h-full w-full object-cover rounded-md"
           />
         ) : (
-          <div className="h-full w-full bg-gray-800 rounded-md flex items-center justify-center">
-            <span className="text-gray-500 text-sm">No song playing</span>
+          <div className="h-full w-full bg-gray-100 dark:bg-gray-800 rounded-md flex items-center justify-center">
+            <span className="text-gray-400 dark:text-gray-500 text-sm">{t("sidebar.noSongPlaying")}</span>
           </div>
         )}
       </div>
-      <span className="text-white text-lg truncate w-full text-center px-2">
-        {audio.currentSong?.title || "No song selected"}
+      <span className="text-gray-900 dark:text-white text-lg truncate w-full text-center px-2">
+        {audio.currentSong?.title || t("sidebar.noSongSelected")}
       </span>
     </div>
   )

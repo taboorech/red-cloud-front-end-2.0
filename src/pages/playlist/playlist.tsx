@@ -44,10 +44,10 @@ const Playlist = () => {
 
   return (
     <div className="flex flex-col gap-5 h-full">
-      <div className="bg-black p-4 rounded-md">
+      <div className="bg-white dark:bg-black p-4 rounded-md border border-gray-200 dark:border-transparent">
         <Banner playlist={playlist} />
       </div>
-      <div className="bg-black p-4 rounded-md flex-1 min-h-0 overflow-hidden">
+      <div className="bg-white dark:bg-black p-4 rounded-md border border-gray-200 dark:border-transparent flex-1 min-h-0 overflow-hidden">
         {playlist.songs && playlist.songs.length > 0 ? (
           <List gap={3}>
             {playlist.songs.map((song) => {
@@ -76,7 +76,7 @@ const Playlist = () => {
           </List>
         ) : (
           <div className="flex items-center justify-center h-full">
-            <div className="text-gray-400 text-lg">
+            <div className="text-gray-500 dark:text-gray-400 text-lg">
               This playlist is empty
             </div>
           </div>

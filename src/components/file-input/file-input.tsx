@@ -13,12 +13,12 @@ const FileInput = ({ error, label, accept, preview, className, ...props }: FileI
   
   return (
     <div className="w-full">
-      <label className="block text-gray-300 text-sm mb-2">{label}</label>
+      <label className="block text-gray-600 dark:text-gray-300 text-sm mb-2">{label}</label>
       <div className="flex items-center gap-4">
         <label
           className={classNames(
-            "cursor-pointer bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors border-2 border-dashed",
-            error ? "border-red-500" : "border-gray-500 hover:border-gray-400",
+            "cursor-pointer bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white px-4 py-2 rounded-lg transition-colors border-2 border-dashed",
+            error ? "border-red-500" : "border-gray-300 dark:border-gray-500 hover:border-gray-400 dark:hover:border-gray-400",
             className
           )}
         >
@@ -39,8 +39,8 @@ const FileInput = ({ error, label, accept, preview, className, ...props }: FileI
                 className="w-16 h-16 object-cover rounded-lg"
               />
             ) : (
-              <div className="w-16 h-16 bg-gray-600 rounded-lg flex items-center justify-center">
-                <span className="text-xs text-gray-300">Audio</span>
+              <div className="w-16 h-16 bg-gray-200 dark:bg-gray-600 rounded-lg flex items-center justify-center">
+                <span className="text-xs text-gray-500 dark:text-gray-300">Audio</span>
               </div>
             )}
           </div>

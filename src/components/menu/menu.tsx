@@ -17,7 +17,7 @@ const links = [
 
 const Menu = () => {
   return (
-    <div className="flex flex-col bg-black rounded-md p-4 h-full justify-between">
+    <div className="flex flex-col bg-white dark:bg-black rounded-md p-4 h-full justify-between border border-gray-200 dark:border-white/10">
       <ButtonsBlock gap={2} buttons={links.slice(0, 3)} />
       <div className="flex-1 overflow-y-auto min-h-0 py-3">
         <FriendsBlock />

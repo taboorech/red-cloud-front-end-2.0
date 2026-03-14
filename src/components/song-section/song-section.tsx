@@ -13,7 +13,7 @@ const SongSection = ({ title, songs }: SongSectionProps) => {
   
   return (
     <section className="flex flex-col gap-4">
-      <h2 className="text-white text-2xl font-bold px-2">{title}</h2>
+      <h2 className="text-black dark:text-white text-2xl font-bold px-2">{title}</h2>
       <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
         <div className="px-4">
           <div className="flex gap-4 pb-2 min-w-min">
