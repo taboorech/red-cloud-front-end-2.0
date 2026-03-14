@@ -145,6 +145,7 @@
   },
   "profile": {
     "editProfile": "Profil bearbeiten",
+    "logout": "Abmelden",
     "songsListened": "Gehörte Songs",
     "songsDisliked": "Abgelehnte Songs",
     "songsLiked": "Beliebte Songs", 

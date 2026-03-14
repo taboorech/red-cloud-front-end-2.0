@@ -145,6 +145,7 @@
   },
   "profile": {
     "editProfile": "Modifier le Profil",
+    "logout": "Déconnexion",
     "songsListened": "Titres écoutés",
     "songsDisliked": "Titres ignorés",
     "songsLiked": "Titres aimés", 
