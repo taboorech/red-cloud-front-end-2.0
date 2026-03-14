@@ -174,7 +174,12 @@
     "chooseFile": "Datei wählen"
   },
   "playlists": {
-    "searchPlaylists": "Playlists suchen..."
+    "searchPlaylists": "Playlists suchen...",
+    "loadingPlaylists": "Playlists werden geladen...",
+    "failedToLoadPlaylists": "Laden der Playlists fehlgeschlagen"
+  },
+  "playlistsMenu": {
+    "yourLibrary": "Deine Bibliothek"
   },
   "playlistEditor": {
     "editPlaylist": "Playlist bearbeiten",

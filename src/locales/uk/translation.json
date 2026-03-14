@@ -180,6 +180,9 @@
     "loadingPlaylists": "Завантаження плейлистів...",
     "failedToLoadPlaylists": "Не вдалося завантажити плейлисти"
   },
+  "playlistsMenu": {
+    "yourLibrary": "Ваша бібліотека"
+  },
   "playlistEditor": {
     "editPlaylist": "Редагувати плейлист",
     "createNewPlaylist": "Створити новий плейлист",
