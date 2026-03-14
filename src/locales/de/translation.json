@@ -23,7 +23,8 @@
     "generating": "Generieren...",
     "upload": "Hochladen",
     "unknownError": "Unbekannter Fehler aufgetreten",
-    "chooseFile": "Datei wählen"
+    "chooseFile": "Datei wählen",
+    "home": "Startseite"
   },
   "home": {
     "loadingError": "Fehler beim Laden der Songs",
@@ -234,5 +235,14 @@
     "loadingSongData": "Lade Daten...",
     "failedToLoadSong": "Laden fehlgeschlagen",
     "loadingLanguages": "Lade Sprachen..."
+  },
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "description": "Die gesuchte Seite existiert nicht oder wurde verschoben."
+  },
+  "sidebar": {
+    "noSongsInQueue": "Keine Songs in der Warteschlange",
+    "noSongPlaying": "Kein Song wird abgespielt",
+    "noSongSelected": "Kein Song ausgewählt"
   }
 }

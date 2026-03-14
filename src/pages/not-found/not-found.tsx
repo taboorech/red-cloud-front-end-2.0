@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router";
 import { Button } from "../../components/button/button";
 import { MdHome, MdArrowBack } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 
 const NotFound = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
@@ -11,17 +13,17 @@ const NotFound = () => {
         404
       </p>
       <h1 className="text-2xl font-semibold mt-2">
-        Page not found
+        {t("notFound.title")}
       </h1>
       <p className="text-gray-500 dark:text-gray-400 text-sm mt-2 text-center max-w-md">
-        The page you're looking for doesn't exist or has been moved.
+        {t("notFound.description")}
       </p>
       <div className="flex gap-3 mt-8">
         <Button variant="ghost" size="md" rounded="full" onClick={() => navigate(-1)} leftIcon={<MdArrowBack />}>
-          Go back
+          {t('common.goBack')}
         </Button>
         <Button variant="snow" size="md" rounded="full" onClick={() => navigate("/")} leftIcon={<MdHome />}>
-          Home
+          {t('common.home')}
         </Button>
       </div>
     </div>
