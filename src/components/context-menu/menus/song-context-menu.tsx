@@ -88,7 +88,7 @@ const SongContextMenu = ({ song, position, onClose, playlistId, onRemoveFromPlay
             />
           ))
         ) : (
-          <div className="px-4 py-2 text-xs text-gray-500">No playlists</div>
+          <div className="px-4 py-2 text-xs text-gray-400 dark:text-gray-500">No playlists</div>
         )}
       </ContextMenuSubmenu>
       <ContextMenuItem
@@ -113,7 +113,7 @@ const SongContextMenu = ({ song, position, onClose, playlistId, onRemoveFromPlay
             />
           ))
         ) : (
-          <div className="px-4 py-2 text-xs text-gray-500">No friends online</div>
+          <div className="px-4 py-2 text-xs text-gray-400 dark:text-gray-500">No friends online</div>
         )}
       </ContextMenuSubmenu>
       <ContextMenuItem label="Author info" icon={<MdPerson />} onClick={handleAuthorInfo} />

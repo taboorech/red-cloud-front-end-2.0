@@ -70,7 +70,7 @@ const ProgressBar = ({
       onMouseDown={handleMouseDown}
       className="
         relative w-full h-1 cursor-pointer
-        rounded-full bg-neutral-700
+        rounded-full bg-gray-200 dark:bg-neutral-700
         transition-all
       "
     >

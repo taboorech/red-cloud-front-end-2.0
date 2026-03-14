@@ -11,8 +11,8 @@ const Input = ({ error, className, value, ...props }: InputProps) => {
       <input
         value={value || ""} 
         className={classNames(
-          "w-full bg-transparent border-b text-white placeholder-gray-600 py-2 focus:outline-none transition-colors",
-          error ? "border-red-500 focus:border-red-400" : "border-gray-700 focus:border-gray-400",
+          "w-full bg-transparent border-b text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 py-2 focus:outline-none transition-colors",
+          error ? "border-red-500 focus:border-red-400" : "border-gray-300 dark:border-gray-700 focus:border-gray-500 dark:focus:border-gray-400",
           className
         )}
         {...props}

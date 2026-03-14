@@ -14,7 +14,7 @@ const Home = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-white text-lg">{t('common.loading')}</div>
+        <div className="text-gray-900 dark:text-white text-lg">{t('common.loading')}</div>
       </div>
     );
   }

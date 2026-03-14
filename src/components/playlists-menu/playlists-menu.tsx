@@ -5,8 +5,10 @@ import { Button } from "../button/button";
 import { useLazyGetPlaylistsQuery } from "../../store/api/playlist.api";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 const PlaylistsMenu = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [getPlaylists, { data: playlists, isLoading }] = useLazyGetPlaylistsQuery();
 
@@ -24,8 +26,8 @@ const PlaylistsMenu = () => {
 
   if (isLoading) {
     return (
-      <div className="relative flex bg-black p-2 h-16 w-full rounded-md gap-2 items-center justify-center">
-        <div className="text-gray-400 text-sm">Loading playlists...</div>
+      <div className="relative flex bg-white dark:bg-black border border-gray-200 dark:border-white/10 p-2 h-16 w-full rounded-md gap-2 items-center justify-center">
+        <div className="text-gray-600 dark:text-gray-400 text-sm">{t('playlistsMenu.loadingPlaylists')}</div>
       </div>
     );
   }
@@ -33,7 +35,7 @@ const PlaylistsMenu = () => {
   const playlistsCount = playlists?.length || 0;
 
   return (
-    <div className="relative flex bg-black p-2 h-16 w-full rounded-md gap-2 items-center">
+    <div className="relative flex bg-white dark:bg-black border border-gray-200 dark:border-white/10 p-2 h-16 w-full rounded-md gap-2 items-center">
       { playlistsCount !== 0 && (
         <div className="absolute left-1/2 top-full -translate-y-1/2 z-10 flex gap-2">
           <Button variant="snow" size="circle" rounded="full" onClick={handleCreatePlaylist}>

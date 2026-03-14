@@ -42,6 +42,10 @@
     "title": "Einstellungen",
     "language": "Sprache",
     "languageDescription": "Wähle deine bevorzugte Sprache",
+    "theme": "Design",
+    "themeDescription": "Wähle dein bevorzugtes Farbschema",
+    "themeLight": "Hell",
+    "themeDark": "Dunkel",
     "autoReplay": "Automatische Wiederholung",
     "autoReplayDescription": "Aktuellen Titel am Ende automatisch neu starten",
     "quality": {

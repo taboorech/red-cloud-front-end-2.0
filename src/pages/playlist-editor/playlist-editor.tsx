@@ -45,7 +45,7 @@ const PlaylistEditor = () => {
 
   if (playlistId && isLoadingPlaylist) {
     return (
-      <div className="rounded-md bg-black w-full h-full px-4 overflow-y-auto flex items-center justify-center">
+      <div className="rounded-md bg-white dark:bg-black w-full h-full px-4 overflow-y-auto text-gray-900 dark:text-white flex items-center justify-center">
         <div className="text-white text-lg">{t('playlistEditor.loadingPlaylistData')} {playlistId}...</div>
       </div>
     );
@@ -53,7 +53,7 @@ const PlaylistEditor = () => {
 
   if (playlistId && playlistError) {
     return (
-      <div className="rounded-md bg-black w-full h-full px-4 overflow-y-auto flex items-center justify-center">
+      <div className="rounded-md bg-white dark:bg-black w-full h-full px-4 overflow-y-auto text-gray-900 dark:text-white flex items-center justify-center">
         <div className="text-red-400 text-lg">
           {t('playlistEditor.failedToLoadPlaylist')} {playlistId}
           <div className="text-sm mt-2">
@@ -144,14 +144,14 @@ const PlaylistEditor = () => {
   };
 
   return (
-    <div className="rounded-md bg-black w-full h-full px-4 overflow-y-auto">
+    <div className="rounded-md bg-white dark:bg-black w-full h-full px-4 overflow-y-auto text-gray-900 dark:text-white">
       <div className="flex items-center gap-3 py-6">
         <div>
-          <h1 className="text-2xl font-bold text-white">
+          <h1 className="text-2xl font-bold">
             {playlistId ? t('playlistEditor.editPlaylist') : t('playlistEditor.createNewPlaylist')}
           </h1>
           {existingPlaylist && (
-            <p className="text-gray-400 text-sm mt-1">
+            <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
               {t('playlistEditor.editing')}: "{existingPlaylist.title}"
             </p>
           )}
@@ -169,10 +169,10 @@ const PlaylistEditor = () => {
             <Form className="space-y-6 pb-6">
               {/* Basic Information */}
               <div className="space-y-4">
-                <h2 className="text-lg font-semibold text-white">{t('playlistEditor.basicInformation')}</h2>
+                <h2 className="text-lg font-semibold">{t('playlistEditor.basicInformation')}</h2>
                 
                 <div className="flex flex-col">
-                  <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
+                  <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
                     {t('playlistEditor.title')} <span className="text-red-500">*</span>
                   </label>
                   <Field
@@ -185,21 +185,21 @@ const PlaylistEditor = () => {
 
                 {/* Privacy Setting */}
                 <div className="flex flex-col">
-                  <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
+                  <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
                     {t('playlistEditor.visibility')}
                   </label>
                   <div 
-                    className="flex items-center gap-3 p-3 border border-white rounded cursor-pointer hover:bg-gray-900/30 transition-colors"
+                    className="flex items-center gap-3 p-3 border border-gray-300 dark:border-white rounded cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900/30 transition-colors"
                     onClick={() => setFieldValue('isPublic', !values.isPublic)}
                   >
                     {values.isPublic ? (
-                      <IoCheckbox className="text-white text-xl" />
+                      <IoCheckbox className="text-gray-900 dark:text-white text-xl" />
                     ) : (
-                      <IoSquareOutline className="text-white text-xl" />
+                      <IoSquareOutline className="text-gray-900 dark:text-white text-xl" />
                     )}
-                    <div className="text-white">
+                    <div>
                       <div className="font-medium">{t('playlistEditor.publicPlaylist')}</div>
-                      <div className="text-sm text-gray-400">
+                      <div className="text-sm text-gray-500 dark:text-gray-400">
                         {values.isPublic ? t('playlistEditor.anyoneCanSee') : t('playlistEditor.onlyYouCanSee')}
                       </div>
                     </div>
@@ -209,10 +209,10 @@ const PlaylistEditor = () => {
 
               {/* Cover Image */}
               <div className="space-y-4">
-                <h2 className="text-lg font-semibold text-white">{t('playlistEditor.coverImage')}</h2>
+                <h2 className="text-lg font-semibold">{t('playlistEditor.coverImage')}</h2>
                 
                 <div className="flex flex-col">
-                  <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
+                  <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
                     <IoImage className="inline mr-1" /> {t('playlistEditor.coverImage')}
                   </label>
                   
@@ -239,11 +239,11 @@ const PlaylistEditor = () => {
                   <div className="mt-4 space-y-2">
                     {coverImagePreview && (
                       <div className="space-y-2">
-                        <div className="text-white text-sm">{t('playlistEditor.currentCover')}:</div>
+                        <div className="text-sm">{t('playlistEditor.currentCover')}:</div>
                         <img 
                           src={coverImagePreview} 
                           alt="Cover preview" 
-                          className="w-32 h-32 object-cover rounded-lg border-2 border-gray-600"
+                          className="w-32 h-32 object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600"
                           onLoad={() => console.log('✅ [COVER] Current image loaded:', values.image)}
                           onError={() => console.error('❌ [COVER] Current image failed to load:', values.image)}
                         />

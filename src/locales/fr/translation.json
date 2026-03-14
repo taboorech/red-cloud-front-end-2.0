@@ -42,6 +42,10 @@
     "title": "Paramètres",
     "language": "Langue",
     "languageDescription": "Choisissez votre langue d'interface préférée",
+    "theme": "Thème",
+    "themeDescription": "Choisissez votre palette de couleurs préférée",
+    "themeLight": "Clair",
+    "themeDark": "Sombre",
     "autoReplay": "Lecture automatique",
     "autoReplayDescription": "Redémarrer automatiquement la piste à la fin",
     "quality": {

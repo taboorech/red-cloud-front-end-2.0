@@ -18,7 +18,7 @@ const Layout = () => {
   }
 
   return (
-    <div className="h-screen flex p-2 gap-2 bg-neutral-900">
+    <div className="h-screen flex p-2 gap-2 bg-gray-100 dark:bg-neutral-900">
       <div className="flex flex-col w-1/6 gap-0">
         <div className={classNames("flex-1", profile ? "cursor-pointer" : "")} onClick={profileClickHandler}>
           <AvatarBlock 

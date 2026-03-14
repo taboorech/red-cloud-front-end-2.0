@@ -21,7 +21,7 @@ const About = () => {
   ]
 
   return (
-    <div className="bg-black text-white min-h-screen rounded p-8">
+    <div className="bg-white dark:bg-black text-gray-900 dark:text-white min-h-screen rounded p-8">
       <div className="mx-auto">
         <AboutHeader />
         

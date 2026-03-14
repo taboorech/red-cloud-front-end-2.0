@@ -17,7 +17,7 @@ const PlayerControls = () => {
       case 'shuffle':
         return <CiShuffle className="text-blue-400" />;
       default:
-        return <IoRepeat className="text-gray-400" />;
+        return <IoRepeat className="text-gray-500 dark:text-gray-400" />;
     }
   };
 

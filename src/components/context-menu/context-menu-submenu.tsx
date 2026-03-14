@@ -65,7 +65,7 @@ const ContextMenuSubmenu = ({
       <div
         className={classNames(
           "flex items-center justify-between w-full px-4 py-2.5 text-sm text-left transition-colors cursor-pointer",
-          "text-gray-200 hover:bg-white/10 hover:text-white",
+          "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white",
           disabled && "opacity-40 cursor-not-allowed"
         )}
       >
@@ -73,7 +73,7 @@ const ContextMenuSubmenu = ({
           {icon && <span className="text-base">{icon}</span>}
           <span>{label}</span>
         </span>
-        <MdChevronRight className="text-gray-400 text-lg" />
+        <MdChevronRight className="text-gray-500 dark:text-gray-400 text-lg" />
       </div>
 
       {isOpen && (
@@ -81,7 +81,7 @@ const ContextMenuSubmenu = ({
           ref={submenuRef}
           className={classNames(
             "absolute z-[10000] min-w-[180px] max-h-[300px] overflow-y-auto py-1",
-            "bg-[#282828] rounded-lg shadow-xl shadow-black/50 border border-white/10",
+            "bg-white dark:bg-[#282828] rounded-lg shadow-xl shadow-black/20 dark:shadow-black/50 border border-gray-200 dark:border-white/10",
             "animate-[contextMenuFadeIn_0.15s_ease-out] scrollbar-none",
             openDirection === "right" ? "left-full" : "right-full",
             verticalAlign === "top" ? "top-0" : "bottom-0"

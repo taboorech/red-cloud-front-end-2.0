@@ -15,9 +15,9 @@ const ProfileHeader = ({ avatar, username }: ProfileHeaderProps) => {
   const { isPremium, currentPlan } = useSubscription()
 
   return (
-    <section className="bg-black p-6 rounded-2xl flex items-center justify-between relative shadow-lg">
+    <section className="bg-white dark:bg-black p-6 rounded-2xl flex items-center justify-between relative shadow-lg border border-gray-200 dark:border-transparent">
       <div className="flex items-center gap-6">
-        <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden shadow-2xl border border-white/5">
+        <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-white/5">
           <img 
             src={avatar} 
             alt="Avatar" 
@@ -42,9 +42,9 @@ const ProfileHeader = ({ avatar, username }: ProfileHeaderProps) => {
         size="circle"
         rounded="lg"
         onClick={() => navigate("/profile/edit")}
-        className="absolute top-6 right-6 bg-white/5 hover:bg-white/10 border-transparent"
+        className="absolute top-6 right-6 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 border-transparent"
       >
-        <IoSettingsSharp size={22} className="text-gray-400" />
+        <IoSettingsSharp size={22} className="text-gray-500 dark:text-gray-400" />
       </Button>
     </section>
   )

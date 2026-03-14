@@ -155,13 +155,13 @@ const Subscriptions = () => {
   ]
 
   return (
-    <div className="flex flex-col h-full text-white overflow-y-auto bg-black pb-10 rounded-md">
-      <div className="sticky top-0 bg-gradient-to-b from-black via-black/95 to-transparent backdrop-blur-xl z-20 border-b border-white/5">
+    <div className="flex flex-col h-full text-gray-900 dark:text-white overflow-y-auto bg-white dark:bg-black pb-10 rounded-md">
+      <div className="sticky top-0 bg-gradient-to-b from-white dark:from-black via-white/95 dark:via-black/95 to-transparent backdrop-blur-xl z-20 border-b border-gray-200 dark:border-white/5">
         <div className="px-6 py-8">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">
             {t('subscriptions.title')}
           </h1>
-          <p className="text-gray-400 text-sm sm:text-base">
+          <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base">
             {t('subscriptions.subtitle')}
           </p>
         </div>
@@ -171,7 +171,7 @@ const Subscriptions = () => {
         {currentSubscription && (
           <section className="mt-6">
             <h2 className="text-lg font-semibold mb-4">{t('subscriptions.currentPlan')}</h2>
-            <div className="bg-gradient-to-br from-white/[0.08] to-white/[0.03] border border-white/10 p-6 rounded-2xl">
+            <div className="bg-gradient-to-br from-gray-50 dark:from-white/[0.08] to-gray-100/50 dark:to-white/[0.03] border border-gray-200 dark:border-white/10 p-6 rounded-2xl">
               <div className="flex items-center justify-between flex-wrap gap-4">
                 <div>
                   <div className="flex items-center gap-3 mb-2">
@@ -180,7 +180,7 @@ const Subscriptions = () => {
                       {t('subscriptions.active')}
                     </span>
                   </div>
-                  <p className="text-gray-400">
+                  <p className="text-gray-500 dark:text-gray-400">
                     {currentSubscription.price === 0 ? (
                       t('subscriptions.freeForever')
                     ) : (
@@ -217,13 +217,13 @@ const Subscriptions = () => {
         )}
 
         <div className="flex justify-center">
-          <div className="inline-flex bg-white/5 rounded-full p-1 border border-white/10">
+          <div className="inline-flex bg-gray-100 dark:bg-white/5 rounded-full p-1 border border-gray-200 dark:border-white/10">
             <button
               onClick={() => setSelectedPeriod("monthly")}
               className={`px-6 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${
                 selectedPeriod === "monthly"
-                  ? "bg-white text-black"
-                  : "text-gray-400 hover:text-white"
+                  ? "bg-gray-900 dark:bg-white text-white dark:text-black"
+                  : "text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
               }`}
             >
               {t('subscriptions.monthly')}
@@ -232,8 +232,8 @@ const Subscriptions = () => {
               onClick={() => setSelectedPeriod("yearly")}
               className={`px-6 py-2 rounded-full text-sm font-medium transition-all relative cursor-pointer ${
                 selectedPeriod === "yearly"
-                  ? "bg-white text-black"
-                  : "text-gray-400 hover:text-white"
+                  ? "bg-gray-900 dark:bg-white text-white dark:text-black"
+                  : "text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
               }`}
             >
               {t('subscriptions.yearly')}
@@ -250,17 +250,17 @@ const Subscriptions = () => {
             {plans.map((plan) => (
               <div
                 key={plan.id}
-                className={`relative bg-white/[0.03] border rounded-2xl p-6 transition-all ${
+                className={`relative bg-gray-50 dark:bg-white/[0.03] border rounded-2xl p-6 transition-all ${
                   plan.unavailable ? "opacity-60" : "hover:scale-[1.02]"
                 } ${
                   plan.popular
                     ? "border-blue-500 shadow-lg shadow-blue-500/20"
-                    : "border-white/10"
+                    : "border-gray-200 dark:border-white/10"
                 } ${currentPlanId === plan.id ? "ring-2 ring-green-500/50" : ""}`}
               >
                 {plan.unavailable && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="px-4 py-1 bg-gray-600 text-white text-xs font-bold rounded-full shadow-lg">
+                    <span className="px-4 py-1 bg-gray-400 dark:bg-gray-600 text-white text-xs font-bold rounded-full shadow-lg">
                       {t('subscriptions.comingSoonBadge')}
                     </span>
                   </div>
@@ -279,7 +279,7 @@ const Subscriptions = () => {
                     <span className="text-4xl font-bold">
                       ${plan.price}
                     </span>
-                    <span className="text-gray-400 text-sm">/{plan.period}</span>
+                    <span className="text-gray-500 dark:text-gray-400 text-sm">/{plan.period}</span>
                   </div>
                   {selectedPeriod === "yearly" && plan.price > 0 && (
                     <p className="text-xs text-gray-500 mt-1">
@@ -301,7 +301,7 @@ const Subscriptions = () => {
                       />
                       <span
                         className={`text-sm ${
-                          feature.included ? "text-white" : "text-gray-500"
+                          feature.included ? "text-gray-900 dark:text-white" : "text-gray-400 dark:text-gray-500"
                         }`}
                       >
                         {feature.text}
@@ -337,7 +337,7 @@ const Subscriptions = () => {
             {benefits.map((benefit, index) => (
               <div
                 key={index}
-                className="bg-white/[0.03] border border-white/10 p-5 rounded-xl hover:bg-white/[0.05] transition-all"
+                className="bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 p-5 rounded-xl hover:bg-gray-100 dark:hover:bg-white/[0.05] transition-all"
               >
                 <div className="flex items-start gap-4">
                   <div className="p-2.5 bg-blue-500/20 rounded-lg">
@@ -345,7 +345,7 @@ const Subscriptions = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">{benefit.title}</h3>
-                    <p className="text-sm text-gray-400">{benefit.description}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{benefit.description}</p>
                   </div>
                 </div>
               </div>

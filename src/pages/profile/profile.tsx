@@ -25,7 +25,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="flex flex-col gap-6 h-full text-white overflow-y-auto">
+    <div className="flex flex-col gap-6 h-full text-gray-900 dark:text-white overflow-y-auto">
       <ProfileHeader 
         avatar={profile?.avatar ?? ""}
         username={profile?.username ?? "Unknown"}

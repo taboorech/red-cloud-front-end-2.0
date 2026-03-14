@@ -19,12 +19,12 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 const variantStyles: Record<ButtonVariant, string> = {
   primary: 'bg-blue-500 text-white border-blue-500 hover:bg-blue-600 hover:border-blue-600 active:bg-blue-700 active:border-blue-700',
   secondary: 'bg-gray-500 text-white border-gray-500 hover:bg-gray-600 hover:border-gray-600 active:bg-gray-700 active:border-gray-700',
-  outline: 'bg-transparent text-white border-white hover:bg-white hover:text-black active:bg-white active:border-white',
-  ghost: 'bg-transparent text-white border-transparent hover:bg-gray-100 hover:text-black active:bg-gray-200',
+  outline: 'bg-transparent text-gray-900 dark:text-white border-gray-300 dark:border-white hover:bg-gray-100 dark:hover:bg-white hover:text-gray-900 dark:hover:text-black active:bg-gray-200 dark:active:bg-white',
+  ghost: 'bg-transparent text-gray-700 dark:text-white border-transparent hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white active:bg-gray-200 dark:active:bg-white/20',
   danger: 'bg-red-500 text-white border-red-500 hover:bg-red-600 hover:border-red-600 active:bg-red-700 active:border-red-700',
-  snow: 'bg-white text-black border-white hover:bg-gray-100 active:bg-gray-200',
-  auth: 'bg-[#262626] text-gray-300 border-[#262626] hover:bg-[#333333] hover:border-[#333333] active:bg-[#404040]',
-  tab: 'bg-transparent text-white border-transparent hover:text-gray-400 hover:bg-transparent',
+  snow: 'bg-white dark:bg-white text-gray-900 dark:text-black border-gray-200 dark:border-white hover:bg-gray-50 dark:hover:bg-gray-100 active:bg-gray-100 dark:active:bg-gray-200 shadow-sm',
+  auth: 'bg-gray-100 dark:bg-[#262626] text-gray-700 dark:text-gray-300 border-gray-100 dark:border-[#262626] hover:bg-gray-200 dark:hover:bg-[#333333] hover:border-gray-200 dark:hover:border-[#333333] active:bg-gray-300 dark:active:bg-[#404040]',
+  tab: 'bg-transparent text-gray-700 dark:text-white border-transparent hover:text-gray-500 dark:hover:text-gray-400 hover:bg-transparent',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {

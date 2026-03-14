@@ -84,13 +84,13 @@ const Search = () => {
   const renderContent = () => {
     if (searchQuery.trim().length === 0) {
       return (
-        <p className="text-white text-center mt-12">{t('search.placeholder')}</p>
+        <p className="text-gray-900 dark:text-white text-center mt-12">{t('search.placeholder')}</p>
       )
     }
 
     if (isFetching) {
       return (
-        <p className="text-gray-400 text-center mt-12">{t('common.loading')}</p>
+        <p className="text-gray-500 dark:text-gray-400 text-center mt-12">{t('common.loading')}</p>
       )
     }
 
@@ -106,15 +106,15 @@ const Search = () => {
         return (
           <div className="space-y-8">
             <div>
-              <h2 className="text-xl font-semibold text-white mb-4">Users</h2>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Users</h2>
               {renderUsers()}
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-white mb-4">Songs</h2>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Songs</h2>
               {renderSongs()}
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-white mb-4">Playlists</h2>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Playlists</h2>
               {renderPlaylists()}
             </div>
           </div>
@@ -123,7 +123,7 @@ const Search = () => {
   }
 
   return (
-    <div className="bg-black text-white h-full min-h-0 flex flex-col p-6">
+    <div className="bg-white dark:bg-black text-gray-900 dark:text-white h-full min-h-0 flex flex-col p-6">
       <div className="shrink-0">
         <SearchInput
           value={searchQuery}

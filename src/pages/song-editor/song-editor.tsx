@@ -76,7 +76,7 @@ const SongEditor = () => {
 
   if (songId && isLoadingSong) {
     return (
-      <div className="rounded-md bg-black w-full h-full px-4 overflow-y-auto flex items-center justify-center">
+      <div className="rounded-md bg-white dark:bg-black w-full h-full px-4 overflow-y-auto text-gray-900 dark:text-white flex items-center justify-center">
         <div className="text-white text-lg">{t('songEditor.loadingSongData')} {songId}...</div>
       </div>
     );
@@ -84,7 +84,7 @@ const SongEditor = () => {
 
   if (songId && songError) {
     return (
-      <div className="rounded-md bg-black w-full h-full px-4 overflow-y-auto flex items-center justify-center">
+      <div className="rounded-md bg-white dark:bg-black w-full h-full px-4 overflow-y-auto text-gray-900 dark:text-white flex items-center justify-center">
         <div className="text-red-400 text-lg">
           {t('songEditor.failedToLoadSong')} {songId}
           <div className="text-sm mt-2">
@@ -330,15 +330,15 @@ const SongEditor = () => {
   };
 
   return (
-    <div className="rounded-md bg-black w-full h-full px-4 overflow-y-auto">
+    <div className="rounded-md bg-white dark:bg-black w-full h-full px-4 overflow-y-auto text-gray-900 dark:text-white">
       <div className="flex items-center gap-3 py-6">
         <IoMusicalNotes className="text-white text-2xl" />
         <div>
-          <h1 className="text-2xl font-bold text-white">
+          <h1 className="text-2xl font-bold">
             {songId ? t('songEditor.editSong') : t('songEditor.createNewSong')}
           </h1>
           {existingSong && (
-            <p className="text-gray-400 text-sm mt-1">
+            <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
               {t('songEditor.editing')}: "{existingSong.title}"
             </p>
           )}
@@ -356,10 +356,10 @@ const SongEditor = () => {
           <Form className="space-y-6 pb-6">
             {/* Basic Information */}
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-white">{t('songEditor.basicInformation')}</h2>
+              <h2 className="text-lg font-semibold">{t('songEditor.basicInformation')}</h2>
               
               <div className="flex flex-col">
-                <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
+                <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
                   {t('songEditor.title')} <span className="text-red-500">*</span>
                 </label>
                 <Field
@@ -371,20 +371,20 @@ const SongEditor = () => {
               </div>
 
               <div className="flex flex-col">
-                <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
+                <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
                   {t('songEditor.description')}
                 </label>
                 <Field
                   as="textarea"
                   name="description"
                   placeholder={t('songEditor.enterDescription')}
-                  className="p-3 rounded border resize-none h-24 text-white border-white placeholder-gray-400"
+                  className="p-3 rounded border resize-none h-24 border-gray-300 dark:border-white bg-transparent placeholder-gray-400"
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex flex-col">
-                  <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
+                  <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
                     {t('songEditor.durationSeconds')} <span className="text-red-500">*</span>
                   </label>
                   <Field
@@ -402,7 +402,7 @@ const SongEditor = () => {
                 </div>
 
                 <div className="flex flex-col">
-                  <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
+                  <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
                     {t('songEditor.releaseYear')}
                   </label>
                   <Field
@@ -422,7 +422,7 @@ const SongEditor = () => {
               </div>
 
               <div className="flex flex-col">
-                <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
+                <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
                   {t('songEditor.language')}
                 </label>
                 {languagesLoading ? (
@@ -431,7 +431,7 @@ const SongEditor = () => {
                   <Field
                     as="select"
                     name="language"
-                    className="p-3 rounded border text-white"
+                    className="p-3 rounded border border-gray-300 dark:border-white bg-transparent"
                   >
                     <option value="">{t('songEditor.selectLanguage')}</option>
                     {languages.map((language) => (
@@ -449,11 +449,11 @@ const SongEditor = () => {
                   name="isPublic"
                   className="rounded"
                 />
-                <label className="text-white text-sm">{t('songEditor.makeSongPublic')}</label>
+                <label className="text-sm">{t('songEditor.makeSongPublic')}</label>
               </div>
 
               <div className="flex flex-col">
-                <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
+                <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
                   <IoImage className="inline mr-1" /> {t('songEditor.coverImage')}
                 </label>
                 
@@ -467,7 +467,7 @@ const SongEditor = () => {
                         setFieldValue('image', null);
                       setAiImagePrompt('');
                     }}
-                    className="p-3 rounded border text-white border-white"
+                    className="p-3 rounded border border-gray-300 dark:border-white bg-transparent border-white"
                   >
                     <option value="upload">{t('songEditor.uploadFile')}</option>
                     <option value="ai">{t('songEditor.generateWithAI')}</option>
@@ -496,11 +496,11 @@ const SongEditor = () => {
                       {/* Show current cover image for editing */}
                       {!coverImagePreview && values.image && typeof values.image === 'string' && (
                         <div className="mt-3">
-                          <div className="text-white text-sm mb-2">{t('songEditor.currentCoverImage')}:</div>
+                          <div className="text-sm mb-2">{t('songEditor.currentCoverImage')}:</div>
                           <img 
                             src={values.image} 
                             alt="Current cover" 
-                            className="w-32 h-32 object-cover rounded-lg border-2 border-gray-600"
+                            className="w-32 h-32 object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600"
                             onLoad={() => console.log('✅ [COVER] Current image loaded:', values.image)}
                             onError={() => console.error('❌ [COVER] Current image failed to load:', values.image)}
                           />
@@ -508,7 +508,7 @@ const SongEditor = () => {
                       )}
                     </div>
                   ) : (
-                    <div className="bg-gray-900/20 p-4 rounded-lg space-y-3">
+                    <div className="bg-gray-50 dark:bg-gray-900/20 p-4 rounded-lg space-y-3">
                       <Input
                         placeholder={t('songEditor.describeImage')}
                         value={aiImagePrompt}
@@ -536,11 +536,11 @@ const SongEditor = () => {
                       </div>
                       {coverImagePreview && (
                         <div className="mt-3">
-                          <div className="text-white text-sm mb-2">{t('songEditor.generatedImage')}:</div>
+                          <div className="text-sm mb-2">{t('songEditor.generatedImage')}:</div>
                           <img 
                             src={coverImagePreview} 
                             alt="Generated preview" 
-                            className="w-32 h-32 object-cover rounded-lg border-2 border-gray-600" 
+                            className="w-32 h-32 object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600" 
                             onError={(e) => {
                               console.error('❌ Image failed to load:', coverImagePreview);
                               const target = e.target as HTMLImageElement;
@@ -557,17 +557,17 @@ const SongEditor = () => {
 
             {/* Lyrics */}
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-white">{t('songEditor.lyrics')}</h2>
+              <h2 className="text-lg font-semibold">{t('songEditor.lyrics')}</h2>
               
               <div className="flex flex-col">
-                <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
+                <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
                   {t('songEditor.songTextLyrics')}
                 </label>
                 <Field
                   as="textarea"
                   name="text"
                   placeholder={t('songEditor.enterLyrics')}
-                  className="p-3 rounded border border-white resize-none h-40 text-white placeholder-gray-400"
+                  className="p-3 rounded border border-gray-300 dark:border-white resize-none h-40 bg-transparent placeholder-gray-400"
                 />
               </div>
             </div>
@@ -575,10 +575,10 @@ const SongEditor = () => {
             {/* Audio File - Only show for new songs */}
             {!songId && (
               <div className="space-y-4">
-                <h2 className="text-lg font-semibold text-white">{t('songEditor.audioFile')}</h2>
+                <h2 className="text-lg font-semibold">{t('songEditor.audioFile')}</h2>
                 
                 <div className="flex flex-col">
-                  <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider mb-2">
+                  <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
                     <IoMusicalNotes className="inline mr-1" /> {t('songEditor.audioFile')} <span className="text-red-500">*</span>
                   </label>
                   <FileInput
@@ -600,7 +600,7 @@ const SongEditor = () => {
                   
                   {/* Audio File Preview */}
                   {audioFileInfo && (
-                    <div className="mt-3 p-3 bg-gray-900/30 border border-gray-600 rounded-lg">
+                    <div className="mt-3 p-3 bg-gray-50 dark:bg-gray-900/30 border border-gray-300 dark:border-gray-600 rounded-lg">
                       <div className="flex items-center gap-3">
                         <div className="flex-shrink-0">
                           <IoMusicalNotes className="text-blue-400 text-2xl" />
@@ -641,7 +641,7 @@ const SongEditor = () => {
 
             {/* Genres */}
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-white">{t('songEditor.genres')}</h2>
+              <h2 className="text-lg font-semibold">{t('songEditor.genres')}</h2>
               
               <div className="flex flex-wrap gap-2 mb-2">
                 {values.genres.map((genre, index) => (
@@ -678,14 +678,14 @@ const SongEditor = () => {
                   <IoSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                   
                   {(showGenreSearch && genreSearchResults.length > 0) || genresLoading ? (
-                    <div className="absolute top-full left-0 right-0 bg-black border border-gray-600 rounded-b shadow-lg z-50 max-h-40 overflow-y-auto mt-1">
+                    <div className="absolute top-full left-0 right-0 bg-white dark:bg-black border border-gray-300 dark:border-gray-600 rounded-b shadow-lg z-50 max-h-40 overflow-y-auto mt-1">
                       {genresLoading ? (
                         <div className="p-2 text-center text-gray-300">{t('songEditor.searching')}...</div>
                       ) : (
                         genreSearchResults.map((genre) => (
                           <div
                             key={genre.id}
-                            className="p-2 hover:bg-gray-800 cursor-pointer text-white border-b border-gray-700 last:border-b-0"
+                            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer text-white border-b border-gray-200 dark:border-gray-700 last:border-b-0"
                             onClick={() => selectGenre(setFieldValue, genre, values.genres)}
                           >
                             <div className="font-medium">{genre.title}</div>
@@ -700,9 +700,9 @@ const SongEditor = () => {
 
             {/* Authors */}
             <div className="space-y-4 relative">
-              <h2 className="text-lg font-semibold text-white">{t('songEditor.authors')}</h2>
+              <h2 className="text-lg font-semibold">{t('songEditor.authors')}</h2>
               <div className="bg-gray-900/20 py-4 rounded-lg space-y-3">
-                <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider">
+                <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
                   {t('songEditor.searchAndAddAuthor')}
                 </label>
                 
@@ -721,14 +721,14 @@ const SongEditor = () => {
                     <IoSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                     
                     {(showUserSearch && searchResults.length > 0) || usersLoading ? (
-                      <div className="absolute top-full left-0 right-0 bg-black border border-gray-600 rounded-b shadow-lg z-50 max-h-40 overflow-y-auto mt-1">
+                      <div className="absolute top-full left-0 right-0 bg-white dark:bg-black border border-gray-300 dark:border-gray-600 rounded-b shadow-lg z-50 max-h-40 overflow-y-auto mt-1">
                         {usersLoading ? (
                           <div className="p-2 text-center text-gray-300">{t('songEditor.searchingUsers')}...</div>
                         ) : (
                           searchResults.map((user) => (
                             <div
                               key={user.id}
-                              className="p-2 hover:bg-gray-800 cursor-pointer flex items-center gap-2 text-white border-b border-gray-700 last:border-b-0"
+                              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer flex items-center gap-2 text-white border-b border-gray-200 dark:border-gray-700 last:border-b-0"
                               onClick={() => selectUser(user)}
                             >
                               {user.avatar && (
@@ -763,7 +763,7 @@ const SongEditor = () => {
                         )}
                         <div>
                           <div className="font-medium text-white">{selectedUser.username}</div>
-                          <div className="text-xs text-gray-400">{selectedUser.email}</div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">{selectedUser.email}</div>
                         </div>
                       </div>
                       <Button
@@ -781,12 +781,12 @@ const SongEditor = () => {
                     
                     <div className="flex gap-2 items-end">
                       <div className="flex-1">
-                        <label className="text-[11px] font-medium text-gray-400 uppercase tracking-wider mb-1 block">
+                        <label className="text-[11px] font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">
                           {t('songEditor.selectRole')}
                         </label>
                         <div className="flex gap-3">
                           <select
-                            className="w-full p-2 rounded border text-sm text-white border-white bg-black"
+                            className="w-full p-2 rounded border text-sm border-gray-300 dark:border-white bg-transparent"
                             defaultValue={SongAuthorsRole.Composer}
                             id="author-role-select"
                           >
@@ -822,7 +822,7 @@ const SongEditor = () => {
               {/* Authors List */}
               {values.authors.length > 0 && (
                 <div className="space-y-2">
-                  <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider">
+                  <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
                     {t('songEditor.addedAuthors')}
                   </label>
                   {values.authors.map((author, index) => (
@@ -836,8 +836,8 @@ const SongEditor = () => {
                           />
                         )}
                         <div>
-                          <div className="font-medium text-white text-base">{author.name}</div>
-                          <div className="flex items-center gap-2 text-sm text-white font-medium">
+                          <div className="font-medium text-base">{author.name}</div>
+                          <div className="flex items-center gap-2 text-sm font-medium">
                             <CiMusicNote1 className="text-lg" />
                             { author.role.charAt(0).toUpperCase() + author.role.slice(1)}
                           </div>

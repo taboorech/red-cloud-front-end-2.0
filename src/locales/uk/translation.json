@@ -42,6 +42,10 @@
     "title": "Налаштування",
     "language": "Мова",
     "languageDescription": "Оберіть бажану мову інтерфейсу",
+    "theme": "Тема",
+    "themeDescription": "Оберіть бажану кольорову схему",
+    "themeLight": "Світла",
+    "themeDark": "Темна",
     "autoReplay": "Автоповтор",
     "autoReplayDescription": "Автоматично перезапускати поточний трек після завершення",
     "quality": {

@@ -86,17 +86,17 @@ const ProfileEdit = () => {
         const hasChanges = dirty || avatarChanged;
 
         return (
-          <div className="flex flex-col h-full text-white overflow-y-auto bg-black">
-            <div className="sticky top-0 bg-black backdrop-blur-xl z-20 border-b border-white/5">
+          <div className="flex flex-col h-full text-gray-900 dark:text-white overflow-y-auto bg-white dark:bg-black">
+            <div className="sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-xl z-20 border-b border-gray-200 dark:border-white/5">
               <div className="mx-auto px-6 py-6 flex items-center justify-between w-full">
                 <div className="flex items-center gap-5">
                   <Button
                     variant="ghost"
                     size="circle"
                     onClick={() => navigate("/profile")}
-                    className="bg-white/5 hover:bg-white/10 border-transparent transition-all"
+                    className="bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 border-transparent transition-all"
                   >
-                    <IoArrowBack size={20} className="text-white" />
+                    <IoArrowBack size={20} className="text-gray-900 dark:text-white" />
                   </Button>
                   <h1 className="text-xl font-semibold tracking-tight">
                     {t('profile.editProfile')}
@@ -124,7 +124,7 @@ const ProfileEdit = () => {
             </div>
 
             <div className="mx-auto w-full px-6 py-10 flex flex-col gap-10">
-              <section className="bg-white/[0.03] border border-white/10 p-8 rounded-[2rem]">
+              <section className="bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 p-8 rounded-[2rem]">
                 <div className="flex flex-col items-center sm:flex-row gap-8">
                   <div className="relative group">
                     <div className="w-28 h-28 rounded-full overflow-hidden ring-2 ring-white/10 group-hover:ring-white/30 transition-all">
@@ -164,16 +164,16 @@ const ProfileEdit = () => {
 
                 <section className="flex flex-col gap-6">
                   <div className="flex items-center gap-3 px-2">
-                    <div className="p-2 bg-white/5 rounded-lg text-gray-400">
+                    <div className="p-2 bg-gray-100 dark:bg-white/5 rounded-lg text-gray-500 dark:text-gray-400">
                       <IoPersonOutline size={20} />
                     </div>
                     <h2 className="text-lg font-medium">{t('profile.generalInformation')}</h2>
                   </div>
 
-                  <div className="bg-white/[0.03] border border-white/10 p-8 rounded-[2rem] space-y-6">
+                  <div className="bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 p-8 rounded-[2rem] space-y-6">
                     <div className="grid grid-cols-1 gap-6">
                       <div className="flex flex-col gap-2">
-                        <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider ml-1">
+                        <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider ml-1">
                           {t('profile.username')}
                         </label>
                         <Field
@@ -185,12 +185,12 @@ const ProfileEdit = () => {
                               ? errors.username
                               : undefined
                           }
-                          className="bg-black/40 border-white/5 focus:border-white/20"
+                          className="bg-gray-50 dark:bg-black/40 border-gray-200 dark:border-white/5 focus:border-white/20"
                         />
                       </div>
 
                       <div className="flex flex-col gap-2">
-                        <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider ml-1">
+                        <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider ml-1">
                           {t('profile.email')}
                         </label>
                         <Input
@@ -198,7 +198,7 @@ const ProfileEdit = () => {
                           value={profile.email ?? ""}
                           disabled
                           placeholder={t('profile.emailPlaceholder')}
-                          className="bg-black/40 border-white/5 opacity-50 cursor-not-allowed"
+                          className="bg-gray-50 dark:bg-black/40 border-gray-200 dark:border-white/5 opacity-50 cursor-not-allowed"
                         />
                       </div>
                     </div>
@@ -207,15 +207,15 @@ const ProfileEdit = () => {
 
                 <section className="flex flex-col gap-6 pb-10">
                   <div className="flex items-center gap-3 px-2">
-                    <div className="p-2 bg-white/5 rounded-lg text-gray-400">
+                    <div className="p-2 bg-gray-100 dark:bg-white/5 rounded-lg text-gray-500 dark:text-gray-400">
                       <IoShieldCheckmarkOutline size={20} />
                     </div>
                     <h2 className="text-lg font-medium">{t('profile.securityAndPassword')}</h2>
                   </div>
 
-                  <div className="bg-white/[0.03] border border-white/10 p-8 rounded-[2rem] space-y-6">
+                  <div className="bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 p-8 rounded-[2rem] space-y-6">
                     <div className="flex flex-col gap-2">
-                      <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider ml-1">
+                      <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider ml-1">
                         {t('profile.currentPassword')}
                       </label>
                       <Field
@@ -228,13 +228,13 @@ const ProfileEdit = () => {
                             ? errors.currentPassword
                             : undefined
                         }
-                        className="bg-black/40 border-white/5"
+                        className="bg-gray-50 dark:bg-black/40 border-gray-200 dark:border-white/5"
                       />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div className="flex flex-col gap-2">
-                        <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider ml-1">
+                        <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider ml-1">
                           {t('profile.newPassword')}
                         </label>
                         <Field
@@ -247,11 +247,11 @@ const ProfileEdit = () => {
                               ? errors.newPassword
                               : undefined
                           }
-                          className="bg-black/40 border-white/5"
+                          className="bg-gray-50 dark:bg-black/40 border-gray-200 dark:border-white/5"
                         />
                       </div>
                       <div className="flex flex-col gap-2">
-                        <label className="text-[13px] font-medium text-gray-500 uppercase tracking-wider ml-1">
+                        <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider ml-1">
                           {t('profile.confirmPassword')}
                         </label>
                         <Field
@@ -264,7 +264,7 @@ const ProfileEdit = () => {
                               ? errors.confirmPassword
                               : undefined
                           }
-                          className="bg-black/40 border-white/5"
+                          className="bg-gray-50 dark:bg-black/40 border-gray-200 dark:border-white/5"
                         />
                       </div>
                     </div>

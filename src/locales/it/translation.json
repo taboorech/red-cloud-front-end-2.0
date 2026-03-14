@@ -42,6 +42,10 @@
     "title": "Impostazioni",
     "language": "Lingua",
     "languageDescription": "Scegli la tua lingua preferita",
+    "theme": "Tema",
+    "themeDescription": "Scegli lo schema colori che preferisci",
+    "themeLight": "Chiaro",
+    "themeDark": "Scuro",
     "autoReplay": "Riproduzione automatica",
     "autoReplayDescription": "Ricomincia il brano quando finisce",
     "quality": {

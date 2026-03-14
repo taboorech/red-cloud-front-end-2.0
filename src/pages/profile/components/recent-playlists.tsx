@@ -21,7 +21,7 @@ const RecentPlaylists = ({ playlists }: RecentPlaylistsProps) => {
   }
 
   return (
-    <div className="lg:col-span-8 bg-black p-6 rounded-2xl flex flex-col gap-4 shadow-md">
+    <div className="lg:col-span-8 bg-white dark:bg-black p-6 rounded-2xl flex flex-col gap-4 shadow-md border border-gray-200 dark:border-transparent">
       <div className="flex flex-col gap-1">
         {playlists.length === 0 ? (
           <p className="text-gray-500 text-sm text-center py-4">{t('profile.noPlaylistsYet')}</p>
@@ -39,11 +39,11 @@ const RecentPlaylists = ({ playlists }: RecentPlaylistsProps) => {
                     <img src={playlist.image_url} alt="" className="w-full h-full object-cover" />
                   )}
                 </div>
-                <span className="font-medium text-gray-300 group-hover:text-white transition-colors">
+                <span className="font-medium text-gray-600 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
                   {playlist.title}
                 </span>
               </div>
-              <span className="text-xs font-mono text-gray-600 group-hover:text-gray-400 transition-colors">
+              <span className="text-xs font-mono text-gray-400 dark:text-gray-600 group-hover:text-gray-500 dark:group-hover:text-gray-400 transition-colors">
                 {playlist.songs?.length ?? 0} {t('common.songs')}
               </span>
             </div>

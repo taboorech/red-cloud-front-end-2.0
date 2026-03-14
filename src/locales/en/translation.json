@@ -42,6 +42,10 @@
     "title": "Settings",
     "language": "Language",
     "languageDescription": "Choose your preferred interface language",
+    "theme": "Theme",
+    "themeDescription": "Choose your preferred color scheme",
+    "themeLight": "Light",
+    "themeDark": "Dark",
     "autoReplay": "Auto replay",
     "autoReplayDescription": "Automatically restart the current track when it ends",
     "quality": {

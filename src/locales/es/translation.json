@@ -42,6 +42,10 @@
     "title": "Configuración",
     "language": "Idioma",
     "languageDescription": "Elige tu idioma de interfaz preferido",
+    "theme": "Tema",
+    "themeDescription": "Elige tu esquema de colores preferido",
+    "themeLight": "Claro",
+    "themeDark": "Oscuro",
     "autoReplay": "Repetición automática",
     "autoReplayDescription": "Reiniciar automáticamente la pista actual al finalizar",
     "quality": {

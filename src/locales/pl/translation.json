@@ -42,6 +42,10 @@
     "title": "Ustawienia",
     "language": "Język",
     "languageDescription": "Wybierz preferowany język interfejsu",
+    "theme": "Motyw",
+    "themeDescription": "Wybierz preferowany schemat kolorów",
+    "themeLight": "Jasny",
+    "themeDark": "Ciemny",
     "autoReplay": "Automatyczne powtarzanie",
     "autoReplayDescription": "Automatycznie odtwarzaj utwór od nowa po zakończeniu",
     "quality": {

@@ -19,7 +19,7 @@ const SongProgress = () => {
 
   return (
     <div className="flex items-center gap-4 w-full">
-      <span className="text-xs text-white w-10 text-right">
+      <span className="text-xs text-gray-700 dark:text-white w-10 text-right">
         {formatTime(audio.currentTime)}
       </span>
 
@@ -31,7 +31,7 @@ const SongProgress = () => {
         />
       </div>
 
-      <span className="text-xs text-white w-10 text-left">
+      <span className="text-xs text-gray-700 dark:text-white w-10 text-left">
         {formatTime(audio.duration)}
       </span>
     </div>

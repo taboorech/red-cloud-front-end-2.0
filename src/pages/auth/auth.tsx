@@ -53,8 +53,8 @@ const Auth = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0d0d0d] p-4">
-      <div className="w-full max-w-[450px] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0d0d0d] p-4">
+      <div className="w-full max-w-[450px] bg-white dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl">
         
         <div className="flex">
           <Button
@@ -64,7 +64,7 @@ const Auth = () => {
             rounded="none"
             className={classNames(
               "flex-1 py-4 text-sm font-medium",
-              activeTab === "authorization" && "!bg-[#282828]"
+              activeTab === "authorization" && "!bg-gray-100 dark:!bg-[#282828]"
             )}
           >
             {t('auth.authorization')}
@@ -76,7 +76,7 @@ const Auth = () => {
             rounded="none"
             className={classNames(
               "flex-1 py-4 text-sm font-medium",
-              activeTab === "registration" && "!bg-[#282828]"
+              activeTab === "registration" && "!bg-gray-100 dark:!bg-[#282828]"
             )}
           >
             {t('auth.registration')}
@@ -91,9 +91,9 @@ const Auth = () => {
           )}
 
           <div className="mt-6 flex items-center gap-3">
-            <div className="flex-1 h-px bg-gray-700" />
-            <span className="text-gray-500 text-xs">{t('auth.or')}</span>
-            <div className="flex-1 h-px bg-gray-700" />
+            <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
+            <span className="text-gray-400 dark:text-gray-500 text-xs">{t('auth.or')}</span>
+            <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
           </div>
 
           <div className="mt-6 flex justify-center">
