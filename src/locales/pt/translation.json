@@ -246,6 +246,12 @@
     "title": "Página Não Encontrada",
     "description": "A página que você está procurando não existe ou foi movida."
   },
+  "mySongs": {
+    "title": "Minhas Músicas",
+    "createSong": "Criar Música",
+    "noSongs": "Ainda não há músicas",
+    "noSongsDescription": "Crie sua primeira música para vê-la aqui"
+  },
   "sidebar": {
     "noSongsInQueue": "Nenhuma música na fila",
     "noSongPlaying": "Nenhuma música tocando",

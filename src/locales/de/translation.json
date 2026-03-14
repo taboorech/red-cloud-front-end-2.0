@@ -246,6 +246,12 @@
     "title": "Seite nicht gefunden",
     "description": "Die gesuchte Seite existiert nicht oder wurde verschoben."
   },
+  "mySongs": {
+    "title": "Meine Lieder",
+    "createSong": "Lied erstellen",
+    "noSongs": "Noch keine Lieder",
+    "noSongsDescription": "Erstellen Sie Ihr erstes Lied, um es hier zu sehen"
+  },
   "sidebar": {
     "noSongsInQueue": "Keine Songs in der Warteschlange",
     "noSongPlaying": "Kein Song wird abgespielt",

@@ -246,6 +246,12 @@
     "title": "Strona nie znaleziona",
     "description": "Strona, której szukasz, nie istnieje lub została przeniesiona."
   },
+  "mySongs": {
+    "title": "Moje Piosenki",
+    "createSong": "Utwórz Piosenkę",
+    "noSongs": "Jeszcze brak piosenek",
+    "noSongsDescription": "Stwórz swoją pierwszą piosenkę, aby ją tutaj zobaczyć"
+  },
   "sidebar": {
     "noSongsInQueue": "Brak utworów w kolejce",
     "noSongPlaying": "Brak odtwarzanego utworu",

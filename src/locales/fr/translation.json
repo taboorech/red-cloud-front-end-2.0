@@ -246,6 +246,12 @@
     "title": "Page Non Trouvée",
     "description": "La page que vous recherchez n'existe pas ou a été déplacée."
   },
+  "mySongs": {
+    "title": "Mes Chansons",
+    "createSong": "Créer Chanson",
+    "noSongs": "Pas encore de chansons",
+    "noSongsDescription": "Créez votre première chanson pour la voir ici"
+  },
   "sidebar": {
     "noSongsInQueue": "Aucune chanson dans la file d'attente",
     "noSongPlaying": "Aucune chanson en cours de lecture",

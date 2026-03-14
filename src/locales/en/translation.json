@@ -242,6 +242,12 @@
     "failedToLoadSong": "Failed to load song with ID",
     "loadingLanguages": "Loading languages..."
   },
+  "mySongs": {
+    "title": "My Songs",
+    "createSong": "Create Song",
+    "noSongs": "No songs yet",
+    "noSongsDescription": "Create your first song to see it here"
+  },
   "notFound": {
     "title": "Page Not Found",
     "description": "The page you're looking for doesn't exist or has been moved."

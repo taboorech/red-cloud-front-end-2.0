@@ -332,7 +332,7 @@ const SongEditor = () => {
   return (
     <div className="rounded-md bg-white dark:bg-black w-full h-full px-4 overflow-y-auto text-gray-900 dark:text-white">
       <div className="flex items-center gap-3 py-6">
-        <IoMusicalNotes className="text-white text-2xl" />
+        <IoMusicalNotes className="text-black dark:text-white text-2xl" />
         <div>
           <h1 className="text-2xl font-bold">
             {songId ? t('songEditor.editSong') : t('songEditor.createNewSong')}
@@ -701,7 +701,7 @@ const SongEditor = () => {
             {/* Authors */}
             <div className="space-y-4 relative">
               <h2 className="text-lg font-semibold">{t('songEditor.authors')}</h2>
-              <div className="bg-gray-900/20 py-4 rounded-lg space-y-3">
+              <div className="dark:bg-gray-900/20 py-4 rounded-lg space-y-3 dark:px-4">
                 <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
                   {t('songEditor.searchAndAddAuthor')}
                 </label>
@@ -710,7 +710,7 @@ const SongEditor = () => {
                   <div className="flex-1 relative">
                     <Input
                       placeholder={t('songEditor.searchUserByName')}
-                      className="pr-10"
+                      className="pr-10 pl-2"
                       value={userSearchInput}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         const value = e.target.value;
