@@ -11,6 +11,16 @@ export interface GenerateImageResponse {
   }
 }
 
+export interface GenerateLyricsParams {
+  audioFile?: File;
+  songId?: string;
+  model?: string;
+}
+
+export interface GenerateLyricsResponse {
+  data: string;
+}
+
 export const aiApi = createApi({
   reducerPath: 'aiApi',
   baseQuery: axiosBaseQuery(),
@@ -22,9 +32,31 @@ export const aiApi = createApi({
         data: params,
       }),
     }),
+    generateLyrics: builder.mutation<GenerateLyricsResponse, GenerateLyricsParams>({
+      query: ({ audioFile, songId }) => {
+        const formData = new FormData();
+        
+        if (audioFile) {
+          formData.append('audioFile', audioFile);
+        }
+        if (songId) {
+          formData.append('songId', songId);
+        }
+
+        return {
+          url: '/v1/ai/generate-lyrics',
+          method: 'POST',
+          data: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        };
+      },
+    }),
   }),
 });
 
 export const {
   useGenerateImageMutation,
+  useGenerateLyricsMutation,
 } = aiApi;
