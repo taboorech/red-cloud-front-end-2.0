@@ -123,7 +123,7 @@ const Search = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-black text-gray-900 dark:text-white h-full min-h-0 flex flex-col p-6">
+    <div className="bg-white dark:bg-black text-gray-900 dark:text-white h-full min-h-0 flex flex-col p-6 rounded-md">
       <div className="shrink-0">
         <SearchInput
           value={searchQuery}

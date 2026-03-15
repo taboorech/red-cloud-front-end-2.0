@@ -145,6 +145,7 @@
   },
   "profile": {
     "editProfile": "Edytuj profil",
+    "logout": "Wyloguj",
     "songsListened": "Przesłuchane utwory",
     "songsDisliked": "Nielubiane utwory",
     "songsLiked": "Polubione utwory", 
@@ -174,7 +175,12 @@
     "chooseFile": "Wybierz plik"
   },
   "playlists": {
-    "searchPlaylists": "Szukaj playlist..."
+    "searchPlaylists": "Szukaj playlist...",
+    "loadingPlaylists": "Ładowanie playlist...",
+    "failedToLoadPlaylists": "Nie udało się załadować playlist"
+  },
+  "playlistsMenu": {
+    "yourLibrary": "Twoja biblioteka"
   },
   "playlistEditor": {
     "editPlaylist": "Edytuj playlistę",
@@ -216,6 +222,19 @@
     "aiIsCreatingImage": "AI tworzy obraz...",
     "generatedImage": "Wygenerowany obraz",
     "lyrics": "Tekst",
+    "generateLyricsWithAI": "Generuj Tekst z AI",
+    "generateLyricsDescription": "Użyj AI do automatycznego transkrypcji tekstu z Twojego pliku audio",
+    "audioFileForLyrics": "Plik audio do generowania tekstu:",
+    "orUseMainAudio": "(lub użyj głównego pliku audio)",
+    "selectedFile": "Wybrany plik",
+    "willUseMainAudioFile": "Użyje głównego pliku audio do generowania tekstu",
+    "generateLyrics": "Generuj Tekst",
+    "aiIsTranscribingAudio": "AI transkrybuje audio, to może chwilę potrwać...",
+    "selectAudioFileFirst": "Proszę najpierw wybrać plik audio",
+    "failedToGenerateLyrics": "Generowanie tekstu nie powiodło się. Spróbuj ponownie.",
+    "canRegenerateText": "Możesz generować tekst wielokrotnie z tym plikiem",
+    "useExistingSongFile": "Użyj pliku audio istniejącej piosenki",
+    "willUseOriginalAudioFile": "Użyje oryginalnego pliku audio tej piosenki",
     "songTextLyrics": "Tekst utworu",
     "enterLyrics": "Wprowadź tekst",
     "audioFile": "Plik audio",
@@ -239,6 +258,12 @@
   "notFound": {
     "title": "Strona nie znaleziona",
     "description": "Strona, której szukasz, nie istnieje lub została przeniesiona."
+  },
+  "mySongs": {
+    "title": "Moje Piosenki",
+    "createSong": "Utwórz Piosenkę",
+    "noSongs": "Jeszcze brak piosenek",
+    "noSongsDescription": "Stwórz swoją pierwszą piosenkę, aby ją tutaj zobaczyć"
   },
   "sidebar": {
     "noSongsInQueue": "Brak utworów w kolejce",
