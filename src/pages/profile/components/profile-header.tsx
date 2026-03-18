@@ -1,8 +1,10 @@
-import { IoSettingsSharp } from "react-icons/io5"
+import { IoSettingsSharp, IoLogOut } from "react-icons/io5"
 import { TbPremiumRights } from "react-icons/tb"
 import { useNavigate } from "react-router"
 import { Button } from "../../../components/button/button"
 import { useSubscription } from "../../../hooks/use-subscription"
+import { useLogoutMutation } from "../../../store/api/auth.api"
+import { useTranslation } from "react-i18next"
 
 interface ProfileHeaderProps {
   avatar: string
@@ -11,8 +13,20 @@ interface ProfileHeaderProps {
 }
 
 const ProfileHeader = ({ avatar, username }: ProfileHeaderProps) => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { isPremium, currentPlan } = useSubscription()
+  const [logout] = useLogoutMutation()
+
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap()
+      localStorage.clear()
+      navigate('/auth')
+    } catch (error) {
+      console.error('Logout failed:', error)
+    }
+  }
 
   return (
     <section className="bg-white dark:bg-black p-6 rounded-2xl flex items-center justify-between relative shadow-lg border border-gray-200 dark:border-transparent">
@@ -37,15 +51,28 @@ const ProfileHeader = ({ avatar, username }: ProfileHeaderProps) => {
           {/* <p className="text-gray-500 text-sm sm:text-base">{description}</p> */}
         </div>
       </div>
-      <Button 
-        variant="ghost"
-        size="circle"
-        rounded="lg"
-        onClick={() => navigate("/profile/edit")}
-        className="absolute top-6 right-6 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 border-transparent"
-      >
-        <IoSettingsSharp size={22} className="text-gray-500 dark:text-gray-400" />
-      </Button>
+      
+      {/* Action Buttons */}
+      <div className="absolute top-6 right-6 flex gap-2">
+        <Button 
+          variant="ghost"
+          size="circle"
+          rounded="lg"
+          onClick={() => navigate("/profile/edit")}
+          title={t('profile.editProfile')}
+        >
+          <IoSettingsSharp size={22} className="text-gray-500 dark:text-gray-400" />
+        </Button>
+        <Button 
+          variant="ghost"
+          size="circle"
+          rounded="lg"
+          onClick={handleLogout}
+          title={t('profile.logout')}
+        >
+          <IoLogOut size={22} className="text-red-500" />
+        </Button>
+      </div>
     </section>
   )
 }

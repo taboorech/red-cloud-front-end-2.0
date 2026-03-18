@@ -145,6 +145,7 @@
   },
   "profile": {
     "editProfile": "Modifier le Profil",
+    "logout": "Déconnexion",
     "songsListened": "Titres écoutés",
     "songsDisliked": "Titres ignorés",
     "songsLiked": "Titres aimés", 
@@ -174,7 +175,12 @@
     "chooseFile": "Choisir un fichier"
   },
   "playlists": {
-    "searchPlaylists": "Rechercher des playlists..."
+    "searchPlaylists": "Rechercher des playlists...",
+    "loadingPlaylists": "Chargement des playlists...",
+    "failedToLoadPlaylists": "Échec du chargement des playlists"
+  },
+  "playlistsMenu": {
+    "yourLibrary": "Votre bibliothèque"
   },
   "playlistEditor": {
     "editPlaylist": "Modifier la Playlist",
@@ -216,6 +222,19 @@
     "aiIsCreatingImage": "L'IA génère votre image...",
     "generatedImage": "Image générée",
     "lyrics": "Paroles",
+    "generateLyricsWithAI": "Générer Paroles avec IA",
+    "generateLyricsDescription": "Utilisez l'IA pour transcrire automatiquement les paroles de votre fichier audio",
+    "audioFileForLyrics": "Fichier audio pour générer les paroles :",
+    "orUseMainAudio": "(ou utiliser le fichier audio principal)",
+    "selectedFile": "Fichier sélectionné",
+    "willUseMainAudioFile": "Utilisera le fichier audio principal pour générer les paroles",
+    "generateLyrics": "Générer Paroles",
+    "aiIsTranscribingAudio": "L'IA transcrit l'audio, cela peut prendre un moment...",
+    "selectAudioFileFirst": "Veuillez d'abord sélectionner un fichier audio",
+    "failedToGenerateLyrics": "Échec de la génération des paroles. Veuillez réessayer.",
+    "canRegenerateText": "Vous pouvez générer les paroles plusieurs fois avec ce fichier",
+    "useExistingSongFile": "Utiliser le fichier audio de la chanson existante",
+    "willUseOriginalAudioFile": "Utilisera le fichier audio original de cette chanson",
     "songTextLyrics": "Texte/Paroles",
     "enterLyrics": "Entrez les paroles",
     "audioFile": "Fichier Audio",
@@ -239,6 +258,12 @@
   "notFound": {
     "title": "Page Non Trouvée",
     "description": "La page que vous recherchez n'existe pas ou a été déplacée."
+  },
+  "mySongs": {
+    "title": "Mes Chansons",
+    "createSong": "Créer Chanson",
+    "noSongs": "Pas encore de chansons",
+    "noSongsDescription": "Créez votre première chanson pour la voir ici"
   },
   "sidebar": {
     "noSongsInQueue": "Aucune chanson dans la file d'attente",

@@ -6,11 +6,12 @@ import { IoAdd, IoClose, IoSearch, IoMusicalNotes, IoImage, IoSparkles } from "r
 import Input from "../../components/input/input";
 import FileInput from "../../components/file-input/file-input";
 import { Button } from "../../components/button/button";
+import Checkbox from "../../components/checkbox/checkbox";
 import { songSchema } from "../../validation/song.scheme";
 import { SongAuthorsRole, type SongFormValues, type SongAuthor } from "../../types/song.types";
 import { useGetSupportedLanguagesQuery } from "../../store/api/lyrics.api";
 import { useLazyGetGenresQuery } from "../../store/api/genres.api";
-import { useGenerateImageMutation } from "../../store/api/ai.api";
+import { useGenerateImageMutation, useGenerateLyricsMutation } from "../../store/api/ai.api";
 import { useLazyGetAllUsersQuery } from "../../store/api/users.api";
 import { useCreateSongMutation, useUpdateSongMutation, useGetSongQuery } from "../../store/api/songs.api";
 import { CiMusicNote1 } from "react-icons/ci";
@@ -36,10 +37,14 @@ const SongEditor = () => {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [audioFileInfo, setAudioFileInfo] = useState<{name: string; size: number} | null>(null);
+  const [lyricsAudioFile, setLyricsAudioFile] = useState<File | null>(null);
+  const [useExistingSongFile, setUseExistingSongFile] = useState(false);
+  const [lyricsGenerationError, setLyricsGenerationError] = useState<string | null>(null);
 
   const { data: languages = [], isLoading: languagesLoading } = useGetSupportedLanguagesQuery();
   const [searchGenres, { isLoading: genresLoading }] = useLazyGetGenresQuery();
   const [generateImage, { isLoading: generatingImage }] = useGenerateImageMutation();
+  const [generateLyrics, { isLoading: generatingLyrics }] = useGenerateLyricsMutation();
   const [searchUsers, { isLoading: usersLoading }] = useLazyGetAllUsersQuery();
   const [createSong, { isLoading: isCreatingSong }] = useCreateSongMutation();
   const [updateSong, { isLoading: isUpdatingSong }] = useUpdateSongMutation();
@@ -59,7 +64,7 @@ const SongEditor = () => {
     genres: existingSong?.genres || [],
     authors: existingSong?.authors?.map(author => ({
       role: author.role,
-      user_id: author.user_id,
+      user_id: author.user_id?.toString() || '',
       name: author.user?.username || `User ${author.user_id}`,
       user: author.user
     })) || [],
@@ -101,7 +106,7 @@ const SongEditor = () => {
     try {
       const validationData = {
         ...values,
-        duration: typeof values.duration === 'string' ? parseInt(values.duration) || 0 : values.duration || 0,
+        duration: typeof values.duration === 'string' ? parseInt(values.duration) || 1 : values.duration || 1,
         releaseYear: typeof values.releaseYear === 'string' ? parseInt(values.releaseYear) || undefined : values.releaseYear || undefined,
         genres: values.genres && values.genres.length > 0 ? values.genres : undefined,
         authors: values.authors && values.authors.length > 0 ? values.authors : undefined,
@@ -172,7 +177,7 @@ const SongEditor = () => {
         const authorsData = values.authors
           .filter(author => author.user_id && author.role)
           .map(author => ({
-            user_id: author.user_id,
+            userId: parseInt(author.user_id),
             role: author.role
           }));
         if (authorsData.length > 0) {
@@ -232,7 +237,7 @@ const SongEditor = () => {
   const addAuthor = (setFieldValue: (field: string, value: unknown) => void, currentAuthors: SongAuthor[], user: User, role: SongAuthorsRole) => {
     setFieldValue('authors', [
       ...currentAuthors,
-      { role, userId: user.id, name: user.username, user }
+      { role, user_id: user.id.toString(), name: user.username, user }
     ]);
     setSelectedUser(null);
     setUserSearchInput('');
@@ -325,6 +330,42 @@ const SongEditor = () => {
     }
   };
 
+  const handleGenerateLyrics = async (setFieldValue: (field: string, value: unknown) => void, values: SongFormValues) => {
+    try {
+      setLyricsGenerationError(null);
+
+      let audioFileToUse: File | undefined;
+      let songIdToUse: string | undefined;
+
+      if (useExistingSongFile && songId) {
+        // Use existing song file via songId
+        songIdToUse = songId;
+      } else if (lyricsAudioFile) {
+        // Use uploaded lyrics file
+        audioFileToUse = lyricsAudioFile;
+      } else if (values.song instanceof File) {
+        // Use main audio file for new songs
+        audioFileToUse = values.song;
+      } else {
+        setLyricsGenerationError(t('songEditor.selectAudioFileFirst'));
+        return;
+      }
+
+      const result = await generateLyrics({
+        audioFile: audioFileToUse,
+        songId: songIdToUse,
+      }).unwrap();
+
+      if (result.data) {
+        setFieldValue('text', result.data);
+        console.log('Lyrics generated successfully');
+      }
+    } catch (error) {
+      console.error('Failed to generate lyrics:', error);
+      setLyricsGenerationError(t('songEditor.failedToGenerateLyrics'));
+    }
+  };
+
   const getLanguageName = (language: { code: string; name: string; flag: string }): string => {
     return `${language.name} ${language.flag}`;
   };
@@ -332,7 +373,7 @@ const SongEditor = () => {
   return (
     <div className="rounded-md bg-white dark:bg-black w-full h-full px-4 overflow-y-auto text-gray-900 dark:text-white">
       <div className="flex items-center gap-3 py-6">
-        <IoMusicalNotes className="text-white text-2xl" />
+        <IoMusicalNotes className="text-black dark:text-white text-2xl" />
         <div>
           <h1 className="text-2xl font-bold">
             {songId ? t('songEditor.editSong') : t('songEditor.createNewSong')}
@@ -559,6 +600,102 @@ const SongEditor = () => {
             <div className="space-y-4">
               <h2 className="text-lg font-semibold">{t('songEditor.lyrics')}</h2>
               
+              {/* Lyrics Generation Section */}
+              <div className="bg-gray-100 dark:bg-gray-900/30 p-4 rounded-lg space-y-3 border border-gray-200 dark:border-gray-700">
+                <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                  <IoSparkles className="inline mr-1" /> {t('songEditor.generateLyricsWithAI')}
+                </label>
+                
+                <div className="space-y-3">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {t('songEditor.generateLyricsDescription')}
+                  </p>
+                  
+                  <div className="space-y-3">
+                    {/* Option to use existing song file when editing */}
+                    {songId && existingSong && (
+                      <div className="bg-white dark:bg-blue-900/20 p-3 rounded-lg border border-blue-200 dark:border-blue-800">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <Checkbox
+                            checked={useExistingSongFile}
+                            onChange={(e) => {
+                              setUseExistingSongFile(e.target.checked);
+                              if (e.target.checked) {
+                                setLyricsAudioFile(null);
+                              }
+                            }}
+                          />
+                          <span className="text-sm select-none">
+                            <IoMusicalNotes className="inline mr-1" />
+                            {t('songEditor.useExistingSongFile')}: "{existingSong.title}"
+                          </span>
+                        </label>
+                        {useExistingSongFile && (
+                          <p className="text-xs text-blue-600 dark:text-blue-400 mt-1 ml-6">
+                            {t('songEditor.willUseOriginalAudioFile')}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Audio file for lyrics generation */}
+                    {!useExistingSongFile && (
+                      <div>
+                        <label className="text-xs text-gray-500 dark:text-gray-400 mb-1 block">
+                          {t('songEditor.audioFileForLyrics')} {!songId && t('songEditor.orUseMainAudio')}
+                        </label>
+                        <FileInput
+                          label=""
+                          accept="audio/*"
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            const file = e.target.files?.[0] || null;
+                            setLyricsAudioFile(file);
+                          }}
+                        />
+                        {lyricsAudioFile && (
+                          <p className="text-xs text-green-400 mt-1">
+                            {t('songEditor.selectedFile')}: {lyricsAudioFile.name}
+                            <br />
+                            <span className="text-xs text-gray-400">{t('songEditor.canRegenerateText')}</span>
+                          </p>
+                        )}
+                        {!songId && !lyricsAudioFile && values.song && (
+                          <p className="text-xs text-blue-400 mt-1">
+                            {t('songEditor.willUseMainAudioFile')}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    
+                    <Button
+                      type="button"
+                      variant="snow"
+                      size="sm"
+                      onClick={() => handleGenerateLyrics(setFieldValue, values)}
+                      disabled={(!useExistingSongFile && !lyricsAudioFile && !values.song) || generatingLyrics}
+                      loading={generatingLyrics}
+                    >
+                      <div className="flex gap-2">
+                        <IoSparkles /> 
+                        {generatingLyrics ? t('songEditor.generating') : t('songEditor.generateLyrics')}
+                      </div>
+                    </Button>
+                    
+                    {generatingLyrics && (
+                      <p className="text-sm text-blue-400">
+                        {t('songEditor.aiIsTranscribingAudio')}
+                      </p>
+                    )}
+                    
+                    {lyricsGenerationError && (
+                      <p className="text-sm text-red-400">
+                        {lyricsGenerationError}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+              
               <div className="flex flex-col">
                 <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
                   {t('songEditor.songTextLyrics')}
@@ -701,7 +838,7 @@ const SongEditor = () => {
             {/* Authors */}
             <div className="space-y-4 relative">
               <h2 className="text-lg font-semibold">{t('songEditor.authors')}</h2>
-              <div className="bg-gray-900/20 py-4 rounded-lg space-y-3">
+              <div className="dark:bg-gray-900/20 py-4 rounded-lg space-y-3 dark:px-4">
                 <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
                   {t('songEditor.searchAndAddAuthor')}
                 </label>
@@ -710,7 +847,7 @@ const SongEditor = () => {
                   <div className="flex-1 relative">
                     <Input
                       placeholder={t('songEditor.searchUserByName')}
-                      className="pr-10"
+                      className="pr-10 pl-2"
                       value={userSearchInput}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         const value = e.target.value;
@@ -882,14 +1019,11 @@ const SongEditor = () => {
                   {t('common.cancel')}
                 </Button>
                 <Button
-                  type="submit"
+                  type="button"
                   variant="snow"
                   disabled={isSubmitting || isCreatingSong || isUpdatingSong}
                   loading={isSubmitting || isCreatingSong || isUpdatingSong}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    formikHandleSubmit();
-                  }}
+                  onClick={() => formikHandleSubmit()}
                 >
                   <div className="flex gap-2">
                     <IoMusicalNotes /> 

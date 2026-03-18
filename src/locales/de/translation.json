@@ -145,6 +145,7 @@
   },
   "profile": {
     "editProfile": "Profil bearbeiten",
+    "logout": "Abmelden",
     "songsListened": "Gehörte Songs",
     "songsDisliked": "Abgelehnte Songs",
     "songsLiked": "Beliebte Songs", 
@@ -174,7 +175,12 @@
     "chooseFile": "Datei wählen"
   },
   "playlists": {
-    "searchPlaylists": "Playlists suchen..."
+    "searchPlaylists": "Playlists suchen...",
+    "loadingPlaylists": "Playlists werden geladen...",
+    "failedToLoadPlaylists": "Laden der Playlists fehlgeschlagen"
+  },
+  "playlistsMenu": {
+    "yourLibrary": "Deine Bibliothek"
   },
   "playlistEditor": {
     "editPlaylist": "Playlist bearbeiten",
@@ -216,6 +222,19 @@
     "aiIsCreatingImage": "KI erstellt Bild...",
     "generatedImage": "Generiertes Bild",
     "lyrics": "Songtext",
+    "generateLyricsWithAI": "Songtext mit KI generieren",
+    "generateLyricsDescription": "Nutzen Sie KI, um automatisch Songtexte aus Ihrer Audiodatei zu transkribieren",
+    "audioFileForLyrics": "Audiodatei für Songtext-Generierung:",
+    "orUseMainAudio": "(oder Haupt-Audiodatei verwenden)",
+    "selectedFile": "Ausgewählte Datei",
+    "willUseMainAudioFile": "Wird die Haupt-Audiodatei für Songtext-Generierung verwenden",
+    "generateLyrics": "Songtext Generieren",
+    "aiIsTranscribingAudio": "KI transkribiert Audio, das kann einen Moment dauern...",
+    "selectAudioFileFirst": "Bitte wählen Sie zuerst eine Audiodatei",
+    "failedToGenerateLyrics": "Songtext-Generierung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    "canRegenerateText": "Sie können Songtexte mehrmals mit dieser Datei generieren",
+    "useExistingSongFile": "Existierende Song-Audiodatei verwenden",
+    "willUseOriginalAudioFile": "Wird die ursprüngliche Audiodatei dieses Songs verwenden",
     "songTextLyrics": "Text/Lyrics",
     "enterLyrics": "Songtext eingeben",
     "audioFile": "Audiodatei",
@@ -239,6 +258,12 @@
   "notFound": {
     "title": "Seite nicht gefunden",
     "description": "Die gesuchte Seite existiert nicht oder wurde verschoben."
+  },
+  "mySongs": {
+    "title": "Meine Lieder",
+    "createSong": "Lied erstellen",
+    "noSongs": "Noch keine Lieder",
+    "noSongsDescription": "Erstellen Sie Ihr erstes Lied, um es hier zu sehen"
   },
   "sidebar": {
     "noSongsInQueue": "Keine Songs in der Warteschlange",

@@ -9,7 +9,7 @@ const genreSchema = z.array(
 );
 
 const userIdValidation = z.object({
-  userId: z.number().int().positive("User ID must be a positive integer"),
+  user_id: z.string().min(1, "User ID is required"),
   name: z.string().min(1, "User name is required"),
 });
 

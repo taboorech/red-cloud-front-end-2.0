@@ -145,6 +145,7 @@
   },
   "profile": {
     "editProfile": "Editar Perfil",
+    "logout": "Cerrar Sesión",
     "songsListened": "Canciones escuchadas",
     "songsDisliked": "No me gusta",
     "songsLiked": "Me gusta", 
@@ -174,7 +175,12 @@
     "chooseFile": "Elegir archivo"
   },
   "playlists": {
-    "searchPlaylists": "Buscar listas..."
+    "searchPlaylists": "Buscar listas...",
+    "loadingPlaylists": "Cargando listas...",
+    "failedToLoadPlaylists": "Error al cargar las listas"
+  },
+  "playlistsMenu": {
+    "yourLibrary": "Tu biblioteca"
   },
   "playlistEditor": {
     "editPlaylist": "Editar Lista",
@@ -216,6 +222,19 @@
     "aiIsCreatingImage": "La IA está creando tu imagen...",
     "generatedImage": "Imagen Generada",
     "lyrics": "Letra",
+    "generateLyricsWithAI": "Generar Letra con IA",
+    "generateLyricsDescription": "Usa IA para transcribir automáticamente la letra de tu archivo de audio",
+    "audioFileForLyrics": "Archivo de audio para generar letra:",
+    "orUseMainAudio": "(o usar el archivo de audio principal)",
+    "selectedFile": "Archivo seleccionado",
+    "willUseMainAudioFile": "Se usará el archivo de audio principal para generar la letra",
+    "generateLyrics": "Generar Letra",
+    "aiIsTranscribingAudio": "La IA está transcribiendo el audio, esto puede tomar un momento...",
+    "selectAudioFileFirst": "Por favor, selecciona un archivo de audio primero",
+    "failedToGenerateLyrics": "Error al generar la letra. Inténtalo de nuevo.",
+    "canRegenerateText": "Puedes generar letra múltiples veces con este archivo",
+    "useExistingSongFile": "Usar archivo de audio de la canción existente",
+    "willUseOriginalAudioFile": "Se usará el archivo de audio original de esta canción",
     "songTextLyrics": "Texto de la Canción/Letra",
     "enterLyrics": "Introduce la letra",
     "audioFile": "Archivo de Audio",
@@ -239,6 +258,12 @@
   "notFound": {
     "title": "Página no encontrada",
     "description": "La página que estás buscando no existe o ha sido movida."
+  },
+  "mySongs": {
+    "title": "Mis Canciones",
+    "createSong": "Crear Canción",
+    "noSongs": "Aún no hay canciones",
+    "noSongsDescription": "Crea tu primera canción para verla aquí"
   },
   "sidebar": {
     "noSongsInQueue": "No hay canciones en la cola",

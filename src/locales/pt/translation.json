@@ -145,6 +145,7 @@
   },
   "profile": {
     "editProfile": "Editar Perfil",
+    "logout": "Sair",
     "songsListened": "Músicas ouvidas",
     "songsDisliked": "Não gostei",
     "songsLiked": "Curtidas", 
@@ -174,7 +175,12 @@
     "chooseFile": "Escolher arquivo"
   },
   "playlists": {
-    "searchPlaylists": "Buscar playlists..."
+    "searchPlaylists": "Pesquisar playlists...",
+    "loadingPlaylists": "Carregando playlists...",
+    "failedToLoadPlaylists": "Falha ao carregar playlists"
+  },
+  "playlistsMenu": {
+    "yourLibrary": "Sua biblioteca"
   },
   "playlistEditor": {
     "editPlaylist": "Editar Playlist",
@@ -216,6 +222,19 @@
     "aiIsCreatingImage": "IA está criando sua imagem...",
     "generatedImage": "Imagem gerada",
     "lyrics": "Letra",
+    "generateLyricsWithAI": "Gerar Letra com IA",
+    "generateLyricsDescription": "Use IA para transcrever automaticamente as letras do seu arquivo de áudio",
+    "audioFileForLyrics": "Arquivo de áudio para gerar letra:",
+    "orUseMainAudio": "(ou usar o arquivo de áudio principal)",
+    "selectedFile": "Arquivo selecionado",
+    "willUseMainAudioFile": "Usará o arquivo de áudio principal para gerar a letra",
+    "generateLyrics": "Gerar Letra",
+    "aiIsTranscribingAudio": "IA está transcrevendo o áudio, isso pode levar um momento...",
+    "selectAudioFileFirst": "Por favor, selecione um arquivo de áudio primeiro",
+    "failedToGenerateLyrics": "Falha ao gerar letra. Tente novamente.",
+    "canRegenerateText": "Você pode gerar letras múltiplas vezes com este arquivo",
+    "useExistingSongFile": "Usar arquivo de áudio da música existente",
+    "willUseOriginalAudioFile": "Usará o arquivo de áudio original desta música",
     "songTextLyrics": "Letra da música",
     "enterLyrics": "Insira a letra",
     "audioFile": "Arquivo de Áudio",
@@ -239,6 +258,12 @@
   "notFound": {
     "title": "Página Não Encontrada",
     "description": "A página que você está procurando não existe ou foi movida."
+  },
+  "mySongs": {
+    "title": "Minhas Músicas",
+    "createSong": "Criar Música",
+    "noSongs": "Ainda não há músicas",
+    "noSongsDescription": "Crie sua primeira música para vê-la aqui"
   },
   "sidebar": {
     "noSongsInQueue": "Nenhuma música na fila",

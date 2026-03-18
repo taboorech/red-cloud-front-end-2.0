@@ -145,6 +145,7 @@
   },
   "profile": {
     "editProfile": "Редагувати профіль",
+    "logout": "Вийти",
     "songsListened": "Прослухано пісень",
     "songsDisliked": "Не сподобались",
     "songsLiked": "Сподобались", 
@@ -179,6 +180,9 @@
     "searchPlaylists": "Пошук плейлистів...",
     "loadingPlaylists": "Завантаження плейлистів...",
     "failedToLoadPlaylists": "Не вдалося завантажити плейлисти"
+  },
+  "playlistsMenu": {
+    "yourLibrary": "Ваша бібліотека"
   },
   "playlistEditor": {
     "editPlaylist": "Редагувати плейлист",
@@ -225,6 +229,19 @@
     "aiIsCreatingImage": "ІІ створює ваше зображення...",
     "generatedImage": "Згенероване зображення",
     "lyrics": "Текст",
+    "generateLyricsWithAI": "Згенерувати текст за допомогою ІІ",
+    "generateLyricsDescription": "Використайте ІІ для автоматичного розпізнавання тексту з вашого аудіофайлу",
+    "audioFileForLyrics": "Аудіофайл для генерації тексту:",
+    "orUseMainAudio": "(або використовувати основний аудіофайл)",
+    "selectedFile": "Обраний файл",
+    "willUseMainAudioFile": "Буде використано основний аудіофайл для генерації тексту",
+    "generateLyrics": "Згенерувати текст",
+    "aiIsTranscribingAudio": "ІІ розпізнає аудіо, це може зайняти деякий час...",
+    "selectAudioFileFirst": "Спочатку оберіть аудіофайл",
+    "failedToGenerateLyrics": "Не вдалося згенерувати текст. Спробуйте ще раз.",
+    "canRegenerateText": "Ви можете генерувати текст кілька разів з цим файлом",
+    "useExistingSongFile": "Використати аудіофайл існуючої пісні",
+    "willUseOriginalAudioFile": "Буде використано оригінальний аудіофайл цієї пісні",
     "songTextLyrics": "Текст пісні",
     "enterLyrics": "Введіть текст пісні",
     "audioFile": "Аудіофайл",
@@ -246,6 +263,12 @@
     "failedToLoadSong": "Не вдалося завантажити пісню з ID",
     "unknownError": "Виникла невідома помилка",
     "loadingLanguages": "Завантаження мов..."
+  },
+  "mySongs": {
+    "title": "Мої пісні",
+    "createSong": "Створити пісню",
+    "noSongs": "Поки що немає пісень",
+    "noSongsDescription": "Створіть свою першу пісню, щоб побачити її тут"
   },
   "notFound": {
     "title": "Сторінка не знайдена",
