@@ -5,7 +5,7 @@ import PlayerAdditionalButtons from "./player-additional-buttons/player-addition
 
 const Player = () => {
   return (
-    <div className="flex-col md:flex gap-4 bg-white dark:bg-black border border-gray-200 dark:border-white/10 p-4 rounded-lg w-full w-full mx-auto">
+    <div className="flex flex-col md:flex-row gap-4 bg-white dark:bg-black border border-gray-200 dark:border-white/10 p-4 rounded-lg w-full w-full mx-auto">
       <div className="flex md:hidden items-center w-full justify-between mb-2">
         <div className="w-1/3">
           <VolumeBlock />
