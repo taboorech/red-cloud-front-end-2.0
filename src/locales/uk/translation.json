@@ -26,6 +26,19 @@
     "chooseFile": "Обрати файл",
     "home": "Головна"
   },
+  "navigation": {
+    "menu": "Меню",
+    "home": "Головна",
+    "search": "Пошук",
+    "favorites": "Улюблені",
+    "playlists": "Плейлісти",
+    "mySongs": "Мої пісні",
+    "settings": "Налаштування",
+    "subscriptions": "Підписка",
+    "about": "Про додаток",
+    "profile": "Профіль",
+    "goToProfile": "Перейти до профілю"
+  },
   "home": {
     "loadingError": "Не вдалося завантажити пісні",
     "noSongs": "Пісні недоступні"

@@ -13,7 +13,7 @@ interface BannerMainInfoProps {
 const BannerMainInfo = ({ title, image, duration, additionalInfo }: BannerMainInfoProps) => {
   return (
     <div className="flex gap-3">
-      <div className="w-32 h-32 min-w-32 rounded-md overflow-hidden flex-shrink-0">
+      <div className="w-28 h-28 md:w-32 md:h-32 min-w-28 min-h-28 rounded-md overflow-hidden flex-shrink-0">
         <img 
           src={image} 
           alt="Banner Image" 
@@ -21,10 +21,10 @@ const BannerMainInfo = ({ title, image, duration, additionalInfo }: BannerMainIn
         />
       </div>
       <div className="flex flex-col min-w-0 flex-1">
-        <h1 className="text-gray-900 dark:text-white text-3xl font-bold truncate">{title}</h1>
+        <h1 className="text-gray-900 dark:text-white text-xl md:text-3xl font-bold truncate">{title}</h1>
         {
           duration && 
-          <span className="text-gray-500 dark:text-gray-400 text-sm mt-1">
+          <span className="text-gray-500 dark:text-gray-400 text-xs md:text-sm mt-1">
             {duration.songs} songs – {dayjs(duration.time).format("hh:mm:ss")}
           </span>
         }

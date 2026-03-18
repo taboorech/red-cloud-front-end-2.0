@@ -26,6 +26,19 @@
     "chooseFile": "Wybierz plik",
     "home": "Strona główna"
   },
+  "navigation": {
+    "menu": "Menu",
+    "home": "Strona główna",
+    "search": "Szukaj",
+    "favorites": "Ulubione",
+    "playlists": "Playlisty",
+    "mySongs": "Moja muzyka",
+    "settings": "Ustawienia",
+    "subscriptions": "Subskrypcja",
+    "about": "O aplikacji",
+    "profile": "Profil",
+    "goToProfile": "Przejdź do profilu"
+  },
   "home": {
     "loadingError": "Nie udało się załadować utworów",
     "noSongs": "Brak dostępnych utworów"

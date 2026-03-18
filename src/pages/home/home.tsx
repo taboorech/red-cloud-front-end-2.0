@@ -8,8 +8,8 @@ const Home = () => {
   const { data: songsData, isLoading, error } = useGetSongsQuery({ limit: 12 });
   
   // For different sections, you can make separate queries with different parameters
-  const { data: popularSongsData } = useGetSongsQuery({ limit: 12, page: 2 });
-  const { data: newReleasesData } = useGetSongsQuery({ limit: 12, page: 3 });
+  const { data: popularSongsData } = useGetSongsQuery({ limit: 12 });
+  const { data: newReleasesData } = useGetSongsQuery({ limit: 12 });
 
   if (isLoading) {
     return (
@@ -41,8 +41,8 @@ const Home = () => {
         />
       </section>
 
-      <div className="flex-1 overflow-y-auto pb-10 min-h-0">
-        <div className="flex flex-col gap-8 pt-8">
+      <div className="flex-1 overflow-y-auto pb-4 md:pb-10 min-h-0">
+        <div className="flex flex-col gap-4 md:gap-8 pt-4 md:pt-8">
           {recommendedSongs.length > 0 && (
             <SongSection title={t('sections.recommendedForYou')} songs={recommendedSongs} />
           )}

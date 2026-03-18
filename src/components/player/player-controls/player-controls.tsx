@@ -57,7 +57,7 @@ const PlayerControls = () => {
         variant="snow"
         size="sm"
         rounded="full"
-        className="w-12 h-12 flex items-center justify-center"
+        className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center"
         onClick={audio.toggle}
         disabled={!audio.currentSong}
       >
@@ -75,6 +75,17 @@ const PlayerControls = () => {
       >
         <IoIosSkipForward />
       </Button>
+
+      <div className="invisible">
+        <Button
+          variant="ghost"
+          size="circle"
+          rounded="full"
+          disabled={true}
+        >
+          {getPlayModeIcon()}
+        </Button>
+      </div>
     </div>
   );
 };

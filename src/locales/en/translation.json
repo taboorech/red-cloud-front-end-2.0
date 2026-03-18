@@ -26,6 +26,19 @@
     "chooseFile": "Choose File",
     "home": "Home"
   },
+  "navigation": {
+    "menu": "Menu",
+    "home": "Home",
+    "search": "Search",
+    "favorites": "Favorites",
+    "playlists": "Playlists",
+    "mySongs": "My Songs",
+    "settings": "Settings",
+    "subscriptions": "Subscription",
+    "about": "About",
+    "profile": "Profile",
+    "goToProfile": "Go to Profile"
+  },
   "home": {
     "loadingError": "Failed to load songs",
     "noSongs": "No songs available"
