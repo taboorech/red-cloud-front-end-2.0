@@ -81,7 +81,7 @@ const Banner = ({ playlist }: BannerProps) => {
           size="circle"
           rounded="full"
           onClick={handlePlay}
-          className="w-12 h-12"
+          className="w-10 h-10 md:w-12 md:h-12"
           disabled={!playlist.songs || playlist.songs.length === 0}
         >
           <div className="flex justify-center items-center">
