@@ -26,6 +26,19 @@
     "chooseFile": "Escolher arquivo",
     "home": "Início"
   },
+  "navigation": {
+    "menu": "Menu",
+    "home": "Início",
+    "search": "Pesquisar",
+    "favorites": "Favoritos",
+    "playlists": "Playlists",
+    "mySongs": "Minhas músicas",
+    "settings": "Configurações",
+    "subscriptions": "Assinatura",
+    "about": "Sobre",
+    "profile": "Perfil",
+    "goToProfile": "Ir para o perfil"
+  },
   "home": {
     "loadingError": "Falha ao carregar músicas",
     "noSongs": "Nenhuma música disponível"

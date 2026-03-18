@@ -6,10 +6,15 @@ import Player from "../components/player/player";
 import { Outlet, useNavigate } from "react-router";
 import { useGetProfileQuery } from "../store/api/profile.api";
 import classNames from "classnames";
+import { useState } from "react";
+import { Button } from "../components/button/button";
+import { IoMenu } from "react-icons/io5";
+import MobileMenu from "../components/mobile-menu/mobile-menu";
 
 const Layout = () => {
   const { data: profile } = useGetProfileQuery();
   const navigate = useNavigate();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const profileClickHandler = () => {
     if (profile) {
@@ -19,7 +24,20 @@ const Layout = () => {
 
   return (
     <div className="h-screen flex p-2 gap-2 bg-gray-100 dark:bg-neutral-900">
-      <div className="flex flex-col w-1/6 gap-0">
+      <div className="absolute md:hidden top-5 left-5">
+        <Button
+          variant="snow"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          <IoMenu className="text-lg"/>
+        </Button>
+      </div>
+
+      <div className={classNames('fixed md:hidden bg-white dark:bg-black top-0 left-0 w-full h-screen z-50', !mobileMenuOpen ? 'hidden' : 'block')}>
+        <MobileMenu onClose={() => setMobileMenuOpen(false)} />
+      </div>
+
+      <div className="hidden md:flex flex-col w-1/6 gap-0">
         <div className={classNames("flex-1", profile ? "cursor-pointer" : "")} onClick={profileClickHandler}>
           <AvatarBlock 
             isAuthenticated={!!profile}
@@ -31,14 +49,16 @@ const Layout = () => {
           <Menu/>
         </div>
       </div>
-      <main className="flex flex-col gap-5 w-4/6 justify-between">
-        <PlaylistsMenu />
+      <main className="flex flex-col gap-5 w-full md:w-4/6 justify-between">
+        <div className="hidden md:block">
+          <PlaylistsMenu />
+        </div>
         <div className="h-full overflow-y-auto">
           <Outlet />
         </div>
         <Player />
       </main>
-      <div className="flex flex-col w-1/6">
+      <div className="hidden md:flex flex-col w-1/6">
         <StateSidebar />
       </div>
     </div>

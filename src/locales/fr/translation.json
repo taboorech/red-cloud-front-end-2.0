@@ -26,6 +26,19 @@
     "chooseFile": "Choisir un fichier",
     "home": "Accueil"
   },
+  "navigation": {
+    "menu": "Menu",
+    "home": "Accueil",
+    "search": "Rechercher",
+    "favorites": "Favoris",
+    "playlists": "Listes de lecture",
+    "mySongs": "Mes musiques",
+    "settings": "Paramètres",
+    "subscriptions": "Abonnement",
+    "about": "À propos",
+    "profile": "Profil",
+    "goToProfile": "Aller au profil"
+  },
   "home": {
     "loadingError": "Échec du chargement des chansons",
     "noSongs": "Aucune chanson disponible"

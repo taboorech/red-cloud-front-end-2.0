@@ -26,6 +26,19 @@
     "chooseFile": "Scegli file",
     "home": "Home"
   },
+  "navigation": {
+    "menu": "Menu",
+    "home": "Home",
+    "search": "Cerca",
+    "favorites": "Preferiti",
+    "playlists": "Playlist",
+    "mySongs": "Le mie canzoni",
+    "settings": "Impostazioni",
+    "subscriptions": "Abbonamento",
+    "about": "Info",
+    "profile": "Profilo",
+    "goToProfile": "Vai al profilo"
+  },
   "home": {
     "loadingError": "Impossibile caricare i brani",
     "noSongs": "Nessun brano disponibile"
