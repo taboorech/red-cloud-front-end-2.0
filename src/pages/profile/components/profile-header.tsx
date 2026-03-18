@@ -39,12 +39,12 @@ const ProfileHeader = ({ avatar, username }: ProfileHeaderProps) => {
           />
         </div>
         <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 md:gap-3">
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">{username}</h1>
             {isPremium && (
               <div className="flex items-center gap-1 px-2 py-1 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 rounded-full">
                 <TbPremiumRights className="text-yellow-400" size={14} />
-                <span className="text-yellow-400 text-xs font-bold uppercase">{currentPlan}</span>
+                <span className="hidden md:block text-yellow-400 text-xs font-bold uppercase">{currentPlan}</span>
               </div>
             )}
           </div>

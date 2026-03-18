@@ -24,7 +24,7 @@ const Layout = () => {
 
   return (
     <div className="h-screen flex p-2 gap-2 bg-gray-100 dark:bg-neutral-900">
-      <div className="absolute md:hidden top-5 left-5">
+      <div className="absolute md:hidden top-5 left-5 z-30">
         <Button
           variant="snow"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -33,9 +33,11 @@ const Layout = () => {
         </Button>
       </div>
 
-      <div className={classNames('fixed md:hidden bg-white dark:bg-black top-0 left-0 w-full h-screen z-50', !mobileMenuOpen ? 'hidden' : 'block')}>
-        <MobileMenu onClose={() => setMobileMenuOpen(false)} />
-      </div>
+      { mobileMenuOpen && 
+        <div className={classNames('fixed md:hidden bg-white dark:bg-black top-0 left-0 w-full h-screen z-30', !mobileMenuOpen ? 'hidden' : 'block')}>
+          <MobileMenu onClose={() => setMobileMenuOpen(false)} />
+        </div>
+      }
 
       <div className="hidden md:flex flex-col w-1/6 gap-0">
         <div className={classNames("flex-1", profile ? "cursor-pointer" : "")} onClick={profileClickHandler}>
