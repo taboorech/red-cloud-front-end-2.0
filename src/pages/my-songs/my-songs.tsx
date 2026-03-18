@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next"
 const MySongs = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { data: songs, isLoading, error } = useGetSongsQuery({ page: 1, limit: 100 })
+  const { data: songs, isLoading, error } = useGetSongsQuery({ offset: 0, limit: 100, owned: true })
   const [deleteSong] = useDeleteSongMutation()
   const audio = useAudio()
   const [deletingId, setDeletingId] = useState<string | null>(null)

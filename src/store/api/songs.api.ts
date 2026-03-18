@@ -7,17 +7,18 @@ import type {
   GetSongsResponse,
   GetSongResponse,
 } from '../../types/song.types'
+import { type SearchRequestParams } from '../../types/main.types';
 
 export const songsApi = createApi({
   reducerPath: 'songsApi',
   baseQuery: axiosBaseQuery(),
   tagTypes: ['Song'],
   endpoints: (builder) => ({
-    getSongs: builder.query<Song[], { page?: number; limit?: number; search?: string }>({
-      query: ({ page = 1, limit = 20, search }) => ({
+    getSongs: builder.query<Song[], SearchRequestParams & { owned?: boolean }>({
+      query: ({ offset = 1, limit = 20, search, owned }) => ({
         url: '/v1/songs',
         method: 'GET',
-        params: { page, limit, search },
+        params: { offset, limit, search, owned },
       }),
       transformResponse: (response: GetSongsResponse) => response.data,
       providesTags: ['Song'],
