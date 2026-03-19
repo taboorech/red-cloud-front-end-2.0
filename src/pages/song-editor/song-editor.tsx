@@ -18,6 +18,7 @@ import { CiMusicNote1 } from "react-icons/ci";
 import type { Genre } from "../../types/genre.types";
 import type { User } from "../../types/user.types";
 import { useTranslation } from "react-i18next";
+import { Helmet } from "react-helmet-async";
 
 const SongEditor = () => {
   const { t } = useTranslation();
@@ -371,513 +372,465 @@ const SongEditor = () => {
   };
 
   return (
-    <div className="rounded-md bg-white dark:bg-black w-full h-full px-4 overflow-y-auto text-gray-900 dark:text-white">
-      <div className="flex items-center gap-3 py-6">
-        <IoMusicalNotes className="text-black dark:text-white text-2xl" />
-        <div>
-          <h1 className="text-2xl font-bold">
-            {songId ? t('songEditor.editSong') : t('songEditor.createNewSong')}
-          </h1>
-          {existingSong && (
-            <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
-              {t('songEditor.editing')}: "{existingSong.title}"
-            </p>
-          )}
+    <>
+      <Helmet>
+        <title>{songId ? t('songEditor.editSong') : t('songEditor.createNewSong')}</title>
+      </Helmet>
+      <div className="rounded-md bg-white dark:bg-black w-full h-full px-4 overflow-y-auto text-gray-900 dark:text-white">
+        <div className="flex items-center gap-3 py-6">
+          <IoMusicalNotes className="text-black dark:text-white text-2xl" />
+          <div>
+            <h1 className="text-2xl font-bold">
+              {songId ? t('songEditor.editSong') : t('songEditor.createNewSong')}
+            </h1>
+            {existingSong && (
+              <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
+                {t('songEditor.editing')}: "{existingSong.title}"
+              </p>
+            )}
+          </div>
         </div>
-      </div>
 
-      <Formik
-        initialValues={initialValues}
-        enableReinitialize={true}
-        validate={validate}
-        onSubmit={handleSubmit}
-      >
-        {({ values, errors, touched, setFieldValue, isSubmitting, handleSubmit: formikHandleSubmit }) => {
-          return (
-          <Form className="space-y-6 pb-6">
-            {/* Basic Information */}
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold">{t('songEditor.basicInformation')}</h2>
-              
-              <div className="flex flex-col">
-                <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
-                  {t('songEditor.title')} <span className="text-red-500">*</span>
-                </label>
-                <Field
-                  as={Input}
-                  name="title"
-                  placeholder={t('songEditor.enterSongTitle')}
-                  error={touched.title && errors.title ? errors.title : undefined}
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
-                  {t('songEditor.description')}
-                </label>
-                <Field
-                  as="textarea"
-                  name="description"
-                  placeholder={t('songEditor.enterDescription')}
-                  className="p-3 rounded border resize-none h-24 border-gray-300 dark:border-white bg-transparent placeholder-gray-400"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="flex flex-col">
-                  <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
-                    {t('songEditor.durationSeconds')} <span className="text-red-500">*</span>
-                  </label>
-                  <Field
-                    as={Input}
-                    name="duration"
-                    type="number"
-                    min="1"
-                    placeholder="e.g. 180"
-                    error={touched.duration && errors.duration ? errors.duration : undefined}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      const value = e.target.value;
-                      setFieldValue("duration", value ? parseInt(value) : "");
-                    }}
-                  />
-                </div>
-
-                <div className="flex flex-col">
-                  <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
-                    {t('songEditor.releaseYear')}
-                  </label>
-                  <Field
-                    as={Input}
-                    name="releaseYear"
-                    type="number"
-                    min="1900"
-                    max={new Date().getFullYear()}
-                    placeholder="e.g. 2024"
-                    error={touched.releaseYear && errors.releaseYear ? errors.releaseYear : undefined}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      const value = e.target.value;
-                      setFieldValue("releaseYear", value ? parseInt(value) : "");
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-col">
-                <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
-                  {t('songEditor.language')}
-                </label>
-                {languagesLoading ? (
-                  <div className="text-white">{t('songEditor.loadingLanguages')}</div>
-                ) : (
-                  <Field
-                    as="select"
-                    name="language"
-                    className="p-3 rounded border border-gray-300 dark:border-white bg-transparent"
-                  >
-                    <option value="">{t('songEditor.selectLanguage')}</option>
-                    {languages.map((language) => (
-                      <option key={language.code} value={language.code}>
-                        {getLanguageName(language)}
-                      </option>
-                    ))}
-                  </Field>
-                )}
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Field
-                  type="checkbox"
-                  name="isPublic"
-                  className="rounded"
-                />
-                <label className="text-sm">{t('songEditor.makeSongPublic')}</label>
-              </div>
-
-              <div className="flex flex-col">
-                <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
-                  <IoImage className="inline mr-1" /> {t('songEditor.coverImage')}
-                </label>
+        <Formik
+          initialValues={initialValues}
+          enableReinitialize={true}
+          validate={validate}
+          onSubmit={handleSubmit}
+        >
+          {({ values, errors, touched, setFieldValue, isSubmitting, handleSubmit: formikHandleSubmit }) => {
+            return (
+            <Form className="space-y-6 pb-6">
+              {/* Basic Information */}
+              <div className="space-y-4">
+                <h2 className="text-lg font-semibold">{t('songEditor.basicInformation')}</h2>
                 
-                <div className="space-y-3">
+                <div className="flex flex-col">
+                  <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
+                    {t('songEditor.title')} <span className="text-red-500">*</span>
+                  </label>
                   <Field
-                    as="select"
-                    value={coverImageMethod}
-                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                      setCoverImageMethod(e.target.value as 'upload' | 'ai');
-                      setCoverImagePreview(null);
-                        setFieldValue('image', null);
-                      setAiImagePrompt('');
-                    }}
-                    className="p-3 rounded border border-gray-300 dark:border-white bg-transparent border-white"
-                  >
-                    <option value="upload">{t('songEditor.uploadFile')}</option>
-                    <option value="ai">{t('songEditor.generateWithAI')}</option>
-                  </Field>
-                  
-                  {coverImageMethod === 'upload' ? (
-                    <div>
-                      <FileInput
-                        label=""
-                        accept="image/*"
-                        preview={coverImagePreview || undefined}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          const file = e.target.files?.[0] || null;
-                          if (file) {
-                            const reader = new FileReader();
-                            reader.onloadend = () => {
-                              setCoverImagePreview(reader.result as string);
-                            };
-                            reader.readAsDataURL(file);
-                          } else {
-                            setCoverImagePreview(null);
-                          }
-                          setFieldValue('image', file);
-                        }}
-                      />
-                      {/* Show current cover image for editing */}
-                      {!coverImagePreview && values.image && typeof values.image === 'string' && (
-                        <div className="mt-3">
-                          <div className="text-sm mb-2">{t('songEditor.currentCoverImage')}:</div>
-                          <img 
-                            src={values.image} 
-                            alt="Current cover" 
-                            className="w-32 h-32 object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600"
-                            onLoad={() => console.log('✅ [COVER] Current image loaded:', values.image)}
-                            onError={() => console.error('❌ [COVER] Current image failed to load:', values.image)}
-                          />
-                        </div>
-                      )}
-                    </div>
+                    as={Input}
+                    name="title"
+                    placeholder={t('songEditor.enterSongTitle')}
+                    error={touched.title && errors.title ? errors.title : undefined}
+                  />
+                </div>
+
+                <div className="flex flex-col">
+                  <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
+                    {t('songEditor.description')}
+                  </label>
+                  <Field
+                    as="textarea"
+                    name="description"
+                    placeholder={t('songEditor.enterDescription')}
+                    className="p-3 rounded border resize-none h-24 border-gray-300 dark:border-white bg-transparent placeholder-gray-400"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex flex-col">
+                    <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
+                      {t('songEditor.durationSeconds')} <span className="text-red-500">*</span>
+                    </label>
+                    <Field
+                      as={Input}
+                      name="duration"
+                      type="number"
+                      min="1"
+                      placeholder="e.g. 180"
+                      error={touched.duration && errors.duration ? errors.duration : undefined}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        const value = e.target.value;
+                        setFieldValue("duration", value ? parseInt(value) : "");
+                      }}
+                    />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
+                      {t('songEditor.releaseYear')}
+                    </label>
+                    <Field
+                      as={Input}
+                      name="releaseYear"
+                      type="number"
+                      min="1900"
+                      max={new Date().getFullYear()}
+                      placeholder="e.g. 2024"
+                      error={touched.releaseYear && errors.releaseYear ? errors.releaseYear : undefined}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        const value = e.target.value;
+                        setFieldValue("releaseYear", value ? parseInt(value) : "");
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex flex-col">
+                  <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
+                    {t('songEditor.language')}
+                  </label>
+                  {languagesLoading ? (
+                    <div className="text-white">{t('songEditor.loadingLanguages')}</div>
                   ) : (
-                    <div className="bg-gray-50 dark:bg-gray-900/20 p-4 rounded-lg space-y-3">
-                      <Input
-                        placeholder={t('songEditor.describeImage')}
-                        value={aiImagePrompt}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAiImagePrompt(e.target.value)}
-                      />
-                      <div className="flex gap-2">
-                        <Button
-                          type="button"
-                          variant="snow"
-                          size="sm"
-                          onClick={() => handleGenerateImage(setFieldValue)}
-                          disabled={!aiImagePrompt.trim() || generatingImage}
-                          loading={generatingImage}
-                        >
-                          <div className="flex gap-2">
-                            <IoSparkles /> 
-                            {generatingImage ? t('songEditor.generating') : t('songEditor.generate')}
-                          </div>
-                        </Button>
-                        {generatingImage && (
-                          <div className="text-white text-sm self-center">
-                            {t('songEditor.aiIsCreatingImage')}
-                          </div>
-                        )}
-                      </div>
-                      {coverImagePreview && (
-                        <div className="mt-3">
-                          <div className="text-sm mb-2">{t('songEditor.generatedImage')}:</div>
-                          <img 
-                            src={coverImagePreview} 
-                            alt="Generated preview" 
-                            className="w-32 h-32 object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600" 
-                            onError={(e) => {
-                              console.error('❌ Image failed to load:', coverImagePreview);
-                              const target = e.target as HTMLImageElement;
-                              target.style.display = 'none';
-                            }}
-                          />
-                        </div>
-                      )}
-                    </div>
+                    <Field
+                      as="select"
+                      name="language"
+                      className="p-3 rounded border border-gray-300 dark:border-white bg-transparent"
+                    >
+                      <option value="">{t('songEditor.selectLanguage')}</option>
+                      {languages.map((language) => (
+                        <option key={language.code} value={language.code}>
+                          {getLanguageName(language)}
+                        </option>
+                      ))}
+                    </Field>
                   )}
                 </div>
-              </div>
-            </div>
 
-            {/* Lyrics */}
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold">{t('songEditor.lyrics')}</h2>
-              
-              {/* Lyrics Generation Section */}
-              <div className="bg-gray-100 dark:bg-gray-900/30 p-4 rounded-lg space-y-3 border border-gray-200 dark:border-gray-700">
-                <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
-                  <IoSparkles className="inline mr-1" /> {t('songEditor.generateLyricsWithAI')}
-                </label>
-                
-                <div className="space-y-3">
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {t('songEditor.generateLyricsDescription')}
-                  </p>
+                <div className="flex items-center gap-2">
+                  <Field
+                    type="checkbox"
+                    name="isPublic"
+                    className="rounded"
+                  />
+                  <label className="text-sm">{t('songEditor.makeSongPublic')}</label>
+                </div>
+
+                <div className="flex flex-col">
+                  <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
+                    <IoImage className="inline mr-1" /> {t('songEditor.coverImage')}
+                  </label>
                   
                   <div className="space-y-3">
-                    {/* Option to use existing song file when editing */}
-                    {songId && existingSong && (
-                      <div className="bg-white dark:bg-blue-900/20 p-3 rounded-lg border border-blue-200 dark:border-blue-800">
-                        <label className="flex items-center gap-2 cursor-pointer">
-                          <Checkbox
-                            checked={useExistingSongFile}
-                            onChange={(e) => {
-                              setUseExistingSongFile(e.target.checked);
-                              if (e.target.checked) {
-                                setLyricsAudioFile(null);
-                              }
-                            }}
-                          />
-                          <span className="text-sm select-none">
-                            <IoMusicalNotes className="inline mr-1" />
-                            {t('songEditor.useExistingSongFile')}: "{existingSong.title}"
-                          </span>
-                        </label>
-                        {useExistingSongFile && (
-                          <p className="text-xs text-blue-600 dark:text-blue-400 mt-1 ml-6">
-                            {t('songEditor.willUseOriginalAudioFile')}
-                          </p>
-                        )}
-                      </div>
-                    )}
+                    <Field
+                      as="select"
+                      value={coverImageMethod}
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                        setCoverImageMethod(e.target.value as 'upload' | 'ai');
+                        setCoverImagePreview(null);
+                          setFieldValue('image', null);
+                        setAiImagePrompt('');
+                      }}
+                      className="p-3 rounded border border-gray-300 dark:border-white bg-transparent border-white"
+                    >
+                      <option value="upload">{t('songEditor.uploadFile')}</option>
+                      <option value="ai">{t('songEditor.generateWithAI')}</option>
+                    </Field>
                     
-                    {/* Audio file for lyrics generation */}
-                    {!useExistingSongFile && (
+                    {coverImageMethod === 'upload' ? (
                       <div>
-                        <label className="text-xs text-gray-500 dark:text-gray-400 mb-1 block">
-                          {t('songEditor.audioFileForLyrics')} {!songId && t('songEditor.orUseMainAudio')}
-                        </label>
                         <FileInput
                           label=""
-                          accept="audio/*"
+                          accept="image/*"
+                          preview={coverImagePreview || undefined}
                           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                             const file = e.target.files?.[0] || null;
-                            setLyricsAudioFile(file);
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.onloadend = () => {
+                                setCoverImagePreview(reader.result as string);
+                              };
+                              reader.readAsDataURL(file);
+                            } else {
+                              setCoverImagePreview(null);
+                            }
+                            setFieldValue('image', file);
                           }}
                         />
-                        {lyricsAudioFile && (
-                          <p className="text-xs text-green-400 mt-1">
-                            {t('songEditor.selectedFile')}: {lyricsAudioFile.name}
-                            <br />
-                            <span className="text-xs text-gray-400">{t('songEditor.canRegenerateText')}</span>
-                          </p>
-                        )}
-                        {!songId && !lyricsAudioFile && values.song && (
-                          <p className="text-xs text-blue-400 mt-1">
-                            {t('songEditor.willUseMainAudioFile')}
-                          </p>
+                        {/* Show current cover image for editing */}
+                        {!coverImagePreview && values.image && typeof values.image === 'string' && (
+                          <div className="mt-3">
+                            <div className="text-sm mb-2">{t('songEditor.currentCoverImage')}:</div>
+                            <img 
+                              src={values.image} 
+                              alt="Current cover" 
+                              className="w-32 h-32 object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600"
+                              onLoad={() => console.log('✅ [COVER] Current image loaded:', values.image)}
+                              onError={() => console.error('❌ [COVER] Current image failed to load:', values.image)}
+                            />
+                          </div>
                         )}
                       </div>
-                    )}
-                    
-                    <Button
-                      type="button"
-                      variant="snow"
-                      size="sm"
-                      onClick={() => handleGenerateLyrics(setFieldValue, values)}
-                      disabled={(!useExistingSongFile && !lyricsAudioFile && !values.song) || generatingLyrics}
-                      loading={generatingLyrics}
-                    >
-                      <div className="flex gap-2">
-                        <IoSparkles /> 
-                        {generatingLyrics ? t('songEditor.generating') : t('songEditor.generateLyrics')}
+                    ) : (
+                      <div className="bg-gray-50 dark:bg-gray-900/20 p-4 rounded-lg space-y-3">
+                        <Input
+                          placeholder={t('songEditor.describeImage')}
+                          value={aiImagePrompt}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAiImagePrompt(e.target.value)}
+                        />
+                        <div className="flex gap-2">
+                          <Button
+                            type="button"
+                            variant="snow"
+                            size="sm"
+                            onClick={() => handleGenerateImage(setFieldValue)}
+                            disabled={!aiImagePrompt.trim() || generatingImage}
+                            loading={generatingImage}
+                          >
+                            <div className="flex gap-2">
+                              <IoSparkles /> 
+                              {generatingImage ? t('songEditor.generating') : t('songEditor.generate')}
+                            </div>
+                          </Button>
+                          {generatingImage && (
+                            <div className="text-white text-sm self-center">
+                              {t('songEditor.aiIsCreatingImage')}
+                            </div>
+                          )}
+                        </div>
+                        {coverImagePreview && (
+                          <div className="mt-3">
+                            <div className="text-sm mb-2">{t('songEditor.generatedImage')}:</div>
+                            <img 
+                              src={coverImagePreview} 
+                              alt="Generated preview" 
+                              className="w-32 h-32 object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600" 
+                              onError={(e) => {
+                                console.error('❌ Image failed to load:', coverImagePreview);
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                              }}
+                            />
+                          </div>
+                        )}
                       </div>
-                    </Button>
-                    
-                    {generatingLyrics && (
-                      <p className="text-sm text-blue-400">
-                        {t('songEditor.aiIsTranscribingAudio')}
-                      </p>
-                    )}
-                    
-                    {lyricsGenerationError && (
-                      <p className="text-sm text-red-400">
-                        {lyricsGenerationError}
-                      </p>
                     )}
                   </div>
                 </div>
               </div>
-              
-              <div className="flex flex-col">
-                <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
-                  {t('songEditor.songTextLyrics')}
-                </label>
-                <Field
-                  as="textarea"
-                  name="text"
-                  placeholder={t('songEditor.enterLyrics')}
-                  className="p-3 rounded border border-gray-300 dark:border-white resize-none h-40 bg-transparent placeholder-gray-400"
-                />
-              </div>
-            </div>
 
-            {/* Audio File - Only show for new songs */}
-            {!songId && (
+              {/* Lyrics */}
               <div className="space-y-4">
-                <h2 className="text-lg font-semibold">{t('songEditor.audioFile')}</h2>
+                <h2 className="text-lg font-semibold">{t('songEditor.lyrics')}</h2>
+                
+                {/* Lyrics Generation Section */}
+                <div className="bg-gray-100 dark:bg-gray-900/30 p-4 rounded-lg space-y-3 border border-gray-200 dark:border-gray-700">
+                  <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                    <IoSparkles className="inline mr-1" /> {t('songEditor.generateLyricsWithAI')}
+                  </label>
+                  
+                  <div className="space-y-3">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {t('songEditor.generateLyricsDescription')}
+                    </p>
+                    
+                    <div className="space-y-3">
+                      {/* Option to use existing song file when editing */}
+                      {songId && existingSong && (
+                        <div className="bg-white dark:bg-blue-900/20 p-3 rounded-lg border border-blue-200 dark:border-blue-800">
+                          <label className="flex items-center gap-2 cursor-pointer">
+                            <Checkbox
+                              checked={useExistingSongFile}
+                              onChange={(e) => {
+                                setUseExistingSongFile(e.target.checked);
+                                if (e.target.checked) {
+                                  setLyricsAudioFile(null);
+                                }
+                              }}
+                            />
+                            <span className="text-sm select-none">
+                              <IoMusicalNotes className="inline mr-1" />
+                              {t('songEditor.useExistingSongFile')}: "{existingSong.title}"
+                            </span>
+                          </label>
+                          {useExistingSongFile && (
+                            <p className="text-xs text-blue-600 dark:text-blue-400 mt-1 ml-6">
+                              {t('songEditor.willUseOriginalAudioFile')}
+                            </p>
+                          )}
+                        </div>
+                      )}
+                      
+                      {/* Audio file for lyrics generation */}
+                      {!useExistingSongFile && (
+                        <div>
+                          <label className="text-xs text-gray-500 dark:text-gray-400 mb-1 block">
+                            {t('songEditor.audioFileForLyrics')} {!songId && t('songEditor.orUseMainAudio')}
+                          </label>
+                          <FileInput
+                            label=""
+                            accept="audio/*"
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                              const file = e.target.files?.[0] || null;
+                              setLyricsAudioFile(file);
+                            }}
+                          />
+                          {lyricsAudioFile && (
+                            <p className="text-xs text-green-400 mt-1">
+                              {t('songEditor.selectedFile')}: {lyricsAudioFile.name}
+                              <br />
+                              <span className="text-xs text-gray-400">{t('songEditor.canRegenerateText')}</span>
+                            </p>
+                          )}
+                          {!songId && !lyricsAudioFile && values.song && (
+                            <p className="text-xs text-blue-400 mt-1">
+                              {t('songEditor.willUseMainAudioFile')}
+                            </p>
+                          )}
+                        </div>
+                      )}
+                      
+                      <Button
+                        type="button"
+                        variant="snow"
+                        size="sm"
+                        onClick={() => handleGenerateLyrics(setFieldValue, values)}
+                        disabled={(!useExistingSongFile && !lyricsAudioFile && !values.song) || generatingLyrics}
+                        loading={generatingLyrics}
+                      >
+                        <div className="flex gap-2">
+                          <IoSparkles /> 
+                          {generatingLyrics ? t('songEditor.generating') : t('songEditor.generateLyrics')}
+                        </div>
+                      </Button>
+                      
+                      {generatingLyrics && (
+                        <p className="text-sm text-blue-400">
+                          {t('songEditor.aiIsTranscribingAudio')}
+                        </p>
+                      )}
+                      
+                      {lyricsGenerationError && (
+                        <p className="text-sm text-red-400">
+                          {lyricsGenerationError}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
                 
                 <div className="flex flex-col">
                   <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
-                    <IoMusicalNotes className="inline mr-1" /> {t('songEditor.audioFile')} <span className="text-red-500">*</span>
+                    {t('songEditor.songTextLyrics')}
                   </label>
-                  <FileInput
-                    label=""
-                    accept="audio/*"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      const file = e.target.files?.[0] || null;
-                      if (file) {
-                        setAudioFileInfo({
-                          name: file.name,
-                          size: file.size
-                        });
-                      } else {
-                        setAudioFileInfo(null);
-                      }
-                      setFieldValue('song', file);
-                    }}
+                  <Field
+                    as="textarea"
+                    name="text"
+                    placeholder={t('songEditor.enterLyrics')}
+                    className="p-3 rounded border border-gray-300 dark:border-white resize-none h-40 bg-transparent placeholder-gray-400"
                   />
+                </div>
+              </div>
+
+              {/* Audio File - Only show for new songs */}
+              {!songId && (
+                <div className="space-y-4">
+                  <h2 className="text-lg font-semibold">{t('songEditor.audioFile')}</h2>
                   
-                  {/* Audio File Preview */}
-                  {audioFileInfo && (
-                    <div className="mt-3 p-3 bg-gray-50 dark:bg-gray-900/30 border border-gray-300 dark:border-gray-600 rounded-lg">
-                      <div className="flex items-center gap-3">
-                        <div className="flex-shrink-0">
-                          <IoMusicalNotes className="text-blue-400 text-2xl" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="text-white font-medium text-sm truncate">
-                            {audioFileInfo.name}
+                  <div className="flex flex-col">
+                    <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
+                      <IoMusicalNotes className="inline mr-1" /> {t('songEditor.audioFile')} <span className="text-red-500">*</span>
+                    </label>
+                    <FileInput
+                      label=""
+                      accept="audio/*"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        const file = e.target.files?.[0] || null;
+                        if (file) {
+                          setAudioFileInfo({
+                            name: file.name,
+                            size: file.size
+                          });
+                        } else {
+                          setAudioFileInfo(null);
+                        }
+                        setFieldValue('song', file);
+                      }}
+                    />
+                    
+                    {/* Audio File Preview */}
+                    {audioFileInfo && (
+                      <div className="mt-3 p-3 bg-gray-50 dark:bg-gray-900/30 border border-gray-300 dark:border-gray-600 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <div className="flex-shrink-0">
+                            <IoMusicalNotes className="text-blue-400 text-2xl" />
                           </div>
-                          <div className="text-gray-400 text-xs">
-                            {(audioFileInfo.size / (1024 * 1024)).toFixed(2)} MB
+                          <div className="flex-1 min-w-0">
+                            <div className="text-white font-medium text-sm truncate">
+                              {audioFileInfo.name}
+                            </div>
+                            <div className="text-gray-400 text-xs">
+                              {(audioFileInfo.size / (1024 * 1024)).toFixed(2)} MB
+                            </div>
+                          </div>
+                          <div className="flex-shrink-0">
+                            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                           </div>
                         </div>
-                        <div className="flex-shrink-0">
-                          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                        </div>
+                        {values.song instanceof File && (
+                          <div className="mt-2">
+                            <audio 
+                              controls 
+                              className="w-full h-8" 
+                              style={{ filter: 'invert(1)' }}
+                            >
+                              <source src={URL.createObjectURL(values.song)} type={values.song.type} />
+                              {t('songEditor.browserDoesNotSupport')}
+                            </audio>
+                          </div>
+                        )}
                       </div>
-                      {values.song instanceof File && (
-                        <div className="mt-2">
-                          <audio 
-                            controls 
-                            className="w-full h-8" 
-                            style={{ filter: 'invert(1)' }}
-                          >
-                            <source src={URL.createObjectURL(values.song)} type={values.song.type} />
-                            {t('songEditor.browserDoesNotSupport')}
-                          </audio>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  
-                  {touched.song && errors.song && (
-                    <div className="text-red-500 text-sm mt-1">{errors.song}</div>
-                  )}
+                    )}
+                    
+                    {touched.song && errors.song && (
+                      <div className="text-red-500 text-sm mt-1">{errors.song}</div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Genres */}
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold">{t('songEditor.genres')}</h2>
-              
-              <div className="flex flex-wrap gap-2 mb-2">
-                {values.genres.map((genre, index) => (
-                  <span
-                    key={genre.id}
-                    className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2"
-                  >
-                    {genre.title}
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="none"
-                      onClick={() => removeGenre(setFieldValue, values.genres, index)}
-                      className="text-white hover:text-red-300 p-0 h-auto"
+              {/* Genres */}
+              <div className="space-y-4">
+                <h2 className="text-lg font-semibold">{t('songEditor.genres')}</h2>
+                
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {values.genres.map((genre, index) => (
+                    <span
+                      key={genre.id}
+                      className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2"
                     >
-                      <IoClose />
-                    </Button>
-                  </span>
-                ))}
-              </div>
-              
-              <div className="flex gap-2 relative">
-                <div className="flex-1 relative">
-                  <Input
-                    placeholder={t('songEditor.searchGenres')}
-                    className="pr-10"
-                    value={genreSearchInput}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      const value = e.target.value;
-                      setGenreSearchInput(value);
-                      handleGenreSearch(value);
-                    }}
-                  />
-                  <IoSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                  
-                  {(showGenreSearch && genreSearchResults.length > 0) || genresLoading ? (
-                    <div className="absolute top-full left-0 right-0 bg-white dark:bg-black border border-gray-300 dark:border-gray-600 rounded-b shadow-lg z-50 max-h-40 overflow-y-auto mt-1">
-                      {genresLoading ? (
-                        <div className="p-2 text-center text-gray-300">{t('songEditor.searching')}...</div>
-                      ) : (
-                        genreSearchResults.map((genre) => (
-                          <div
-                            key={genre.id}
-                            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer text-white border-b border-gray-200 dark:border-gray-700 last:border-b-0"
-                            onClick={() => selectGenre(setFieldValue, genre, values.genres)}
-                          >
-                            <div className="font-medium">{genre.title}</div>
-                          </div>
-                        ))
-                      )}
-                    </div>
-                  ) : null}
+                      {genre.title}
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="none"
+                        onClick={() => removeGenre(setFieldValue, values.genres, index)}
+                        className="text-white hover:text-red-300 p-0 h-auto"
+                      >
+                        <IoClose />
+                      </Button>
+                    </span>
+                  ))}
                 </div>
-              </div>
-            </div>
-
-            {/* Authors */}
-            <div className="space-y-4 relative">
-              <h2 className="text-lg font-semibold">{t('songEditor.authors')}</h2>
-              <div className="dark:bg-gray-900/20 py-4 rounded-lg space-y-3 dark:px-4">
-                <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
-                  {t('songEditor.searchAndAddAuthor')}
-                </label>
                 
                 <div className="flex gap-2 relative">
                   <div className="flex-1 relative">
                     <Input
-                      placeholder={t('songEditor.searchUserByName')}
-                      className="pr-10 pl-2"
-                      value={userSearchInput}
+                      placeholder={t('songEditor.searchGenres')}
+                      className="pr-10"
+                      value={genreSearchInput}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         const value = e.target.value;
-                        setUserSearchInput(value);
-                        handleUserSearch(value);
+                        setGenreSearchInput(value);
+                        handleGenreSearch(value);
                       }}
                     />
                     <IoSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                     
-                    {(showUserSearch && searchResults.length > 0) || usersLoading ? (
+                    {(showGenreSearch && genreSearchResults.length > 0) || genresLoading ? (
                       <div className="absolute top-full left-0 right-0 bg-white dark:bg-black border border-gray-300 dark:border-gray-600 rounded-b shadow-lg z-50 max-h-40 overflow-y-auto mt-1">
-                        {usersLoading ? (
-                          <div className="p-2 text-center text-gray-300">{t('songEditor.searchingUsers')}...</div>
+                        {genresLoading ? (
+                          <div className="p-2 text-center text-gray-300">{t('songEditor.searching')}...</div>
                         ) : (
-                          searchResults.map((user) => (
+                          genreSearchResults.map((genre) => (
                             <div
-                              key={user.id}
-                              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer flex items-center gap-2 text-white border-b border-gray-200 dark:border-gray-700 last:border-b-0"
-                              onClick={() => selectUser(user)}
+                              key={genre.id}
+                              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer text-white border-b border-gray-200 dark:border-gray-700 last:border-b-0"
+                              onClick={() => selectGenre(setFieldValue, genre, values.genres)}
                             >
-                              {user.avatar && (
-                                <img 
-                                  src={user.avatar} 
-                                  alt={user.username}
-                                  className="w-8 h-8 rounded-full"
-                                />
-                              )}
-                              <div className="text-white">
-                                <div className="font-medium text-white">{user.username}</div>
-                              </div>
+                              <div className="font-medium">{genre.title}</div>
                             </div>
                           ))
                         )}
@@ -885,157 +838,210 @@ const SongEditor = () => {
                     ) : null}
                   </div>
                 </div>
-                
-                {/* Selected User and Role Section */}
-                {selectedUser && (
-                  <div className="p-3 rounded border border-gray-500/30">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2">
-                        {selectedUser.avatar && (
-                          <img 
-                            src={selectedUser.avatar} 
-                            alt={selectedUser.username}
-                            className="w-8 h-8 rounded-full"
-                          />
-                        )}
-                        <div>
-                          <div className="font-medium text-white">{selectedUser.username}</div>
-                          <div className="text-xs text-gray-500 dark:text-gray-400">{selectedUser.email}</div>
-                        </div>
-                      </div>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => {
-                          setSelectedUser(null);
-                          setUserSearchInput('');
-                        }}
-                      >
-                        <IoClose />
-                      </Button>
-                    </div>
-                    
-                    <div className="flex gap-2 items-end">
-                      <div className="flex-1">
-                        <label className="text-[11px] font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">
-                          {t('songEditor.selectRole')}
-                        </label>
-                        <div className="flex gap-3">
-                          <select
-                            className="w-full p-2 rounded border text-sm border-gray-300 dark:border-white bg-transparent"
-                            defaultValue={SongAuthorsRole.Composer}
-                            id="author-role-select"
-                          >
-                            { Object.entries(SongAuthorsRole).map(([key, value]) => (
-                              <option key={value} value={value}>
-                                {key.charAt(0).toUpperCase() + key.slice(1)}
-                              </option>
-                            ))}
-                          </select>
+              </div>
 
-                          <Button
-                            type="button"
-                            variant="snow"
-                            size="sm"
-                            onClick={() => {
-                              const roleSelect = document.getElementById('author-role-select') as HTMLSelectElement;
-                              const selectedRole = roleSelect.value as SongAuthorsRole;
-                              addAuthor(setFieldValue, values.authors, selectedUser, selectedRole);
-                            }}
-                          >
-                            <div className="flex gap-2">
-                              <IoAdd /> 
-                              {t('songEditor.addAuthor')}
-                            </div>
-                          </Button>
+              {/* Authors */}
+              <div className="space-y-4 relative">
+                <h2 className="text-lg font-semibold">{t('songEditor.authors')}</h2>
+                <div className="dark:bg-gray-900/20 py-4 rounded-lg space-y-3 dark:px-4">
+                  <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                    {t('songEditor.searchAndAddAuthor')}
+                  </label>
+                  
+                  <div className="flex gap-2 relative">
+                    <div className="flex-1 relative">
+                      <Input
+                        placeholder={t('songEditor.searchUserByName')}
+                        className="pr-10 pl-2"
+                        value={userSearchInput}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          const value = e.target.value;
+                          setUserSearchInput(value);
+                          handleUserSearch(value);
+                        }}
+                      />
+                      <IoSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                      
+                      {(showUserSearch && searchResults.length > 0) || usersLoading ? (
+                        <div className="absolute top-full left-0 right-0 bg-white dark:bg-black border border-gray-300 dark:border-gray-600 rounded-b shadow-lg z-50 max-h-40 overflow-y-auto mt-1">
+                          {usersLoading ? (
+                            <div className="p-2 text-center text-gray-300">{t('songEditor.searchingUsers')}...</div>
+                          ) : (
+                            searchResults.map((user) => (
+                              <div
+                                key={user.id}
+                                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer flex items-center gap-2 text-white border-b border-gray-200 dark:border-gray-700 last:border-b-0"
+                                onClick={() => selectUser(user)}
+                              >
+                                {user.avatar && (
+                                  <img 
+                                    src={user.avatar} 
+                                    alt={user.username}
+                                    className="w-8 h-8 rounded-full"
+                                  />
+                                )}
+                                <div className="text-white">
+                                  <div className="font-medium text-white">{user.username}</div>
+                                </div>
+                              </div>
+                            ))
+                          )}
                         </div>
-                      </div>
+                      ) : null}
                     </div>
                   </div>
-                )}
-              </div>
-              
-              {/* Authors List */}
-              {values.authors.length > 0 && (
-                <div className="space-y-2">
-                  <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
-                    {t('songEditor.addedAuthors')}
-                  </label>
-                  {values.authors.map((author, index) => (
-                    <div key={index} className="bg-transparent border border-white/10 p-3 rounded flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        {author.user?.avatar && (
-                          <img 
-                            src={author.user.avatar} 
-                            alt={author.name}
-                            className="w-10 h-10 rounded-full"
-                          />
-                        )}
-                        <div>
-                          <div className="font-medium text-base">{author.name}</div>
-                          <div className="flex items-center gap-2 text-sm font-medium">
-                            <CiMusicNote1 className="text-lg" />
-                            { author.role.charAt(0).toUpperCase() + author.role.slice(1)}
+                  
+                  {/* Selected User and Role Section */}
+                  {selectedUser && (
+                    <div className="p-3 rounded border border-gray-500/30">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          {selectedUser.avatar && (
+                            <img 
+                              src={selectedUser.avatar} 
+                              alt={selectedUser.username}
+                              className="w-8 h-8 rounded-full"
+                            />
+                          )}
+                          <div>
+                            <div className="font-medium text-white">{selectedUser.username}</div>
+                            <div className="text-xs text-gray-500 dark:text-gray-400">{selectedUser.email}</div>
+                          </div>
+                        </div>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            setSelectedUser(null);
+                            setUserSearchInput('');
+                          }}
+                        >
+                          <IoClose />
+                        </Button>
+                      </div>
+                      
+                      <div className="flex gap-2 items-end">
+                        <div className="flex-1">
+                          <label className="text-[11px] font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">
+                            {t('songEditor.selectRole')}
+                          </label>
+                          <div className="flex gap-3">
+                            <select
+                              className="w-full p-2 rounded border text-sm border-gray-300 dark:border-white bg-transparent"
+                              defaultValue={SongAuthorsRole.Composer}
+                              id="author-role-select"
+                            >
+                              { Object.entries(SongAuthorsRole).map(([key, value]) => (
+                                <option key={value} value={value}>
+                                  {key.charAt(0).toUpperCase() + key.slice(1)}
+                                </option>
+                              ))}
+                            </select>
+
+                            <Button
+                              type="button"
+                              variant="snow"
+                              size="sm"
+                              onClick={() => {
+                                const roleSelect = document.getElementById('author-role-select') as HTMLSelectElement;
+                                const selectedRole = roleSelect.value as SongAuthorsRole;
+                                addAuthor(setFieldValue, values.authors, selectedUser, selectedRole);
+                              }}
+                            >
+                              <div className="flex gap-2">
+                                <IoAdd /> 
+                                {t('songEditor.addAuthor')}
+                              </div>
+                            </Button>
                           </div>
                         </div>
                       </div>
-                      <Button
-                        type="button"
-                        variant="danger"
-                        size="sm"
-                        onClick={() => removeAuthor(setFieldValue, values.authors, index)}
-                      >
-                        <IoClose />
-                      </Button>
                     </div>
-                  ))}
+                  )}
                 </div>
-              )}
-            </div>
-
-            {/* Submit Button */}
-            <div className="flex flex-col gap-4 pt-6">
-              {/* Error Message */}
-              {submitError && (
-                <div className="w-full p-3 bg-red-900/20 border border-red-500/50 rounded-lg text-red-300 text-sm">
-                  {submitError}
-                </div>
-              )}
-              
-              {/* Success Message */}
-              {submitSuccess && (
-                <div className="w-full p-3 bg-green-900/20 border border-green-500/50 rounded-lg text-green-300 text-sm">
-                    {t('songEditor.songSavedSuccessfully')}
-                </div>
-              )}
-              
-              <div className="flex flex-row gap-4">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => window.history.back()}
-                >
-                  {t('common.cancel')}
-                </Button>
-                <Button
-                  type="button"
-                  variant="snow"
-                  disabled={isSubmitting || isCreatingSong || isUpdatingSong}
-                  loading={isSubmitting || isCreatingSong || isUpdatingSong}
-                  onClick={() => formikHandleSubmit()}
-                >
-                  <div className="flex gap-2">
-                    <IoMusicalNotes /> 
-                    {songId ? t('songEditor.updateSong') : t('songEditor.saveSong')}
+                
+                {/* Authors List */}
+                {values.authors.length > 0 && (
+                  <div className="space-y-2">
+                    <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                      {t('songEditor.addedAuthors')}
+                    </label>
+                    {values.authors.map((author, index) => (
+                      <div key={index} className="bg-transparent border border-white/10 p-3 rounded flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          {author.user?.avatar && (
+                            <img 
+                              src={author.user.avatar} 
+                              alt={author.name}
+                              className="w-10 h-10 rounded-full"
+                            />
+                          )}
+                          <div>
+                            <div className="font-medium text-base">{author.name}</div>
+                            <div className="flex items-center gap-2 text-sm font-medium">
+                              <CiMusicNote1 className="text-lg" />
+                              { author.role.charAt(0).toUpperCase() + author.role.slice(1)}
+                            </div>
+                          </div>
+                        </div>
+                        <Button
+                          type="button"
+                          variant="danger"
+                          size="sm"
+                          onClick={() => removeAuthor(setFieldValue, values.authors, index)}
+                        >
+                          <IoClose />
+                        </Button>
+                      </div>
+                    ))}
                   </div>
-                </Button>
+                )}
               </div>
-            </div>
-          </Form>
-        )}}
-      </Formik>
-    </div>
+
+              {/* Submit Button */}
+              <div className="flex flex-col gap-4 pt-6">
+                {/* Error Message */}
+                {submitError && (
+                  <div className="w-full p-3 bg-red-900/20 border border-red-500/50 rounded-lg text-red-300 text-sm">
+                    {submitError}
+                  </div>
+                )}
+                
+                {/* Success Message */}
+                {submitSuccess && (
+                  <div className="w-full p-3 bg-green-900/20 border border-green-500/50 rounded-lg text-green-300 text-sm">
+                      {t('songEditor.songSavedSuccessfully')}
+                  </div>
+                )}
+                
+                <div className="flex flex-row gap-4">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => window.history.back()}
+                  >
+                    {t('common.cancel')}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="snow"
+                    disabled={isSubmitting || isCreatingSong || isUpdatingSong}
+                    loading={isSubmitting || isCreatingSong || isUpdatingSong}
+                    onClick={() => formikHandleSubmit()}
+                  >
+                    <div className="flex gap-2">
+                      <IoMusicalNotes /> 
+                      {songId ? t('songEditor.updateSong') : t('songEditor.saveSong')}
+                    </div>
+                  </Button>
+                </div>
+              </div>
+            </Form>
+          )}}
+        </Formik>
+      </div>
+    </>
   );
 };
 

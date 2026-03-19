@@ -14,6 +14,7 @@ import {
   useGetPlaylistQuery,
 } from "../../store/api/playlist.api";
 import { useTranslation } from "react-i18next";
+import { Helmet } from "react-helmet-async";
 
 const PlaylistEditor = () => {
   const { t } = useTranslation();
@@ -144,160 +145,165 @@ const PlaylistEditor = () => {
   };
 
   return (
-    <div className="rounded-md bg-white dark:bg-black w-full h-full px-4 overflow-y-auto text-gray-900 dark:text-white">
-      <div className="flex items-center gap-3 py-6">
-        <div>
-          <h1 className="text-2xl font-bold">
-            {playlistId ? t('playlistEditor.editPlaylist') : t('playlistEditor.createNewPlaylist')}
-          </h1>
-          {existingPlaylist && (
-            <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
-              {t('playlistEditor.editing')}: "{existingPlaylist.title}"
-            </p>
-          )}
+    <>
+      <Helmet>
+        <title>{playlistId ? t('playlistEditor.editPlaylist') : t('playlistEditor.createNewPlaylist')}</title>
+      </Helmet>
+      <div className="rounded-md bg-white dark:bg-black w-full h-full px-4 overflow-y-auto text-gray-900 dark:text-white">
+        <div className="flex items-center gap-3 py-6">
+          <div>
+            <h1 className="text-2xl font-bold">
+              {playlistId ? t('playlistEditor.editPlaylist') : t('playlistEditor.createNewPlaylist')}
+            </h1>
+            {existingPlaylist && (
+              <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
+                {t('playlistEditor.editing')}: "{existingPlaylist.title}"
+              </p>
+            )}
+          </div>
         </div>
-      </div>
 
-      <Formik
-        initialValues={initialValues}
-        enableReinitialize={true}
-        validate={validate}
-        onSubmit={handleSubmit}
-      >
-        {({ values, errors, touched, setFieldValue, isSubmitting, handleSubmit: formikHandleSubmit }) => {
-          return (
-            <Form className="space-y-6 pb-6">
-              {/* Basic Information */}
-              <div className="space-y-4">
-                <h2 className="text-lg font-semibold">{t('playlistEditor.basicInformation')}</h2>
-                
-                <div className="flex flex-col">
-                  <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
-                    {t('playlistEditor.title')} <span className="text-red-500">*</span>
-                  </label>
-                  <Field
-                    as={Input}
-                    name="title"
-                    placeholder={t('playlistEditor.enterPlaylistTitle')}
-                    error={touched.title && errors.title ? errors.title : undefined}
-                  />
-                </div>
-
-                {/* Privacy Setting */}
-                <div className="flex flex-col">
-                  <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
-                    {t('playlistEditor.visibility')}
-                  </label>
-                  <div 
-                    className="flex items-center gap-3 p-3 border border-gray-300 dark:border-white rounded cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900/30 transition-colors"
-                    onClick={() => setFieldValue('isPublic', !values.isPublic)}
-                  >
-                    {values.isPublic ? (
-                      <IoCheckbox className="text-gray-900 dark:text-white text-xl" />
-                    ) : (
-                      <IoSquareOutline className="text-gray-900 dark:text-white text-xl" />
-                    )}
-                    <div>
-                      <div className="font-medium">{t('playlistEditor.publicPlaylist')}</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">
-                        {values.isPublic ? t('playlistEditor.anyoneCanSee') : t('playlistEditor.onlyYouCanSee')}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Cover Image */}
-              <div className="space-y-4">
-                <h2 className="text-lg font-semibold">{t('playlistEditor.coverImage')}</h2>
-                
-                <div className="flex flex-col">
-                  <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
-                    <IoImage className="inline mr-1" /> {t('playlistEditor.coverImage')}
-                  </label>
+        <Formik
+          initialValues={initialValues}
+          enableReinitialize={true}
+          validate={validate}
+          onSubmit={handleSubmit}
+        >
+          {({ values, errors, touched, setFieldValue, isSubmitting, handleSubmit: formikHandleSubmit }) => {
+            return (
+              <Form className="space-y-6 pb-6">
+                {/* Basic Information */}
+                <div className="space-y-4">
+                  <h2 className="text-lg font-semibold">{t('playlistEditor.basicInformation')}</h2>
                   
-                  <FileInput
-                    label=""
-                    accept="image/*"
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      const file = e.target.files?.[0] || null;
-                      if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                          setCoverImagePreview(e.target?.result as string);
-                        };
-                        reader.readAsDataURL(file);
-                        setFieldValue('image', file);
-                      } else {
-                        setCoverImagePreview(null);
-                        setFieldValue('image', null);
-                      }
-                    }}
-                  />
+                  <div className="flex flex-col">
+                    <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
+                      {t('playlistEditor.title')} <span className="text-red-500">*</span>
+                    </label>
+                    <Field
+                      as={Input}
+                      name="title"
+                      placeholder={t('playlistEditor.enterPlaylistTitle')}
+                      error={touched.title && errors.title ? errors.title : undefined}
+                    />
+                  </div>
 
-                  {/* Image Preview */}
-                  <div className="mt-4 space-y-2">
-                    {coverImagePreview && (
-                      <div className="space-y-2">
-                        <div className="text-sm">{t('playlistEditor.currentCover')}:</div>
-                        <img 
-                          src={coverImagePreview} 
-                          alt="Cover preview" 
-                          className="w-32 h-32 object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600"
-                          onLoad={() => console.log('✅ [COVER] Current image loaded:', values.image)}
-                          onError={() => console.error('❌ [COVER] Current image failed to load:', values.image)}
-                        />
+                  {/* Privacy Setting */}
+                  <div className="flex flex-col">
+                    <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
+                      {t('playlistEditor.visibility')}
+                    </label>
+                    <div 
+                      className="flex items-center gap-3 p-3 border border-gray-300 dark:border-white rounded cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900/30 transition-colors"
+                      onClick={() => setFieldValue('isPublic', !values.isPublic)}
+                    >
+                      {values.isPublic ? (
+                        <IoCheckbox className="text-gray-900 dark:text-white text-xl" />
+                      ) : (
+                        <IoSquareOutline className="text-gray-900 dark:text-white text-xl" />
+                      )}
+                      <div>
+                        <div className="font-medium">{t('playlistEditor.publicPlaylist')}</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">
+                          {values.isPublic ? t('playlistEditor.anyoneCanSee') : t('playlistEditor.onlyYouCanSee')}
+                        </div>
                       </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Submit Button */}
-              <div className="flex flex-col gap-4 pt-6">
-                {/* Error Message */}
-                {submitError && (
-                  <div className="w-full p-3 bg-red-900/20 border border-red-500/50 rounded-lg text-red-300 text-sm">
-                    {submitError}
-                  </div>
-                )}
-                
-                {/* Success Message */}
-                {submitSuccess && (
-                  <div className="w-full p-3 bg-green-900/20 border border-green-500/50 rounded-lg text-green-300 text-sm">
-                    {t('playlistEditor.playlistSavedSuccessfully')}
-                  </div>
-                )}
-                
-                <div className="flex flex-row gap-4">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => window.history.back()}
-                  >
-                    {t('playlistEditor.cancel')}
-                  </Button>
-                  <Button
-                    type="submit"
-                    variant="snow"
-                    disabled={isSubmitting || isCreatingPlaylist || isUpdatingPlaylist}
-                    loading={isSubmitting || isCreatingPlaylist || isUpdatingPlaylist}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      formikHandleSubmit();
-                    }}
-                  >
-                    <div className="flex gap-2">
-                      {playlistId ? t('playlistEditor.updatePlaylist') : t('playlistEditor.savePlaylist')}
                     </div>
-                  </Button>
+                  </div>
                 </div>
-              </div>
-            </Form>
-          );
-        }}
-      </Formik>
-    </div>
+
+                {/* Cover Image */}
+                <div className="space-y-4">
+                  <h2 className="text-lg font-semibold">{t('playlistEditor.coverImage')}</h2>
+                  
+                  <div className="flex flex-col">
+                    <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
+                      <IoImage className="inline mr-1" /> {t('playlistEditor.coverImage')}
+                    </label>
+                    
+                    <FileInput
+                      label=""
+                      accept="image/*"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        const file = e.target.files?.[0] || null;
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onload = (e) => {
+                            setCoverImagePreview(e.target?.result as string);
+                          };
+                          reader.readAsDataURL(file);
+                          setFieldValue('image', file);
+                        } else {
+                          setCoverImagePreview(null);
+                          setFieldValue('image', null);
+                        }
+                      }}
+                    />
+
+                    {/* Image Preview */}
+                    <div className="mt-4 space-y-2">
+                      {coverImagePreview && (
+                        <div className="space-y-2">
+                          <div className="text-sm">{t('playlistEditor.currentCover')}:</div>
+                          <img 
+                            src={coverImagePreview} 
+                            alt="Cover preview" 
+                            className="w-32 h-32 object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600"
+                            onLoad={() => console.log('✅ [COVER] Current image loaded:', values.image)}
+                            onError={() => console.error('❌ [COVER] Current image failed to load:', values.image)}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Submit Button */}
+                <div className="flex flex-col gap-4 pt-6">
+                  {/* Error Message */}
+                  {submitError && (
+                    <div className="w-full p-3 bg-red-900/20 border border-red-500/50 rounded-lg text-red-300 text-sm">
+                      {submitError}
+                    </div>
+                  )}
+                  
+                  {/* Success Message */}
+                  {submitSuccess && (
+                    <div className="w-full p-3 bg-green-900/20 border border-green-500/50 rounded-lg text-green-300 text-sm">
+                      {t('playlistEditor.playlistSavedSuccessfully')}
+                    </div>
+                  )}
+                  
+                  <div className="flex flex-row gap-4">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => window.history.back()}
+                    >
+                      {t('playlistEditor.cancel')}
+                    </Button>
+                    <Button
+                      type="submit"
+                      variant="snow"
+                      disabled={isSubmitting || isCreatingPlaylist || isUpdatingPlaylist}
+                      loading={isSubmitting || isCreatingPlaylist || isUpdatingPlaylist}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        formikHandleSubmit();
+                      }}
+                    >
+                      <div className="flex gap-2">
+                        {playlistId ? t('playlistEditor.updatePlaylist') : t('playlistEditor.savePlaylist')}
+                      </div>
+                    </Button>
+                  </div>
+                </div>
+              </Form>
+            );
+          }}
+        </Formik>
+      </div>
+    </>
   );
 };
 

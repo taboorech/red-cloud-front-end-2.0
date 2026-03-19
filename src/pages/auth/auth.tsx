@@ -3,6 +3,7 @@ import { useNavigate } from "react-router"
 import classNames from "classnames"
 import { FcGoogle } from "react-icons/fc"
 import { useTranslation } from "react-i18next"
+import { Helmet } from "react-helmet-async"
 import AuthForm from "../../components/auth-form/auth-form"
 import type { LoginFormValues, RegistrationFormValues } from "../../components/auth-form/auth-form"
 import { Button } from "../../components/button/button"
@@ -53,8 +54,12 @@ const Auth = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0d0d0d] p-4">
-      <div className="w-full max-w-[450px] bg-white dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl">
+    <>
+      <Helmet>
+        <title>{t('pageTitles.auth')}</title>
+      </Helmet>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0d0d0d] p-4">
+        <div className="w-full max-w-[450px] bg-white dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl">
         
         <div className="flex">
           <Button
@@ -110,8 +115,9 @@ const Auth = () => {
             </Button>
           </div>
         </div>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

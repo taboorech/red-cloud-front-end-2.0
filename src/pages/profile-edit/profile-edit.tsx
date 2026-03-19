@@ -17,6 +17,7 @@ import {
 import { profileEditSchema } from "../../validation/profile.schema";
 import { zodValidate } from "../../utils/zod-validate";
 import { useTranslation } from "react-i18next";
+import { Helmet } from "react-helmet-async";
 
 const ProfileEdit = () => {
   const { t } = useTranslation()
@@ -58,224 +59,229 @@ const ProfileEdit = () => {
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validate={zodValidate(profileEditSchema)}
-      enableReinitialize
-      onSubmit={async (values, { setStatus }) => {
-        try {
-          await updateProfile({
-            username: values.username,
-            ...(avatarFile ? { avatar: avatarFile } : {}),
-          }).unwrap();
-
-          if (values.newPassword && values.currentPassword) {
-            await changePassword({
-              currentPassword: values.currentPassword,
-              password: values.newPassword,
+    <>
+      <Helmet>
+        <title>{t('pageTitles.editProfile')}</title>
+      </Helmet>
+      <Formik
+        initialValues={initialValues}
+        validate={zodValidate(profileEditSchema)}
+        enableReinitialize
+        onSubmit={async (values, { setStatus }) => {
+          try {
+            await updateProfile({
+              username: values.username,
+              ...(avatarFile ? { avatar: avatarFile } : {}),
             }).unwrap();
+
+            if (values.newPassword && values.currentPassword) {
+              await changePassword({
+                currentPassword: values.currentPassword,
+                password: values.newPassword,
+              }).unwrap();
+            }
+
+            navigate("/profile");
+          } catch (error: any) {
+            setStatus(error?.data?.message || "Profile update failed");
           }
+        }}
+      >
+        {({ errors, touched, dirty, status }) => {
+          const hasChanges = dirty || avatarChanged;
 
-          navigate("/profile");
-        } catch (error: any) {
-          setStatus(error?.data?.message || "Profile update failed");
-        }
-      }}
-    >
-      {({ errors, touched, dirty, status }) => {
-        const hasChanges = dirty || avatarChanged;
-
-        return (
-          <div className="flex flex-col h-full text-gray-900 dark:text-white overflow-y-auto bg-white dark:bg-black">
-            <div className="sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-xl z-20 border-b border-gray-200 dark:border-white/5">
-              <div className="mx-auto px-6 py-6 flex items-center justify-between w-full">
-                <div className="flex items-center gap-5">
-                  <Button
-                    variant="ghost"
-                    size="circle"
-                    onClick={() => navigate("/profile")}
-                    className="bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 border-transparent transition-all"
-                  >
-                    <IoArrowBack size={20} className="text-gray-900 dark:text-white" />
-                  </Button>
-                  <h1 className="text-xl font-semibold tracking-tight">
-                    {t('profile.editProfile')}
-                  </h1>
-                </div>
-                {hasChanges && (
-                  <div className="flex gap-3">
+          return (
+            <div className="flex flex-col h-full text-gray-900 dark:text-white overflow-y-auto bg-white dark:bg-black">
+              <div className="sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-xl z-20 border-b border-gray-200 dark:border-white/5">
+                <div className="mx-auto px-6 py-6 flex items-center justify-between w-full">
+                  <div className="flex items-center gap-5">
                     <Button
-                      type="button"
                       variant="ghost"
+                      size="circle"
                       onClick={() => navigate("/profile")}
+                      className="bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 border-transparent transition-all"
                     >
-                      {t('common.cancel')}
+                      <IoArrowBack size={20} className="text-gray-900 dark:text-white" />
                     </Button>
-                    <Button
-                      type="submit"
-                      form="profile-edit-form"
-                      variant={"outline"}
-                    >
-                      {t('common.update')}
-                    </Button>
+                    <h1 className="text-xl font-semibold tracking-tight">
+                      {t('profile.editProfile')}
+                    </h1>
                   </div>
-                )}
+                  {hasChanges && (
+                    <div className="flex gap-3">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={() => navigate("/profile")}
+                      >
+                        {t('common.cancel')}
+                      </Button>
+                      <Button
+                        type="submit"
+                        form="profile-edit-form"
+                        variant={"outline"}
+                      >
+                        {t('common.update')}
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="mx-auto w-full px-6 py-10 flex flex-col gap-10">
+                <section className="bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 p-8 rounded-[2rem]">
+                  <div className="flex flex-col items-center sm:flex-row gap-8">
+                    <div className="relative group">
+                      <div className="w-28 h-28 rounded-full overflow-hidden ring-2 ring-white/10 group-hover:ring-white/30 transition-all">
+                        <img
+                          src={avatar || profile.avatar || ""}
+                          alt="Avatar"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <label
+                        htmlFor="avatar-upload"
+                        className="absolute bottom-0 right-0 bg-white text-black p-2.5 rounded-full cursor-pointer hover:scale-110 transition-transform shadow-xl"
+                      >
+                        <IoCamera size={18} />
+                      </label>
+                      <input
+                        id="avatar-upload"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleAvatarChange}
+                        className="hidden"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1 text-center sm:text-left">
+                      <h3 className="text-lg font-medium">{t('profile.profileImage')}</h3>
+                      <p className="text-sm text-gray-500 max-w-[240px]">
+                        {t('profile.profileImageDescription')}
+                      </p>
+                    </div>
+                  </div>
+                </section>
+
+                <Form id="profile-edit-form" className="flex flex-col gap-10">
+                  {status && (
+                    <p className="text-red-500 text-sm text-center">{status}</p>
+                  )}
+
+                  <section className="flex flex-col gap-6">
+                    <div className="flex items-center gap-3 px-2">
+                      <div className="p-2 bg-gray-100 dark:bg-white/5 rounded-lg text-gray-500 dark:text-gray-400">
+                        <IoPersonOutline size={20} />
+                      </div>
+                      <h2 className="text-lg font-medium">{t('profile.generalInformation')}</h2>
+                    </div>
+
+                    <div className="bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 p-8 rounded-[2rem] space-y-6">
+                      <div className="grid grid-cols-1 gap-6">
+                        <div className="flex flex-col gap-2">
+                          <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider ml-1">
+                            {t('profile.username')}
+                          </label>
+                          <Field
+                            name="username"
+                            as={Input}
+                            placeholder={t('profile.usernamePlaceholder')}
+                            error={
+                              touched.username && errors.username
+                                ? errors.username
+                                : undefined
+                            }
+                            className="bg-gray-50 dark:bg-black/40 border-gray-200 dark:border-white/5 focus:border-white/20"
+                          />
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                          <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider ml-1">
+                            {t('profile.email')}
+                          </label>
+                          <Input
+                            type="email"
+                            value={profile.email ?? ""}
+                            disabled
+                            placeholder={t('profile.emailPlaceholder')}
+                            className="bg-gray-50 dark:bg-black/40 border-gray-200 dark:border-white/5 opacity-50 cursor-not-allowed"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section className="flex flex-col gap-6 pb-10">
+                    <div className="flex items-center gap-3 px-2">
+                      <div className="p-2 bg-gray-100 dark:bg-white/5 rounded-lg text-gray-500 dark:text-gray-400">
+                        <IoShieldCheckmarkOutline size={20} />
+                      </div>
+                      <h2 className="text-lg font-medium">{t('profile.securityAndPassword')}</h2>
+                    </div>
+
+                    <div className="bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 p-8 rounded-[2rem] space-y-6">
+                      <div className="flex flex-col gap-2">
+                        <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider ml-1">
+                          {t('profile.currentPassword')}
+                        </label>
+                        <Field
+                          name="currentPassword"
+                          as={Input}
+                          type="password"
+                          placeholder={t('profile.currentPasswordPlaceholder')}
+                          error={
+                            touched.currentPassword && errors.currentPassword
+                              ? errors.currentPassword
+                              : undefined
+                          }
+                          className="bg-gray-50 dark:bg-black/40 border-gray-200 dark:border-white/5"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div className="flex flex-col gap-2">
+                          <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider ml-1">
+                            {t('profile.newPassword')}
+                          </label>
+                          <Field
+                            name="newPassword"
+                            as={Input}
+                            type="password"
+                            placeholder={t('profile.newPasswordPlaceholder')}
+                            error={
+                              touched.newPassword && errors.newPassword
+                                ? errors.newPassword
+                                : undefined
+                            }
+                            className="bg-gray-50 dark:bg-black/40 border-gray-200 dark:border-white/5"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider ml-1">
+                            {t('profile.confirmPassword')}
+                          </label>
+                          <Field
+                            name="confirmPassword"
+                            as={Input}
+                            type="password"
+                            placeholder={t('profile.confirmPasswordPlaceholder')}
+                            error={
+                              touched.confirmPassword && errors.confirmPassword
+                                ? errors.confirmPassword
+                                : undefined
+                            }
+                            className="bg-gray-50 dark:bg-black/40 border-gray-200 dark:border-white/5"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                </Form>
               </div>
             </div>
-
-            <div className="mx-auto w-full px-6 py-10 flex flex-col gap-10">
-              <section className="bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 p-8 rounded-[2rem]">
-                <div className="flex flex-col items-center sm:flex-row gap-8">
-                  <div className="relative group">
-                    <div className="w-28 h-28 rounded-full overflow-hidden ring-2 ring-white/10 group-hover:ring-white/30 transition-all">
-                      <img
-                        src={avatar || profile.avatar || ""}
-                        alt="Avatar"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <label
-                      htmlFor="avatar-upload"
-                      className="absolute bottom-0 right-0 bg-white text-black p-2.5 rounded-full cursor-pointer hover:scale-110 transition-transform shadow-xl"
-                    >
-                      <IoCamera size={18} />
-                    </label>
-                    <input
-                      id="avatar-upload"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleAvatarChange}
-                      className="hidden"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1 text-center sm:text-left">
-                    <h3 className="text-lg font-medium">{t('profile.profileImage')}</h3>
-                    <p className="text-sm text-gray-500 max-w-[240px]">
-                      {t('profile.profileImageDescription')}
-                    </p>
-                  </div>
-                </div>
-              </section>
-
-              <Form id="profile-edit-form" className="flex flex-col gap-10">
-                {status && (
-                  <p className="text-red-500 text-sm text-center">{status}</p>
-                )}
-
-                <section className="flex flex-col gap-6">
-                  <div className="flex items-center gap-3 px-2">
-                    <div className="p-2 bg-gray-100 dark:bg-white/5 rounded-lg text-gray-500 dark:text-gray-400">
-                      <IoPersonOutline size={20} />
-                    </div>
-                    <h2 className="text-lg font-medium">{t('profile.generalInformation')}</h2>
-                  </div>
-
-                  <div className="bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 p-8 rounded-[2rem] space-y-6">
-                    <div className="grid grid-cols-1 gap-6">
-                      <div className="flex flex-col gap-2">
-                        <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider ml-1">
-                          {t('profile.username')}
-                        </label>
-                        <Field
-                          name="username"
-                          as={Input}
-                          placeholder={t('profile.usernamePlaceholder')}
-                          error={
-                            touched.username && errors.username
-                              ? errors.username
-                              : undefined
-                          }
-                          className="bg-gray-50 dark:bg-black/40 border-gray-200 dark:border-white/5 focus:border-white/20"
-                        />
-                      </div>
-
-                      <div className="flex flex-col gap-2">
-                        <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider ml-1">
-                          {t('profile.email')}
-                        </label>
-                        <Input
-                          type="email"
-                          value={profile.email ?? ""}
-                          disabled
-                          placeholder={t('profile.emailPlaceholder')}
-                          className="bg-gray-50 dark:bg-black/40 border-gray-200 dark:border-white/5 opacity-50 cursor-not-allowed"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </section>
-
-                <section className="flex flex-col gap-6 pb-10">
-                  <div className="flex items-center gap-3 px-2">
-                    <div className="p-2 bg-gray-100 dark:bg-white/5 rounded-lg text-gray-500 dark:text-gray-400">
-                      <IoShieldCheckmarkOutline size={20} />
-                    </div>
-                    <h2 className="text-lg font-medium">{t('profile.securityAndPassword')}</h2>
-                  </div>
-
-                  <div className="bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 p-8 rounded-[2rem] space-y-6">
-                    <div className="flex flex-col gap-2">
-                      <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider ml-1">
-                        {t('profile.currentPassword')}
-                      </label>
-                      <Field
-                        name="currentPassword"
-                        as={Input}
-                        type="password"
-                        placeholder={t('profile.currentPasswordPlaceholder')}
-                        error={
-                          touched.currentPassword && errors.currentPassword
-                            ? errors.currentPassword
-                            : undefined
-                        }
-                        className="bg-gray-50 dark:bg-black/40 border-gray-200 dark:border-white/5"
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <div className="flex flex-col gap-2">
-                        <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider ml-1">
-                          {t('profile.newPassword')}
-                        </label>
-                        <Field
-                          name="newPassword"
-                          as={Input}
-                          type="password"
-                          placeholder={t('profile.newPasswordPlaceholder')}
-                          error={
-                            touched.newPassword && errors.newPassword
-                              ? errors.newPassword
-                              : undefined
-                          }
-                          className="bg-gray-50 dark:bg-black/40 border-gray-200 dark:border-white/5"
-                        />
-                      </div>
-                      <div className="flex flex-col gap-2">
-                        <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider ml-1">
-                          {t('profile.confirmPassword')}
-                        </label>
-                        <Field
-                          name="confirmPassword"
-                          as={Input}
-                          type="password"
-                          placeholder={t('profile.confirmPasswordPlaceholder')}
-                          error={
-                            touched.confirmPassword && errors.confirmPassword
-                              ? errors.confirmPassword
-                              : undefined
-                          }
-                          className="bg-gray-50 dark:bg-black/40 border-gray-200 dark:border-white/5"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              </Form>
-            </div>
-          </div>
-        );
-      }}
-    </Formik>
+          );
+        }}
+      </Formik>
+    </>
   );
 };
 

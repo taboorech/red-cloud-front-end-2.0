@@ -2,6 +2,7 @@ import Banner from "./banner/banner";
 import SongSection from "../../components/song-section/song-section";
 import { useGetSongsQuery } from "../../store/api/songs.api";
 import { useTranslation } from 'react-i18next';
+import { Helmet } from "react-helmet-async";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -32,35 +33,40 @@ const Home = () => {
   const newReleases = newReleasesData || [];
 
   return (
-    <div className="flex flex-col h-full">
-      <section className="flex-shrink-0">
-        <Banner 
-          text={t('banner.title')}
-          btnText={t('banner.buttonText')}
-          image="https://images.unsplash.com/photo-1493225255756-d9584f8606e9?auto=format&fit=crop&q=80&w=1000"
-        />
-      </section>
+    <>
+      <Helmet>
+        <title>{t('pageTitles.home')}</title>
+      </Helmet>
+      <div className="flex flex-col h-full">
+        <section className="flex-shrink-0">
+          <Banner 
+            text={t('banner.title')}
+            btnText={t('banner.buttonText')}
+            image="https://images.unsplash.com/photo-1493225255756-d9584f8606e9?auto=format&fit=crop&q=80&w=1000"
+          />
+        </section>
 
-      <div className="flex-1 overflow-y-auto pb-4 md:pb-10 min-h-0">
-        <div className="flex flex-col gap-4 md:gap-8 pt-4 md:pt-8">
-          {recommendedSongs.length > 0 && (
-            <SongSection title={t('sections.recommendedForYou')} songs={recommendedSongs} />
-          )}
-          {popularSongs.length > 0 && (
-            <SongSection title={t('sections.popularRightNow')} songs={popularSongs} />
-          )}
-          {newReleases.length > 0 && (
-            <SongSection title={t('sections.newReleases')} songs={newReleases} />
-          )}
-          
-          {recommendedSongs.length === 0 && popularSongs.length === 0 && newReleases.length === 0 && (
-            <div className="flex items-center justify-center py-12">
-              <div className="text-gray-400 text-lg">{t('home.noSongs')}</div>
-            </div>
-          )}
+        <div className="flex-1 overflow-y-auto pb-4 md:pb-10 min-h-0">
+          <div className="flex flex-col gap-4 md:gap-8 pt-4 md:pt-8">
+            {recommendedSongs.length > 0 && (
+              <SongSection title={t('sections.recommendedForYou')} songs={recommendedSongs} />
+            )}
+            {popularSongs.length > 0 && (
+              <SongSection title={t('sections.popularRightNow')} songs={popularSongs} />
+            )}
+            {newReleases.length > 0 && (
+              <SongSection title={t('sections.newReleases')} songs={newReleases} />
+            )}
+            
+            {recommendedSongs.length === 0 && popularSongs.length === 0 && newReleases.length === 0 && (
+              <div className="flex items-center justify-center py-12">
+                <div className="text-gray-400 text-lg">{t('home.noSongs')}</div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

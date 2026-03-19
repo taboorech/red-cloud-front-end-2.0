@@ -39,6 +39,22 @@
     "profile": "Profile",
     "goToProfile": "Go to Profile"
   },
+  "pageTitles": {
+    "home": "Home",
+    "search": "Search",
+    "favorites": "Favorites",
+    "playlists": "Playlists",
+    "mySongs": "My Songs",
+    "settings": "Settings",
+    "profile": "Profile",
+    "subscriptions": "Subscription",
+    "about": "About",
+    "auth": "Authorization",
+    "forgotPassword": "Forgot Password",
+    "resetPassword": "Reset Password",
+    "lyrics": "Lyrics",
+    "notFound": "Page Not Found"
+  },
   "home": {
     "loadingError": "Failed to load songs",
     "noSongs": "No songs available"

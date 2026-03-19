@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { Link } from "react-router"
 import { Formik, Form, Field, type FormikHelpers } from "formik"
+import { useTranslation } from "react-i18next"
+import { Helmet } from "react-helmet-async"
 import Input from "../../components/input/input"
 import { Button } from "../../components/button/button"
 import { useResetPasswordMutation } from "../../store/api/auth.api"
@@ -8,6 +10,7 @@ import { forgotPasswordSchema, type ForgotPasswordSchemaType } from "../../valid
 import { zodValidate } from "../../utils/zod-validate"
 
 const ForgotPassword = () => {
+  const { t } = useTranslation()
   const [resetPassword, { isLoading }] = useResetPasswordMutation()
   const [submitted, setSubmitted] = useState(false)
 
@@ -26,8 +29,12 @@ const ForgotPassword = () => {
 
   if (submitted) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0d0d0d] p-4">
-        <div className="w-full max-w-[450px] bg-white dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
+      <>
+        <Helmet>
+          <title>{t('pageTitles.forgotPassword')}</title>
+        </Helmet>
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0d0d0d] p-4">
+          <div className="w-full max-w-[450px] bg-white dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
           <h1 className="text-2xl font-light text-gray-900 dark:text-white text-center mb-4">
             Check your email
           </h1>
@@ -43,13 +50,18 @@ const ForgotPassword = () => {
             </Link>
           </div>
         </div>
-      </div>
+        </div>
+      </>
     )
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0d0d0d] p-4">
-      <div className="w-full max-w-[450px] bg-white dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
+    <>
+      <Helmet>
+        <title>{t('pageTitles.forgotPassword')}</title>
+      </Helmet>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0d0d0d] p-4">
+        <div className="w-full max-w-[450px] bg-white dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
         <Formik
           initialValues={{ email: "" }}
           validate={zodValidate(forgotPasswordSchema)}
@@ -104,8 +116,9 @@ const ForgotPassword = () => {
             </Form>
           )}
         </Formik>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
