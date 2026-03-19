@@ -29,7 +29,7 @@ const About = () => {
       <Helmet>
         <title>{t('pageTitles.about')}</title>
       </Helmet>
-      <div className="bg-white dark:bg-black text-gray-900 dark:text-white min-h-0 rounded p-8">
+      <div className="bg-white dark:bg-black text-gray-900 dark:text-white min-h-0 rounded px-8 py-6">
         <div className="mx-auto">
           <AboutHeader />
           
