@@ -10,6 +10,7 @@ import { formatDuration } from '../../utils/format'
 import { useSearchQuery } from '../../store/api/search.api'
 import { SearchType } from '../../types/search.types'
 import { useAudio } from '../../context/audio-context'
+import { Helmet } from 'react-helmet-async'
 
 const tabToSearchType: Record<SearchTab, SearchType> = {
   all: SearchType.ALL,
@@ -123,22 +124,27 @@ const Search = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-black text-gray-900 dark:text-white h-full min-h-0 flex flex-col p-6 rounded-md">
-      <div className="shrink-0">
-        <SearchInput
-          value={searchQuery}
-          onChange={setSearchQuery}
-          placeholder="Request"
-        />
-        <SearchTabs
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-        />
+    <>
+      <Helmet>
+        <title>{t('pageTitles.search')}</title>
+      </Helmet>
+      <div className="bg-white dark:bg-black text-gray-900 dark:text-white h-full min-h-0 flex flex-col p-6 rounded-md">
+        <div className="shrink-0">
+          <SearchInput
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="Request"
+          />
+          <SearchTabs
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+          />
+        </div>
+        <div className="flex-1 overflow-y-auto max-w-6xl mx-auto w-full">
+          {renderContent()}
+        </div>
       </div>
-      <div className="flex-1 overflow-y-auto max-w-6xl mx-auto w-full">
-        {renderContent()}
-      </div>
-    </div>
+    </>
   )
 }
 

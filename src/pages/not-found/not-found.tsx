@@ -1,14 +1,17 @@
 import { useNavigate } from "react-router";
 import { Button } from "../../components/button/button";
 import { MdHome, MdArrowBack } from "react-icons/md";
-import { useTranslation } from "react-i18next";
-
+import { useTranslation } from "react-i18next";import { Helmet } from "react-helmet-async";
 const NotFound = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center justify-center h-full bg-white dark:bg-black rounded-md text-gray-900 dark:text-white px-4">
+    <>
+      <Helmet>
+        <title>{t('pageTitles.notFound')}</title>
+      </Helmet>
+      <div className="flex flex-col items-center justify-center h-full bg-white dark:bg-black rounded-md text-gray-900 dark:text-white px-4">
       <p className="text-[8rem] font-bold leading-none text-gray-100 dark:text-white/10 select-none">
         404
       </p>
@@ -27,6 +30,7 @@ const NotFound = () => {
         </Button>
       </div>
     </div>
+    </>
   );
 };
 

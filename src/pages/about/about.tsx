@@ -1,7 +1,11 @@
+import { useTranslation } from 'react-i18next';
 import AboutHeader from './components/about-header'
 import AboutSection from './components/about-section'
+import { Helmet } from 'react-helmet-async'
 
 const About = () => {
+  const { t } = useTranslation();
+
   const sections = [
     {
       title: "Header1",
@@ -21,20 +25,25 @@ const About = () => {
   ]
 
   return (
-    <div className="bg-white dark:bg-black text-gray-900 dark:text-white min-h-screen rounded p-8">
-      <div className="mx-auto">
-        <AboutHeader />
-        
-        {sections.map((section, index) => (
-          <AboutSection
-            key={index}
-            title={section.title}
-            level={section.level}
-            content={section.content}
-          />
-        ))}
+    <>
+      <Helmet>
+        <title>{t('pageTitles.about')}</title>
+      </Helmet>
+      <div className="bg-white dark:bg-black text-gray-900 dark:text-white min-h-0 rounded px-8 py-6">
+        <div className="mx-auto">
+          <AboutHeader />
+          
+          {sections.map((section, index) => (
+            <AboutSection
+              key={index}
+              title={section.title}
+              level={section.level}
+              content={section.content}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

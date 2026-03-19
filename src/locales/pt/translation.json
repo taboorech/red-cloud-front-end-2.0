@@ -39,6 +39,22 @@
     "profile": "Perfil",
     "goToProfile": "Ir para o perfil"
   },
+  "pageTitles": {
+    "home": "Início",
+    "search": "Pesquisar",
+    "favorites": "Favoritos",
+    "playlists": "Playlists",
+    "mySongs": "Minhas músicas",
+    "settings": "Configurações",
+    "profile": "Perfil",
+    "subscriptions": "Assinatura",
+    "about": "Sobre",
+    "auth": "Autorização",
+    "forgotPassword": "Esqueci a senha",
+    "resetPassword": "Redefinir senha",
+    "lyrics": "Letras",
+    "notFound": "Página não encontrada"
+  },
   "home": {
     "loadingError": "Falha ao carregar músicas",
     "noSongs": "Nenhuma música disponível"

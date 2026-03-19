@@ -39,6 +39,22 @@
     "profile": "Профіль",
     "goToProfile": "Перейти до профілю"
   },
+  "pageTitles": {
+    "home": "Головна",
+    "search": "Пошук",
+    "favorites": "Улюблені",
+    "playlists": "Плейлісти",
+    "mySongs": "Мої пісні",
+    "settings": "Налаштування",
+    "profile": "Профіль",
+    "subscriptions": "Підписка",
+    "about": "Про нас",
+    "auth": "Авторизація",
+    "forgotPassword": "Відновлення паролю",
+    "resetPassword": "Скидання паролю",
+    "lyrics": "Текст пісні",
+    "notFound": "Сторінка не знайдена"
+  },
   "home": {
     "loadingError": "Не вдалося завантажити пісні",
     "noSongs": "Пісні недоступні"

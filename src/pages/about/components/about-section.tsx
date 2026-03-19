@@ -14,7 +14,7 @@ const AboutSection = ({ title, content, level }: SectionProps) => {
     : "text-gray-600 dark:text-gray-300 leading-relaxed text-base ml-8"
     
   return (
-    <section className="mb-12">
+    <section className="mb-8">
       <h3 className={headerStyles}>{title}</h3>
       <p className={textStyles}>
         {content}

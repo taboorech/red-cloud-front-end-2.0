@@ -39,6 +39,22 @@
     "profile": "Profil",
     "goToProfile": "Przejdź do profilu"
   },
+  "pageTitles": {
+    "home": "Główna",
+    "search": "Szukaj",
+    "favorites": "Ulubione",
+    "playlists": "Playlisty",
+    "mySongs": "Moja muzyka",
+    "settings": "Ustawienia",
+    "profile": "Profil",
+    "subscriptions": "Subskrypcja",
+    "about": "O aplikacji",
+    "auth": "Autoryzacja",
+    "forgotPassword": "Zapomniałem hasła",
+    "resetPassword": "Resetuj hasło",
+    "lyrics": "Tekst",
+    "notFound": "Strona nie znaleziona"
+  },
   "home": {
     "loadingError": "Nie udało się załadować utworów",
     "noSongs": "Brak dostępnych utworów"

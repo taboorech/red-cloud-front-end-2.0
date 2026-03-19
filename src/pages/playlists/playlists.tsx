@@ -6,6 +6,7 @@ import Input from "../../components/input/input";
 import { useLazyGetPlaylistsQuery } from "../../store/api/playlist.api";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
+import { Helmet } from "react-helmet-async";
 
 const Playlists = () => {
   const { t } = useTranslation()
@@ -40,32 +41,37 @@ const Playlists = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-black p-4 rounded-md border border-gray-200 dark:border-transparent h-full flex flex-col">
-      {/* Search Bar */}
-      <div className="mb-4 relative flex-shrink-0">
-        <Input
-          placeholder={t('playlists.searchPlaylists')}
-          value={searchTerm}
-          onChange={handleSearchChange}
-          className="pr-10"
-        />
-        <IoSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-      </div>
+    <>
+      <Helmet>
+        <title>{t('pageTitles.playlists')}</title>
+      </Helmet>
+      <div className="bg-white dark:bg-black p-4 rounded-md border border-gray-200 dark:border-transparent h-full flex flex-col">
+        {/* Search Bar */}
+        <div className="mb-4 relative flex-shrink-0">
+          <Input
+            placeholder={t('playlists.searchPlaylists')}
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="pr-10"
+          />
+          <IoSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+        </div>
 
-      <div className="flex-1 overflow-y-auto min-h-0">
-        <List gap={3}>
-          {playlists.map((playlist) => (
-            <Song 
-              key={playlist.id}
-              title={playlist.title} 
-              variant="expanded"
-              image={playlist.image_url || ''}
-              onClick={() => navigate(`/playlist/${playlist.id}`)}
-            />
-          ))}
-        </List>
+        <div className="flex-1 overflow-y-auto min-h-0">
+          <List gap={3}>
+            {playlists.map((playlist) => (
+              <Song 
+                key={playlist.id}
+                title={playlist.title} 
+                variant="expanded"
+                image={playlist.image_url || ''}
+                onClick={() => navigate(`/playlist/${playlist.id}`)}
+              />
+            ))}
+          </List>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
