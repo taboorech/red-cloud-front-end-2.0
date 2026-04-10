@@ -35,7 +35,7 @@ const Layout = () => {
 
       { mobileMenuOpen && 
         <div className={classNames('fixed md:hidden bg-white dark:bg-black top-0 left-0 w-full h-screen z-30', !mobileMenuOpen ? 'hidden' : 'block')}>
-          <MobileMenu onClose={() => setMobileMenuOpen(false)} />
+          <MobileMenu onClose={() => setMobileMenuOpen(false)} userRole={profile?.role} />
         </div>
       }
 
@@ -48,7 +48,7 @@ const Layout = () => {
           />
         </div>
         <div className="flex-3">
-          <Menu/>
+          <Menu userRole={profile?.role} />
         </div>
       </div>
       <main className="flex flex-col gap-5 w-full md:w-4/6 justify-between">

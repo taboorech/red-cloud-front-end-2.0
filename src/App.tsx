@@ -21,6 +21,7 @@ import Search from './pages/search/search'
 import NotFound from './pages/not-found/not-found'
 import Favorites from './pages/favorites/favorites'
 import Settings from './pages/settings/settings'
+import Management from './pages/management/management'
 
 const App = () => {
   return (
@@ -48,6 +49,7 @@ const App = () => {
           <Route path='/search' element={<Search />} />
           <Route path='/favorites' element={<Favorites />} />
           <Route path='/settings' element={<Settings />} />
+          <Route path='/management' element={<Management />} />
           <Route path='*' element={<NotFound />} />
         </Route>
       </Routes>

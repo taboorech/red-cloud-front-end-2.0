@@ -37,7 +37,8 @@
     "subscriptions": "Subskrypcja",
     "about": "O aplikacji",
     "profile": "Profil",
-    "goToProfile": "Przejdź do profilu"
+    "goToProfile": "Przejdź do profilu",
+    "management": "Zarządzanie"
   },
   "pageTitles": {
     "home": "Główna",
@@ -298,5 +299,45 @@
     "noSongsInQueue": "Brak utworów w kolejce",
     "noSongPlaying": "Brak odtwarzanego utworu",
     "noSongSelected": "Brak wybranego utworu"
+  },
+  "management": {
+    "title": "Zarządzanie",
+    "tabs": {
+      "users": "Użytkownicy",
+      "aiUsage": "Użycie AI"
+    },
+    "searchUsers": "Szukaj po nazwie lub e-mailu...",
+    "loadError": "Nie udało się załadować danych",
+    "noUsers": "Nie znaleziono użytkowników",
+    "role": "Rola",
+    "roles": {
+      "user": "Użytkownik",
+      "operator": "Operator",
+      "admin": "Admin"
+    },
+    "ban": "Zablokuj",
+    "pardon": "Odblokuj",
+    "banned": "Zablokowany",
+    "filter": {
+      "all": "Wszyscy użytkownicy",
+      "active": "Aktywni",
+      "banned": "Zablokowani"
+    },
+    "ai": {
+      "totalUsers": "Łącznie użytkowników",
+      "totalRequests": "Łącznie zapytań",
+      "totalCost": "Łączny koszt",
+      "totalTokens": "Łącznie tokenów",
+      "byUser": "Użycie wg użytkownika",
+      "userId": "ID użytkownika",
+      "requests": "Zapytania",
+      "cost": "Koszt",
+      "tokens": "Tokeny",
+      "recentActivity": "Ostatnia aktywność",
+      "noActivity": "Brak aktywności AI",
+      "coverGeneration": "Generowanie okładki",
+      "lyricsTranscription": "Transkrypcja tekstu",
+      "searchUser": "Szukaj po nazwie, e-mailu lub ID..."
+    }
   }
 }

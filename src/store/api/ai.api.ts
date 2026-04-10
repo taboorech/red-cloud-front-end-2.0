@@ -1,25 +1,13 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { axiosBaseQuery } from '../../api/axios-base-query';
-
-export interface GenerateImageParams {
-  prompt: string;
-}
-
-export interface GenerateImageResponse {
-  data: {
-    imageUrl: string;
-  }
-}
-
-export interface GenerateLyricsParams {
-  audioFile?: File;
-  songId?: string;
-  model?: string;
-}
-
-export interface GenerateLyricsResponse {
-  data: string;
-}
+import type {
+  GenerateImageParams,
+  GenerateImageResponse,
+  GenerateLyricsParams,
+  GenerateLyricsResponse,
+  AdminAIActivityParams,
+  AdminAIActivityResponse,
+} from '../../types/ai.types';
 
 export const aiApi = createApi({
   reducerPath: 'aiApi',
@@ -35,7 +23,7 @@ export const aiApi = createApi({
     generateLyrics: builder.mutation<GenerateLyricsResponse, GenerateLyricsParams>({
       query: ({ audioFile, songId }) => {
         const formData = new FormData();
-        
+
         if (audioFile) {
           formData.append('audioFile', audioFile);
         }
@@ -53,10 +41,18 @@ export const aiApi = createApi({
         };
       },
     }),
+    getAdminAIActivity: builder.query<AdminAIActivityResponse, AdminAIActivityParams>({
+      query: (params) => ({
+        url: '/v1/ai/users-activity',
+        method: 'GET',
+        params,
+      }),
+    }),
   }),
 });
 
 export const {
   useGenerateImageMutation,
   useGenerateLyricsMutation,
+  useGetAdminAIActivityQuery,
 } = aiApi;
