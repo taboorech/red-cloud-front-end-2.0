@@ -37,7 +37,8 @@
     "subscriptions": "Abonnement",
     "about": "Über",
     "profile": "Profil",
-    "goToProfile": "Zum Profil"
+    "goToProfile": "Zum Profil",
+    "management": "Verwaltung"
   },
   "pageTitles": {
     "home": "Startseite",
@@ -298,5 +299,45 @@
     "noSongsInQueue": "Keine Songs in der Warteschlange",
     "noSongPlaying": "Kein Song wird abgespielt",
     "noSongSelected": "Kein Song ausgewählt"
+  },
+  "management": {
+    "title": "Verwaltung",
+    "tabs": {
+      "users": "Benutzer",
+      "aiUsage": "KI-Nutzung"
+    },
+    "searchUsers": "Nach Name oder E-Mail suchen...",
+    "loadError": "Daten konnten nicht geladen werden",
+    "noUsers": "Keine Benutzer gefunden",
+    "role": "Rolle",
+    "roles": {
+      "user": "Benutzer",
+      "operator": "Operator",
+      "admin": "Admin"
+    },
+    "ban": "Sperren",
+    "pardon": "Entsperren",
+    "banned": "Gesperrt",
+    "filter": {
+      "all": "Alle Benutzer",
+      "active": "Aktiv",
+      "banned": "Gesperrt"
+    },
+    "ai": {
+      "totalUsers": "Benutzer gesamt",
+      "totalRequests": "Anfragen gesamt",
+      "totalCost": "Gesamtkosten",
+      "totalTokens": "Tokens gesamt",
+      "byUser": "Nutzung pro Benutzer",
+      "userId": "Benutzer-ID",
+      "requests": "Anfragen",
+      "cost": "Kosten",
+      "tokens": "Tokens",
+      "recentActivity": "Letzte Aktivität",
+      "noActivity": "Noch keine KI-Aktivität",
+      "coverGeneration": "Cover-Generierung",
+      "lyricsTranscription": "Text-Transkription",
+      "searchUser": "Nach Benutzername, E-Mail oder ID suchen..."
+    }
   }
 }

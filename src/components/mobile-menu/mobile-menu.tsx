@@ -1,9 +1,10 @@
 import { IoMdClose } from "react-icons/io";
+import { UserRole } from "../../types/user.types";
 import { Button } from "../button/button";
 import MiniAvatar from "./mini-avatar/mini-avatar";
 import { useNavigate } from "react-router";
-import { IoHome, IoSearch, IoHeart, IoList, IoSettings } from "react-icons/io5";
-import { useCallback } from "react";
+import { IoHome, IoSearch, IoHeart, IoList, IoSettings, IoShieldCheckmark } from "react-icons/io5";
+import { useCallback, useMemo } from "react";
 import { TbPremiumRights } from "react-icons/tb";
 import { LuInfo } from "react-icons/lu";
 import NavigationItem from "./navigation-item/navigation-item";
@@ -11,9 +12,10 @@ import { useTranslation } from "react-i18next";
 
 interface MobileMenuProps {
   onClose: () => void;
+  userRole?: string;
 }
 
-const MobileMenu = ({ onClose }: MobileMenuProps) => {
+const MobileMenu = ({ onClose, userRole }: MobileMenuProps) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -22,15 +24,21 @@ const MobileMenu = ({ onClose }: MobileMenuProps) => {
     onClose();
   }, [navigate, onClose]);
 
-  const navigationItems = [
-    { icon: <IoHome className="text-xl" />, label: t('navigation.home'), path: '/' },
-    { icon: <IoSearch className="text-xl" />, label: t('navigation.search'), path: '/search' },
-    { icon: <IoHeart className="text-xl" />, label: t('navigation.favorites'), path: '/favorites' },
-    { icon: <IoList className="text-xl" />, label: t('navigation.playlists'), path: '/playlists' },
-    { icon: <IoSettings className="text-xl" />, label: t('navigation.settings'), path: '/settings' },
-    { icon: <TbPremiumRights className="text-xl" />, label: t('navigation.subscriptions'), path: '/subscriptions' },
-    { icon: <LuInfo className="text-xl" />, label: t('navigation.about'), path: '/about' },
-  ];
+  const navigationItems = useMemo(() => {
+    const items = [
+      { icon: <IoHome className="text-xl" />, label: t('navigation.home'), path: '/' },
+      { icon: <IoSearch className="text-xl" />, label: t('navigation.search'), path: '/search' },
+      { icon: <IoHeart className="text-xl" />, label: t('navigation.favorites'), path: '/favorites' },
+      { icon: <IoList className="text-xl" />, label: t('navigation.playlists'), path: '/playlists' },
+      { icon: <IoSettings className="text-xl" />, label: t('navigation.settings'), path: '/settings' },
+      { icon: <TbPremiumRights className="text-xl" />, label: t('navigation.subscriptions'), path: '/subscriptions' },
+      { icon: <LuInfo className="text-xl" />, label: t('navigation.about'), path: '/about' },
+    ];
+    if (userRole === UserRole.ADMIN) {
+      items.push({ icon: <IoShieldCheckmark className="text-xl" />, label: t('navigation.management'), path: '/management' });
+    }
+    return items;
+  }, [t, userRole]);
 
   return (
     <div className="flex flex-col h-full bg-white dark:bg-neutral-900">

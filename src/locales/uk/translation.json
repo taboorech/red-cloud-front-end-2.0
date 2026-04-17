@@ -37,7 +37,8 @@
     "subscriptions": "Підписка",
     "about": "Про додаток",
     "profile": "Профіль",
-    "goToProfile": "Перейти до профілю"
+    "goToProfile": "Перейти до профілю",
+    "management": "Управління"
   },
   "pageTitles": {
     "home": "Головна",
@@ -307,5 +308,45 @@
     "noSongsInQueue": "Немає пісень в черзі",
     "noSongPlaying": "Немає пісні в відтворенні",
     "noSongSelected": "Немає обраної пісні"
+  },
+  "management": {
+    "title": "Управління",
+    "tabs": {
+      "users": "Користувачі",
+      "aiUsage": "Використання ШІ"
+    },
+    "searchUsers": "Пошук за ім'ям або email...",
+    "loadError": "Не вдалося завантажити дані",
+    "noUsers": "Користувачів не знайдено",
+    "role": "Роль",
+    "roles": {
+      "user": "Користувач",
+      "operator": "Оператор",
+      "admin": "Адмін"
+    },
+    "ban": "Заблокувати",
+    "pardon": "Розблокувати",
+    "banned": "Заблокований",
+    "filter": {
+      "all": "Всі користувачі",
+      "active": "Активні",
+      "banned": "Заблоковані"
+    },
+    "ai": {
+      "totalUsers": "Всього користувачів",
+      "totalRequests": "Всього запитів",
+      "totalCost": "Загальна вартість",
+      "totalTokens": "Всього токенів",
+      "byUser": "Використання за користувачем",
+      "userId": "ID користувача",
+      "requests": "Запити",
+      "cost": "Вартість",
+      "tokens": "Токени",
+      "recentActivity": "Остання активність",
+      "noActivity": "Активності ШІ ще немає",
+      "coverGeneration": "Генерація обкладинки",
+      "lyricsTranscription": "Транскрипція тексту",
+      "searchUser": "Пошук за ім'ям, email або ID..."
+    }
   }
 }

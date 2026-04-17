@@ -37,7 +37,8 @@
     "subscriptions": "Suscripción",
     "about": "Acerca de",
     "profile": "Perfil",
-    "goToProfile": "Ir al perfil"
+    "goToProfile": "Ir al perfil",
+    "management": "Gestión"
   },
   "pageTitles": {
     "home": "Inicio",
@@ -298,5 +299,45 @@
     "noSongsInQueue": "No hay canciones en la cola",
     "noSongPlaying": "No hay canción reproduciéndose",
     "noSongSelected": "No hay canción seleccionada"
+  },
+  "management": {
+    "title": "Gestión",
+    "tabs": {
+      "users": "Usuarios",
+      "aiUsage": "Uso de IA"
+    },
+    "searchUsers": "Buscar por nombre o correo...",
+    "loadError": "Error al cargar datos",
+    "noUsers": "No se encontraron usuarios",
+    "role": "Rol",
+    "roles": {
+      "user": "Usuario",
+      "operator": "Operador",
+      "admin": "Admin"
+    },
+    "ban": "Bloquear",
+    "pardon": "Desbloquear",
+    "banned": "Bloqueado",
+    "filter": {
+      "all": "Todos los usuarios",
+      "active": "Activos",
+      "banned": "Bloqueados"
+    },
+    "ai": {
+      "totalUsers": "Usuarios totales",
+      "totalRequests": "Solicitudes totales",
+      "totalCost": "Costo total",
+      "totalTokens": "Tokens totales",
+      "byUser": "Uso por usuario",
+      "userId": "ID de usuario",
+      "requests": "Solicitudes",
+      "cost": "Costo",
+      "tokens": "Tokens",
+      "recentActivity": "Actividad reciente",
+      "noActivity": "Sin actividad de IA aún",
+      "coverGeneration": "Generación de portada",
+      "lyricsTranscription": "Transcripción de letras",
+      "searchUser": "Buscar por nombre, correo o ID..."
+    }
   }
 }

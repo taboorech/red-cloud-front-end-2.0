@@ -37,7 +37,8 @@
     "subscriptions": "Subscription",
     "about": "About",
     "profile": "Profile",
-    "goToProfile": "Go to Profile"
+    "goToProfile": "Go to Profile",
+    "management": "Management"
   },
   "pageTitles": {
     "home": "Home",
@@ -298,5 +299,45 @@
     "noSongsInQueue": "No songs in queue",
     "noSongPlaying": "No song playing",
     "noSongSelected": "No song selected"
+  },
+  "management": {
+    "title": "Management",
+    "tabs": {
+      "users": "Users",
+      "aiUsage": "AI Usage"
+    },
+    "searchUsers": "Search by name or email...",
+    "loadError": "Failed to load data",
+    "noUsers": "No users found",
+    "role": "Role",
+    "roles": {
+      "user": "User",
+      "operator": "Operator",
+      "admin": "Admin"
+    },
+    "ban": "Ban",
+    "pardon": "Unban",
+    "banned": "Banned",
+    "filter": {
+      "all": "All users",
+      "active": "Active",
+      "banned": "Banned"
+    },
+    "ai": {
+      "totalUsers": "Total Users",
+      "totalRequests": "Total Requests",
+      "totalCost": "Total Cost",
+      "totalTokens": "Total Tokens",
+      "byUser": "Usage by User",
+      "userId": "User ID",
+      "requests": "Requests",
+      "cost": "Cost",
+      "tokens": "Tokens",
+      "recentActivity": "Recent Activity",
+      "noActivity": "No AI activity yet",
+      "coverGeneration": "Cover Generation",
+      "lyricsTranscription": "Lyrics Transcription",
+      "searchUser": "Search by username, email or ID..."
+    }
   }
 }
