@@ -26,7 +26,9 @@
     "upload": "Carica",
     "unknownError": "Si è verificato un errore sconosciuto",
     "chooseFile": "Scegli file",
-    "home": "Home"
+    "home": "Home",
+    "premiumRequired": "Abbonamento premium richiesto",
+    "upgradePlan": "Aggiorna piano"
   },
   "navigation": {
     "menu": "Menu",
@@ -105,7 +107,7 @@
     "placeholder": "Cerca brani, utenti e playlist",
     "tabs": {
       "all": "Tutti",
-      "songs": "Brani", 
+      "songs": "Brani",
       "users": "Utenti",
       "playlists": "Playlist"
     }
@@ -180,7 +182,7 @@
     "logout": "Disconnettersi",
     "songsListened": "Brani ascoltati",
     "songsDisliked": "Non mi piace",
-    "songsLiked": "Mi piace", 
+    "songsLiked": "Mi piace",
     "playlistsCreated": "Playlist create",
     "noPlaylistsYet": "Nessuna playlist",
     "profileImage": "Immagine del profilo",
@@ -243,7 +245,7 @@
   },
   "songEditor": {
     "editSong": "Modifica Brano",
-    "createNewSong": "Crea Nuovo Brano", 
+    "createNewSong": "Crea Nuovo Brano",
     "editing": "Modifica",
     "basicInformation": "Informazioni",
     "title": "Titolo",

@@ -26,7 +26,9 @@
     "upload": "Téléverser",
     "unknownError": "Une erreur inconnue est survenue",
     "chooseFile": "Choisir un fichier",
-    "home": "Accueil"
+    "home": "Accueil",
+    "premiumRequired": "Abonnement premium requis",
+    "upgradePlan": "Améliorer le plan"
   },
   "navigation": {
     "menu": "Menu",
@@ -105,7 +107,7 @@
     "placeholder": "Rechercher des chansons, utilisateurs ou playlists",
     "tabs": {
       "all": "Tout",
-      "songs": "Titres", 
+      "songs": "Titres",
       "users": "Utilisateurs",
       "playlists": "Playlists"
     }
@@ -180,7 +182,7 @@
     "logout": "Déconnexion",
     "songsListened": "Titres écoutés",
     "songsDisliked": "Titres ignorés",
-    "songsLiked": "Titres aimés", 
+    "songsLiked": "Titres aimés",
     "playlistsCreated": "Playlists créées",
     "noPlaylistsYet": "Aucune playlist pour le moment",
     "profileImage": "Image de profil",
@@ -243,7 +245,7 @@
   },
   "songEditor": {
     "editSong": "Modifier le Titre",
-    "createNewSong": "Nouveau Titre", 
+    "createNewSong": "Nouveau Titre",
     "editing": "Modification",
     "basicInformation": "Informations",
     "title": "Titre",

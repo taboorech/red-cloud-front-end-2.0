@@ -26,7 +26,9 @@
     "upload": "Enviar",
     "unknownError": "Ocorreu um erro desconhecido",
     "chooseFile": "Escolher arquivo",
-    "home": "Início"
+    "home": "Início",
+    "premiumRequired": "Assinatura premium necessária",
+    "upgradePlan": "Melhorar plano"
   },
   "navigation": {
     "menu": "Menu",
@@ -105,7 +107,7 @@
     "placeholder": "Buscar músicas, usuários e playlists",
     "tabs": {
       "all": "Tudo",
-      "songs": "Músicas", 
+      "songs": "Músicas",
       "users": "Usuários",
       "playlists": "Playlists"
     }
@@ -180,7 +182,7 @@
     "logout": "Sair",
     "songsListened": "Músicas ouvidas",
     "songsDisliked": "Não gostei",
-    "songsLiked": "Curtidas", 
+    "songsLiked": "Curtidas",
     "playlistsCreated": "Playlists criadas",
     "noPlaylistsYet": "Nenhuma playlist ainda",
     "profileImage": "Imagem do Perfil",
@@ -243,7 +245,7 @@
   },
   "songEditor": {
     "editSong": "Editar Música",
-    "createNewSong": "Criar Nova Música", 
+    "createNewSong": "Criar Nova Música",
     "editing": "Editando",
     "basicInformation": "Informações",
     "title": "Título",

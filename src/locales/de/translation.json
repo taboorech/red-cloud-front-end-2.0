@@ -26,7 +26,9 @@
     "upload": "Hochladen",
     "unknownError": "Unbekannter Fehler aufgetreten",
     "chooseFile": "Datei wählen",
-    "home": "Startseite"
+    "home": "Startseite",
+    "premiumRequired": "Premium-Abonnement erforderlich",
+    "upgradePlan": "Plan upgraden"
   },
   "navigation": {
     "menu": "Menü",
@@ -105,7 +107,7 @@
     "placeholder": "Suche nach Songs, Nutzern oder Playlists",
     "tabs": {
       "all": "Alle",
-      "songs": "Songs", 
+      "songs": "Songs",
       "users": "Nutzer",
       "playlists": "Playlists"
     }
@@ -180,7 +182,7 @@
     "logout": "Abmelden",
     "songsListened": "Gehörte Songs",
     "songsDisliked": "Abgelehnte Songs",
-    "songsLiked": "Beliebte Songs", 
+    "songsLiked": "Beliebte Songs",
     "playlistsCreated": "Erstellte Playlists",
     "noPlaylistsYet": "Noch keine Playlists",
     "profileImage": "Profilbild",
@@ -243,7 +245,7 @@
   },
   "songEditor": {
     "editSong": "Song bearbeiten",
-    "createNewSong": "Neuen Song erstellen", 
+    "createNewSong": "Neuen Song erstellen",
     "editing": "Bearbeite",
     "basicInformation": "Basisinfos",
     "title": "Titel",

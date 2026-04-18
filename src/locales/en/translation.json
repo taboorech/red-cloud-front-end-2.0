@@ -26,7 +26,9 @@
     "upload": "Upload",
     "unknownError": "Unknown error occurred",
     "chooseFile": "Choose File",
-    "home": "Home"
+    "home": "Home",
+    "premiumRequired": "Premium subscription required",
+    "upgradePlan": "Upgrade plan"
   },
   "navigation": {
     "menu": "Menu",
