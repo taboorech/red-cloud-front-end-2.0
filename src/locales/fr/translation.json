@@ -13,6 +13,8 @@
     "save": "Enregistrer",
     "saved": "Enregistré !",
     "cancel": "Annuler",
+    "apply": "Appliquer",
+    "discard": "Ignorer",
     "edit": "Modifier",
     "create": "Créer",
     "update": "Mettre à jour",
@@ -229,7 +231,15 @@
     "savePlaylist": "Enregistrer",
     "playlistSavedSuccessfully": "Playlist enregistrée !",
     "loadingPlaylistData": "Chargement...",
-    "failedToLoadPlaylist": "Erreur de chargement"
+    "failedToLoadPlaylist": "Erreur de chargement",
+    "uploadFile": "Télécharger un fichier",
+    "generateAuto": "Générer depuis la playlist",
+    "generateCustom": "Générer avec un prompt personnalisé",
+    "customPromptPlaceholder": "Décrivez la pochette souhaitée...",
+    "generate": "Générer",
+    "generating": "Génération...",
+    "aiIsCreatingCover": "L'IA crée votre pochette...",
+    "generatedCover": "Pochette générée"
   },
   "songEditor": {
     "editSong": "Modifier le Titre",

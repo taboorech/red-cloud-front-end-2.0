@@ -5,6 +5,8 @@ import type {
   GenerateImageResponse,
   GenerateLyricsParams,
   GenerateLyricsResponse,
+  GeneratePlaylistCoverParams,
+  GeneratePlaylistCoverResponse,
   AdminAIActivityParams,
   AdminAIActivityResponse,
 } from '../../types/ai.types';
@@ -41,6 +43,13 @@ export const aiApi = createApi({
         };
       },
     }),
+    generatePlaylistCover: builder.mutation<GeneratePlaylistCoverResponse, GeneratePlaylistCoverParams>({
+      query: ({ playlistId, prompt }) => ({
+        url: `/v1/ai/playlists/${playlistId}/generate-cover`,
+        method: 'POST',
+        data: prompt ? { prompt } : {},
+      }),
+    }),
     getAdminAIActivity: builder.query<AdminAIActivityResponse, AdminAIActivityParams>({
       query: (params) => ({
         url: '/v1/ai/users-activity',
@@ -54,5 +63,6 @@ export const aiApi = createApi({
 export const {
   useGenerateImageMutation,
   useGenerateLyricsMutation,
+  useGeneratePlaylistCoverMutation,
   useGetAdminAIActivityQuery,
 } = aiApi;

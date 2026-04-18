@@ -1,3 +1,12 @@
+export interface GeneratePlaylistCoverParams {
+  playlistId: string;
+  prompt?: string;
+}
+
+export interface GeneratePlaylistCoverResponse {
+  data: string;
+}
+
 export interface GenerateImageParams {
   prompt: string;
 }

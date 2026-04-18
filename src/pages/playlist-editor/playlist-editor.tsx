@@ -2,7 +2,7 @@ import { Field, Formik, Form, type FormikHelpers } from "formik";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import { z as zod } from "zod";
-import { IoImage, IoCheckbox, IoSquareOutline } from "react-icons/io5";
+import { IoImage, IoCheckbox, IoSquareOutline, IoSparkles } from "react-icons/io5";
 import Input from "../../components/input/input";
 import FileInput from "../../components/file-input/file-input";
 import { Button } from "../../components/button/button";
@@ -13,6 +13,7 @@ import {
   useUpdatePlaylistMutation,
   useGetPlaylistQuery,
 } from "../../store/api/playlist.api";
+import { useGeneratePlaylistCoverMutation } from "../../store/api/ai.api";
 import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet-async";
 
@@ -22,11 +23,15 @@ const PlaylistEditor = () => {
   const navigate = useNavigate();
 
   const [coverImagePreview, setCoverImagePreview] = useState<string | null>(null);
+  const [generatedCoverPreview, setGeneratedCoverPreview] = useState<string | null>(null);
+  const [coverMethod, setCoverMethod] = useState<'upload' | 'ai-auto' | 'ai-custom'>('upload');
+  const [aiCustomPrompt, setAiCustomPrompt] = useState('');
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const [createPlaylist, { isLoading: isCreatingPlaylist }] = useCreatePlaylistMutation();
   const [updatePlaylist, { isLoading: isUpdatingPlaylist }] = useUpdatePlaylistMutation();
+  const [generatePlaylistCover, { isLoading: isGeneratingCover }] = useGeneratePlaylistCoverMutation();
 
   const { data: existingPlaylist, isLoading: isLoadingPlaylist, error: playlistError } = useGetPlaylistQuery(playlistId!, {
     skip: !playlistId,
@@ -59,8 +64,8 @@ const PlaylistEditor = () => {
           {t('playlistEditor.failedToLoadPlaylist')} {playlistId}
           <div className="text-sm mt-2">
             {playlistError && typeof playlistError === 'object' && 'data' in playlistError
-              ? (playlistError as { data?: { message?: string } }).data?.message || t('playlistEditor.unknownError')
-              : t('playlistEditor.unknownError')
+              ? (playlistError as { data?: { message?: string } }).data?.message || t('common.unknownError')
+              : t('common.unknownError')
             }
           </div>
         </div>
@@ -85,6 +90,25 @@ const PlaylistEditor = () => {
     }
 
     return errors;
+  };
+
+  const handleGenerateCover = async () => {
+    if (!playlistId) return;
+    try {
+      const result = await generatePlaylistCover({
+        playlistId,
+        prompt: coverMethod === 'ai-custom' ? aiCustomPrompt : undefined,
+      }).unwrap();
+      setGeneratedCoverPreview(result.data);
+    } catch (error) {
+      console.error('Failed to generate cover:', error);
+    }
+  };
+
+  const handleApplyCover = (imageUrl: string, setFieldValue: (field: string, value: unknown) => void) => {
+    setCoverImagePreview(imageUrl);
+    setFieldValue('image', imageUrl);
+    setGeneratedCoverPreview(null);
   };
 
   const handleSubmit = async (
@@ -215,46 +239,115 @@ const PlaylistEditor = () => {
                 {/* Cover Image */}
                 <div className="space-y-4">
                   <h2 className="text-lg font-semibold">{t('playlistEditor.coverImage')}</h2>
-                  
-                  <div className="flex flex-col">
-                    <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
+
+                  <div className="flex flex-col space-y-3">
+                    <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
                       <IoImage className="inline mr-1" /> {t('playlistEditor.coverImage')}
                     </label>
-                    
-                    <FileInput
-                      label=""
-                      accept="image/*"
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        const file = e.target.files?.[0] || null;
-                        if (file) {
-                          const reader = new FileReader();
-                          reader.onload = (e) => {
-                            setCoverImagePreview(e.target?.result as string);
-                          };
-                          reader.readAsDataURL(file);
-                          setFieldValue('image', file);
-                        } else {
-                          setCoverImagePreview(null);
-                          setFieldValue('image', null);
-                        }
-                      }}
-                    />
 
-                    {/* Image Preview */}
-                    <div className="mt-4 space-y-2">
-                      {coverImagePreview && (
-                        <div className="space-y-2">
-                          <div className="text-sm">{t('playlistEditor.currentCover')}:</div>
-                          <img 
-                            src={coverImagePreview} 
-                            alt="Cover preview" 
-                            className="w-32 h-32 object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600"
-                            onLoad={() => console.log('✅ [COVER] Current image loaded:', values.image)}
-                            onError={() => console.error('❌ [COVER] Current image failed to load:', values.image)}
+                    <select
+                      value={coverMethod}
+                      onChange={(e) => {
+                        setCoverMethod(e.target.value as typeof coverMethod);
+                        setCoverImagePreview(existingPlaylist?.image_url ?? null);
+                        setFieldValue('image', existingPlaylist?.image_url ?? null);
+                        setAiCustomPrompt('');
+                      }}
+                      className="p-3 rounded border border-gray-300 dark:border-white bg-transparent"
+                    >
+                      <option value="upload">{t('playlistEditor.uploadFile')}</option>
+                      {playlistId && <option value="ai-auto">{t('playlistEditor.generateAuto')}</option>}
+                      {playlistId && <option value="ai-custom">{t('playlistEditor.generateCustom')}</option>}
+                    </select>
+
+                    {coverMethod === 'upload' && (
+                      <FileInput
+                        label=""
+                        accept="image/*"
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          const file = e.target.files?.[0] || null;
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (ev) => setCoverImagePreview(ev.target?.result as string);
+                            reader.readAsDataURL(file);
+                            setFieldValue('image', file);
+                          } else {
+                            setCoverImagePreview(null);
+                            setFieldValue('image', null);
+                          }
+                        }}
+                      />
+                    )}
+
+                    {(coverMethod === 'ai-auto' || coverMethod === 'ai-custom') && (
+                      <div className="space-y-3">
+                        {coverMethod === 'ai-custom' && (
+                          <Input
+                            placeholder={t('playlistEditor.customPromptPlaceholder')}
+                            value={aiCustomPrompt}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAiCustomPrompt(e.target.value)}
                           />
+                        )}
+                        <div className="flex gap-3 items-center">
+                          <Button
+                            type="button"
+                            variant="snow"
+                            size="md"
+                            onClick={handleGenerateCover}
+                            disabled={isGeneratingCover || (coverMethod === 'ai-custom' && !aiCustomPrompt.trim())}
+                            loading={isGeneratingCover}
+                          >
+                            <div className="flex gap-2 items-center">
+                              <IoSparkles />
+                              {isGeneratingCover ? t('playlistEditor.generating') : t('playlistEditor.generate')}
+                            </div>
+                          </Button>
+                          {isGeneratingCover && (
+                            <span className="text-sm text-gray-400">{t('playlistEditor.aiIsCreatingCover')}</span>
+                          )}
                         </div>
-                      )}
-                    </div>
+
+                        {generatedCoverPreview && (
+                          <div className="space-y-2">
+                            <div className="text-sm text-gray-400">{t('playlistEditor.generatedCover')}:</div>
+                            <img
+                              src={generatedCoverPreview}
+                              alt="Generated cover preview"
+                              className="w-32 h-32 object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600"
+                            />
+                            <div className="flex gap-2">
+                              <Button
+                                type="button"
+                                variant="snow"
+                                size="sm"
+                                onClick={() => handleApplyCover(generatedCoverPreview!, setFieldValue)}
+                              >
+                                {t('common.apply')}
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => setGeneratedCoverPreview(null)}
+                              >
+                                {t('common.discard')}
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {coverImagePreview && (
+                      <div className="space-y-2">
+                        <div className="text-sm">{t('playlistEditor.currentCover')}:</div>
+                        <img
+                          src={coverImagePreview}
+                          alt="Cover preview"
+                          className="w-32 h-32 object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -280,7 +373,7 @@ const PlaylistEditor = () => {
                       variant="outline"
                       onClick={() => window.history.back()}
                     >
-                      {t('playlistEditor.cancel')}
+                      {t('common.cancel')}
                     </Button>
                     <Button
                       type="submit"
