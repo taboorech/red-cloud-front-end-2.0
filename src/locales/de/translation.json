@@ -13,6 +13,8 @@
     "save": "Speichern",
     "saved": "Gespeichert!",
     "cancel": "Abbrechen",
+    "apply": "Übernehmen",
+    "discard": "Verwerfen",
     "edit": "Bearbeiten",
     "create": "Erstellen",
     "update": "Aktualisieren",
@@ -229,7 +231,15 @@
     "savePlaylist": "Playlist speichern",
     "playlistSavedSuccessfully": "Playlist erfolgreich gespeichert!",
     "loadingPlaylistData": "Lade Daten...",
-    "failedToLoadPlaylist": "Laden fehlgeschlagen"
+    "failedToLoadPlaylist": "Laden fehlgeschlagen",
+    "uploadFile": "Datei hochladen",
+    "generateAuto": "Aus Playlist generieren",
+    "generateCustom": "Mit eigenem Prompt generieren",
+    "customPromptPlaceholder": "Beschreibe das Cover...",
+    "generate": "Generieren",
+    "generating": "Wird generiert...",
+    "aiIsCreatingCover": "KI erstellt dein Cover...",
+    "generatedCover": "Generiertes Cover"
   },
   "songEditor": {
     "editSong": "Song bearbeiten",

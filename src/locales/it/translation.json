@@ -13,6 +13,8 @@
     "save": "Salva",
     "saved": "Salvato!",
     "cancel": "Annulla",
+    "apply": "Applica",
+    "discard": "Scarta",
     "edit": "Modifica",
     "create": "Crea",
     "update": "Aggiorna",
@@ -229,7 +231,15 @@
     "savePlaylist": "Salva Playlist",
     "playlistSavedSuccessfully": "Playlist salvata!",
     "loadingPlaylistData": "Caricamento...",
-    "failedToLoadPlaylist": "Errore caricamento"
+    "failedToLoadPlaylist": "Errore caricamento",
+    "uploadFile": "Carica file",
+    "generateAuto": "Genera dalla playlist",
+    "generateCustom": "Genera con prompt personalizzato",
+    "customPromptPlaceholder": "Descrivi la copertina che desideri...",
+    "generate": "Genera",
+    "generating": "Generazione...",
+    "aiIsCreatingCover": "L'IA sta creando la copertina...",
+    "generatedCover": "Copertina generata"
   },
   "songEditor": {
     "editSong": "Modifica Brano",

@@ -13,6 +13,8 @@
     "save": "Save",
     "saved": "Saved!",
     "cancel": "Cancel",
+    "apply": "Apply",
+    "discard": "Discard",
     "edit": "Edit",
     "create": "Create",
     "update": "Update",
@@ -229,7 +231,15 @@
     "savePlaylist": "Save Playlist",
     "playlistSavedSuccessfully": "Playlist saved successfully!",
     "loadingPlaylistData": "Loading playlist data for ID",
-    "failedToLoadPlaylist": "Failed to load playlist with ID"
+    "failedToLoadPlaylist": "Failed to load playlist with ID",
+    "uploadFile": "Upload file",
+    "generateAuto": "Generate from playlist",
+    "generateCustom": "Generate with custom prompt",
+    "customPromptPlaceholder": "Describe the cover you want...",
+    "generate": "Generate",
+    "generating": "Generating...",
+    "aiIsCreatingCover": "AI is creating your cover...",
+    "generatedCover": "Generated cover"
   },
   "songEditor": {
     "editSong": "Edit Song",

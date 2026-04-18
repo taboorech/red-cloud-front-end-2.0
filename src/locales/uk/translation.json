@@ -13,6 +13,8 @@
     "save": "Зберегти",
     "saved": "Збережено!",
     "cancel": "Скасувати",
+    "apply": "Застосувати",
+    "discard": "Відхилити",
     "edit": "Редагувати",
     "create": "Створити",
     "update": "Оновити",
@@ -233,7 +235,15 @@
     "playlistSavedSuccessfully": "Плейлист успішно збережено!",
     "loadingPlaylistData": "Завантаження даних плейлисту для ID",
     "failedToLoadPlaylist": "Не вдалося завантажити плейлист з ID",
-    "unknownError": "Виникла невідома помилка"
+    "unknownError": "Виникла невідома помилка",
+    "uploadFile": "Завантажити файл",
+    "generateAuto": "Згенерувати з плейліста",
+    "generateCustom": "Згенерувати за своїм промптом",
+    "customPromptPlaceholder": "Опишіть обкладинку...",
+    "generate": "Згенерувати",
+    "generating": "Генерація...",
+    "aiIsCreatingCover": "AI створює обкладинку...",
+    "generatedCover": "Згенерована обкладинка"
   },
   "songEditor": {
     "editSong": "Редагувати пісню",

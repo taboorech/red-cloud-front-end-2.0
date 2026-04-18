@@ -13,6 +13,8 @@
     "save": "Guardar",
     "saved": "¡Guardado!",
     "cancel": "Cancelar",
+    "apply": "Aplicar",
+    "discard": "Descartar",
     "edit": "Editar",
     "create": "Crear",
     "update": "Actualizar",
@@ -229,7 +231,15 @@
     "savePlaylist": "Guardar Lista",
     "playlistSavedSuccessfully": "¡Lista guardada con éxito!",
     "loadingPlaylistData": "Cargando datos de la lista",
-    "failedToLoadPlaylist": "Error al cargar la lista"
+    "failedToLoadPlaylist": "Error al cargar la lista",
+    "uploadFile": "Subir archivo",
+    "generateAuto": "Generar desde la playlist",
+    "generateCustom": "Generar con prompt personalizado",
+    "customPromptPlaceholder": "Describe la portada que deseas...",
+    "generate": "Generar",
+    "generating": "Generando...",
+    "aiIsCreatingCover": "La IA está creando tu portada...",
+    "generatedCover": "Portada generada"
   },
   "songEditor": {
     "editSong": "Editar Canción",

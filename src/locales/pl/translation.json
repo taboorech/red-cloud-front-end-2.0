@@ -13,6 +13,8 @@
     "save": "Zapisz",
     "saved": "Zapisano!",
     "cancel": "Anuluj",
+    "apply": "Zastosuj",
+    "discard": "Odrzuć",
     "edit": "Edytuj",
     "create": "Utwórz",
     "update": "Aktualizuj",
@@ -229,7 +231,15 @@
     "savePlaylist": "Zapisz",
     "playlistSavedSuccessfully": "Playlista zapisana!",
     "loadingPlaylistData": "Ładowanie...",
-    "failedToLoadPlaylist": "Błąd ładowania"
+    "failedToLoadPlaylist": "Błąd ładowania",
+    "uploadFile": "Prześlij plik",
+    "generateAuto": "Generuj z playlisty",
+    "generateCustom": "Generuj z własnym promptem",
+    "customPromptPlaceholder": "Opisz okładkę, którą chcesz...",
+    "generate": "Generuj",
+    "generating": "Generowanie...",
+    "aiIsCreatingCover": "AI tworzy okładkę...",
+    "generatedCover": "Wygenerowana okładka"
   },
   "songEditor": {
     "editSong": "Edytuj utwór",
