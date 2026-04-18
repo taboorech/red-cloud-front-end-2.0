@@ -1,13 +1,19 @@
+import { useState } from "react";
 import Banner from "./banner/banner";
 import SongSection from "../../components/song-section/song-section";
+import Toggle from "../../components/toggle/toggle";
 import { useGetSongsQuery } from "../../store/api/songs.api";
 import { useGetRecommendationsQuery } from "../../store/api/recommendation.api";
 import { useTranslation } from 'react-i18next';
 import { Helmet } from "react-helmet-async";
+import type { RecommendationStrategy } from "../../types/recommendation.types";
 
 const Home = () => {
   const { t } = useTranslation();
-  const { data: recommendations, isLoading: recLoading } = useGetRecommendationsQuery({ limit: 12 });
+  const [discoveryMode, setDiscoveryMode] = useState(false);
+  const strategy: RecommendationStrategy = discoveryMode ? "content" : "mixed";
+
+  const { data: recommendations, isLoading: recLoading } = useGetRecommendationsQuery({ limit: 12, strategy });
   const { data: newReleasesData, isLoading: songsLoading } = useGetSongsQuery({ limit: 12 });
 
   const isLoading = recLoading || songsLoading;
@@ -37,7 +43,20 @@ const Home = () => {
         <div className="flex-1 overflow-y-auto pb-4 md:pb-10 min-h-0">
           <div className="flex flex-col gap-4 md:gap-8 pt-4 md:pt-8">
             {recommendations && recommendations.length > 0 && (
-              <SongSection title={t('sections.recommendedForYou')} songs={recommendations} />
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center justify-between px-4 md:px-0">
+                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    {t('sections.recommendedForYou')}
+                  </h2>
+                  <Toggle
+                    checked={discoveryMode}
+                    onChange={setDiscoveryMode}
+                    labelOff={t('sections.forYou')}
+                    labelOn={t('sections.discover')}
+                  />
+                </div>
+                <SongSection songs={recommendations} />
+              </div>
             )}
             {newReleasesData && newReleasesData.length > 0 && (
               <SongSection title={t('sections.newReleases')} songs={newReleasesData} />

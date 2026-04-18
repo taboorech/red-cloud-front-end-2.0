@@ -71,7 +71,9 @@
   "sections": {
     "recommendedForYou": "Recomendado para ti",
     "popularRightNow": "Popular ahora",
-    "newReleases": "Nuevos lanzamientos"
+    "newReleases": "Nuevos lanzamientos",
+    "forYou": "Para ti",
+    "discover": "Descubrir"
   },
   "settings": {
     "title": "Configuración",

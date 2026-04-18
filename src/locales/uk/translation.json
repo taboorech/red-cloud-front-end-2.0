@@ -71,7 +71,9 @@
   "sections": {
     "recommendedForYou": "Рекомендовано для вас",
     "popularRightNow": "Популярне зараз",
-    "newReleases": "Новинки"
+    "newReleases": "Новинки",
+    "forYou": "Для вас",
+    "discover": "Відкриття"
   },
   "settings": {
     "title": "Налаштування",

@@ -4,16 +4,16 @@ import Song from "../song/song"
 import { useAudio } from "../../context/audio-context"
 
 interface SongSectionProps {
-  title: string
+  title?: string
   songs: SongType[]
 }
 
 const SongSection = ({ title, songs }: SongSectionProps) => {
   const audio = useAudio();
-  
+
   return (
     <section className="flex flex-col gap-4">
-      <h2 className="text-black dark:text-white text-2xl font-bold px-2">{title}</h2>
+      {title && <h2 className="text-black dark:text-white text-2xl font-bold px-2">{title}</h2>}
       <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
         <div className="px-4">
           <div className="flex gap-4 pb-2 min-w-min">
