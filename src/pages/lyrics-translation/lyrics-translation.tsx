@@ -4,9 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { useSubscription } from '../../hooks/use-subscription'
 import { MdTranslate } from 'react-icons/md'
 import { PremiumFeatureLock } from '../../components/premium-feature-lock/premium-feature-lock'
-import { NoLyricsAvailable } from '../../components/no-lyrics-available/no-lyrics-available'
-import { 
-  useLazyTranslateLyricsQuery, 
+import {
+  useLazyGetUserTranslationQuery,
   useGetSupportedLanguagesQuery,
   useGetSongLyricsQuery,
 } from '../../store/api/lyrics.api'
@@ -24,14 +23,15 @@ const LyricsTranslation = () => {
   
   const { data: languages = [], isLoading: languagesLoading } = useGetSupportedLanguagesQuery()
   const { data: lyricsData } = useGetSongLyricsQuery(songId, { skip: !songId })
-  const [translateLyrics, { data, isLoading, error }] = useLazyTranslateLyricsQuery()
+  const [translateLyrics, { data, isLoading, error }] = useLazyGetUserTranslationQuery()
 
-  const originalLanguage: SupportedLanguage = lyricsData?.language || 'EN'
-  const originalLanguageDisplay = lyricsData?.language 
-    ? languages.find(l => l.code === lyricsData.language)?.name || 'Unknown'
+  const detectedLangCode = (data?.detectedSourceLang || lyricsData?.language || '') as SupportedLanguage
+  const originalLanguage: SupportedLanguage = detectedLangCode || 'EN'
+  const originalLanguageDisplay = detectedLangCode
+    ? languages.find(l => l.code === detectedLangCode)?.name || detectedLangCode
     : 'Not detected'
-  const originalLanguageFlag = lyricsData?.language 
-    ? languages.find(l => l.code === lyricsData.language)?.flag || '🏳️'
+  const originalLanguageFlag = detectedLangCode
+    ? languages.find(l => l.code === detectedLangCode)?.flag || '🏳️'
     : '?'
 
   useEffect(() => {
@@ -45,8 +45,6 @@ const LyricsTranslation = () => {
   }, [selectedLanguage, originalLanguage, songId, translateLyrics])
 
   const originalLyrics = data?.originalText || lyricsData?.lyrics || ''
-  const hasLyrics = !!(data?.originalText || lyricsData?.lyrics)
-  
   const translatedText = data?.translatedText || ''
 
   if (!hasTranslation) {
@@ -79,16 +77,6 @@ const LyricsTranslation = () => {
     )
   }
 
-  if (!hasLyrics) {
-    return (
-      <>
-        <Helmet>
-          <title>{t('pageTitles.lyrics')}</title>
-        </Helmet>
-        <NoLyricsAvailable onGoBack={() => navigate(-1)} />
-      </>
-    )
-  }
 
   return (
     <>
@@ -127,9 +115,15 @@ const LyricsTranslation = () => {
                 <span>Original ({originalLanguageDisplay})</span>
               </h2>
               <div className="flex-1 min-h-0 rounded-2xl p-6 overflow-y-scroll">
-                <pre className="font-sans text-base leading-relaxed whitespace-pre-wrap text-gray-600 dark:text-gray-300">
-                  {originalLyrics || t('lyrics.noLyricsAvailable')}
-                </pre>
+                {isLoading ? (
+                  <div className="flex items-center justify-center h-full">
+                    <div className="text-gray-400 text-sm">{t('common.loading')}</div>
+                  </div>
+                ) : (
+                  <pre className="font-sans text-base leading-relaxed whitespace-pre-wrap text-gray-600 dark:text-gray-300">
+                    {originalLyrics || t('lyrics.noLyricsAvailable')}
+                  </pre>
+                )}
               </div>
             </div>
 

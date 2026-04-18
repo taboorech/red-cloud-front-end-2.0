@@ -6,7 +6,7 @@ import type {
   LanguagesResponse,
   SongLyricsResponse,
   TranslateLyricsRequest,
-  TranslateLyricsResponse
+  TranslateLyricsResponse,
 } from '../../types/lyrics.types'
 
 export const lyricsApi = createApi({
@@ -34,19 +34,26 @@ export const lyricsApi = createApi({
       query: ({ songId, targetLanguage }) => ({
         url: `/v1/lyrics/${songId}/translate`,
         method: 'GET',
-        params: {
-          targetLanguage
-        },
+        params: { targetLanguage },
+      }),
+      transformResponse: (response: TranslateLyricsResponse) => response.data,
+    }),
+    getUserTranslation: builder.query<{ originalText: string; translatedText: string; targetLanguage: string; detectedSourceLang?: string; sourceLanguage?: string }, TranslateLyricsRequest>({
+      query: ({ songId, targetLanguage }) => ({
+        url: `/v1/lyrics/${songId}/user-translation`,
+        method: 'GET',
+        params: { targetLanguage },
       }),
       transformResponse: (response: TranslateLyricsResponse) => response.data,
     }),
   }),
 })
 
-export const { 
+export const {
   useGetSupportedLanguagesQuery,
   useGetSongLyricsQuery,
   useLazyGetSongLyricsQuery,
-  useTranslateLyricsQuery, 
-  useLazyTranslateLyricsQuery 
+  useTranslateLyricsQuery,
+  useLazyTranslateLyricsQuery,
+  useLazyGetUserTranslationQuery,
 } = lyricsApi
