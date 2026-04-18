@@ -156,8 +156,6 @@ const SongEditor = () => {
       const duration = typeof values.duration === 'string' ? parseInt(values.duration) : values.duration;
       if (duration && !isNaN(duration) && duration > 0) {
         formData.append('duration', duration.toString());
-      } else {
-        throw new Error('Valid duration is required');
       }
       
       formData.append('is_public', values.isPublic.toString());
@@ -428,43 +426,23 @@ const SongEditor = () => {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="flex flex-col">
-                    <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
-                      {t('songEditor.durationSeconds')} <span className="text-red-500">*</span>
-                    </label>
-                    <Field
-                      as={Input}
-                      name="duration"
-                      type="number"
-                      min="1"
-                      placeholder="e.g. 180"
-                      error={touched.duration && errors.duration ? errors.duration : undefined}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        const value = e.target.value;
-                        setFieldValue("duration", value ? parseInt(value) : "");
-                      }}
-                    />
-                  </div>
-
-                  <div className="flex flex-col">
-                    <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
-                      {t('songEditor.releaseYear')}
-                    </label>
-                    <Field
-                      as={Input}
-                      name="releaseYear"
-                      type="number"
-                      min="1900"
-                      max={new Date().getFullYear()}
-                      placeholder="e.g. 2024"
-                      error={touched.releaseYear && errors.releaseYear ? errors.releaseYear : undefined}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        const value = e.target.value;
-                        setFieldValue("releaseYear", value ? parseInt(value) : "");
-                      }}
-                    />
-                  </div>
+                <div className="flex flex-col">
+                  <label className="text-[13px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
+                    {t('songEditor.releaseYear')}
+                  </label>
+                  <Field
+                    as={Input}
+                    name="releaseYear"
+                    type="number"
+                    min="1900"
+                    max={new Date().getFullYear()}
+                    placeholder="e.g. 2024"
+                    error={touched.releaseYear && errors.releaseYear ? errors.releaseYear : undefined}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      const value = e.target.value;
+                      setFieldValue("releaseYear", value ? parseInt(value) : "");
+                    }}
+                  />
                 </div>
 
                 <div className="flex flex-col">
@@ -729,9 +707,11 @@ const SongEditor = () => {
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         const file = e.target.files?.[0] || null;
                         if (file) {
-                          setAudioFileInfo({
-                            name: file.name,
-                            size: file.size
+                          setAudioFileInfo({ name: file.name, size: file.size });
+                          const audio = new Audio(URL.createObjectURL(file));
+                          audio.addEventListener('loadedmetadata', () => {
+                            setFieldValue('duration', Math.round(audio.duration));
+                            URL.revokeObjectURL(audio.src);
                           });
                         } else {
                           setAudioFileInfo(null);

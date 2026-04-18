@@ -256,6 +256,7 @@
     "selectLanguage": "Choisir la langue",
     "makeSongPublic": "Rendre public",
     "coverImage": "Image de couverture",
+    "uploadFile": "Télécharger un fichier",
     "generateWithAI": "Générer avec l'IA",
     "currentCoverImage": "Couverture actuelle",
     "describeImage": "Décrivez l'image à générer...",

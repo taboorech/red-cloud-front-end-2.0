@@ -256,6 +256,7 @@
     "selectLanguage": "Select language",
     "makeSongPublic": "Make song public",
     "coverImage": "Cover Image",
+    "uploadFile": "Upload file",
     "generateWithAI": "Generate with AI",
     "currentCoverImage": "Current Cover Image",
     "describeImage": "Describe the image you want to generate...",
