@@ -26,7 +26,9 @@
     "upload": "Upload",
     "unknownError": "Unknown error occurred",
     "chooseFile": "Choose File",
-    "home": "Home"
+    "home": "Home",
+    "premiumRequired": "Premium subscription required",
+    "upgradePlan": "Upgrade plan"
   },
   "navigation": {
     "menu": "Menu",
@@ -69,7 +71,9 @@
   "sections": {
     "recommendedForYou": "Recommended for you",
     "popularRightNow": "Popular right now",
-    "newReleases": "New releases"
+    "newReleases": "New releases",
+    "forYou": "For You",
+    "discover": "Discover"
   },
   "settings": {
     "title": "Settings",
@@ -105,7 +109,7 @@
     "placeholder": "Enter a search query to find songs, users, and playlists",
     "tabs": {
       "all": "All",
-      "songs": "Songs", 
+      "songs": "Songs",
       "users": "Users",
       "playlists": "Playlists"
     }
@@ -180,7 +184,7 @@
     "logout": "Logout",
     "songsListened": "Songs listened",
     "songsDisliked": "Songs disliked",
-    "songsLiked": "Songs liked", 
+    "songsLiked": "Songs liked",
     "playlistsCreated": "Playlists created",
     "noPlaylistsYet": "No playlists yet",
     "profileImage": "Profile Image",
@@ -243,7 +247,7 @@
   },
   "songEditor": {
     "editSong": "Edit Song",
-    "createNewSong": "Create New Song", 
+    "createNewSong": "Create New Song",
     "editing": "Editing",
     "basicInformation": "Basic Information",
     "title": "Title",
@@ -256,6 +260,7 @@
     "selectLanguage": "Select language",
     "makeSongPublic": "Make song public",
     "coverImage": "Cover Image",
+    "uploadFile": "Upload file",
     "generateWithAI": "Generate with AI",
     "currentCoverImage": "Current Cover Image",
     "describeImage": "Describe the image you want to generate...",

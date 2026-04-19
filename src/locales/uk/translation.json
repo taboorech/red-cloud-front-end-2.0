@@ -26,7 +26,9 @@
     "upload": "Завантажити",
     "unknownError": "Виникла невідома помилка",
     "chooseFile": "Обрати файл",
-    "home": "Головна"
+    "home": "Головна",
+    "premiumRequired": "Потрібна преміум підписка",
+    "upgradePlan": "Покращити план"
   },
   "navigation": {
     "menu": "Меню",
@@ -69,7 +71,9 @@
   "sections": {
     "recommendedForYou": "Рекомендовано для вас",
     "popularRightNow": "Популярне зараз",
-    "newReleases": "Новинки"
+    "newReleases": "Новинки",
+    "forYou": "Для вас",
+    "discover": "Відкриття"
   },
   "settings": {
     "title": "Налаштування",
@@ -180,7 +184,7 @@
     "logout": "Вийти",
     "songsListened": "Прослухано пісень",
     "songsDisliked": "Не сподобались",
-    "songsLiked": "Сподобались", 
+    "songsLiked": "Сподобались",
     "playlistsCreated": "Створено плейлистів",
     "noPlaylistsYet": "Поки що немає плейлистів",
     "profileImage": "Зображення профілю",
@@ -247,7 +251,7 @@
   },
   "songEditor": {
     "editSong": "Редагувати пісню",
-    "createNewSong": "Створити нову пісню", 
+    "createNewSong": "Створити нову пісню",
     "editing": "Редагування",
     "basicInformation": "Основна інформація",
     "title": "Назва",

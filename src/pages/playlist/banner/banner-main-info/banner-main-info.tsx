@@ -1,4 +1,4 @@
-import dayjs from "dayjs"
+import { formatDuration } from '../../../../utils/format'
 
 interface BannerMainInfoProps {
   title: string
@@ -25,7 +25,7 @@ const BannerMainInfo = ({ title, image, duration, additionalInfo }: BannerMainIn
         {
           duration && 
           <span className="text-gray-500 dark:text-gray-400 text-xs md:text-sm mt-1">
-            {duration.songs} songs – {dayjs(duration.time).format("hh:mm:ss")}
+            {duration.songs} songs – {formatDuration(duration.time)}
           </span>
         }
         {additionalInfo && (

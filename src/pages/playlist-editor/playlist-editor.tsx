@@ -16,6 +16,7 @@ import {
 import { useGeneratePlaylistCoverMutation } from "../../store/api/ai.api";
 import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet-async";
+import PremiumOverlay from "../../components/premium-overlay/premium-overlay";
 
 const PlaylistEditor = () => {
   const { t } = useTranslation();
@@ -280,62 +281,64 @@ const PlaylistEditor = () => {
                     )}
 
                     {(coverMethod === 'ai-auto' || coverMethod === 'ai-custom') && (
-                      <div className="space-y-3">
-                        {coverMethod === 'ai-custom' && (
-                          <Input
-                            placeholder={t('playlistEditor.customPromptPlaceholder')}
-                            value={aiCustomPrompt}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAiCustomPrompt(e.target.value)}
-                          />
-                        )}
-                        <div className="flex gap-3 items-center">
-                          <Button
-                            type="button"
-                            variant="snow"
-                            size="md"
-                            onClick={handleGenerateCover}
-                            disabled={isGeneratingCover || (coverMethod === 'ai-custom' && !aiCustomPrompt.trim())}
-                            loading={isGeneratingCover}
-                          >
-                            <div className="flex gap-2 items-center">
-                              <IoSparkles />
-                              {isGeneratingCover ? t('playlistEditor.generating') : t('playlistEditor.generate')}
+                      <PremiumOverlay>
+                        <div className="space-y-3">
+                          {coverMethod === 'ai-custom' && (
+                            <Input
+                              placeholder={t('playlistEditor.customPromptPlaceholder')}
+                              value={aiCustomPrompt}
+                              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAiCustomPrompt(e.target.value)}
+                            />
+                          )}
+                          <div className="flex gap-3 items-center">
+                            <Button
+                              type="button"
+                              variant="snow"
+                              size="md"
+                              onClick={handleGenerateCover}
+                              disabled={isGeneratingCover || (coverMethod === 'ai-custom' && !aiCustomPrompt.trim())}
+                              loading={isGeneratingCover}
+                            >
+                              <div className="flex gap-2 items-center">
+                                <IoSparkles />
+                                {isGeneratingCover ? t('playlistEditor.generating') : t('playlistEditor.generate')}
+                              </div>
+                            </Button>
+                            {isGeneratingCover && (
+                              <span className="text-sm text-gray-400">{t('playlistEditor.aiIsCreatingCover')}</span>
+                            )}
+                          </div>
+
+                          {generatedCoverPreview && (
+                            <div className="space-y-2">
+                              <div className="text-sm text-gray-400">{t('playlistEditor.generatedCover')}:</div>
+                              <img
+                                src={generatedCoverPreview}
+                                alt="Generated cover preview"
+                                className="w-32 h-32 object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600"
+                              />
+                              <div className="flex gap-2">
+                                <Button
+                                  type="button"
+                                  variant="snow"
+                                  size="sm"
+                                  onClick={() => handleApplyCover(generatedCoverPreview!, setFieldValue)}
+                                >
+                                  {t('common.apply')}
+                                </Button>
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => setGeneratedCoverPreview(null)}
+                                >
+                                  {t('common.discard')}
+                                </Button>
+                              </div>
                             </div>
-                          </Button>
-                          {isGeneratingCover && (
-                            <span className="text-sm text-gray-400">{t('playlistEditor.aiIsCreatingCover')}</span>
                           )}
                         </div>
-
-                        {generatedCoverPreview && (
-                          <div className="space-y-2">
-                            <div className="text-sm text-gray-400">{t('playlistEditor.generatedCover')}:</div>
-                            <img
-                              src={generatedCoverPreview}
-                              alt="Generated cover preview"
-                              className="w-32 h-32 object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600"
-                            />
-                            <div className="flex gap-2">
-                              <Button
-                                type="button"
-                                variant="snow"
-                                size="sm"
-                                onClick={() => handleApplyCover(generatedCoverPreview!, setFieldValue)}
-                              >
-                                {t('common.apply')}
-                              </Button>
-                              <Button
-                                type="button"
-                                variant="outline"
-                                size="sm"
-                                onClick={() => setGeneratedCoverPreview(null)}
-                              >
-                                {t('common.discard')}
-                              </Button>
-                            </div>
-                          </div>
-                        )}
-                      </div>
+                      </PremiumOverlay>
                     )}
 
                     {coverImagePreview && (

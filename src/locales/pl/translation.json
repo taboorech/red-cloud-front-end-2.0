@@ -26,7 +26,9 @@
     "upload": "Prześlij",
     "unknownError": "Wystąpił nieznany błąd",
     "chooseFile": "Wybierz plik",
-    "home": "Strona główna"
+    "home": "Strona główna",
+    "premiumRequired": "Wymagana subskrypcja premium",
+    "upgradePlan": "Ulepsz plan"
   },
   "navigation": {
     "menu": "Menu",
@@ -69,7 +71,9 @@
   "sections": {
     "recommendedForYou": "Polecane dla Ciebie",
     "popularRightNow": "Popularne teraz",
-    "newReleases": "Nowości"
+    "newReleases": "Nowości",
+    "forYou": "Dla ciebie",
+    "discover": "Odkryj"
   },
   "settings": {
     "title": "Ustawienia",
@@ -105,7 +109,7 @@
     "placeholder": "Szukaj utworów, użytkowników i playlist",
     "tabs": {
       "all": "Wszystko",
-      "songs": "Utwory", 
+      "songs": "Utwory",
       "users": "Użytkownicy",
       "playlists": "Playlisty"
     }
@@ -180,7 +184,7 @@
     "logout": "Wyloguj",
     "songsListened": "Przesłuchane utwory",
     "songsDisliked": "Nielubiane utwory",
-    "songsLiked": "Polubione utwory", 
+    "songsLiked": "Polubione utwory",
     "playlistsCreated": "Utworzone playlisty",
     "noPlaylistsYet": "Brak playlist",
     "profileImage": "Zdjęcie profilowe",
@@ -243,7 +247,7 @@
   },
   "songEditor": {
     "editSong": "Edytuj utwór",
-    "createNewSong": "Dodaj nowy utwór", 
+    "createNewSong": "Dodaj nowy utwór",
     "editing": "Edytowanie",
     "basicInformation": "Informacje",
     "title": "Tytuł",
@@ -256,6 +260,7 @@
     "selectLanguage": "Wybierz język",
     "makeSongPublic": "Upublicznij utwór",
     "coverImage": "Okładka",
+    "uploadFile": "Prześlij plik",
     "generateWithAI": "Generuj przez AI",
     "currentCoverImage": "Obecna okładka",
     "describeImage": "Opisz obraz...",
