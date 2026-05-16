@@ -10,22 +10,25 @@ const Banner = ({ text, image, btnText }: BannerProps) => {
   const { t } = useTranslation();
 
   return (
-    <div className="relative w-full h-[120px] sm:h-[160px] md:h-[200px] lg:h-[250px] rounded-xl overflow-hidden bg-gradient-to-r from-red-600 to-red-400 p-3 sm:p-4 md:p-6 lg:p-8 flex items-end justify-between">
-      <div className="flex flex-col gap-1 sm:gap-2 z-10 flex-1">
-        <h1 className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold leading-tight">
+    <div className="relative w-full h-[200px] md:h-[260px] rounded-2xl overflow-hidden bg-gradient-to-br from-brand-700 via-brand-600 to-brand-400 p-6 md:p-10 flex flex-col justify-end">
+      <div className="absolute inset-0 opacity-30 mix-blend-overlay">
+        <img src={image} alt="" className="w-full h-full object-cover" />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+
+      <div className="relative z-10 flex flex-col gap-4 max-w-2xl">
+        <span className="inline-flex w-fit items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur text-white text-[11px] tracking-[0.18em] font-semibold uppercase">
+          <span className="w-1.5 h-1.5 rounded-full bg-white" />
+          Editor's pick
+        </span>
+        <h1 className="text-white text-3xl md:text-4xl font-bold leading-tight">
           {text}
         </h1>
-      </div>
-      <button className="z-10 bg-transparent border-2 border-white text-white px-3 py-1 sm:px-4 sm:py-1.5 md:px-6 md:py-2 lg:px-8 lg:py-2 rounded-full font-medium hover:bg-white hover:text-red-600 transition-all text-xs sm:text-sm md:text-base whitespace-nowrap ml-2">
-        {btnText || t('common.listenNow')}
-      </button>
-      
-      <div className="absolute inset-0 opacity-40">
-        <img 
-          src={image} 
-          alt="background" 
-          className="w-full h-full object-cover"
-        />
+        <div className="flex items-center gap-3">
+          <button className="bg-white text-black px-6 h-11 rounded-full font-semibold hover:bg-neutral-200 transition-colors cursor-pointer">
+            {btnText || t('common.listenNow')}
+          </button>
+        </div>
       </div>
     </div>
   );
