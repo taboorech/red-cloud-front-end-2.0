@@ -28,13 +28,16 @@
     "chooseFile": "Escolher arquivo",
     "home": "Início",
     "premiumRequired": "Assinatura premium necessária",
-    "upgradePlan": "Melhorar plano"
+    "upgradePlan": "Melhorar plano",
+    "yes": "Sim",
+    "no": "Não"
   },
   "navigation": {
     "menu": "Menu",
     "home": "Início",
     "search": "Pesquisar",
     "favorites": "Favoritos",
+    "library": "Biblioteca",
     "playlists": "Playlists",
     "mySongs": "Minhas músicas",
     "settings": "Configurações",
@@ -42,7 +45,8 @@
     "about": "Sobre",
     "profile": "Perfil",
     "goToProfile": "Ir para o perfil",
-    "management": "Gestão"
+    "management": "Gestão",
+    "friends": "Amigos"
   },
   "pageTitles": {
     "home": "Início",
@@ -52,12 +56,14 @@
     "mySongs": "Minhas músicas",
     "settings": "Configurações",
     "profile": "Perfil",
+    "editProfile": "Editar perfil",
     "subscriptions": "Assinatura",
     "about": "Sobre",
     "auth": "Autorização",
     "forgotPassword": "Esqueci a senha",
     "resetPassword": "Redefinir senha",
     "lyrics": "Letras",
+    "lyricsTranslation": "Tradução da letra",
     "notFound": "Página não encontrada"
   },
   "home": {
@@ -77,14 +83,33 @@
   },
   "settings": {
     "title": "Configurações",
+    "subtitle": "Configure o app do seu jeito",
+    "tabs": {
+      "general": "Geral",
+      "playback": "Reprodução",
+      "notifications": "Notificações",
+      "privacy": "Privacidade"
+    },
     "language": "Idioma",
+    "languageLabel": "Idioma da interface",
     "languageDescription": "Escolha seu idioma preferido",
     "theme": "Tema",
+    "themeLabel": "Esquema de cores",
     "themeDescription": "Escolha seu esquema de cores preferido",
     "themeLight": "Claro",
     "themeDark": "Escuro",
     "autoReplay": "Repetição automática",
     "autoReplayDescription": "Reiniciar automaticamente a música ao terminar",
+    "enabled": "Ativado",
+    "disabled": "Desativado",
+    "pushNotifications": "Notificações push",
+    "emailNewsletters": "Newsletters por e-mail",
+    "notificationsDescription": "Notificações sobre novas músicas dos seus artistas favoritos.",
+    "newslettersDescription": "Resumo semanal de novos lançamentos.",
+    "publicProfile": "Perfil público",
+    "publicProfileDesc": "Permitir que outros vejam seu perfil e playlists.",
+    "listeningActivity": "Atividade de escuta",
+    "listeningActivityDesc": "Mostrar o que você está ouvindo agora.",
     "quality": {
       "label": "Qualidade do áudio",
       "highQualityRequirePremium": "Alta qualidade requer Premium",
@@ -92,12 +117,28 @@
       "autoDescription": "Ajustar automaticamente com base na sua rede."
     }
   },
+  "friends": {
+    "empty": "Ainda sem amigos"
+  },
+  "contextMenu": {
+    "addFriend": "Adicionar amigo",
+    "profile": "Perfil",
+    "share": "Compartilhar",
+    "copyLink": "Copiar link"
+  },
   "about": {
     "title": "Sobre"
   },
   "favorites": {
     "title": "Músicas Favoritas",
-    "playlist": "Playlist"
+    "playlist": "Playlist",
+    "unitMin": "min",
+    "unitHour": "h",
+    "emptyTitle": "Ainda não há nada aqui",
+    "emptyHintBefore": "Toque",
+    "emptyHintAfter": "em qualquer música e ela aparecerá aqui. Suas favoritas — sempre à mão.",
+    "findMusic": "Procurar música",
+    "browseTops": "Ver tops"
   },
   "auth": {
     "authorization": "Autorização",
@@ -180,6 +221,13 @@
     "translateTo": "Traduzir para:"
   },
   "profile": {
+    "profile": "Perfil",
+    "tabs": {
+      "playlists": "Playlists",
+      "mySongs": "Minhas músicas",
+      "following": "Seguindo",
+      "activity": "Atividade"
+    },
     "editProfile": "Editar Perfil",
     "logout": "Sair",
     "songsListened": "Músicas ouvidas",
@@ -213,7 +261,8 @@
   "playlists": {
     "searchPlaylists": "Pesquisar playlists...",
     "loadingPlaylists": "Carregando playlists...",
-    "failedToLoadPlaylists": "Falha ao carregar playlists"
+    "failedToLoadPlaylists": "Falha ao carregar playlists",
+    "noPlaylists": "Ainda sem playlists"
   },
   "playlistsMenu": {
     "yourLibrary": "Sua biblioteca"
@@ -221,15 +270,24 @@
   "playlistEditor": {
     "editPlaylist": "Editar Playlist",
     "createNewPlaylist": "Criar Nova Playlist",
+    "subtitle": "Monte sua coleção. Você pode adicionar faixas depois.",
     "editing": "Editando",
     "basicInformation": "Informações Básicas",
     "title": "Título",
+    "description": "Descrição",
+    "describePlaylist": "Conte-nos sobre esta playlist…",
     "enterPlaylistTitle": "Insira o título",
     "visibility": "Visibilidade",
+    "public": "Pública",
+    "private": "Privada",
     "publicPlaylist": "Pública",
     "anyoneCanSee": "Qualquer um pode ver",
     "onlyYouCanSee": "Apenas você pode ver",
     "coverImage": "Capa",
+    "uploadCover": "Enviar capa",
+    "aiCover": "Capa IA",
+    "emoji": "Emoji",
+    "pickEmoji": "Escolher um emoji",
     "currentCover": "Capa atual",
     "updatePlaylist": "Atualizar",
     "savePlaylist": "Salvar",
@@ -248,6 +306,27 @@
   "songEditor": {
     "editSong": "Editar Música",
     "createNewSong": "Criar Nova Música",
+    "newSong": "Nova música",
+    "subtitle": "Envie uma faixa e conte-nos sobre ela",
+    "done": "concluído",
+    "draft": "Rascunho",
+    "publish": "Publicar",
+    "uploaded": "Enviado",
+    "uploadAudioPrompt": "Arraste o áudio aqui",
+    "dragDropAudio": "Arraste o áudio aqui",
+    "chooseFile": "Ou escolha um arquivo",
+    "format": "Formato",
+    "size": "Tamanho",
+    "replaceFile": "Substituir arquivo",
+    "basicInfoSubtitle": "O que os ouvintes verão",
+    "chars": "caracteres",
+    "describeInspiration": "Conte sobre a inspiração, o processo, os instrumentos…",
+    "instrumental": "Instrumental",
+    "genresSubtitle": "Ajude os ouvintes a encontrar esta faixa",
+    "authorsSubtitle": "Quem trabalhou nesta faixa",
+    "lyricsSubtitle": "Opcional — adicione a letra ou gere com IA",
+    "preview": "Pré-visualização",
+    "titlePlaceholder": "Título da música",
     "editing": "Editando",
     "basicInformation": "Informações",
     "title": "Título",
@@ -314,6 +393,11 @@
     "noSongsInQueue": "Nenhuma música na fila",
     "noSongPlaying": "Nenhuma música tocando",
     "noSongSelected": "Nenhuma música selecionada"
+  },
+  "topbar": {
+    "searchPlaceholder": "Buscar músicas, artistas, playlists…",
+    "upgrade": "Premium",
+    "nowPlaying": "TOCANDO AGORA"
   },
   "management": {
     "title": "Gestão",

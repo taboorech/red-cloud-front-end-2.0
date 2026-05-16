@@ -28,13 +28,16 @@
     "chooseFile": "Elegir archivo",
     "home": "Inicio",
     "premiumRequired": "Se requiere suscripción premium",
-    "upgradePlan": "Mejorar plan"
+    "upgradePlan": "Mejorar plan",
+    "yes": "Sí",
+    "no": "No"
   },
   "navigation": {
     "menu": "Menú",
     "home": "Inicio",
     "search": "Buscar",
     "favorites": "Favoritos",
+    "library": "Biblioteca",
     "playlists": "Listas de reproducción",
     "mySongs": "Mis canciones",
     "settings": "Configuración",
@@ -42,7 +45,8 @@
     "about": "Acerca de",
     "profile": "Perfil",
     "goToProfile": "Ir al perfil",
-    "management": "Gestión"
+    "management": "Gestión",
+    "friends": "Amigos"
   },
   "pageTitles": {
     "home": "Inicio",
@@ -52,12 +56,14 @@
     "mySongs": "Mis canciones",
     "settings": "Configuración",
     "profile": "Perfil",
+    "editProfile": "Editar perfil",
     "subscriptions": "Suscripción",
     "about": "Acerca de",
     "auth": "Autorización",
     "forgotPassword": "Olvidé mi contraseña",
     "resetPassword": "Restablecer contraseña",
     "lyrics": "Letras",
+    "lyricsTranslation": "Traducción de letras",
     "notFound": "Página no encontrada"
   },
   "home": {
@@ -77,14 +83,33 @@
   },
   "settings": {
     "title": "Configuración",
+    "subtitle": "Configura la app a tu gusto",
+    "tabs": {
+      "general": "General",
+      "playback": "Reproducción",
+      "notifications": "Notificaciones",
+      "privacy": "Privacidad"
+    },
     "language": "Idioma",
+    "languageLabel": "Idioma de la interfaz",
     "languageDescription": "Elige tu idioma de interfaz preferido",
     "theme": "Tema",
+    "themeLabel": "Esquema de colores",
     "themeDescription": "Elige tu esquema de colores preferido",
     "themeLight": "Claro",
     "themeDark": "Oscuro",
     "autoReplay": "Repetición automática",
     "autoReplayDescription": "Reiniciar automáticamente la pista actual al finalizar",
+    "enabled": "Activado",
+    "disabled": "Desactivado",
+    "pushNotifications": "Notificaciones push",
+    "emailNewsletters": "Boletines por correo",
+    "notificationsDescription": "Notificaciones sobre nuevas canciones de tus artistas favoritos.",
+    "newslettersDescription": "Resumen semanal de nuevos lanzamientos.",
+    "publicProfile": "Perfil público",
+    "publicProfileDesc": "Permitir que otros vean tu perfil y tus listas.",
+    "listeningActivity": "Actividad de escucha",
+    "listeningActivityDesc": "Mostrar lo que estás escuchando ahora.",
     "quality": {
       "label": "Calidad de audio",
       "highQualityRequirePremium": "La calidad Alta y Muy Alta requieren Premium",
@@ -92,12 +117,28 @@
       "autoDescription": "Ajustar la calidad de audio automáticamente según tu conexión de red."
     }
   },
+  "friends": {
+    "empty": "Aún no tienes amigos"
+  },
+  "contextMenu": {
+    "addFriend": "Añadir amigo",
+    "profile": "Perfil",
+    "share": "Compartir",
+    "copyLink": "Copiar enlace"
+  },
   "about": {
     "title": "Acerca de"
   },
   "favorites": {
     "title": "Canciones Favoritas",
-    "playlist": "Lista de reproducción"
+    "playlist": "Lista de reproducción",
+    "unitMin": "min",
+    "unitHour": "h",
+    "emptyTitle": "Aquí no hay nada todavía",
+    "emptyHintBefore": "Pulsa",
+    "emptyHintAfter": "en cualquier canción y aparecerá aquí. Tus favoritas — siempre a mano.",
+    "findMusic": "Buscar música",
+    "browseTops": "Ver listas"
   },
   "auth": {
     "authorization": "Autorización",
@@ -180,6 +221,13 @@
     "translateTo": "Traducir al:"
   },
   "profile": {
+    "profile": "Perfil",
+    "tabs": {
+      "playlists": "Listas",
+      "mySongs": "Mis canciones",
+      "following": "Siguiendo",
+      "activity": "Actividad"
+    },
     "editProfile": "Editar Perfil",
     "logout": "Cerrar Sesión",
     "songsListened": "Canciones escuchadas",
@@ -213,7 +261,8 @@
   "playlists": {
     "searchPlaylists": "Buscar listas...",
     "loadingPlaylists": "Cargando listas...",
-    "failedToLoadPlaylists": "Error al cargar las listas"
+    "failedToLoadPlaylists": "Error al cargar las listas",
+    "noPlaylists": "Aún no hay listas"
   },
   "playlistsMenu": {
     "yourLibrary": "Tu biblioteca"
@@ -221,15 +270,24 @@
   "playlistEditor": {
     "editPlaylist": "Editar Lista",
     "createNewPlaylist": "Crear Nueva Lista",
+    "subtitle": "Construye tu colección. Puedes añadir canciones más tarde.",
     "editing": "Editando",
     "basicInformation": "Información Básica",
     "title": "Título",
+    "description": "Descripción",
+    "describePlaylist": "Cuéntanos sobre esta lista…",
     "enterPlaylistTitle": "Introduce el título de la lista",
     "visibility": "Visibilidad",
+    "public": "Pública",
+    "private": "Privada",
     "publicPlaylist": "Lista Pública",
     "anyoneCanSee": "Cualquiera puede ver esta lista",
     "onlyYouCanSee": "Solo tú puedes ver esta lista",
     "coverImage": "Imagen de Portada",
+    "uploadCover": "Subir portada",
+    "aiCover": "Portada IA",
+    "emoji": "Emoji",
+    "pickEmoji": "Elegir un emoji",
     "currentCover": "Portada Actual",
     "updatePlaylist": "Actualizar Lista",
     "savePlaylist": "Guardar Lista",
@@ -248,6 +306,27 @@
   "songEditor": {
     "editSong": "Editar Canción",
     "createNewSong": "Crear Nueva Canción",
+    "newSong": "Nueva canción",
+    "subtitle": "Sube una pista y cuéntanos sobre ella",
+    "done": "hecho",
+    "draft": "Borrador",
+    "publish": "Publicar",
+    "uploaded": "Subido",
+    "uploadAudioPrompt": "Arrastra el audio aquí",
+    "dragDropAudio": "Arrastra el audio aquí",
+    "chooseFile": "O elige un archivo",
+    "format": "Formato",
+    "size": "Tamaño",
+    "replaceFile": "Reemplazar archivo",
+    "basicInfoSubtitle": "Lo que verán los oyentes",
+    "chars": "caracteres",
+    "describeInspiration": "Cuéntanos sobre la inspiración, el proceso, los instrumentos…",
+    "instrumental": "Instrumental",
+    "genresSubtitle": "Ayuda a los oyentes a encontrar esta pista",
+    "authorsSubtitle": "Quién trabajó en esta pista",
+    "lyricsSubtitle": "Opcional — añade letra o genérala con IA",
+    "preview": "Vista previa",
+    "titlePlaceholder": "Título de la canción",
     "editing": "Editando",
     "basicInformation": "Información Básica",
     "title": "Título",
@@ -314,6 +393,11 @@
     "noSongsInQueue": "No hay canciones en la cola",
     "noSongPlaying": "No hay canción reproduciéndose",
     "noSongSelected": "No hay canción seleccionada"
+  },
+  "topbar": {
+    "searchPlaceholder": "Buscar canciones, artistas, listas…",
+    "upgrade": "Mejorar",
+    "nowPlaying": "REPRODUCIENDO"
   },
   "management": {
     "title": "Gestión",
