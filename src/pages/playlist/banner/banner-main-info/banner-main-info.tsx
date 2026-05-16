@@ -21,15 +21,15 @@ const BannerMainInfo = ({ title, image, duration, additionalInfo }: BannerMainIn
         />
       </div>
       <div className="flex flex-col min-w-0 flex-1">
-        <h1 className="text-gray-900 dark:text-white text-xl md:text-3xl font-bold truncate">{title}</h1>
+        <h1 className="text-app-text text-xl md:text-3xl font-bold truncate">{title}</h1>
         {
-          duration && 
-          <span className="text-gray-500 dark:text-gray-400 text-xs md:text-sm mt-1">
+          duration &&
+          <span className="text-app-text-muted text-xs md:text-sm mt-1">
             {duration.songs} songs – {formatDuration(duration.time)}
           </span>
         }
         {additionalInfo && (
-          <p className="text-gray-500 dark:text-gray-400 text-sm mt-2 line-clamp-2">{additionalInfo}</p>
+          <p className="text-app-text-muted text-sm mt-2 line-clamp-2">{additionalInfo}</p>
         )}
       </div>
     </div>

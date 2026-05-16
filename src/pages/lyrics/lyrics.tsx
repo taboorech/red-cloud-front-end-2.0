@@ -38,7 +38,7 @@ const Lyrics = () => {
           <title>{t('pageTitles.lyrics')}</title>
         </Helmet>
         <PremiumFeatureLock
-          icon={<MdLyrics className="w-24 h-24 mx-auto mb-6 text-gray-400" />}
+          icon={<MdLyrics className="w-24 h-24 mx-auto mb-6 text-app-text-muted" />}
           title={t('lyrics.premiumTitle')}
           description={t('lyrics.premiumDescription')}
           onUpgrade={() => navigate('/subscriptions')}
@@ -54,8 +54,8 @@ const Lyrics = () => {
         <Helmet>
           <title>{t('pageTitles.lyrics')}</title>
         </Helmet>
-        <div className="flex items-center justify-center h-full bg-white dark:bg-black">
-          <div className="text-gray-500 dark:text-gray-400 text-sm">{t('common.loading')}</div>
+        <div className="flex items-center justify-center h-full bg-app-base">
+          <div className="text-app-text-muted text-sm">{t('common.loading')}</div>
         </div>
       </>
     )
@@ -77,7 +77,7 @@ const Lyrics = () => {
       <Helmet>
         <title>{t('pageTitles.lyrics')}</title>
       </Helmet>
-      <div className="flex flex-col h-full bg-white dark:bg-black p-6">
+      <div className="flex flex-col h-full bg-app-base p-6">
         <div className="flex-shrink-0 pb-2 flex items-center justify-end gap-2">
           {isPremium && !authorLyrics && !generatedLyrics && (
             <Button onClick={handleGenerate} variant="snow" disabled={isGenerating} loading={isGenerating}>
@@ -104,7 +104,7 @@ const Lyrics = () => {
 
         {!hasLyricsAvailable ? (
           <div className="flex-1 flex items-center justify-center">
-            <div className="text-gray-500 dark:text-gray-400 text-sm text-center">
+            <div className="text-app-text-muted text-sm text-center">
               {t('lyrics.noLyricsDescription')}
             </div>
           </div>
@@ -112,7 +112,7 @@ const Lyrics = () => {
           <div className="flex-1 min-h-0 rounded-2xl p-8 pt-0 overflow-y-scroll">
             <div className="w-full max-w-2xl mx-auto text-center">
               <pre
-                className="font-sans leading-relaxed whitespace-pre-wrap text-gray-900 dark:text-white text-base"
+                className="font-sans leading-relaxed whitespace-pre-wrap text-app-text text-base"
                 style={{ lineHeight: '1.8' }}
               >
                 {displayLyrics}

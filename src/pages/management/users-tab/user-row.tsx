@@ -25,7 +25,7 @@ const UserRow = ({ user }: { user: User }) => {
   }
 
   return (
-    <div className="grid grid-cols-[1fr_auto_auto] items-center gap-3 p-4 bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 rounded-2xl">
+    <div className="grid grid-cols-[1fr_auto_auto] items-center gap-3 p-4 bg-app-soft border border-app-line rounded-2xl">
       {/* User info */}
       <div className="flex items-center gap-4 min-w-0">
         <div className="w-10 h-10 shrink-0">
@@ -40,7 +40,7 @@ const UserRow = ({ user }: { user: User }) => {
               </span>
             )}
           </div>
-          <p className="text-xs text-gray-500 truncate">{user.email}</p>
+          <p className="text-xs text-app-text-muted truncate">{user.email}</p>
         </div>
       </div>
 
@@ -49,7 +49,7 @@ const UserRow = ({ user }: { user: User }) => {
         value={selectedRole}
         onChange={(e) => handleRoleChange(e.target.value)}
         disabled={isUpdatingRole}
-        className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white text-xs rounded-lg px-3 py-1.5 outline-none hover:border-gray-400 dark:hover:border-gray-600 focus:border-blue-500 transition-colors appearance-none cursor-pointer disabled:opacity-50 text-center"
+        className="bg-app-elev border border-app-line text-app-text text-xs rounded-lg px-3 py-1.5 outline-none hover:border-app-text-muted focus:border-brand-500 transition-colors appearance-none cursor-pointer disabled:opacity-50 text-center"
       >
         {ROLES.map((role) => (
           <option key={role} value={role}>

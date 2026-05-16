@@ -19,18 +19,18 @@ const Management = () => {
       <Helmet>
         <title>{t('management.title')}</title>
       </Helmet>
-      <div className="flex flex-col h-full bg-white dark:bg-black text-gray-900 dark:text-white overflow-y-auto">
+      <div className="flex flex-col h-full bg-app-base text-app-text overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-xl z-20 border-b border-gray-200 dark:border-white/5">
+        <div className="sticky top-0 bg-app-base/80 backdrop-blur-xl z-20 border-b border-app-line">
           <div className="mx-auto px-6 py-6 flex items-center justify-between w-full">
             <div className="flex items-center gap-5">
               <Button
                 variant="ghost"
                 size="circle"
                 onClick={() => navigate(-1)}
-                className="bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 border-transparent transition-all"
+                className="bg-app-soft hover:bg-app-soft-2 border-transparent transition-all"
               >
-                <IoArrowBack size={20} className="text-gray-900 dark:text-white" />
+                <IoArrowBack size={20} className="text-app-text" />
               </Button>
               <h1 className="text-xl font-semibold tracking-tight">{t('management.title')}</h1>
             </div>
@@ -42,8 +42,8 @@ const Management = () => {
               onClick={() => setActiveTab('users')}
               className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all cursor-pointer ${
                 activeTab === 'users'
-                  ? 'bg-gray-900 dark:bg-white text-white dark:text-black'
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5'
+                  ? 'bg-app-text text-app-base'
+                  : 'text-app-text-soft hover:bg-app-soft'
               }`}
             >
               <IoShieldCheckmark size={16} />
@@ -53,8 +53,8 @@ const Management = () => {
               onClick={() => setActiveTab('ai')}
               className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all cursor-pointer ${
                 activeTab === 'ai'
-                  ? 'bg-gray-900 dark:bg-white text-white dark:text-black'
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5'
+                  ? 'bg-app-text text-app-base'
+                  : 'text-app-text-soft hover:bg-app-soft'
               }`}
             >
               <IoSparkles size={16} />

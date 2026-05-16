@@ -41,7 +41,7 @@ const AIUsageTab = () => {
   )
 
   if (isLoading) {
-    return <p className="text-sm text-gray-500">{t('common.loading')}</p>
+    return <p className="text-sm text-app-text-muted">{t('common.loading')}</p>
   }
 
   if (error) {
@@ -79,7 +79,7 @@ const AIUsageTab = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-200 dark:border-white/10 text-left text-xs text-gray-500 uppercase tracking-wider">
+                <tr className="border-b border-app-line text-left text-xs text-app-text-muted uppercase tracking-wider">
                   <th className="pb-3 pr-4">{t('management.ai.userId')}</th>
                   <th className="pb-3 pr-4">{t('management.ai.requests')}</th>
                   <th className="pb-3 pr-4">{t('management.ai.cost')}</th>
@@ -88,7 +88,7 @@ const AIUsageTab = () => {
               </thead>
               <tbody>
                 {filteredUserStats.map((s) => (
-                  <tr key={s.userId} className="border-b border-gray-100 dark:border-white/5">
+                  <tr key={s.userId} className="border-b border-app-line">
                     <td className="py-3 pr-4 font-medium">#{s.userId}</td>
                     <td className="py-3 pr-4">{s.activityCount}</td>
                     <td className="py-3 pr-4">${s.totalCost.toFixed(4)}</td>
@@ -105,7 +105,7 @@ const AIUsageTab = () => {
       <section className="flex flex-col gap-4">
         <h2 className="text-lg font-medium">{t('management.ai.recentActivity')}</h2>
         {filteredActivities.length === 0 ? (
-          <p className="text-sm text-gray-500">{t('management.ai.noActivity')}</p>
+          <p className="text-sm text-app-text-muted">{t('management.ai.noActivity')}</p>
         ) : (
           <div className="flex flex-col gap-3">
             {filteredActivities.map((activity) => (
