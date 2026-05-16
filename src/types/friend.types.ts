@@ -1,4 +1,14 @@
 import type { User } from "./user.types";
+import type { Song } from "./song.types";
+
+export interface FriendListening {
+  userId: number;
+  song: Song;
+  currentTime: number;
+  duration: number;
+  isPlaying: boolean;
+  updatedAt: number;
+}
 
 export interface SocketFriend {
   userId: number; 
@@ -9,6 +19,7 @@ export interface SocketFriend {
 export interface Friend extends User {
   isOnline?: boolean;
   lastSeen?: string;
+  listening?: FriendListening;
 }
 
 export interface Friendship {
