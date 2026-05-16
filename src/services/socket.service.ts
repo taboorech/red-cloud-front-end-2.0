@@ -1,6 +1,6 @@
 import { io, Socket } from 'socket.io-client';
 import type { Song } from '../types/song.types';
-import type { FriendsOnlineListData } from '../types/friend.types';
+import type { FriendsOnlineListData, FriendListening } from '../types/friend.types';
 
 export interface SongState {
   id: string;
@@ -119,13 +119,13 @@ class SocketService {
     this.socket?.off('friends-online-list');
     this.socket?.on('friends-online-list', (data) => {
       let processedData: FriendsOnlineListData;
-      
+
       if (Array.isArray(data)) {
         processedData = { friends: data, timestamp: new Date().toISOString() };
       } else {
         processedData = data;
       }
-      
+
       callback(processedData);
     });
   }
@@ -134,6 +134,27 @@ class SocketService {
     if (this.isConnected && this.socket) {
       this.socket.emit('get-friends-online');
     }
+  }
+
+  getFriendsListening() {
+    if (this.isConnected && this.socket) {
+      this.socket.emit('get-friends-listening');
+    }
+  }
+
+  onFriendsListeningList(callback: (data: { friends: FriendListening[] }) => void) {
+    this.socket?.off('friends-listening-list');
+    this.socket?.on('friends-listening-list', callback);
+  }
+
+  onFriendSongState(callback: (data: FriendListening) => void) {
+    this.socket?.off('friend-song-state');
+    this.socket?.on('friend-song-state', callback);
+  }
+
+  onFriendSongStopped(callback: (data: { userId: number }) => void) {
+    this.socket?.off('friend-song-stopped');
+    this.socket?.on('friend-song-stopped', callback);
   }
 
   getConnectionStatus() {
