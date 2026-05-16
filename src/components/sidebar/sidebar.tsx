@@ -36,20 +36,20 @@ const Sidebar = () => {
 
       <nav className="px-3 flex flex-col gap-1">
         <NavLink to="/" icon={MdHome} end>
-          {t("navigation.home", "Головна")}
+          {t("navigation.home")}
         </NavLink>
         <NavLink to="/search" icon={CiSearch}>
-          {t("navigation.search", "Пошук")}
+          {t("navigation.search")}
         </NavLink>
         <NavLink to="/playlists" icon={HiOutlineQueueList}>
-          {t("navigation.library", "Бібліотека")}
+          {t("navigation.library")}
         </NavLink>
         <NavLink to="/favorites" icon={MdFavorite}>
-          {t("navigation.favorites", "Улюблені")}
+          {t("navigation.favorites")}
         </NavLink>
         {profile?.role === UserRole.ADMIN && (
           <NavLink to="/management" icon={IoShieldCheckmark}>
-            {t("navigation.management", "Управління")}
+            {t("navigation.management")}
           </NavLink>
         )}
       </nav>
@@ -65,7 +65,7 @@ const Sidebar = () => {
               : "text-app-text-muted hover:text-app-text"
           )}
         >
-          {t("navigation.playlists", "Плейлисти")}
+          {t("navigation.playlists")}
         </button>
         <button
           type="button"
@@ -77,14 +77,14 @@ const Sidebar = () => {
               : "text-app-text-muted hover:text-app-text"
           )}
         >
-          {t("navigation.friends", "Друзі")}
+          {t("navigation.friends")}
         </button>
         {tab === "playlists" && (
           <button
             type="button"
             onClick={() => navigate("/playlists/new")}
             className="w-9 h-9 shrink-0 grid place-items-center rounded-full text-app-text-muted hover:text-app-text hover:bg-app-soft transition-colors cursor-pointer"
-            aria-label={t("playlistEditor.createNewPlaylist", "Create playlist")}
+            aria-label={t("playlistEditor.createNewPlaylist")}
           >
             <IoAdd className="w-4 h-4" />
           </button>
@@ -105,7 +105,7 @@ const Sidebar = () => {
               ))
             ) : (
               <p className="px-3 py-3 text-xs text-app-text-muted">
-                {t("playlists.noPlaylists", "Ще немає плейлистів")}
+                {t("playlists.noPlaylists")}
               </p>
             )}
           </div>
