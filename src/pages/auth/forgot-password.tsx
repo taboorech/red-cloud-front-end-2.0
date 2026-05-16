@@ -6,8 +6,10 @@ import { Helmet } from "react-helmet-async"
 import { useResetPasswordMutation } from "../../store/api/auth.api"
 import { forgotPasswordSchema, type ForgotPasswordSchemaType } from "../../validation/auth.schema"
 import { zodValidate } from "../../utils/zod-validate"
+import classNames from "classnames"
 import AuthShell from "./components/auth-shell"
 import { inputClass, labelClass, brandButtonClass } from "./utils"
+import { BRAND_BUTTON_BASE } from "../../utils/tailwind-classes"
 
 const ForgotPassword = () => {
   const { t } = useTranslation()
@@ -41,7 +43,7 @@ const ForgotPassword = () => {
             </p>
             <Link
               to="/auth"
-              className="inline-flex items-center justify-center h-12 px-8 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-semibold transition cursor-pointer"
+              className={classNames(BRAND_BUTTON_BASE, "inline-flex items-center justify-center h-12 px-8 rounded-full")}
             >
               Back to login
             </Link>

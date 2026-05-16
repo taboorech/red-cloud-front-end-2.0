@@ -27,6 +27,7 @@ import CardHeader from "../../components/editor-card/card-header"
 import LockedCard from "../../components/editor-card/locked-card"
 import FieldHeader from "../../components/editor-card/field-header"
 import PageLayout from "../../components/page-layout/page-layout"
+import { BRAND_BUTTON_BASE } from "../../utils/tailwind-classes"
 
 const UI_LANGUAGES = [
   { code: "en", flag: "🇬🇧", name: "English" },
@@ -407,10 +408,10 @@ const Settings = () => {
                 onClick={handleSave}
                 disabled={!isDirty && !saved}
                 className={classNames(
-                  "h-10 px-5 rounded-full text-sm font-semibold transition cursor-pointer inline-flex items-center gap-2",
+                  "h-10 px-5 rounded-full text-sm inline-flex items-center gap-2",
                   saved
-                    ? "bg-emerald-500 text-white"
-                    : "bg-brand-500 hover:bg-brand-600 text-white"
+                    ? "bg-emerald-500 text-white font-semibold transition cursor-pointer"
+                    : BRAND_BUTTON_BASE
                 )}
               >
                 {saved ? <>✓ {t("common.saved")}</> : t("common.save")}

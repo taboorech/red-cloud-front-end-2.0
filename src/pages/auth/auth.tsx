@@ -9,6 +9,7 @@ import AuthForm from "../../components/auth-form/auth-form"
 import type { LoginFormValues, RegistrationFormValues } from "../../components/auth-form/auth-form"
 import { useLoginMutation, useSignUpMutation, useLazyGetGoogleAuthUrlQuery } from "../../store/api/auth.api"
 import AuthLogo from "./components/auth-logo"
+import { PAGE_LABEL_BASE, FIELD_LABEL_BASE } from "../../utils/tailwind-classes"
 
 type AuthTab = "authorization" | "registration"
 
@@ -69,7 +70,7 @@ const Auth = () => {
           />
 
           <div className="relative z-10 flex flex-col gap-4">
-            <div className="text-[11px] tracking-[0.16em] font-semibold text-neutral-400 uppercase">
+            <div className={classNames(FIELD_LABEL_BASE, "text-neutral-400")}>
               Now playing for 2.4M listeners
             </div>
             <h1 className="text-5xl font-extrabold leading-tight">
@@ -130,7 +131,7 @@ const Auth = () => {
 
             <div className="flex items-center gap-3 my-6">
               <div className="flex-1 h-px bg-neutral-200" />
-              <span className="text-neutral-400 text-[11px] tracking-[0.18em] font-semibold uppercase">
+              <span className={classNames(PAGE_LABEL_BASE, "text-neutral-400")}>
                 Or with email
               </span>
               <div className="flex-1 h-px bg-neutral-200" />

@@ -32,7 +32,7 @@ import Card from "../../components/editor-card/card";
 import CardHeader from "../../components/editor-card/card-header";
 import FieldHeader from "../../components/editor-card/field-header";
 import PageLayout from "../../components/page-layout/page-layout";
-import { BRAND_BUTTON_BASE } from "../../utils/tailwind-classes";
+import { BRAND_BUTTON_BASE, PAGE_LABEL_BASE } from "../../utils/tailwind-classes";
 import CheckItem from "./components/check-item";
 import Waveform from "./components/waveform";
 import { formatBytes, formatDuration } from "../../utils/format";
@@ -412,7 +412,7 @@ const SongEditor = () => {
                         type="button"
                         onClick={() => formikHandleSubmit()}
                         disabled={isSubmitting || isCreatingSong || isUpdatingSong}
-                        className={classNames(BRAND_BUTTON_BASE, "h-10 px-5 shadow-[0_0_28px_-4px_rgba(239,54,54,0.7)] text-sm")}
+                        className={classNames(BRAND_BUTTON_BASE, "h-10 px-5 shadow-[0_0_28px_-4px_rgba(239,54,54,0.7)] text-sm rounded-full")}
                       >
                         {isSubmitting ? t("common.loading") : songId ? t("songEditor.updateSong") : t("songEditor.publish")}
                       </button>
@@ -472,7 +472,7 @@ const SongEditor = () => {
                             <button
                               type="button"
                               onClick={toggleAudioPreview}
-                              className="w-12 h-12 rounded-full bg-brand-500 hover:bg-brand-600 grid place-items-center text-white shrink-0 cursor-pointer"
+                              className={classNames(BRAND_BUTTON_BASE, "w-12 h-12 rounded-full grid place-items-center shrink-0")}
                               aria-label="Play"
                             >
                               {audioPlaying ? (
@@ -823,7 +823,7 @@ const SongEditor = () => {
                                 setSelectedUser(null);
                                 setUserSearchInput("");
                               }}
-                              className="h-11 px-4 rounded-xl bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold inline-flex items-center gap-2 cursor-pointer"
+                              className={classNames(BRAND_BUTTON_BASE, "h-11 px-4 rounded-xl text-sm inline-flex items-center gap-2")}
                             >
                               <IoAdd /> {t("songEditor.addAuthor")}
                             </button>
@@ -932,7 +932,7 @@ const SongEditor = () => {
                   <aside className="flex flex-col gap-5">
                     <Card padding="p-4">
                       <div className="flex items-center justify-between mb-3">
-                        <span className="text-[11px] tracking-[0.18em] font-semibold text-app-text-muted uppercase">
+                        <span className={classNames(PAGE_LABEL_BASE, "text-app-text-muted")}>
                           {t("songEditor.preview")}
                         </span>
                         <span className="inline-flex items-center gap-1.5 text-[10px] tracking-wider font-bold text-emerald-400 uppercase">
@@ -1042,7 +1042,7 @@ const SongEditor = () => {
                               type="button"
                               onClick={() => handleGenerateImage(setFieldValue)}
                               disabled={!aiImagePrompt.trim() || generatingImage}
-                              className={classNames(BRAND_BUTTON_BASE, "w-full h-10 text-sm inline-flex items-center justify-center gap-2")}
+                              className={classNames(BRAND_BUTTON_BASE, "w-full h-10 text-sm inline-flex items-center justify-center gap-2 rounded-full")}
                             >
                               <IoSparkles /> {generatingImage ? t("songEditor.generating") : t("songEditor.generate")}
                             </button>
@@ -1053,7 +1053,7 @@ const SongEditor = () => {
 
                     {/* Library preview */}
                     <Card padding="p-4">
-                      <p className="text-[11px] tracking-[0.18em] font-semibold text-app-text-muted uppercase mb-3">
+                      <p className={classNames(PAGE_LABEL_BASE, "text-app-text-muted mb-3")}>
                         {t("songEditor.libraryPreview")}
                       </p>
                       <div className="flex items-center gap-3">
@@ -1077,7 +1077,7 @@ const SongEditor = () => {
 
                     {/* Publish checklist */}
                     <Card padding="p-4">
-                      <p className="text-[11px] tracking-[0.18em] font-semibold text-app-text-muted uppercase mb-3">
+                      <p className={classNames(PAGE_LABEL_BASE, "text-app-text-muted mb-3")}>
                         {t("songEditor.publishChecklist")}
                       </p>
                       <ul className="flex flex-col gap-2.5">

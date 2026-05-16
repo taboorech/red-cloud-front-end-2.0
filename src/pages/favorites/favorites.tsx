@@ -154,7 +154,7 @@ const Favorites = () => {
                 <>
                   <button
                     onClick={() => navigate("/search")}
-                    className={classNames(BRAND_BUTTON_BASE, "px-6 h-11")}
+                    className={classNames(BRAND_BUTTON_BASE, "px-6 h-11 rounded-full")}
                   >
                     {t('favorites.findMusic')}
                   </button>

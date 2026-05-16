@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IoClose } from "react-icons/io5";
+import classNames from "classnames";
 import Queue from "./queue/queue";
 import SongInfo from "./song-info/song-info";
+import { PAGE_LABEL_BASE } from "../../utils/tailwind-classes";
 
 const StateSidebar = () => {
   const { t } = useTranslation();
@@ -13,7 +15,7 @@ const StateSidebar = () => {
   return (
     <aside className="flex flex-col h-full w-full bg-app-elev border-l border-app-line">
       <div className="flex items-center justify-between h-16 px-5 border-b border-app-line shrink-0">
-        <span className="text-[11px] tracking-[0.18em] font-semibold text-app-text-muted uppercase">
+        <span className={classNames(PAGE_LABEL_BASE, "text-app-text-muted")}>
           {t("topbar.nowPlaying")}
         </span>
         <button

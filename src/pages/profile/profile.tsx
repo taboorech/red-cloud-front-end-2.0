@@ -9,7 +9,7 @@ import { useSubscription } from "../../hooks/use-subscription"
 import { useLogoutMutation } from "../../store/api/auth.api"
 import PageLayout from "../../components/page-layout/page-layout"
 import StatCard from "../../components/stat-card/stat-card"
-import { BRAND_BUTTON_BASE } from "../../utils/tailwind-classes"
+import { BRAND_BUTTON_BASE, PAGE_LABEL_BASE } from "../../utils/tailwind-classes"
 import { useTranslation } from "react-i18next"
 import { Helmet } from "react-helmet-async"
 
@@ -87,7 +87,7 @@ const Profile = () => {
             </div>
 
             <div className="flex-1 min-w-0 flex flex-col gap-3">
-              <span className="text-[11px] tracking-[0.18em] font-semibold text-app-text-muted uppercase">
+              <span className={classNames(PAGE_LABEL_BASE, "text-app-text-muted")}>
                 {t("profile.profile")}
               </span>
               <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight truncate text-app-text">
@@ -211,7 +211,7 @@ const Profile = () => {
                   <button
                     type="button"
                     onClick={() => navigate("/songs/new")}
-                    className={classNames(BRAND_BUTTON_BASE, "inline-flex items-center gap-2 h-10 px-5 text-sm")}
+                    className={classNames(BRAND_BUTTON_BASE, "inline-flex items-center gap-2 h-10 px-5 text-sm rounded-full")}
                   >
                     <span className="text-lg leading-none">+</span> {t("mySongs.createSong")}
                   </button>

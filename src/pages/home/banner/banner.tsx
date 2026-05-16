@@ -1,4 +1,6 @@
 import { useTranslation } from 'react-i18next';
+import classNames from 'classnames';
+import { PAGE_LABEL_BASE } from '../../../utils/tailwind-classes';
 
 interface BannerProps {
   text: string
@@ -17,7 +19,7 @@ const Banner = ({ text, image, btnText }: BannerProps) => {
       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
 
       <div className="relative z-10 flex flex-col gap-4 max-w-2xl">
-        <span className="inline-flex w-fit items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur text-white text-[11px] tracking-[0.18em] font-semibold uppercase">
+        <span className={classNames(PAGE_LABEL_BASE, "inline-flex w-fit items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur text-white")}>
           <span className="w-1.5 h-1.5 rounded-full bg-white" />
           Editor's pick
         </span>

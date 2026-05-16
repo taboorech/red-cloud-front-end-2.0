@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useSearchParams } from 'react-router'
-import SearchInput from './components/search-input'
+import SearchInput from '../../components/search-input/search-input'
 import SearchTabs from './components/search-tabs'
 import type { SearchTab } from './components/search-tabs'
 import Song from '../../components/song/song'
@@ -157,6 +157,7 @@ const Search = () => {
           value={searchQuery}
           onChange={setSearchQuery}
           placeholder={t('search.placeholder')}
+          size="lg"
         />
 
         <SearchTabs activeTab={activeTab} onTabChange={setActiveTab} />

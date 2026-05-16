@@ -7,6 +7,7 @@ import { useGetPaymentUrlMutation, useGetPlansQuery, useCancelSubscriptionMutati
 import { getCurrentPlanId } from "../../utils/format"
 import { SubscriptionType } from "../../types/subscription.types"
 import PageLayout from "../../components/page-layout/page-layout"
+import { PAGE_LABEL_BASE } from "../../utils/tailwind-classes"
 import { Helmet } from "react-helmet-async"
 
 interface SubscriptionFeature {
@@ -135,7 +136,7 @@ const Subscriptions = () => {
       </Helmet>
       <PageLayout className="flex flex-col gap-8">
         <div>
-          <span className="text-[11px] tracking-[0.18em] font-semibold text-brand-500 uppercase">
+          <span className={classNames(PAGE_LABEL_BASE, "text-brand-500")}>
             {t('navigation.subscriptions')}
           </span>
           <h1 className="text-3xl md:text-4xl font-extrabold text-app-text mt-2">

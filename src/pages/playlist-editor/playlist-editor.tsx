@@ -344,7 +344,7 @@ const PlaylistEditor = () => {
                         type="button"
                         onClick={() => handleGenerateCover(values.title)}
                         disabled={isAnyAiLoading || (coverMethod === 'ai-custom' && !aiCustomPrompt.trim())}
-                        className="w-full h-11 rounded-lg bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold transition cursor-pointer disabled:opacity-50"
+                        className={classNames(BRAND_BUTTON_BASE, "w-full h-11 text-sm rounded-lg")}
                       >
                         {isAnyAiLoading ? t('playlistEditor.generating') : (
                           <span className="inline-flex items-center gap-2">
@@ -359,7 +359,7 @@ const PlaylistEditor = () => {
                             <button
                               type="button"
                               onClick={() => handleApplyCover(generatedCoverPreview, setFieldValue)}
-                              className={classNames(BRAND_BUTTON_BASE, "px-4 h-9 text-xs")}
+                              className={classNames(BRAND_BUTTON_BASE, "px-4 h-9 text-xs rounded-full")}
                             >
                               {t('common.apply')}
                             </button>
@@ -485,7 +485,7 @@ const PlaylistEditor = () => {
                     type="submit"
                     disabled={isSubmitting || isCreatingPlaylist || isUpdatingPlaylist}
                     onClick={(e) => { e.preventDefault(); formikHandleSubmit(); }}
-                    className={classNames(BRAND_BUTTON_BASE, "px-5 h-11 text-sm")}
+                    className={classNames(BRAND_BUTTON_BASE, "px-5 h-11 text-sm rounded-full")}
                   >
                     {playlistId ? t('playlistEditor.updatePlaylist') : t('playlistEditor.savePlaylist')}
                   </button>

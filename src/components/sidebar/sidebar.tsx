@@ -14,6 +14,7 @@ import NavLink from "./nav-link";
 import PlaylistItem from "./playlist-item";
 import UserBlock from "./user-block";
 import FriendsBlock from "../menu/friends-block/friends-block";
+import { FIELD_LABEL_BASE } from "../../utils/tailwind-classes";
 
 type SidebarTab = "playlists" | "friends";
 
@@ -59,7 +60,8 @@ const Sidebar = () => {
           type="button"
           onClick={() => setTab("playlists")}
           className={classNames(
-            "flex-1 h-9 px-3 rounded-full text-[11px] tracking-[0.16em] font-semibold uppercase transition-colors cursor-pointer",
+            FIELD_LABEL_BASE,
+            "flex-1 h-9 px-3 rounded-full transition-colors cursor-pointer",
             tab === "playlists"
               ? "bg-app-soft text-app-text"
               : "text-app-text-muted hover:text-app-text"
@@ -71,7 +73,8 @@ const Sidebar = () => {
           type="button"
           onClick={() => setTab("friends")}
           className={classNames(
-            "flex-1 h-9 px-3 rounded-full text-[11px] tracking-[0.16em] font-semibold uppercase transition-colors cursor-pointer",
+            FIELD_LABEL_BASE,
+            "flex-1 h-9 px-3 rounded-full transition-colors cursor-pointer",
             tab === "friends"
               ? "bg-app-soft text-app-text"
               : "text-app-text-muted hover:text-app-text"

@@ -5,10 +5,12 @@ import { useLazyGetPlaylistsQuery } from "../../store/api/playlist.api";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet-async";
+import classNames from "classnames";
 import StripedCover from "../../components/striped-cover/striped-cover";
 import PageLayout from "../../components/page-layout/page-layout";
 import EmptyState from "../../components/empty-state/empty-state";
 import SearchInput from "../../components/search-input/search-input";
+import { PAGE_LABEL_BASE } from "../../utils/tailwind-classes";
 
 const Playlists = () => {
   const { t } = useTranslation();
@@ -42,7 +44,7 @@ const Playlists = () => {
       <PageLayout className="flex flex-col gap-6">
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div className="flex flex-col gap-1">
-            <span className="text-[11px] tracking-[0.18em] font-semibold text-app-text-muted uppercase">
+            <span className={classNames(PAGE_LABEL_BASE, "text-app-text-muted")}>
               {t("navigation.library")}
             </span>
             <h1 className="text-3xl md:text-4xl font-extrabold text-app-text">
