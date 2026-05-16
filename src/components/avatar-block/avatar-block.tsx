@@ -13,13 +13,13 @@ const AvatarBlock = ({ isAuthenticated = false, avatarUrl, userName, isStatic = 
   const navigation = useNavigate()
 
   return (
-    <div className="flex flex-col gap-6 rounded-md p-4 bg-white dark:bg-black border border-gray-200 dark:border-white/10">
+    <div className="flex flex-col gap-6 rounded-md p-4 bg-app-elev border border-app-line">
       <div className="flex justify-center items-center w-24 h-24 max-w-full mx-auto">
         <Avatar src={avatarUrl} />
       </div>
       <div className="flex justify-center items-center">
         {isAuthenticated || isStatic ? (
-          <span className="text-lg text-gray-900 dark:text-white font-medium">{userName}</span>
+          <span className="text-lg text-app-text font-medium">{userName}</span>
         ) : (
           <Button variant="snow" size="md" fullWidth rounded="full" onClick={() => {
             navigation('/auth')

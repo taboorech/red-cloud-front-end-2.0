@@ -72,7 +72,7 @@ const ProgressBar = ({
     <div
       ref={barRef}
       onMouseDown={handleMouseDown}
-      className="relative w-full h-1 cursor-pointer rounded-full bg-gray-200 dark:bg-neutral-700"
+      className="relative w-full h-1 cursor-pointer rounded-full bg-app-soft-2"
     >
       <div
         className={`absolute left-0 top-0 h-full bg-red-600 rounded-full ${transitionClass}`}

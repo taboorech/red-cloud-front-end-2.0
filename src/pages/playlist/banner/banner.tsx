@@ -60,7 +60,6 @@ const Banner = ({ playlist }: BannerProps) => {
 
   const handleMoreOptions = () => {
     // TODO: Implement more options menu
-    console.log('More options for playlist:', playlist.title);
   };
 
   // Calculate total duration from songs

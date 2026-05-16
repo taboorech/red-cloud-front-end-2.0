@@ -212,7 +212,6 @@ const SongEditor = () => {
         result = await createSong(formData).unwrap();
       }
       setSubmitSuccess(true);
-      console.log("Song saved successfully:", result);
       setTimeout(() => navigate("/songs"), 1500);
     } catch (error: any) {
       let errorMessage = "Failed to save song. Please try again.";
