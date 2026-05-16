@@ -3,11 +3,11 @@ import { Link } from "react-router"
 import { Formik, Form, Field, type FormikHelpers } from "formik"
 import { useTranslation } from "react-i18next"
 import { Helmet } from "react-helmet-async"
-import Input from "../../components/input/input"
-import { Button } from "../../components/button/button"
 import { useResetPasswordMutation } from "../../store/api/auth.api"
 import { forgotPasswordSchema, type ForgotPasswordSchemaType } from "../../validation/auth.schema"
 import { zodValidate } from "../../utils/zod-validate"
+import AuthShell from "./components/auth-shell"
+import { inputClass, labelClass, brandButtonClass } from "./utils"
 
 const ForgotPassword = () => {
   const { t } = useTranslation()
@@ -33,24 +33,20 @@ const ForgotPassword = () => {
         <Helmet>
           <title>{t('pageTitles.forgotPassword')}</title>
         </Helmet>
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0d0d0d] p-4">
-          <div className="w-full max-w-[450px] bg-white dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
-          <h1 className="text-2xl font-light text-gray-900 dark:text-white text-center mb-4">
-            Check your email
-          </h1>
-          <p className="text-gray-500 dark:text-gray-400 text-sm text-center mb-8">
-            We've sent a password reset link to your email address. The link will expire in 15 minutes.
-          </p>
-          <div className="flex justify-center">
+        <AuthShell>
+          <div className="w-full text-center">
+            <h1 className="text-3xl font-extrabold text-neutral-900 mb-3">Check your email</h1>
+            <p className="text-neutral-600 text-sm mb-8 max-w-sm mx-auto">
+              We've sent a password reset link to your email. It expires in 15 minutes.
+            </p>
             <Link
               to="/auth"
-              className="text-sm text-blue-600 dark:text-white hover:text-blue-500 dark:hover:text-gray-100 transition-colors"
+              className="inline-flex items-center justify-center h-12 px-8 rounded-full bg-brand-500 hover:bg-brand-600 text-white font-semibold transition cursor-pointer"
             >
               Back to login
             </Link>
           </div>
-        </div>
-        </div>
+        </AuthShell>
       </>
     )
   }
@@ -60,64 +56,58 @@ const ForgotPassword = () => {
       <Helmet>
         <title>{t('pageTitles.forgotPassword')}</title>
       </Helmet>
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0d0d0d] p-4">
-        <div className="w-full max-w-[450px] bg-white dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
+      <AuthShell>
         <Formik
           initialValues={{ email: "" }}
           validate={zodValidate(forgotPasswordSchema)}
           onSubmit={handleSubmit}
         >
           {({ errors, touched, status }) => (
-            <Form className="space-y-8">
-              <h1 className="text-2xl font-light text-gray-900 dark:text-white text-center">
-                Reset password
-              </h1>
-
-              <p className="text-gray-500 dark:text-gray-400 text-sm text-center">
-                Enter your email address and we'll send you a link to reset your password.
-              </p>
-
-              <div className="space-y-6">
-                <Field
-                  name="email"
-                  as={Input}
-                  type="email"
-                  placeholder="Email"
-                  error={touched.email && errors.email ? errors.email : undefined}
-                />
-
-                {status && (
-                  <p className="text-red-500 text-xs text-center">{status}</p>
-                )}
-
-                <div className="pt-4 flex justify-center">
-                  <Button
-                    type="submit"
-                    variant="auth"
-                    size="none"
-                    rounded="md"
-                    className="w-40 py-2"
-                    loading={isLoading}
-                    disabled={isLoading}
-                  >
-                    Send link
-                  </Button>
-                </div>
+            <Form className="w-full flex flex-col gap-5">
+              <div className="text-center mb-2">
+                <h1 className="text-3xl font-extrabold text-neutral-900 mb-2">Reset password</h1>
+                <p className="text-neutral-600 text-sm">
+                  Enter your email and we'll send you a reset link.
+                </p>
               </div>
 
-              <div className="flex justify-center">
+              <div className="flex flex-col gap-2">
+                <label className={labelClass}>Email</label>
+                <Field
+                  name="email"
+                  type="email"
+                  placeholder="you@studio.com"
+                  className={inputClass}
+                />
+                {touched.email && errors.email && (
+                  <span className="text-[11px] text-red-600">{errors.email}</span>
+                )}
+              </div>
+
+              {status && (
+                <p className="text-red-600 text-xs text-center">{status}</p>
+              )}
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className={brandButtonClass}
+              >
+                {isLoading ? "Sending…" : <>Send link <span aria-hidden>→</span></>}
+              </button>
+
+              <div className="text-center pt-2">
                 <Link
                   to="/auth"
-                  className="text-sm text-blue-600 dark:text-white hover:text-blue-500 dark:hover:text-gray-100 transition-colors"
+                  className="text-sm text-neutral-700 hover:text-neutral-900 font-semibold transition-colors"
                 >
-                  Back to login
+                  ← Back to login
                 </Link>
               </div>
             </Form>
           )}
         </Formik>
-        </div>
-      </div>
+      </AuthShell>
     </>
   )
 }

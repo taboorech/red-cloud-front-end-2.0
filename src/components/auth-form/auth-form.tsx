@@ -1,10 +1,8 @@
 import { Formik, Form, Field, type FormikHelpers } from "formik"
 import { Link } from "react-router"
-import { Button } from "../button/button"
-import Input from "../input/input"
-import Checkbox from "../checkbox/checkbox"
 import { loginSchema, registrationSchema, type LoginSchemaType, type RegistrationSchemaType } from "../../validation/auth.schema"
 import { zodValidate } from "../../utils/zod-validate"
+import { inputClass, labelClass, brandButtonClass } from "../../pages/auth/utils"
 
 export type LoginFormValues = LoginSchemaType
 export type RegistrationFormValues = RegistrationSchemaType
@@ -13,6 +11,9 @@ interface AuthFormProps {
   type: "login" | "registration"
   onSubmit: (values: LoginFormValues | RegistrationFormValues) => void
 }
+
+const fieldWrapperClass = "flex flex-col gap-2"
+const errorClass = "text-[11px] text-red-600"
 
 const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
   if (type === "login") {
@@ -23,54 +24,53 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
         onSubmit={onSubmit as (values: LoginFormValues, helpers: FormikHelpers<LoginFormValues>) => void}
       >
         {({ errors, touched, values, setFieldValue }) => (
-          <Form className="space-y-8">
-            <h1 className="text-2xl font-light text-gray-900 dark:text-white text-center">
-              Authorization
-            </h1>
-
-            <div className="space-y-6">
+          <Form className="flex flex-col gap-5">
+            <div className={fieldWrapperClass}>
+              <label className={labelClass}>Email</label>
               <Field
                 name="email"
-                as={Input}
                 type="email"
-                placeholder="Email"
-                error={touched.email && errors.email ? errors.email : undefined}
+                placeholder="you@studio.com"
+                className={inputClass}
               />
+              {touched.email && errors.email && <span className={errorClass}>{errors.email}</span>}
+            </div>
 
-              <Field
-                name="password"
-                as={Input}
-                type="password"
-                placeholder="Password"
-                error={touched.password && errors.password ? errors.password : undefined}
-              />
-
+            <div className={fieldWrapperClass}>
               <div className="flex items-center justify-between">
-                <Checkbox
-                  label="Remember me"
-                  checked={values.rememberMe}
-                  onChange={(e) => setFieldValue("rememberMe", e.target.checked)}
-                />
+                <label className={labelClass}>Password</label>
                 <Link
                   to="/auth/forgot-password"
-                  className="text-xs text-blue-600 dark:text-blue-700 hover:text-blue-500 dark:hover:text-blue-600 transition-colors"
+                  className="text-xs text-brand-600 hover:text-brand-700 transition-colors font-semibold"
                 >
-                  Forgot password?
+                  Forgot?
                 </Link>
               </div>
-
-              <div className="pt-4 flex justify-center">
-                <Button
-                  type="submit"
-                  variant="auth"
-                  size="none"
-                  rounded="md"
-                  className="w-40 py-2"
-                >
-                  Log in
-                </Button>
-              </div>
+              <Field
+                name="password"
+                type="password"
+                placeholder="••••••••"
+                className={inputClass}
+              />
+              {touched.password && errors.password && <span className={errorClass}>{errors.password}</span>}
             </div>
+
+            <label className="flex items-center gap-2 text-sm text-neutral-700 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={values.rememberMe}
+                onChange={(e) => setFieldValue("rememberMe", e.target.checked)}
+                className="w-4 h-4 accent-brand-500 cursor-pointer"
+              />
+              Keep me signed in
+            </label>
+
+            <button
+              type="submit"
+              className={brandButtonClass}
+            >
+              Sign in <span aria-hidden>→</span>
+            </button>
           </Form>
         )}
       </Formik>
@@ -84,72 +84,49 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
       onSubmit={onSubmit as (values: RegistrationFormValues, helpers: FormikHelpers<RegistrationFormValues>) => void}
     >
       {({ errors, touched }) => (
-        <Form className="space-y-6">
-          <h1 className="text-2xl font-light text-gray-900 dark:text-white text-center">
-            Registration
-          </h1>
-
-          <div className="space-y-5">
-            <Field
-              name="email"
-              as={Input}
-              type="email"
-              placeholder="Gmail"
-              error={touched.email && errors.email ? errors.email : undefined}
-            />
-
-            <Field
-              name="username"
-              as={Input}
-              type="text"
-              placeholder="Username"
-              error={touched.username && errors.username ? errors.username : undefined}
-            />
-
-            <Field
-              name="login"
-              as={Input}
-              type="text"
-              placeholder="Login"
-              error={touched.login && errors.login ? errors.login : undefined}
-            />
-
-            <Field
-              name="phone"
-              as={Input}
-              type="tel"
-              placeholder="Telephone number"
-              error={touched.phone && errors.phone ? errors.phone : undefined}
-            />
-
-            <Field
-              name="password"
-              as={Input}
-              type="password"
-              placeholder="Password"
-              error={touched.password && errors.password ? errors.password : undefined}
-            />
-
-            <Field
-              name="confirmPassword"
-              as={Input}
-              type="password"
-              placeholder="Confirm password"
-              error={touched.confirmPassword && errors.confirmPassword ? errors.confirmPassword : undefined}
-            />
-
-            <div className="pt-6 flex justify-center">
-              <Button
-                type="submit"
-                variant="auth"
-                size="none"
-                rounded="md"
-                className="w-40 py-2"
-              >
-                Sign Up
-              </Button>
-            </div>
+        <Form className="flex flex-col gap-4">
+          <div className={fieldWrapperClass}>
+            <label className={labelClass}>Email</label>
+            <Field name="email" type="email" placeholder="you@studio.com" className={inputClass} />
+            {touched.email && errors.email && <span className={errorClass}>{errors.email}</span>}
           </div>
+
+          <div className={fieldWrapperClass}>
+            <label className={labelClass}>Username</label>
+            <Field name="username" type="text" placeholder="display name" className={inputClass} />
+            {touched.username && errors.username && <span className={errorClass}>{errors.username}</span>}
+          </div>
+
+          <div className={fieldWrapperClass}>
+            <label className={labelClass}>Login</label>
+            <Field name="login" type="text" placeholder="login" className={inputClass} />
+            {touched.login && errors.login && <span className={errorClass}>{errors.login}</span>}
+          </div>
+
+          <div className={fieldWrapperClass}>
+            <label className={labelClass}>Phone</label>
+            <Field name="phone" type="tel" placeholder="+380…" className={inputClass} />
+            {touched.phone && errors.phone && <span className={errorClass}>{errors.phone}</span>}
+          </div>
+
+          <div className={fieldWrapperClass}>
+            <label className={labelClass}>Password</label>
+            <Field name="password" type="password" placeholder="••••••••" className={inputClass} />
+            {touched.password && errors.password && <span className={errorClass}>{errors.password}</span>}
+          </div>
+
+          <div className={fieldWrapperClass}>
+            <label className={labelClass}>Confirm password</label>
+            <Field name="confirmPassword" type="password" placeholder="••••••••" className={inputClass} />
+            {touched.confirmPassword && errors.confirmPassword && <span className={errorClass}>{errors.confirmPassword}</span>}
+          </div>
+
+          <button
+            type="submit"
+            className={brandButtonClass}
+          >
+            Create account <span aria-hidden>→</span>
+          </button>
         </Form>
       )}
     </Formik>
