@@ -1,16 +1,19 @@
 import { useState } from 'react'
-// import { useNavigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
+import { useNavigate, useSearchParams } from 'react-router'
 import SearchInput from './components/search-input'
 import SearchTabs from './components/search-tabs'
 import type { SearchTab } from './components/search-tabs'
 import Song from '../../components/song/song'
-import AvatarBlock from '../../components/avatar-block/avatar-block'
 import { formatDuration } from '../../utils/format'
 import { useSearchQuery } from '../../store/api/search.api'
 import { SearchType } from '../../types/search.types'
 import { useAudio } from '../../context/audio-context'
 import { Helmet } from 'react-helmet-async'
+import { useContextMenu } from '../../hooks/use-context-menu'
+import UserContextMenu from '../../components/context-menu/menus/user-context-menu'
+import PageLayout from '../../components/page-layout/page-layout'
+import type { User } from '../../types/user.types'
 
 const tabToSearchType: Record<SearchTab, SearchType> = {
   all: SearchType.ALL,
@@ -20,11 +23,17 @@ const tabToSearchType: Record<SearchTab, SearchType> = {
 }
 
 const Search = () => {
-  // const navigate = useNavigate()
   const { t } = useTranslation()
+  const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
   const { currentSong } = useAudio()
-  const [searchQuery, setSearchQuery] = useState('')
+  const searchQuery = searchParams.get('q') ?? ''
+  const setSearchQuery = (value: string) => {
+    setSearchParams(value ? { q: value } : {}, { replace: true })
+  }
   const [activeTab, setActiveTab] = useState<SearchTab>('all')
+  const userMenu = useContextMenu()
+  const [menuUser, setMenuUser] = useState<User | null>(null)
 
   const { data, isFetching } = useSearchQuery(
     { query: searchQuery, type: tabToSearchType[activeTab] },
@@ -35,25 +44,36 @@ const Search = () => {
   const songs = data?.songs ?? []
   const playlists = data?.playlists ?? []
 
+  const handleUserContextMenu = (e: React.MouseEvent, user: User) => {
+    setMenuUser(user)
+    userMenu.open(e)
+  }
+
   const renderUsers = () => (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 mb-8">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
       {users.map((user) => (
-        <div 
-          key={user.id} 
-          className="cursor-pointer" 
-          // onClick={() => navigate(`/profile/${user.id}`)}
+        <button
+          type="button"
+          key={user.id}
+          onClick={() => navigate(`/profile/${user.id}`)}
+          onContextMenu={(e) => handleUserContextMenu(e, user)}
+          className="flex flex-col items-center gap-3 bg-app-soft hover:bg-app-elev rounded-xl p-4 transition-colors cursor-pointer text-left"
         >
-          <AvatarBlock
-            userName={user.username}
-            isStatic={true}
-          />
-        </div>
+          <div className="w-20 h-20 rounded-full overflow-hidden bg-app-elev grid place-items-center text-app-text-muted text-2xl font-bold">
+            {user.avatar ? (
+              <img src={user.avatar} alt={user.username} className="w-full h-full object-cover" />
+            ) : (
+              <span>{user.username?.[0]?.toUpperCase() ?? '?'}</span>
+            )}
+          </div>
+          <span className="text-app-text text-sm font-medium truncate w-full text-center">{user.username}</span>
+        </button>
       ))}
     </div>
   )
 
   const renderSongs = () => (
-    <div className="space-y-2">
+    <div className="space-y-1">
       {songs.map((song) => (
         <Song
           key={song.id}
@@ -69,30 +89,21 @@ const Search = () => {
   )
 
   const renderPlaylists = () => (
-    <div className="space-y-2">
+    <div className="space-y-1">
       {playlists.map((playlist) => (
         <Song
           key={playlist.id}
           title={playlist.title}
           image={playlist.image_url || ''}
           variant="expanded"
-          onClick={() => console.log('Playlist clicked:', playlist)}
         />
       ))}
     </div>
   )
 
-  const renderContent = () => {
-    if (searchQuery.trim().length === 0) {
-      return (
-        <p className="text-gray-900 dark:text-white text-center mt-12">{t('search.placeholder')}</p>
-      )
-    }
-
+  const renderResults = () => {
     if (isFetching) {
-      return (
-        <p className="text-gray-500 dark:text-gray-400 text-center mt-12">{t('common.loading')}</p>
-      )
+      return <p className="text-app-text-muted text-center mt-12">{t('common.loading')}</p>
     }
 
     switch (activeTab) {
@@ -106,18 +117,24 @@ const Search = () => {
       default:
         return (
           <div className="space-y-8">
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Users</h2>
-              {renderUsers()}
-            </div>
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Songs</h2>
-              {renderSongs()}
-            </div>
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Playlists</h2>
-              {renderPlaylists()}
-            </div>
+            {songs.length > 0 && (
+              <div>
+                <h2 className="text-xl font-bold text-app-text mb-4">{t('search.tabs.songs')}</h2>
+                {renderSongs()}
+              </div>
+            )}
+            {users.length > 0 && (
+              <div>
+                <h2 className="text-xl font-bold text-app-text mb-4">{t('search.tabs.users')}</h2>
+                {renderUsers()}
+              </div>
+            )}
+            {playlists.length > 0 && (
+              <div>
+                <h2 className="text-xl font-bold text-app-text mb-4">{t('search.tabs.playlists')}</h2>
+                {renderPlaylists()}
+              </div>
+            )}
           </div>
         )
     }
@@ -128,22 +145,32 @@ const Search = () => {
       <Helmet>
         <title>{t('pageTitles.search')}</title>
       </Helmet>
-      <div className="bg-white dark:bg-black text-gray-900 dark:text-white h-full min-h-0 flex flex-col p-6 rounded-md">
-        <div className="shrink-0">
-          <SearchInput
-            value={searchQuery}
-            onChange={setSearchQuery}
-            placeholder="Request"
-          />
-          <SearchTabs
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-          />
+      <PageLayout className="flex flex-col gap-6">
+        <div>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-app-text">{t('navigation.search')}</h1>
+          <p className="text-app-text-muted text-sm mt-1">
+            Знаходь пісні, виконавців, плейлисти й користувачів
+          </p>
         </div>
-        <div className="flex-1 overflow-y-auto max-w-6xl mx-auto w-full">
-          {renderContent()}
-        </div>
-      </div>
+
+        <SearchInput
+          value={searchQuery}
+          onChange={setSearchQuery}
+          placeholder={t('search.placeholder')}
+        />
+
+        <SearchTabs activeTab={activeTab} onTabChange={setActiveTab} />
+
+        {searchQuery.trim().length > 0 && renderResults()}
+
+        {userMenu.isOpen && menuUser && (
+          <UserContextMenu
+            user={menuUser}
+            position={userMenu.position}
+            onClose={userMenu.close}
+          />
+        )}
+      </PageLayout>
     </>
   )
 }

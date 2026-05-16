@@ -6,18 +6,16 @@ interface SearchInputProps {
   placeholder?: string
 }
 
-const SearchInput = ({ value, onChange, placeholder = "Request" }: SearchInputProps) => {
+const SearchInput = ({ value, onChange, placeholder = "" }: SearchInputProps) => {
   return (
-    <div className="relative mb-6">
-      <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-        <CiSearch className="text-gray-400" size={20} />
-      </div>
+    <div className="relative">
+      <CiSearch className="absolute left-5 top-1/2 -translate-y-1/2 text-app-text-muted w-6 h-6 pointer-events-none" />
       <input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full bg-gray-100 dark:bg-[#1E1E1E] text-gray-900 dark:text-white rounded-full py-3 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full h-14 bg-app-soft hover:bg-app-soft-2 focus:bg-app-soft-2 border border-app-line focus:border-app-line rounded-2xl pl-14 pr-5 text-app-text placeholder:text-app-text-muted focus:outline-none transition-colors"
       />
     </div>
   )
