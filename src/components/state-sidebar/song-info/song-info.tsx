@@ -1,30 +1,39 @@
 import { useTranslation } from "react-i18next";
 import { useAudio } from "../../../context/audio-context";
+import StripedCover from "../../striped-cover/striped-cover";
 
 const SongInfo = () => {
   const { t } = useTranslation();
   const audio = useAudio();
+  const song = audio.currentSong;
+  const artist = song?.authors?.[0]?.name ?? song?.authors?.[0]?.user?.username;
 
   return (
-    <div className="w-full h-full flex flex-col gap-2 items-center overflow-hidden">
-      <div className="flex-1 w-full min-h-0">
-        {audio.currentSong ? (
-          <img 
-            src={audio.currentSong.image_url || ""} 
-            alt={audio.currentSong.title}
-            className="h-full w-full object-cover rounded-md"
-          />
-        ) : (
-          <div className="h-full w-full bg-gray-100 dark:bg-gray-800 rounded-md flex items-center justify-center">
-            <span className="text-gray-400 dark:text-gray-500 text-sm">{t("sidebar.noSongPlaying")}</span>
+    <div className="w-full flex flex-col gap-3">
+      <StripedCover
+        src={song?.image_url ?? null}
+        alt={song?.title}
+        seed={song?.id ?? "empty"}
+        rounded="rounded-lg"
+        className="aspect-square w-full"
+      >
+        {!song && (
+          <div className="absolute inset-0 grid place-items-center text-app-text-soft text-sm font-medium">
+            {t("sidebar.noSongPlaying")}
           </div>
         )}
+      </StripedCover>
+
+      <div className="px-1">
+        <div className="text-app-text text-base font-semibold truncate">
+          {song?.title || t("sidebar.noSongSelected")}
+        </div>
+        {artist && (
+          <div className="text-app-text-muted text-sm truncate">{artist}</div>
+        )}
       </div>
-      <span className="text-gray-900 dark:text-white text-lg truncate w-full text-center px-2">
-        {audio.currentSong?.title || t("sidebar.noSongSelected")}
-      </span>
     </div>
-  )
-}
+  );
+};
 
 export default SongInfo;

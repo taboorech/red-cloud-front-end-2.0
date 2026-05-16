@@ -4,6 +4,7 @@ import { useAudio } from "../../context/audio-context";
 import type { Song as SongType } from "../../types/song.types";
 import { useContextMenu } from "../../hooks/use-context-menu";
 import SongContextMenu from "../context-menu/menus/song-context-menu";
+import StripedCover from "../striped-cover/striped-cover";
 
 type SongVariant = "small" | "expanded";
 
@@ -42,6 +43,9 @@ const Song = ({
     }
   };
 
+  const artist =
+    song?.authors?.[0]?.name ?? song?.authors?.[0]?.user?.username ?? "";
+
   return (
     <>
       <div
@@ -50,41 +54,53 @@ const Song = ({
         className={classNames(
           "group cursor-pointer select-none transition relative",
           variant === "small"
-            ? "flex flex-col items-center w-full"
-            : "flex items-center gap-3 w-full",
+            ? "flex flex-col items-stretch w-full"
+            : "flex items-center gap-3 w-full px-2 py-2 rounded-lg hover:bg-app-soft",
         )}
       >
         {isActive && variant === "expanded" && (
-          <BsSoundwave className="text-green-400 text-2xl flex-shrink-0 mr-2" />
+          <BsSoundwave className="text-brand-400 text-2xl flex-shrink-0" />
         )}
-        <span className="relative">
+        <StripedCover
+          src={image || null}
+          alt={title}
+          seed={song?.id ?? title}
+          rounded={variant === "small" ? "rounded-lg" : "rounded-md"}
+          className={classNames(
+            variant === "small" ? "w-full aspect-square" : "w-12 h-12 shrink-0",
+          )}
+        >
           {isActive && variant === "small" && (
-            <div className="absolute inset-0 bg-black/50">
-              <BsSoundwave className="text-green-400 text-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute inset-0 bg-black/50 grid place-items-center">
+              <BsSoundwave className="text-brand-400 text-3xl" />
             </div>
           )}
-          <img
-            src={image}
-            alt={title}
-            className={classNames(
-              "object-cover rounded-md bg-gray-200 dark:bg-gray-800",
-              variant === "small" ? "w-full aspect-square" : "w-14 h-14",
-            )}
-          />
-        </span>
+        </StripedCover>
 
         <div
           className={classNames(
             variant === "small"
-              ? "mt-2 text-center"
-              : "flex-1 min-w-0 flex items-center gap-2",
+              ? "mt-2"
+              : "flex-1 min-w-0",
           )}
         >
-          <p className="text-gray-900 dark:text-white text-sm font-medium truncate">{title}</p>
+          <p
+            className={classNames(
+              "text-sm font-semibold truncate",
+              isActive ? "text-brand-400" : "text-app-text",
+            )}
+          >
+            {title}
+          </p>
+          {variant === "expanded" && artist && (
+            <p className="text-xs text-neutral-400 truncate">{artist}</p>
+          )}
         </div>
 
         {variant === "expanded" && duration && (
-          <span className="text-gray-500 dark:text-gray-400 text-xs tabular-nums">{duration}</span>
+          <span className="text-neutral-400 text-xs tabular-nums ml-auto pl-2">
+            {duration}
+          </span>
         )}
       </div>
 
