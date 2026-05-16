@@ -18,6 +18,7 @@ const ProgressBar = ({
   const barRef = useRef<HTMLDivElement>(null);
   const isDraggingRef = useRef(false);
   const [progressPercent, setProgressPercent] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     if (!isDraggingRef.current && totalDuration > 0) {
@@ -36,19 +37,20 @@ const ProgressBar = ({
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     isDraggingRef.current = true;
+    setIsDragging(true);
 
     const percent = calculatePercent(e.clientX);
     setProgressPercent(percent);
 
     const handleMouseMove = (event: MouseEvent) => {
       setProgressPercent(calculatePercent(event.clientX));
-      onProgressChange((calculatePercent(event.clientX) / 100) * totalDuration);
     };
 
     onProgressChangeStart?.();
 
     const handleMouseUp = (event: MouseEvent) => {
       isDraggingRef.current = false;
+      setIsDragging(false);
 
       const percent = calculatePercent(event.clientX);
       const newValue = (percent / 100) * totalDuration;
@@ -64,34 +66,21 @@ const ProgressBar = ({
     window.addEventListener("mouseup", handleMouseUp);
   };
 
+  const transitionClass = isDragging ? "" : "transition-[width,left] duration-300 ease-linear";
+
   return (
     <div
       ref={barRef}
       onMouseDown={handleMouseDown}
-      className="
-        relative w-full h-1 cursor-pointer
-        rounded-full bg-gray-200 dark:bg-neutral-700
-        transition-all
-      "
+      className="relative w-full h-1 cursor-pointer rounded-full bg-gray-200 dark:bg-neutral-700"
     >
       <div
-        className="
-          absolute left-0 top-0 h-full
-          bg-red-600 rounded-full
-        "
+        className={`absolute left-0 top-0 h-full bg-red-600 rounded-full ${transitionClass}`}
         style={{ width: `${progressPercent}%` }}
       />
 
       <div
-        className="
-          absolute top-1/2 -translate-y-1/2
-          -translate-x-1/2
-          w-3 h-3 rounded-full
-          bg-white
-          shadow-md
-          transition-transform
-          hover:scale-110
-        "
+        className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-white shadow-md hover:scale-110 ${transitionClass}`}
         style={{ left: `${progressPercent}%` }}
       />
     </div>
