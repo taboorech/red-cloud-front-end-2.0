@@ -6,6 +6,7 @@ import { useSubscription } from "../../hooks/use-subscription"
 import { useGetPaymentUrlMutation, useGetPlansQuery, useCancelSubscriptionMutation } from "../../store/api/subscription.api"
 import { getCurrentPlanId } from "../../utils/format"
 import { SubscriptionType } from "../../types/subscription.types"
+import PageLayout from "../../components/page-layout/page-layout"
 import { Helmet } from "react-helmet-async"
 
 interface SubscriptionFeature {
@@ -132,7 +133,7 @@ const Subscriptions = () => {
       <Helmet>
         <title>{t('pageTitles.subscriptions')}</title>
       </Helmet>
-      <div className="px-6 md:px-10 pt-8 pb-10 flex flex-col gap-8">
+      <PageLayout className="flex flex-col gap-8">
         <div>
           <span className="text-[11px] tracking-[0.18em] font-semibold text-brand-500 uppercase">
             {t('navigation.subscriptions')}
@@ -300,7 +301,7 @@ const Subscriptions = () => {
             )
           })}
         </div>
-      </div>
+      </PageLayout>
     </>
   )
 }

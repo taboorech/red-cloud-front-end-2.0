@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import { useTranslation } from 'react-i18next'
 import { useGetAdminAIActivityQuery } from '../../../store/api/ai.api'
 import Input from '../../../components/input/input'
-import StatCard from './stat-card'
+import StatCard from '../../../components/stat-card/stat-card'
 import ActivityRow from './activity-row'
 
 const AIUsageTab = () => {

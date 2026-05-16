@@ -1,16 +1,43 @@
 import { useState, useCallback, useEffect, useRef } from "react"
-import { IoArrowBack, IoSettingsOutline } from "react-icons/io5"
+import {
+  IoSettingsOutline,
+  IoArrowBack,
+  IoLockClosed,
+} from "react-icons/io5"
+import {
+  HiOutlineLanguage,
+  HiOutlineSwatch,
+  HiOutlineArrowPath,
+  HiOutlineSpeakerWave,
+  HiOutlineBellAlert,
+  HiOutlineShieldCheck,
+} from "react-icons/hi2"
 import { useNavigate } from "react-router"
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from "react-i18next"
+import classNames from "classnames"
 import { useTheme } from "../../context/theme-context"
-import { Button } from "../../components/button/button"
 import Checkbox from "../../components/checkbox/checkbox"
 import PremiumFeature from "../../components/premium-feature/premium-feature"
 import { useSubscription } from "../../hooks/use-subscription"
-import { useGetSupportedLanguagesQuery } from "../../store/api/lyrics.api"
 import { useAudio } from "../../context/audio-context"
 import { SubscriptionType } from "../../types/subscription.types"
 import { Helmet } from "react-helmet-async"
+import Card from "../../components/editor-card/card"
+import CardHeader from "../../components/editor-card/card-header"
+import LockedCard from "../../components/editor-card/locked-card"
+import FieldHeader from "../../components/editor-card/field-header"
+import PageLayout from "../../components/page-layout/page-layout"
+
+const UI_LANGUAGES = [
+  { code: "en", flag: "🇬🇧", name: "English" },
+  { code: "uk", flag: "🇺🇦", name: "Українська" },
+  { code: "es", flag: "🇪🇸", name: "Español" },
+  { code: "fr", flag: "🇫🇷", name: "Français" },
+  { code: "de", flag: "🇩🇪", name: "Deutsch" },
+  { code: "it", flag: "🇮🇹", name: "Italiano" },
+  { code: "pl", flag: "🇵🇱", name: "Polski" },
+  { code: "pt", flag: "🇵🇹", name: "Português" },
+]
 
 const AUDIO_QUALITIES = [
   { value: "low", label: "Low (96 kbps)" },
@@ -41,16 +68,19 @@ const loadSettings = (): SettingsState => {
   return DEFAULT_SETTINGS
 }
 
+type TabKey = "general" | "playback" | "notifications" | "privacy"
+
 const Settings = () => {
   const navigate = useNavigate()
   const { t, i18n } = useTranslation()
   const { hasHighQuality } = useSubscription()
-  const { data: languages = [] } = useGetSupportedLanguagesQuery()
+  const currentLang = (i18n.resolvedLanguage || i18n.language || "en").split("-")[0]
   const { setAutoReplay } = useAudio()
   const { theme, setTheme } = useTheme()
   const [settings, setSettings] = useState<SettingsState>(loadSettings)
   const [saved, setSaved] = useState(false)
   const savedSettingsRef = useRef<SettingsState>(loadSettings())
+  const [activeTab, setActiveTab] = useState<TabKey>("general")
   const isDirty = JSON.stringify(settings) !== JSON.stringify(savedSettingsRef.current)
 
   const update = useCallback(
@@ -65,218 +95,330 @@ const Settings = () => {
     localStorage.setItem("app_settings", JSON.stringify(settings))
     savedSettingsRef.current = { ...settings }
     setSaved(true)
-
     setAutoReplay(settings.autoReplay)
   }
 
   useEffect(() => {
     if (saved) {
-      const t = setTimeout(() => setSaved(false), 2000)
-      return () => clearTimeout(t)
+      const tid = setTimeout(() => setSaved(false), 2000)
+      return () => clearTimeout(tid)
     }
   }, [saved])
+
+  const tabs: { key: TabKey; label: string; icon: React.ComponentType<{ className?: string }>; locked?: boolean }[] = [
+    { key: "general", label: t("settings.tabs.general"), icon: IoSettingsOutline },
+    { key: "playback", label: t("settings.tabs.playback"), icon: HiOutlineArrowPath },
+    { key: "notifications", label: t("settings.tabs.notifications"), icon: HiOutlineBellAlert, locked: true },
+    { key: "privacy", label: t("settings.tabs.privacy"), icon: HiOutlineShieldCheck, locked: true },
+  ]
 
   return (
     <>
       <Helmet>
-        <title>{t('pageTitles.settings')}</title>
+        <title>{t("pageTitles.settings")}</title>
       </Helmet>
-      <div className="flex flex-col h-full bg-white dark:bg-black text-gray-900 dark:text-white overflow-y-auto">
-        {/* Header */}
-        <div className="sticky top-0 bg-white/80 dark:bg-black/80 backdrop-blur-xl z-20 border-b border-gray-200 dark:border-white/5">
-          <div className="mx-auto px-6 py-6 flex items-center justify-between w-full">
-            <div className="flex items-center gap-5">
-              <Button
-                variant="ghost"
-                size="circle"
-                onClick={() => navigate(-1)}
-                className="bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 border-transparent transition-all"
-              >
-                <IoArrowBack size={20} className="text-gray-900 dark:text-white" />
-              </Button>
-              <h1 className="text-xl font-semibold tracking-tight">{t('settings.title')}</h1>
-            </div>
+      <PageLayout maxWidth="max-w-6xl" padded={false} className="pt-8 pb-32">
+        <button
+          type="button"
+          onClick={() => navigate(-1)}
+          className="inline-flex items-center gap-2 text-app-text-muted hover:text-app-text transition cursor-pointer mb-4"
+        >
+          <IoArrowBack className="w-5 h-5" />
+          <span className="text-sm font-medium">{t("common.goBack")}</span>
+        </button>
+
+        <header className="flex items-start gap-5 flex-wrap mb-8">
+          <span className="w-14 h-14 grid place-items-center rounded-2xl bg-brand-500/15 text-brand-400 shrink-0">
+            <IoSettingsOutline className="text-2xl" />
+          </span>
+          <div className="min-w-0 flex-1">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-app-text leading-tight">
+              {t("settings.title")}
+            </h1>
+            <p className="text-app-text-muted text-sm mt-1">
+              {t("settings.subtitle")}
+            </p>
           </div>
-        </div>
+        </header>
 
-        <div className="mx-auto w-full px-6 py-10 flex flex-col gap-10">
-          {/* Language */}
-          <section className="flex flex-col gap-6">
-            <div className="flex items-center gap-3 px-2">
-              <div className="p-2 bg-gray-100 dark:bg-white/5 rounded-lg text-gray-600 dark:text-gray-400">
-                <IoSettingsOutline size={20} />
-              </div>
-              <h2 className="text-lg font-medium text-gray-900 dark:text-white">{t('settings.language')}</h2>
-            </div>
-            <div className="bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 p-8 rounded-[2rem]">
-              <div className="flex items-center justify-between gap-4">
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {t('settings.languageDescription')}
-                </p>
-                <select
-                  value={i18n.language}
-                  onChange={(e) => i18n.changeLanguage(e.target.value)}
-                  className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white text-sm rounded-lg px-4 py-2 min-w-[180px] outline-none hover:border-gray-400 dark:hover:border-gray-600 focus:border-blue-500 transition-colors appearance-none cursor-pointer"
+        <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-6">
+          {/* LEFT: Tabs */}
+          <aside>
+            <nav className="flex lg:flex-col gap-1 overflow-x-auto sidebar-scroll lg:overflow-visible">
+              {tabs.map((tab) => {
+                const Icon = tab.icon
+                const isActive = activeTab === tab.key
+                return (
+                  <button
+                    key={tab.key}
+                    type="button"
+                    onClick={() => setActiveTab(tab.key)}
+                    className={classNames(
+                      "relative flex items-center gap-3 px-3 h-11 rounded-xl text-[14px] font-medium transition-colors cursor-pointer whitespace-nowrap",
+                      isActive
+                        ? "bg-app-soft text-app-text"
+                        : "text-app-text-muted hover:text-app-text hover:bg-app-soft"
+                    )}
+                  >
+                    {isActive && (
+                      <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-r bg-brand-500" />
+                    )}
+                    <Icon className="w-5 h-5 shrink-0" />
+                    <span className="flex-1 text-left truncate">{tab.label}</span>
+                    {tab.locked && (
+                      <IoLockClosed
+                        className="w-3.5 h-3.5 shrink-0 text-amber-500"
+                        aria-label={t("comingSoon")}
+                      />
+                    )}
+                  </button>
+                )
+              })}
+            </nav>
+          </aside>
+
+          {/* RIGHT: Content */}
+          <div className="flex flex-col gap-5">
+            {activeTab === "general" && (
+              <>
+                <Card>
+                  <CardHeader
+                    index="1"
+                    icon={<HiOutlineLanguage className="w-5 h-5" />}
+                    title={t("settings.language")}
+                    subtitle={t("settings.languageDescription")}
+                  />
+                  <div className="mt-3">
+                    <FieldHeader>{t("settings.languageLabel")}</FieldHeader>
+                    <div className="relative max-w-xs">
+                      <select
+                        value={currentLang}
+                        onChange={(e) => i18n.changeLanguage(e.target.value)}
+                        className="w-full appearance-none h-11 pl-4 pr-9 rounded-xl bg-app-soft border border-app-line text-app-text text-sm cursor-pointer hover:bg-app-soft-2 focus:outline-none focus:border-brand-500 transition-colors"
+                      >
+                        {UI_LANGUAGES.map((lang) => (
+                          <option key={lang.code} value={lang.code}>
+                            {lang.flag} {lang.name}
+                          </option>
+                        ))}
+                      </select>
+                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-app-text-muted pointer-events-none">▾</span>
+                    </div>
+                  </div>
+                </Card>
+
+                <Card>
+                  <CardHeader
+                    index="2"
+                    icon={<HiOutlineSwatch className="w-5 h-5" />}
+                    title={t("settings.theme")}
+                    subtitle={t("settings.themeDescription")}
+                  />
+                  <div className="mt-3">
+                    <FieldHeader>{t("settings.themeLabel")}</FieldHeader>
+                    <div className="inline-flex bg-app-soft border border-app-line rounded-full p-1">
+                      <button
+                        onClick={() => setTheme("light")}
+                        className={classNames(
+                          "px-5 h-10 rounded-full text-sm font-semibold transition cursor-pointer",
+                          theme === "light"
+                            ? "bg-brand-500 text-white shadow-sm"
+                            : "text-app-text-muted hover:text-app-text"
+                        )}
+                      >
+                        {t("settings.themeLight")}
+                      </button>
+                      <button
+                        onClick={() => setTheme("dark")}
+                        className={classNames(
+                          "px-5 h-10 rounded-full text-sm font-semibold transition cursor-pointer",
+                          theme === "dark"
+                            ? "bg-brand-500 text-white shadow-sm"
+                            : "text-app-text-muted hover:text-app-text"
+                        )}
+                      >
+                        {t("settings.themeDark")}
+                      </button>
+                    </div>
+                  </div>
+                </Card>
+              </>
+            )}
+
+            {activeTab === "playback" && (
+              <>
+                <Card>
+                  <CardHeader
+                    index="1"
+                    icon={<HiOutlineArrowPath className="w-5 h-5" />}
+                    title={t("settings.autoReplay")}
+                    subtitle={t("settings.autoReplayDescription")}
+                    done={settings.autoReplay}
+                  />
+                  <div className="mt-3">
+                    <label className="inline-flex items-center gap-3 cursor-pointer select-none">
+                      <Checkbox
+                        checked={settings.autoReplay}
+                        onChange={(e) => update("autoReplay", e.target.checked)}
+                      />
+                      <span className="text-sm text-app-text">
+                        {settings.autoReplay
+                          ? t("settings.enabled")
+                          : t("settings.disabled")}
+                      </span>
+                    </label>
+                  </div>
+                </Card>
+
+                <LockedCard
+                  index="2"
+                  icon={<HiOutlineSpeakerWave className="w-5 h-5" />}
+                  title={t("settings.quality.label")}
+                  subtitle={t("settings.quality.highQualityRequirePremium")}
+                  badge={t("comingSoon")}
                 >
-                  {languages.map((lang) => (
-                    <option key={lang.code} value={lang.code.toLowerCase()}>
-                      {lang.flag} {lang.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </section>
-
-          {/* Theme */}
-          <section className="flex flex-col gap-6">
-            <div className="flex items-center gap-3 px-2">
-              <div className="p-2 bg-gray-100 dark:bg-white/5 rounded-lg text-gray-600 dark:text-gray-400">
-                <IoSettingsOutline size={20} />
-              </div>
-              <h2 className="text-lg font-medium text-gray-900 dark:text-white">{t('settings.theme')}</h2>
-            </div>
-            <div className="bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 p-8 rounded-[2rem]">
-              <div className="flex items-center justify-between gap-4">
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {t('settings.themeDescription')}
-                </p>
-                <div className="flex gap-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg p-1">
-                  <button
-                    onClick={() => setTheme('light')}
-                    className={`px-4 py-2 text-sm rounded-md transition-all cursor-pointer ${
-                      theme === 'light'
-                        ? 'bg-white text-gray-900 shadow-sm border border-gray-200'
-                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50'
-                    }`}
+                  <FieldHeader>{t("settings.quality.label")}</FieldHeader>
+                  <PremiumFeature
+                    requiredPlan={[SubscriptionType.PREMIUM, SubscriptionType.FAMILY]}
+                    fallback={
+                      <div className="relative max-w-xs">
+                        <select
+                          value={
+                            settings.audioQuality === "high" || settings.audioQuality === "very_high"
+                              ? "normal"
+                              : settings.audioQuality
+                          }
+                          onChange={(e) => update("audioQuality", e.target.value)}
+                          disabled
+                          className="w-full appearance-none h-11 pl-4 pr-9 rounded-xl bg-app-soft border border-app-line text-app-text text-sm cursor-not-allowed"
+                        >
+                          {AUDIO_QUALITIES.filter((q) => q.value !== "high" && q.value !== "very_high").map((q) => (
+                            <option key={q.value} value={q.value}>{q.label}</option>
+                          ))}
+                        </select>
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-app-text-muted pointer-events-none">▾</span>
+                      </div>
+                    }
                   >
-                    {t('settings.themeLight')}
-                  </button>
-                  <button
-                    onClick={() => setTheme('dark')}
-                    className={`px-4 py-2 text-sm rounded-md transition-all cursor-pointer ${
-                      theme === 'dark'
-                        ? 'bg-white text-gray-900 shadow-sm border border-gray-200'
-                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50'
-                    }`}
-                  >
-                    {t('settings.themeDark')}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Auto Replay */}
-          <section className="flex flex-col gap-6">
-            <div className="flex items-center gap-3 px-2">
-              <div className="p-2 bg-gray-100 dark:bg-white/5 rounded-lg text-gray-600 dark:text-gray-400">
-                <IoSettingsOutline size={20} />
-              </div>
-              <h2 className="text-lg font-medium text-gray-900 dark:text-white">{t('settings.autoReplay')}</h2>
-            </div>
-            <div className="bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 p-8 rounded-[2rem]">
-              <div className="flex items-center justify-between gap-4">
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {t('settings.autoReplayDescription')}
-                </p>
-                <Checkbox
-                  checked={settings.autoReplay}
-                  onChange={(e) => update("autoReplay", e.target.checked)}
-                />
-              </div>
-            </div>
-          </section>
-
-          {/* Quality */}
-          <section className="flex flex-col gap-6 relative">
-            <div className="flex items-center gap-3 px-2">
-              <div className="p-2 bg-gray-100 dark:bg-white/5 rounded-lg text-gray-600 dark:text-gray-400">
-                <IoSettingsOutline size={20} />
-              </div>
-              <h2 className="text-lg font-medium text-gray-900 dark:text-white">{t('settings.quality.label')}</h2>
-              <span className="text-xs text-yellow-500 bg-yellow-500/10 border border-yellow-500/20 px-2.5 py-0.5 rounded-full">{t('comingSoon')}</span>
-            </div>
-            <div className="bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 p-8 rounded-[2rem] space-y-6 opacity-40 pointer-events-none select-none">
-              {/* Audio Quality */}
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex flex-col gap-1">
-                  <p className="text-sm text-gray-900 dark:text-white font-medium">{t('settings.quality.label')}</p>
+                    <div className="relative max-w-xs">
+                      <select
+                        value={settings.audioQuality}
+                        onChange={(e) => update("audioQuality", e.target.value)}
+                        disabled
+                        className="w-full appearance-none h-11 pl-4 pr-9 rounded-xl bg-app-soft border border-app-line text-app-text text-sm cursor-not-allowed"
+                      >
+                        {AUDIO_QUALITIES.map((q) => (
+                          <option key={q.value} value={q.value}>{q.label}</option>
+                        ))}
+                      </select>
+                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-app-text-muted pointer-events-none">▾</span>
+                    </div>
+                  </PremiumFeature>
+                  <label className="mt-3 inline-flex items-center gap-3 cursor-not-allowed select-none opacity-80">
+                    <Checkbox checked={settings.autoQuality} onChange={() => {}} />
+                    <span className="text-sm text-app-text">{t("settings.quality.auto")}</span>
+                  </label>
                   {!hasHighQuality && (
-                    <p className="text-xs text-gray-500">
-                      {t('settings.quality.highQualityRequirePremium')}
+                    <p className="text-[11px] text-app-text-muted mt-3">
+                      {t("settings.quality.highQualityRequirePremium")}
                     </p>
                   )}
-                </div>
-                <PremiumFeature
-                  requiredPlan={[SubscriptionType.PREMIUM, SubscriptionType.FAMILY]}
-                  fallback={
-                    <select
-                      value={
-                        settings.audioQuality === "high" ||
-                        settings.audioQuality === "very_high"
-                          ? "normal"
-                          : settings.audioQuality
-                      }
-                      onChange={(e) => update("audioQuality", e.target.value)}
-                      disabled={settings.autoQuality}
-                      className={`bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white text-sm rounded-lg px-4 py-2 min-w-[180px] outline-none focus:border-gray-500 transition-colors appearance-none ${settings.autoQuality ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
-                    >
-                      {AUDIO_QUALITIES.filter(
-                        (q) => q.value !== "high" && q.value !== "very_high"
-                      ).map((q) => (
-                        <option key={q.value} value={q.value}>
-                          {q.label}
-                        </option>
-                      ))}
-                    </select>
-                  }
+                </LockedCard>
+              </>
+            )}
+
+            {activeTab === "notifications" && (
+              <>
+                <LockedCard
+                  index="1"
+                  icon={<HiOutlineBellAlert className="w-5 h-5" />}
+                  title={t("settings.pushNotifications")}
+                  subtitle={t("settings.notificationsDescription")}
+                  badge={t("comingSoon")}
                 >
-                  <select
-                    value={settings.audioQuality}
-                    onChange={(e) => update("audioQuality", e.target.value)}
-                    disabled={settings.autoQuality}
-                    className={`bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white text-sm rounded-lg px-4 py-2 min-w-[180px] outline-none focus:border-gray-500 transition-colors appearance-none ${settings.autoQuality ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
-                  >
-                    {AUDIO_QUALITIES.map((q) => (
-                      <option key={q.value} value={q.value}>
-                        {q.label}
-                      </option>
-                    ))}
-                  </select>
-                </PremiumFeature>
-              </div>
+                  <label className="inline-flex items-center gap-3 cursor-not-allowed select-none opacity-80">
+                    <Checkbox checked={false} onChange={() => {}} />
+                    <span className="text-sm text-app-text">{t("settings.disabled")}</span>
+                  </label>
+                </LockedCard>
 
-              <div className="border-t border-gray-200 dark:border-white/5" />
+                <LockedCard
+                  index="2"
+                  icon={<HiOutlineBellAlert className="w-5 h-5" />}
+                  title={t("settings.emailNewsletters")}
+                  subtitle={t("settings.newslettersDescription")}
+                  badge={t("comingSoon")}
+                >
+                  <label className="inline-flex items-center gap-3 cursor-not-allowed select-none opacity-80">
+                    <Checkbox checked={false} onChange={() => {}} />
+                    <span className="text-sm text-app-text">{t("settings.disabled")}</span>
+                  </label>
+                </LockedCard>
+              </>
+            )}
 
-              {/* Automatic Quality Setting */}
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex flex-col gap-1">
-                  <p className="text-sm text-gray-900 dark:text-white font-medium">
-                    {t('settings.quality.auto')}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    {t('settings.quality.autoDescription')}
-                  </p>
-                </div>
-                <Checkbox
-                  checked={settings.autoQuality}
-                  onChange={(e) => update("autoQuality", e.target.checked)}
-                />
-              </div>
-            </div>
-          </section>
+            {activeTab === "privacy" && (
+              <>
+                <LockedCard
+                  index="1"
+                  icon={<HiOutlineShieldCheck className="w-5 h-5" />}
+                  title={t("settings.publicProfile")}
+                  subtitle={t("settings.publicProfileDesc")}
+                  badge={t("comingSoon")}
+                >
+                  <label className="inline-flex items-center gap-3 cursor-not-allowed select-none opacity-80">
+                    <Checkbox checked onChange={() => {}} />
+                    <span className="text-sm text-app-text">{t("settings.enabled")}</span>
+                  </label>
+                </LockedCard>
+
+                <LockedCard
+                  index="2"
+                  icon={<HiOutlineShieldCheck className="w-5 h-5" />}
+                  title={t("settings.listeningActivity")}
+                  subtitle={t("settings.listeningActivityDesc")}
+                  badge={t("comingSoon")}
+                >
+                  <label className="inline-flex items-center gap-3 cursor-not-allowed select-none opacity-80">
+                    <Checkbox checked onChange={() => {}} />
+                    <span className="text-sm text-app-text">{t("settings.enabled")}</span>
+                  </label>
+                </LockedCard>
+              </>
+            )}
+          </div>
         </div>
 
-        {/* Save button */}
         {(isDirty || saved) && (
-          <div className="sticky bottom-0 bg-white/80 dark:bg-black/80 border-t border-gray-200 dark:border-white/5 px-6 py-4 flex justify-end">
-            <Button variant="outline" onClick={handleSave} disabled={!isDirty && !saved}>
-              {saved ? "Saved!" : "Save"}
-            </Button>
+          <div className="fixed bottom-[100px] right-6 md:right-10 z-20">
+            <div className="flex gap-3 bg-app-elev border border-app-line shadow-2xl rounded-full p-2">
+              {isDirty && !saved && (
+                <button
+                  onClick={() => {
+                    setSettings(savedSettingsRef.current)
+                    setSaved(false)
+                  }}
+                  className="h-10 px-5 rounded-full text-app-text-soft hover:text-app-text text-sm font-semibold transition cursor-pointer"
+                >
+                  {t("common.discard")}
+                </button>
+              )}
+              <button
+                onClick={handleSave}
+                disabled={!isDirty && !saved}
+                className={classNames(
+                  "h-10 px-5 rounded-full text-sm font-semibold transition cursor-pointer inline-flex items-center gap-2",
+                  saved
+                    ? "bg-emerald-500 text-white"
+                    : "bg-brand-500 hover:bg-brand-600 text-white"
+                )}
+              >
+                {saved ? <>✓ {t("common.saved")}</> : t("common.save")}
+              </button>
+            </div>
           </div>
         )}
-      </div>
+      </PageLayout>
     </>
   )
 }

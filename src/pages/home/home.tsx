@@ -2,6 +2,7 @@ import { useState } from "react";
 import Banner from "./banner/banner";
 import SongSection from "../../components/song-section/song-section";
 import Toggle from "../../components/toggle/toggle";
+import PageLayout from "../../components/page-layout/page-layout";
 import { useGetSongsQuery } from "../../store/api/songs.api";
 import { useGetRecommendationsQuery } from "../../store/api/recommendation.api";
 import { useTranslation } from 'react-i18next';
@@ -31,7 +32,7 @@ const Home = () => {
       <Helmet>
         <title>{t('pageTitles.home')}</title>
       </Helmet>
-      <div className="flex flex-col px-6 md:px-10 pt-6 md:pt-8 pb-10 gap-6 md:gap-8">
+      <PageLayout padded={false} className="flex flex-col pt-6 md:pt-8 pb-10 gap-6 md:gap-8">
         <section className="flex-shrink-0">
           <Banner
             text={t('banner.title')}
@@ -69,7 +70,7 @@ const Home = () => {
             )}
           </div>
         </div>
-      </div>
+      </PageLayout>
     </>
   );
 };
