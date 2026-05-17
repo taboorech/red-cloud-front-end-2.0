@@ -13,7 +13,7 @@ import { BRAND_BUTTON_BASE, PAGE_LABEL_BASE } from "../../utils/tailwind-classes
 import { useTranslation } from "react-i18next"
 import { Helmet } from "react-helmet-async"
 
-type ProfileTab = "playlists" | "songs" | "following" | "activity"
+type ProfileTab = "playlists" | "songs" | "activity"
 
 const GRADIENTS = [
   "linear-gradient(135deg, #c2776c, #d29b7a)",
@@ -63,7 +63,6 @@ const Profile = () => {
   const tabs: { key: ProfileTab; label: string; count: number }[] = [
     { key: "playlists", label: t("profile.tabs.playlists"), count: playlistsList.length },
     { key: "songs", label: t("profile.tabs.mySongs"), count: songsList.length },
-    { key: "following", label: t("profile.tabs.following"), count: 0 },
     { key: "activity", label: t("profile.tabs.activity"), count: 0 },
   ]
 
@@ -100,12 +99,8 @@ const Profile = () => {
                   </span>
                 )}
                 <span className="text-app-text-soft text-sm">
-                  {playlistsList.length} playlists
+                  {playlistsList.length} {t("profile.tabs.playlists").toLowerCase()}
                 </span>
-                <span className="text-app-text-muted">·</span>
-                <span className="text-app-text-soft text-sm">347 followers</span>
-                <span className="text-app-text-muted">·</span>
-                <span className="text-app-text-soft text-sm">89 following</span>
               </div>
             </div>
 
@@ -136,10 +131,9 @@ const Profile = () => {
             </div>
           </header>
 
-          <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="mt-10 grid grid-cols-2 md:grid-cols-3 gap-3">
             <StatCard value={String(stats?.listeningsCount ?? 0)} label="Songs listened" highlight />
             <StatCard value="47h" label="This month" />
-            <StatCard value="23" label="Artists followed" />
             <StatCard value={String(stats?.dislikedCount ?? 0)} label="Disliked" />
           </div>
 
@@ -246,9 +240,6 @@ const Profile = () => {
               </>
             )}
 
-            {activeTab === "following" && (
-              <p className="text-app-text-muted text-sm py-8 text-center">Nothing here yet.</p>
-            )}
             {activeTab === "activity" && (
               <p className="text-app-text-muted text-sm py-8 text-center">No recent activity.</p>
             )}
