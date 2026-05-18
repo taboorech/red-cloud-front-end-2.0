@@ -404,15 +404,16 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
   };
 
   const playFromQueue = (index: number) => {
-    if (index >= 0 && index < queue.length) {
+    const q = queueRef.current;
+    if (index >= 0 && index < q.length) {
       setCurrentIndex(index);
-      const songToPlay = queue[index];
+      const songToPlay = q[index];
 
       setQueue(prev => prev.map((item, idx) => ({
         ...item,
         isActive: idx > index
       })));
-      
+
       playSong(songToPlay.song);
       setPlaying(true);
     }

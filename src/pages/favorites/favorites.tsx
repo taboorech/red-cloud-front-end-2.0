@@ -118,7 +118,7 @@ const Favorites = () => {
           {!isEmpty ? (
             <List gap={1}>
               {favorites!.map((song, index) => {
-                const isActive = audio.currentSong?.id === song.id && audio.currentPlaylist === "favorites";
+                const isActive = audio.currentSong?.id === song.id;
 
                 return (
                   <Song
@@ -132,8 +132,10 @@ const Favorites = () => {
                     onClick={() => {
                       const queue = favorites!.map((s, i) => ({ song: s, index: i, isActive: i > index }));
                       audio.setQueue(queue);
+                      audio.setCurrentIndex(index);
                       audio.setCurrentPlaylist("favorites");
-                      audio.playFromQueue(index);
+                      audio.playSong(song);
+                      audio.setPlaying(true);
                     }}
                   />
                 );

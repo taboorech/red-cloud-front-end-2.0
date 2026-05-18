@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { MdPlayArrow, MdPause } from "react-icons/md";
 import { CiShuffle } from "react-icons/ci";
@@ -29,6 +29,16 @@ const Playlist = () => {
     playlist.songs.some(song => song.id === audio.currentSong?.id) &&
     audio.currentPlaylist === playlistId);
   const isPlaying = isPlayingThisPlaylist && audio.playing;
+
+  useEffect(() => {
+    if (!playlist?.songs?.length || !audio.currentSong) return;
+    if (audio.currentPlaylist === playlistId && audio.queue.length === playlist.songs.length) return;
+    const idx = playlist.songs.findIndex((s) => s.id === audio.currentSong!.id);
+    if (idx === -1) return;
+    audio.setQueue(playlist.songs.map((s, i) => ({ song: s, index: i, isActive: i > idx })));
+    audio.setCurrentIndex(idx);
+    audio.setCurrentPlaylist(playlistId!);
+  }, [playlist?.songs, audio.currentSong?.id, playlistId]);
 
   const totals = useMemo(() => {
     const totalSeconds = playlist?.songs?.reduce((acc, s) => acc + (s.duration_seconds || 0), 0) || 0;
@@ -147,7 +157,7 @@ const Playlist = () => {
           {playlist.songs && playlist.songs.length > 0 ? (
             <List gap={1}>
               {playlist.songs.map((song) => {
-                const isActive = audio.currentSong?.id === song.id && audio.currentPlaylist === playlistId;
+                const isActive = audio.currentSong?.id === song.id;
                 return (
                   <Song
                     key={song.id}
@@ -160,9 +170,11 @@ const Playlist = () => {
                     playlistId={playlist.id}
                     onClick={() => {
                       const songIndex = playlist.songs!.findIndex(s => s.id === song.id);
-                      audio.setCurrentPlaylist(playlistId!);
                       audio.setQueue(playlist.songs!.map((s, idx) => ({ song: s, index: idx, isActive: idx > songIndex })));
-                      audio.playFromQueue(songIndex);
+                      audio.setCurrentIndex(songIndex);
+                      audio.setCurrentPlaylist(playlistId!);
+                      audio.playSong(song);
+                      audio.setPlaying(true);
                     }}
                   />
                 );
