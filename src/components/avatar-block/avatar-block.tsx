@@ -15,7 +15,7 @@ const AvatarBlock = ({ isAuthenticated = false, avatarUrl, userName, isStatic = 
   return (
     <div className="flex flex-col gap-6 rounded-md p-4 bg-app-elev border border-app-line">
       <div className="flex justify-center items-center w-24 h-24 max-w-full mx-auto">
-        <Avatar src={avatarUrl} />
+        <Avatar src={avatarUrl} alt={userName} />
       </div>
       <div className="flex justify-center items-center">
         {isAuthenticated || isStatic ? (

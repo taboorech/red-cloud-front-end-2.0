@@ -72,7 +72,7 @@ const Topbar = () => {
         className="w-10 h-10 rounded-full overflow-hidden ring-1 ring-app-line hover:ring-app-soft-2 transition cursor-pointer shrink-0"
         aria-label="Profile"
       >
-        <Avatar src={profile?.avatar} />
+        <Avatar src={profile?.avatar} alt={profile?.username} />
       </button>
     </header>
   );

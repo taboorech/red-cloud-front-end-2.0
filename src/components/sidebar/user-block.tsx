@@ -36,7 +36,7 @@ const UserBlock = ({ profile }: UserBlockProps) => {
         aria-label="Profile"
       >
         <span className="block w-10 h-10 rounded-full overflow-hidden">
-          <Avatar src={profile.avatar} />
+          <Avatar src={profile.avatar} alt={profile.username} />
         </span>
         <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-app-elev" />
       </button>

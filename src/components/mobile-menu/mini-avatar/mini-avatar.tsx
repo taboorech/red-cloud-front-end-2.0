@@ -25,7 +25,7 @@ const MiniAvatar = ({ onClick }: MiniAvatarProps) => {
       onClick={onClick}
     >
       <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
-        <Avatar />
+        <Avatar alt={profile.username} />
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium truncate">{profile.username}</p>

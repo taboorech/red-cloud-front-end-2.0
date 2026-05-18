@@ -9,20 +9,13 @@ import { useSubscription } from "../../hooks/use-subscription"
 import { useLogoutMutation } from "../../store/api/auth.api"
 import PageLayout from "../../components/page-layout/page-layout"
 import StatCard from "../../components/stat-card/stat-card"
+import Avatar from "../../components/avatar-block/avatar/avatar"
 import { BRAND_BUTTON_BASE, PAGE_LABEL_BASE } from "../../utils/tailwind-classes"
+import { PASTEL_GRADIENTS, STRIPE_OVERLAY_CLASS } from "../../utils/gradients"
 import { useTranslation } from "react-i18next"
 import { Helmet } from "react-helmet-async"
 
 type ProfileTab = "playlists" | "songs" | "activity"
-
-const GRADIENTS = [
-  "linear-gradient(135deg, #c2776c, #d29b7a)",
-  "linear-gradient(135deg, #8a7035, #b59465)",
-  "linear-gradient(135deg, #5a7a4f, #80a17d)",
-  "linear-gradient(135deg, #5a8589, #82a9a6)",
-  "linear-gradient(135deg, #8094b5, #6b81a8)",
-  "linear-gradient(135deg, #9b80b5, #b09bc7)",
-]
 
 const Profile = () => {
   const { t } = useTranslation()
@@ -74,15 +67,8 @@ const Profile = () => {
       <div className="bg-app-base text-app-text">
         <PageLayout padded={false} className="max-w-5xl mx-auto py-10">
           <header className="flex items-start gap-6 flex-wrap">
-            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden bg-neutral-200 relative shrink-0">
-              {profile?.avatar ? (
-                <img src={profile.avatar} alt={profile.username} className="w-full h-full object-cover" />
-              ) : (
-                <>
-                  <div className="w-full h-full" style={{ background: GRADIENTS[0] }} />
-                  <span className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(135deg,rgba(255,255,255,0.4)_0_2px,transparent_2px_8px)] rounded-full" />
-                </>
-              )}
+            <div className="w-32 h-32 md:w-40 md:h-40 shrink-0">
+              <Avatar src={profile?.avatar} alt={profile?.username ?? "Profile"} />
             </div>
 
             <div className="flex-1 min-w-0 flex flex-col gap-3">
@@ -131,9 +117,8 @@ const Profile = () => {
             </div>
           </header>
 
-          <div className="mt-10 grid grid-cols-2 md:grid-cols-3 gap-3">
+          <div className="mt-10 grid grid-cols-2 gap-3">
             <StatCard value={String(stats?.listeningsCount ?? 0)} label="Songs listened" highlight />
-            <StatCard value="47h" label="This month" />
             <StatCard value={String(stats?.dislikedCount ?? 0)} label="Disliked" />
           </div>
 
@@ -179,20 +164,15 @@ const Profile = () => {
                     >
                       <div
                         className="aspect-[3/2] w-full rounded-xl overflow-hidden relative shadow-sm"
-                        style={!p.image_url ? { background: GRADIENTS[idx % GRADIENTS.length] } : undefined}
+                        style={!p.image_url ? { background: PASTEL_GRADIENTS[idx % PASTEL_GRADIENTS.length] } : undefined}
                       >
                         {p.image_url ? (
                           <img src={p.image_url} alt={p.title} className="w-full h-full object-cover" />
                         ) : (
-                          <span className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(135deg,rgba(255,255,255,0.4)_0_2px,transparent_2px_8px)]" />
+                          <span className={STRIPE_OVERLAY_CLASS} />
                         )}
                       </div>
-                      <div>
-                        <p className="font-semibold truncate text-app-text">{p.title}</p>
-                        <p className="text-xs text-app-text-muted">
-                          {p.songs?.length ?? 0} songs
-                        </p>
-                      </div>
+                      <p className="font-semibold truncate text-app-text">{p.title}</p>
                     </button>
                   ))
                 )}
@@ -224,12 +204,12 @@ const Profile = () => {
                       >
                         <div
                           className="aspect-square w-full rounded-xl overflow-hidden relative shadow-sm"
-                          style={!song.image_url ? { background: GRADIENTS[idx % GRADIENTS.length] } : undefined}
+                          style={!song.image_url ? { background: PASTEL_GRADIENTS[idx % PASTEL_GRADIENTS.length] } : undefined}
                         >
                           {song.image_url ? (
                             <img src={song.image_url} alt={song.title} className="w-full h-full object-cover" />
                           ) : (
-                            <span className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(135deg,rgba(255,255,255,0.4)_0_2px,transparent_2px_8px)]" />
+                            <span className={STRIPE_OVERLAY_CLASS} />
                           )}
                         </div>
                         <p className="font-semibold truncate text-app-text">{song.title}</p>
