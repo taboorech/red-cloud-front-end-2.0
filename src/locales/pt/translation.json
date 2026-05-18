@@ -158,6 +158,12 @@
   "subscriptions": {
     "title": "Escolha Seu Plano",
     "subtitle": "Desbloqueie música ilimitada e recursos premium",
+    "forever": "para sempre",
+    "month": "mês",
+    "year": "ano",
+    "noAds": "sem anúncios",
+    "upgradeToPremium": "Atualizar para Premium",
+    "standardQuality": "qualidade padrão",
     "currentPlan": "Plano Atual",
     "availablePlans": "Planos Disponíveis",
     "whyGoPremium": "Por que ser Premium?",

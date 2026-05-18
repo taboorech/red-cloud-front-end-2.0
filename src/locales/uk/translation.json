@@ -158,6 +158,12 @@
   "subscriptions": {
     "title": "Оберіть ваш план",
     "subtitle": "Отримайте необмежену музику та преміум функції",
+    "forever": "назавжди",
+    "month": "міс",
+    "year": "рік",
+    "noAds": "без реклами",
+    "upgradeToPremium": "Покращити до Premium",
+    "standardQuality": "стандартна якість",
     "currentPlan": "Поточний план",
     "availablePlans": "Доступні плани",
     "whyGoPremium": "Навіщо Преміум?",

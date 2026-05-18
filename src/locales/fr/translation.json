@@ -158,6 +158,12 @@
   "subscriptions": {
     "title": "Choisissez Votre Plan",
     "subtitle": "Musique illimitée et fonctionnalités premium",
+    "forever": "à vie",
+    "month": "mois",
+    "year": "an",
+    "noAds": "sans publicité",
+    "upgradeToPremium": "Passer à Premium",
+    "standardQuality": "qualité standard",
     "currentPlan": "Plan Actuel",
     "availablePlans": "Plans Disponibles",
     "whyGoPremium": "Pourquoi passer à Premium ?",

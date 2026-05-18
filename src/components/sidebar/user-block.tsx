@@ -2,7 +2,15 @@ import { useNavigate } from "react-router";
 import { IoIosSettings } from "react-icons/io";
 import Avatar from "../avatar-block/avatar/avatar";
 import { Button } from "../button/button";
+import { useSubscription } from "../../hooks/use-subscription";
+import { SubscriptionType } from "../../types/subscription.types";
 import type { User } from "../../types/user.types";
+
+const PLAN_LABEL: Record<SubscriptionType, string> = {
+  [SubscriptionType.FREE]: "Free",
+  [SubscriptionType.PREMIUM]: "Premium",
+  [SubscriptionType.FAMILY]: "Family",
+};
 
 interface UserBlockProps {
   profile?: User;
@@ -10,6 +18,7 @@ interface UserBlockProps {
 
 const UserBlock = ({ profile }: UserBlockProps) => {
   const navigate = useNavigate();
+  const { currentPlan } = useSubscription();
 
   if (!profile) {
     return (
@@ -47,7 +56,7 @@ const UserBlock = ({ profile }: UserBlockProps) => {
       >
         <div className="text-sm font-semibold text-app-text truncate">{profile.username}</div>
         <div className="text-[10px] tracking-widest font-semibold text-app-text-muted uppercase">
-          Premium
+          {PLAN_LABEL[currentPlan] ?? "Free"}
         </div>
       </button>
       <button

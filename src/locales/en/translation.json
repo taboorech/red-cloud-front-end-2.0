@@ -158,6 +158,12 @@
   "subscriptions": {
     "title": "Choose Your Plan",
     "subtitle": "Unlock unlimited music and premium features",
+    "forever": "forever",
+    "month": "month",
+    "year": "year",
+    "noAds": "no ads",
+    "upgradeToPremium": "Upgrade to Premium",
+    "standardQuality": "standard quality",
     "currentPlan": "Current Plan",
     "availablePlans": "Available Plans",
     "whyGoPremium": "Why Go Premium?",

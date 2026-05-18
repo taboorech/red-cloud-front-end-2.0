@@ -158,6 +158,12 @@
   "subscriptions": {
     "title": "Scegli il Tuo Piano",
     "subtitle": "Sblocca musica illimitata",
+    "forever": "per sempre",
+    "month": "mese",
+    "year": "anno",
+    "noAds": "senza pubblicità",
+    "upgradeToPremium": "Passa a Premium",
+    "standardQuality": "qualità standard",
     "currentPlan": "Piano Attuale",
     "availablePlans": "Piani Disponibili",
     "whyGoPremium": "Perché passare a Premium?",

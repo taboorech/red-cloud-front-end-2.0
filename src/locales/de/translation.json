@@ -158,6 +158,12 @@
   "subscriptions": {
     "title": "Wähle deinen Plan",
     "subtitle": "Unbegrenzt Musik und Premium-Features freischalten",
+    "forever": "für immer",
+    "month": "Monat",
+    "year": "Jahr",
+    "noAds": "keine Werbung",
+    "upgradeToPremium": "Auf Premium upgraden",
+    "standardQuality": "Standardqualität",
     "currentPlan": "Aktueller Plan",
     "availablePlans": "Verfügbare Pläne",
     "whyGoPremium": "Warum Premium?",

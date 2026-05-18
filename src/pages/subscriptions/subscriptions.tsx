@@ -214,7 +214,7 @@ const Subscriptions = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl w-full mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 max-w-5xl w-full mx-auto">
           {plans.map((plan) => {
             const isPopular = !!plan.popular && !plan.unavailable
             const isCurrent = currentPlanId === plan.id
@@ -249,9 +249,9 @@ const Subscriptions = () => {
                   )}
                 </div>
 
-                <div className="mt-4 flex items-baseline gap-1">
-                  <span className="text-4xl md:text-5xl font-extrabold text-app-text">${plan.price}</span>
-                  <span className="text-app-text-muted">{periodLabel(plan.period)}</span>
+                <div className="mt-4 flex items-baseline gap-1 flex-wrap min-w-0">
+                  <span className="text-3xl md:text-4xl font-extrabold text-app-text">${plan.price}</span>
+                  <span className="text-app-text-muted text-sm truncate">{periodLabel(plan.period)}</span>
                 </div>
                 {selectedPeriod === "yearly" && plan.price > 0 && (
                   <p className="text-xs text-app-text-muted mt-1">
