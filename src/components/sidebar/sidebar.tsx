@@ -30,7 +30,7 @@ const Sidebar = () => {
   }, [getPlaylists]);
 
   return (
-    <aside className="hidden md:flex flex-col h-full w-[260px] shrink-0 bg-app-elev border-r border-app-line">
+    <aside className="hidden md:flex flex-col h-full w-[260px] shrink-0 bg-app-elev border-r border-app-line overflow-hidden">
       <div className="px-5 pt-5 pb-3">
         <Logo />
       </div>

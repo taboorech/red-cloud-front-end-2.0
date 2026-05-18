@@ -46,73 +46,98 @@ const Song = ({
   const artist =
     song?.authors?.[0]?.name ?? song?.authors?.[0]?.user?.username ?? "";
 
+  const contextMenuNode = contextMenu.isOpen && song && (
+    <SongContextMenu
+      song={song}
+      position={contextMenu.position}
+      onClose={contextMenu.close}
+      playlistId={playlistId}
+      onRemoveFromPlaylist={onRemoveFromPlaylist}
+    />
+  );
+
+  if (variant === "expanded") {
+    return (
+      <>
+        <div
+          onClick={handleClick}
+          onContextMenu={(e) => song && contextMenu.open(e)}
+          className="group cursor-pointer select-none flex items-center w-full px-2 py-2 rounded-lg hover:bg-app-soft transition relative"
+        >
+          <BsSoundwave
+            aria-hidden
+            className="absolute left-2 top-1/2 -translate-y-1/2 text-brand-400 text-2xl pointer-events-none z-0"
+          />
+          <div
+            className={classNames(
+              "flex items-center gap-3 flex-1 min-w-0 transition-transform duration-300 ease-out relative z-10",
+              isActive ? "translate-x-8" : "translate-x-0"
+            )}
+          >
+            <StripedCover
+              src={image || null}
+              alt={title}
+              seed={song?.id ?? title}
+              rounded="rounded-md"
+              className="w-12 h-12 shrink-0"
+            />
+            <div className="flex-1 min-w-0">
+              <p
+                className={classNames(
+                  "text-sm font-semibold truncate transition-colors",
+                  isActive ? "text-brand-400" : "text-app-text"
+                )}
+              >
+                {title}
+              </p>
+              {artist && (
+                <p className="text-xs text-app-text-muted truncate">{artist}</p>
+              )}
+            </div>
+          </div>
+          {duration && (
+            <span className="text-app-text-muted text-xs tabular-nums ml-auto pl-2 relative z-10">
+              {duration}
+            </span>
+          )}
+        </div>
+        {contextMenuNode}
+      </>
+    );
+  }
+
   return (
     <>
       <div
         onClick={handleClick}
         onContextMenu={(e) => song && contextMenu.open(e)}
-        className={classNames(
-          "group cursor-pointer select-none transition relative",
-          variant === "small"
-            ? "flex flex-col items-stretch w-full"
-            : "flex items-center gap-3 w-full px-2 py-2 rounded-lg hover:bg-app-soft",
-        )}
+        className="group cursor-pointer select-none flex flex-col items-stretch w-full relative transition"
       >
-        {isActive && variant === "expanded" && (
-          <BsSoundwave className="text-brand-400 text-2xl flex-shrink-0" />
-        )}
         <StripedCover
           src={image || null}
           alt={title}
           seed={song?.id ?? title}
-          rounded={variant === "small" ? "rounded-lg" : "rounded-md"}
-          className={classNames(
-            variant === "small" ? "w-full aspect-square" : "w-12 h-12 shrink-0",
-          )}
+          rounded="rounded-lg"
+          className="w-full aspect-square"
         >
-          {isActive && variant === "small" && (
+          {isActive && (
             <div className="absolute inset-0 bg-black/50 grid place-items-center">
               <BsSoundwave className="text-brand-400 text-3xl" />
             </div>
           )}
         </StripedCover>
-
-        <div
-          className={classNames(
-            variant === "small"
-              ? "mt-2"
-              : "flex-1 min-w-0",
-          )}
-        >
+        <div className="mt-2">
           <p
             className={classNames(
               "text-sm font-semibold truncate",
-              isActive ? "text-brand-400" : "text-app-text",
+              isActive ? "text-brand-400" : "text-app-text"
             )}
           >
             {title}
           </p>
-          {variant === "expanded" && artist && (
-            <p className="text-xs text-neutral-400 truncate">{artist}</p>
-          )}
         </div>
-
-        {variant === "expanded" && duration && (
-          <span className="text-neutral-400 text-xs tabular-nums ml-auto pl-2">
-            {duration}
-          </span>
-        )}
       </div>
-
-      {contextMenu.isOpen && song && (
-        <SongContextMenu
-          song={song}
-          position={contextMenu.position}
-          onClose={contextMenu.close}
-          playlistId={playlistId}
-          onRemoveFromPlaylist={onRemoveFromPlaylist}
-        />
-      )}
+      {contextMenuNode}
     </>
   );
 };
