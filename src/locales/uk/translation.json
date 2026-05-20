@@ -325,6 +325,7 @@
     "uploadAudioPrompt": "Перетягніть аудіо сюди",
     "dragDropAudio": "Перетягніть аудіо сюди",
     "chooseFile": "Або обрати файл",
+    "audioSizeLimit": "MP3, WAV, FLAC · до 50 МБ",
     "format": "Формат",
     "size": "Розмір",
     "replaceFile": "Замінити файл",

@@ -9,7 +9,7 @@ import AuthForm from "../../components/auth-form/auth-form"
 import type { LoginFormValues, RegistrationFormValues } from "../../components/auth-form/auth-form"
 import { useLoginMutation, useSignUpMutation, useLazyGetGoogleAuthUrlQuery } from "../../store/api/auth.api"
 import AuthLogo from "./components/auth-logo"
-import { PAGE_LABEL_BASE, FIELD_LABEL_BASE } from "../../utils/tailwind-classes"
+import { PAGE_LABEL_BASE } from "../../utils/tailwind-classes"
 
 type AuthTab = "authorization" | "registration"
 
@@ -70,14 +70,11 @@ const Auth = () => {
           />
 
           <div className="relative z-10 flex flex-col gap-4">
-            <div className={classNames(FIELD_LABEL_BASE, "text-neutral-400")}>
-              Now playing for 2.4M listeners
-            </div>
             <h1 className="text-5xl font-extrabold leading-tight">
               Music that <span className="text-brand-500">finds you.</span>
             </h1>
             <p className="text-neutral-300 text-lg max-w-md">
-              Personal mixes, daily discoveries, and 70 million tracks. Build your sound on RedCloud.
+              Discover new music every day on RedCloud.
             </p>
           </div>
         </aside>
@@ -117,7 +114,7 @@ const Auth = () => {
             <p className="text-neutral-600 mb-8">
               {activeTab === "authorization"
                 ? "Sign in to keep listening where you left off."
-                : "Join 2.4M listeners discovering music every day."}
+                : "Create your account to start listening."}
             </p>
 
             <div className="flex flex-col gap-3 mb-6">

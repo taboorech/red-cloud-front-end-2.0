@@ -321,6 +321,7 @@
     "uploadAudioPrompt": "Arraste o áudio aqui",
     "dragDropAudio": "Arraste o áudio aqui",
     "chooseFile": "Ou escolha um arquivo",
+    "audioSizeLimit": "MP3, WAV, FLAC · até 50 MB",
     "format": "Formato",
     "size": "Tamanho",
     "replaceFile": "Substituir arquivo",

@@ -450,7 +450,7 @@ const SongEditor = () => {
                             <p className="text-app-text font-semibold">
                               {t("songEditor.dragDropAudio")}
                             </p>
-                            <p className="text-xs text-app-text-muted mt-1">MP3, WAV, FLAC · до 50 MB</p>
+                            <p className="text-xs text-app-text-muted mt-1">{t("songEditor.audioSizeLimit")}</p>
                           </div>
                           <span className="mt-1 inline-flex items-center gap-2 px-4 h-9 rounded-full bg-app-soft-2 text-sm font-semibold text-app-text">
                             {t("songEditor.chooseFile")}
