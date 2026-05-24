@@ -17,7 +17,7 @@ const PlayerControls = () => {
       case 'shuffle':
         return <CiShuffle className="text-blue-400" />;
       default:
-        return <IoRepeat className="text-gray-500 dark:text-gray-400" />;
+        return <IoRepeat className="text-app-text-muted" />;
     }
   };
 
@@ -25,7 +25,6 @@ const PlayerControls = () => {
     const modes: ('normal' | 'repeat' | 'repeat-one' | 'shuffle')[] = ['normal', 'repeat', 'repeat-one', 'shuffle'];
     const currentIndex = modes.indexOf(audio.playMode);
     const nextIndex = (currentIndex + 1) % modes.length;
-    console.log('PLAY MODE TOGGLE', modes[nextIndex]);
     
     audio.setPlayMode(modes[nextIndex]);
   };

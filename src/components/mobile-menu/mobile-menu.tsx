@@ -41,15 +41,15 @@ const MobileMenu = ({ onClose, userRole }: MobileMenuProps) => {
   }, [t, userRole]);
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-neutral-900">
-      <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-neutral-700">
+    <div className="flex flex-col h-full bg-app-elev">
+      <div className="flex justify-between items-center p-6 border-b border-app-line">
         <h2 className="text-xl font-semibold">{t('navigation.menu')}</h2>
         <Button variant="ghost" size="sm" rounded="full" onClick={onClose}>
           <IoMdClose className="text-xl" />
         </Button>
       </div>
 
-      <div className="p-6 border-b border-gray-200 dark:border-neutral-700">
+      <div className="p-6 border-b border-app-line">
         <MiniAvatar onClick={() => handleNavigation('/profile')} />
       </div>
 

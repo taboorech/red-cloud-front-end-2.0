@@ -11,14 +11,14 @@ const NotFound = () => {
       <Helmet>
         <title>{t('pageTitles.notFound')}</title>
       </Helmet>
-      <div className="flex flex-col items-center justify-center h-full bg-white dark:bg-black rounded-md text-gray-900 dark:text-white px-4">
-      <p className="text-[8rem] font-bold leading-none text-gray-100 dark:text-white/10 select-none">
+      <div className="flex flex-col items-center justify-center h-full bg-app-base rounded-md text-app-text px-4">
+      <p className="text-[8rem] font-bold leading-none text-app-text/5 select-none">
         404
       </p>
       <h1 className="text-2xl font-semibold mt-2">
         {t("notFound.title")}
       </h1>
-      <p className="text-gray-500 dark:text-gray-400 text-sm mt-2 text-center max-w-md">
+      <p className="text-app-text-muted text-sm mt-2 text-center max-w-md">
         {t("notFound.description")}
       </p>
       <div className="flex gap-3 mt-8">

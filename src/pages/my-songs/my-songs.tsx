@@ -1,9 +1,14 @@
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { useNavigate } from "react-router"
-import { MdAdd, MdEdit, MdDelete, MdMusicNote } from "react-icons/md"
+import { MdAdd, MdEdit, MdDelete, MdMusicNote, MdPlayArrow } from "react-icons/md"
+import { CiShuffle } from "react-icons/ci"
+import { HiOutlineEllipsisHorizontal } from "react-icons/hi2"
 import Song from "../../components/song/song"
 import List from "../../components/list/list"
 import { Button } from "../../components/button/button"
+import PageLayout from "../../components/page-layout/page-layout"
+import PageHeader from "../../components/page-header/page-header"
+import EmptyState from "../../components/empty-state/empty-state"
 import { useGetSongsQuery, useDeleteSongMutation } from "../../store/api/songs.api"
 import { useAudio } from "../../context/audio-context"
 import { formatDuration } from "../../utils/format"
@@ -18,6 +23,18 @@ const MySongs = () => {
   const audio = useAudio()
   const [deletingId, setDeletingId] = useState<string | null>(null)
 
+  const totals = useMemo(() => {
+    if (!songs?.length) return { plays: 0, duration: "0:00" }
+    const totalSeconds = songs.reduce((acc, s) => acc + (s.duration_seconds || 0), 0)
+    const hours = Math.floor(totalSeconds / 3600)
+    const minutes = Math.floor((totalSeconds % 3600) / 60)
+    const seconds = totalSeconds % 60
+    const duration = hours > 0
+      ? `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+      : `${minutes}:${seconds.toString().padStart(2, '0')}`
+    return { duration }
+  }, [songs])
+
   const handleDelete = async (songId: string) => {
     setDeletingId(songId)
     try {
@@ -27,50 +44,100 @@ const MySongs = () => {
     }
   }
 
+  const handlePlayAll = () => {
+    if (!songs?.length) return
+    const queue = songs.map((song, index) => ({ song, index, isActive: index > 0 }))
+    audio.setQueue(queue)
+    audio.setCurrentIndex(0)
+    audio.setCurrentPlaylist("my-songs")
+    audio.setPlayMode("normal")
+    audio.playSong(songs[0])
+    audio.setPlaying(true)
+  }
+
+  const handleShuffle = () => {
+    if (!songs?.length) return
+    audio.setPlayMode("shuffle")
+    handlePlayAll()
+  }
+
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-full">
-        <div className="text-gray-900 dark:text-white text-lg">{t('common.loading')}</div>
-      </div>
+      <PageLayout className="text-app-text">{t('common.loading')}</PageLayout>
     )
   }
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-full">
-        <div className="text-red-400 text-lg">{t('home.loadingError')}</div>
-      </div>
+      <PageLayout className="text-brand-400">{t('home.loadingError')}</PageLayout>
     )
   }
+
+  const isEmpty = !songs || songs.length === 0
 
   return (
     <>
       <Helmet>
         <title>{t('pageTitles.mySongs')}</title>
       </Helmet>
-      <div className="flex flex-col gap-5 h-full">
-        <div className="bg-gradient-to-b from-indigo-100 dark:from-indigo-900/40 to-white dark:to-black p-6 rounded-md flex items-center justify-between border border-gray-200 dark:border-transparent">
-          <div className="flex flex-col gap-1">
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">{t('mySongs.title')}</h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              {songs?.length ?? 0} {t('common.songs')}
-            </p>
-          </div>
-          <Button
-            variant="snow"
-            size="md"
-            rounded="full"
-            leftIcon={<MdAdd className="text-xl" />}
-            onClick={() => navigate("/songs/new")}
-          >
-            {t('mySongs.createSong')}
-          </Button>
-        </div>
+      <div className="flex flex-col">
+        <PageHeader
+          gradientClassName="bg-gradient-to-b from-indigo-900/40 via-blue-900/20 to-transparent"
+          icon={
+            <div className="w-full h-full bg-gradient-to-br from-indigo-500 to-blue-700 grid place-items-center relative">
+              <MdMusicNote className="text-white w-20 h-20" />
+              <span className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(135deg,rgba(255,255,255,0.07)_0_2px,transparent_2px_8px)]" />
+            </div>
+          }
+          eyebrow={t('mySongs.collection')}
+          title={t('mySongs.title')}
+          meta={
+            <>
+              {songs?.length ?? 0} {songs?.length === 1 ? t('common.song') : t('common.songs')}
+              {!isEmpty && ` · ${totals.duration}`}
+            </>
+          }
+          actions={
+            <>
+              <button
+                onClick={handlePlayAll}
+                disabled={isEmpty}
+                className="w-14 h-14 rounded-full bg-brand-500 shadow-[0_0_24px_-2px_rgba(239,54,54,0.7)] grid place-items-center text-white hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                aria-label={t('common.play')}
+              >
+                <MdPlayArrow className="text-3xl" />
+              </button>
+              <button
+                onClick={handleShuffle}
+                disabled={isEmpty}
+                className="w-10 h-10 grid place-items-center rounded-full text-app-text-soft hover:text-app-text hover:bg-app-soft disabled:opacity-50 transition cursor-pointer"
+                aria-label="Shuffle"
+              >
+                <CiShuffle className="w-6 h-6" />
+              </button>
+              <button
+                className="w-10 h-10 grid place-items-center rounded-full text-app-text-soft hover:text-app-text hover:bg-app-soft transition cursor-pointer"
+                aria-label="More"
+              >
+                <HiOutlineEllipsisHorizontal className="w-6 h-6" />
+              </button>
 
-        <div className="bg-white dark:bg-black p-4 rounded-md flex-1 min-h-0 overflow-hidden border border-gray-200 dark:border-transparent">
-          {songs && songs.length > 0 ? (
+              <div className="ml-auto">
+                <button
+                  onClick={() => navigate("/songs/new")}
+                  className="inline-flex items-center gap-2 px-5 h-11 rounded-full bg-white text-black font-semibold hover:bg-neutral-200 transition cursor-pointer"
+                >
+                  <MdAdd className="text-xl" /> {t('mySongs.createSong')}
+                </button>
+              </div>
+            </>
+          }
+        />
+
+        <PageLayout padded={false} className="pb-10">
+          {!isEmpty ? (
             <List gap={1}>
-              {songs.map((song, index) => {
+              {songs!.map((song, index) => {
                 const isActive = audio.currentSong?.id === song.id && audio.currentPlaylist === "my-songs"
 
                 return (
@@ -84,8 +151,7 @@ const MySongs = () => {
                         song={song}
                         isActive={isActive}
                         onClick={() => {
-                          if (!songs.length) return
-                          const queue = songs.map((s, i) => ({ song: s, index: i, isActive: i > index }))
+                          const queue = songs!.map((s, i) => ({ song: s, index: i, isActive: i > index }))
                           audio.setQueue(queue)
                           audio.setCurrentPlaylist("my-songs")
                           audio.playFromQueue(index)
@@ -99,7 +165,7 @@ const MySongs = () => {
                         rounded="full"
                         onClick={() => navigate(`/songs/${song.id}/edit`)}
                       >
-                        <MdEdit className="text-lg text-gray-500 dark:text-gray-400" />
+                        <MdEdit className="text-lg text-app-text-muted" />
                       </Button>
                       <Button
                         variant="ghost"
@@ -108,7 +174,7 @@ const MySongs = () => {
                         disabled={deletingId === song.id}
                         onClick={() => handleDelete(song.id)}
                       >
-                        <MdDelete className="text-lg text-red-500" />
+                        <MdDelete className="text-lg text-brand-400" />
                       </Button>
                     </div>
                   </div>
@@ -116,13 +182,21 @@ const MySongs = () => {
               })}
             </List>
           ) : (
-            <div className="flex flex-col items-center justify-center h-full gap-3">
-              <MdMusicNote className="text-gray-300 dark:text-gray-600 text-5xl" />
-              <p className="text-gray-500 dark:text-gray-400 text-lg font-medium">{t('mySongs.noSongs')}</p>
-              <p className="text-gray-400 dark:text-gray-500 text-sm">{t('mySongs.noSongsDescription')}</p>
-            </div>
+            <EmptyState
+              icon={<MdMusicNote className="w-8 h-8" />}
+              title={t('mySongs.noSongs')}
+              description={t('mySongs.noSongsDescription')}
+              actions={
+                <button
+                  onClick={() => navigate("/songs/new")}
+                  className="inline-flex items-center gap-2 px-5 h-11 rounded-full bg-white text-black font-semibold hover:bg-neutral-200 transition cursor-pointer"
+                >
+                  <MdAdd className="text-xl" /> {t('mySongs.createSong')}
+                </button>
+              }
+            />
           )}
-        </div>
+        </PageLayout>
       </div>
     </>
   )

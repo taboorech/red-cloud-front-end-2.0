@@ -1,5 +1,6 @@
 import { useAudio } from "../../../context/audio-context";
 import ProgressBar from "../progress-bar/progress-bar";
+import { formatDuration } from "../../../utils/format";
 
 const SongProgress = () => {
   const audio = useAudio();
@@ -8,19 +9,10 @@ const SongProgress = () => {
     audio.setCurrentTime(newTime);
   };
 
-  const formatTime = (timeInSeconds: number) => {
-    if (isNaN(timeInSeconds) || timeInSeconds < 0) return "00:00";
-    
-    const minutes = Math.floor(timeInSeconds / 60);
-    const seconds = Math.floor(timeInSeconds % 60);
-    
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-  };
-
   return (
     <div className="flex items-center gap-4 w-full">
-      <span className="text-xs text-gray-700 dark:text-white w-10 text-right">
-        {formatTime(audio.currentTime)}
+      <span className="text-xs text-app-text-soft w-10 text-right">
+        {formatDuration(audio.currentTime)}
       </span>
 
       <div className="flex-1">
@@ -31,8 +23,8 @@ const SongProgress = () => {
         />
       </div>
 
-      <span className="text-xs text-gray-700 dark:text-white w-10 text-left">
-        {formatTime(audio.duration)}
+      <span className="text-xs text-app-text-soft w-10 text-left">
+        {formatDuration(audio.duration)}
       </span>
     </div>
   );

@@ -17,14 +17,15 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: 'bg-blue-500 text-white border-blue-500 hover:bg-blue-600 hover:border-blue-600 active:bg-blue-700 active:border-blue-700',
-  secondary: 'bg-gray-500 text-white border-gray-500 hover:bg-gray-600 hover:border-gray-600 active:bg-gray-700 active:border-gray-700',
-  outline: 'bg-transparent text-gray-900 dark:text-white border-gray-300 dark:border-white hover:bg-gray-100 dark:hover:bg-white hover:text-gray-900 dark:hover:text-black active:bg-gray-200 dark:active:bg-white',
-  ghost: 'bg-transparent text-gray-700 dark:text-white border-transparent hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white active:bg-gray-200 dark:active:bg-white/20',
-  danger: 'bg-red-500 text-white border-red-500 hover:bg-red-600 hover:border-red-600 active:bg-red-700 active:border-red-700',
-  snow: 'bg-white dark:bg-white text-gray-900 dark:text-black border-gray-200 dark:border-white hover:bg-gray-50 dark:hover:bg-gray-100 active:bg-gray-100 dark:active:bg-gray-200 shadow-sm',
-  auth: 'bg-gray-100 dark:bg-[#262626] text-gray-700 dark:text-gray-300 border-gray-100 dark:border-[#262626] hover:bg-gray-200 dark:hover:bg-[#333333] hover:border-gray-200 dark:hover:border-[#333333] active:bg-gray-300 dark:active:bg-[#404040]',
-  tab: 'bg-transparent text-gray-700 dark:text-white border-transparent hover:text-gray-500 dark:hover:text-gray-400 hover:bg-transparent',
+  primary: 'bg-brand-500 text-white border-brand-500 hover:bg-brand-600 hover:border-brand-600 active:bg-brand-700 active:border-brand-700',
+  secondary: 'bg-app-soft text-app-text border-app-line hover:bg-app-soft-2 active:bg-app-soft-2',
+  outline: 'bg-transparent text-app-text border-app-line hover:bg-app-soft active:bg-app-soft-2',
+  ghost: 'bg-transparent text-app-text-soft border-transparent hover:bg-app-soft hover:text-app-text active:bg-app-soft-2',
+  danger: 'bg-brand-500 text-white border-brand-500 hover:bg-brand-600 hover:border-brand-600 active:bg-brand-700 active:border-brand-700',
+  // Inverted-contrast pill: dark in light theme, light in dark theme.
+  snow: 'bg-app-text text-app-base border-app-text hover:opacity-90 active:opacity-80 shadow-sm',
+  auth: 'bg-app-soft text-app-text-soft border-app-soft hover:bg-app-soft-2 hover:border-app-soft-2 active:bg-app-soft-2',
+  tab: 'bg-transparent text-app-text-soft border-transparent hover:text-app-text hover:bg-transparent',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -60,7 +61,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const baseStyles = 'relative inline-flex items-center justify-center gap-2 font-medium leading-none text-center whitespace-nowrap border cursor-pointer transition-all duration-200 select-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current';
+    const baseStyles = 'relative inline-flex items-center justify-center gap-2 font-medium leading-none text-center whitespace-nowrap border cursor-pointer transition-all duration-200 select-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500';
     const disabledStyles = 'disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none';
     const fullWidthStyles = fullWidth ? 'w-full' : '';
 

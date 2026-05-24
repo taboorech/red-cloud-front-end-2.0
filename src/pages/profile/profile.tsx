@@ -1,64 +1,230 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
-import { MdMusicNote, MdChevronRight } from "react-icons/md"
-import ProfileHeader from "./components/profile-header"
-import RecentPlaylists from "./components/recent-playlists"
-import ProfileStats from "./components/profile-stats"
+import classNames from "classnames"
+import { IoSettingsSharp, IoLogOut } from "react-icons/io5"
 import { useGetProfileQuery, useGetProfileStatsQuery } from "../../store/api/profile.api"
 import { useLazyGetPlaylistsQuery } from "../../store/api/playlist.api"
+import { useGetSongsQuery } from "../../store/api/songs.api"
+import { useSubscription } from "../../hooks/use-subscription"
+import { useLogoutMutation } from "../../store/api/auth.api"
+import PageLayout from "../../components/page-layout/page-layout"
+import StatCard from "../../components/stat-card/stat-card"
+import Avatar from "../../components/avatar-block/avatar/avatar"
+import { BRAND_BUTTON_BASE, PAGE_LABEL_BASE } from "../../utils/tailwind-classes"
+import { PASTEL_GRADIENTS, STRIPE_OVERLAY_CLASS } from "../../utils/gradients"
 import { useTranslation } from "react-i18next"
 import { Helmet } from "react-helmet-async"
+
+type ProfileTab = "playlists" | "songs" | "activity"
 
 const Profile = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { data: profile, isLoading } = useGetProfileQuery()
-  const { data: stats, isLoading: statsLoading } = useGetProfileStatsQuery()
-  const [getPlaylists, { data: playlists, isLoading: playlistsLoading }] = useLazyGetPlaylistsQuery()
+  const { data: stats } = useGetProfileStatsQuery()
+  const [getPlaylists, { data: playlists }] = useLazyGetPlaylistsQuery()
+  const { data: ownSongs } = useGetSongsQuery({ offset: 0, limit: 50, owned: true })
+  const { isPremium, currentPlan } = useSubscription()
+  const [logout] = useLogoutMutation()
+  const [activeTab, setActiveTab] = useState<ProfileTab>("playlists")
 
   useEffect(() => {
-    getPlaylists({ offset: 0, limit: 5 })
+    getPlaylists({ offset: 0, limit: 20 })
   }, [getPlaylists])
 
-  if (isLoading || statsLoading || playlistsLoading) {
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap()
+      localStorage.clear()
+      navigate("/auth")
+    } catch (error) {
+      console.error("Logout failed:", error)
+    }
+  }
+
+  if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-full text-gray-400">
-        {t('common.loading')}
-      </div>
+      <PageLayout className="text-app-text-muted">
+        {t("common.loading")}
+      </PageLayout>
     )
   }
+
+  const playlistsList = playlists ?? []
+  const songsList = ownSongs ?? []
+
+  const tabs: { key: ProfileTab; label: string; count: number }[] = [
+    { key: "playlists", label: t("profile.tabs.playlists"), count: playlistsList.length },
+    { key: "songs", label: t("profile.tabs.mySongs"), count: songsList.length },
+    { key: "activity", label: t("profile.tabs.activity"), count: 0 },
+  ]
 
   return (
     <>
       <Helmet>
-        <title>{t('pageTitles.profile')}</title>
+        <title>{t("pageTitles.profile")}</title>
       </Helmet>
-      <div className="flex flex-col gap-6 h-full text-gray-900 dark:text-white overflow-y-auto">
-        <ProfileHeader
-          avatar={profile?.avatar ?? ""}
-          username={profile?.username ?? "Unknown"}
-        />
+      <div className="bg-app-base text-app-text">
+        <PageLayout padded={false} className="max-w-5xl mx-auto py-10">
+          <header className="flex items-start gap-6 flex-wrap">
+            <div className="w-32 h-32 md:w-40 md:h-40 shrink-0">
+              <Avatar src={profile?.avatar} alt={profile?.username ?? "Profile"} />
+            </div>
 
-        <div
-          onClick={() => navigate("/songs")}
-          className="flex items-center justify-between bg-white dark:bg-black px-6 py-4 rounded-2xl shadow-md border border-gray-200 dark:border-transparent cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
-        >
-          <div className="flex items-center gap-3">
-            <MdMusicNote className="text-2xl text-indigo-500" />
-            <span className="font-medium text-gray-900 dark:text-white">{t('mySongs.title')}</span>
+            <div className="flex-1 min-w-0 flex flex-col gap-3">
+              <span className={classNames(PAGE_LABEL_BASE, "text-app-text-muted")}>
+                {t("profile.profile")}
+              </span>
+              <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight truncate text-app-text">
+                {profile?.username ?? "Unknown"}
+              </h1>
+              <div className="flex items-center gap-3 flex-wrap">
+                {isPremium && (
+                  <span className="px-3 py-1 bg-brand-500 text-white text-[10px] font-bold tracking-wider rounded-full uppercase">
+                    {currentPlan}
+                  </span>
+                )}
+                <span className="text-app-text-soft text-sm">
+                  {playlistsList.length} {t("profile.tabs.playlists").toLowerCase()}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => navigate("/profile/edit")}
+                className="inline-flex items-center justify-center h-11 px-5 rounded-full bg-app-elev border border-app-line text-app-text font-semibold text-sm hover:bg-app-soft transition cursor-pointer"
+              >
+                {t("profile.editProfile")}
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate("/settings")}
+                className="w-11 h-11 grid place-items-center rounded-full bg-app-elev border border-app-line text-app-text-soft hover:bg-app-soft transition cursor-pointer"
+                aria-label="Settings"
+              >
+                <IoSettingsSharp className="w-5 h-5" />
+              </button>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="w-11 h-11 grid place-items-center rounded-full bg-app-elev border border-app-line text-brand-500 hover:bg-app-soft transition cursor-pointer"
+                aria-label="Logout"
+              >
+                <IoLogOut className="w-5 h-5" />
+              </button>
+            </div>
+          </header>
+
+          <div className="mt-10 grid grid-cols-2 gap-3">
+            <StatCard value={String(stats?.listeningsCount ?? 0)} label="Songs listened" highlight />
+            <StatCard value={String(stats?.dislikedCount ?? 0)} label="Disliked" />
           </div>
-          <MdChevronRight className="text-2xl text-gray-400" />
-        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <RecentPlaylists playlists={playlists ?? []} />
-          <ProfileStats 
-            listeningsCount={String(stats?.listeningsCount ?? 0)}
-            dislikedCount={String(stats?.dislikedCount ?? 0)}
-            likedCount={String(stats?.likedCount ?? 0)}
-            playlistsCount={String(stats?.playlistsCount ?? 0)}
-          />
-        </div>
+          <div className="mt-10 border-b border-app-line">
+            <div className="flex items-end gap-6 flex-wrap">
+              {tabs.map((tab) => {
+                const active = activeTab === tab.key
+                return (
+                  <button
+                    key={tab.key}
+                    onClick={() => setActiveTab(tab.key)}
+                    className={classNames(
+                      "pb-3 flex items-baseline gap-2 transition-colors whitespace-nowrap cursor-pointer relative",
+                      active ? "text-app-text" : "text-app-text-muted hover:text-app-text-soft"
+                    )}
+                  >
+                    <span className="font-semibold">{tab.label}</span>
+                    <span className={classNames("text-xs", active ? "text-app-text-muted" : "text-app-text-muted opacity-70")}>
+                      {tab.count}
+                    </span>
+                    {active && (
+                      <span className="absolute left-0 right-0 -bottom-px h-0.5 bg-brand-500" />
+                    )}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="mt-6">
+            {activeTab === "playlists" && (
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+                {playlistsList.length === 0 ? (
+                  <p className="col-span-full text-app-text-muted text-sm py-8 text-center">
+                    {t("profile.noPlaylistsYet")}
+                  </p>
+                ) : (
+                  playlistsList.map((p, idx) => (
+                    <button
+                      key={p.id}
+                      onClick={() => navigate(`/playlist/${p.id}`)}
+                      className="text-left flex flex-col gap-3 cursor-pointer group"
+                    >
+                      <div
+                        className="aspect-[3/2] w-full rounded-xl overflow-hidden relative shadow-sm"
+                        style={!p.image_url ? { background: PASTEL_GRADIENTS[idx % PASTEL_GRADIENTS.length] } : undefined}
+                      >
+                        {p.image_url ? (
+                          <img src={p.image_url} alt={p.title} className="w-full h-full object-cover" />
+                        ) : (
+                          <span className={STRIPE_OVERLAY_CLASS} />
+                        )}
+                      </div>
+                      <p className="font-semibold truncate text-app-text">{p.title}</p>
+                    </button>
+                  ))
+                )}
+              </div>
+            )}
+
+            {activeTab === "songs" && (
+              <>
+                <div className="flex items-center justify-end mb-4">
+                  <button
+                    type="button"
+                    onClick={() => navigate("/songs/new")}
+                    className={classNames(BRAND_BUTTON_BASE, "inline-flex items-center gap-2 h-10 px-5 text-sm rounded-full")}
+                  >
+                    <span className="text-lg leading-none">+</span> {t("mySongs.createSong")}
+                  </button>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+                  {songsList.length === 0 ? (
+                    <p className="col-span-full text-app-text-muted text-sm py-8 text-center">
+                      {t("mySongs.noSongs")}
+                    </p>
+                  ) : (
+                    songsList.map((song, idx) => (
+                      <button
+                        key={song.id}
+                        onClick={() => navigate(`/songs/${song.id}/edit`)}
+                        className="text-left flex flex-col gap-3 cursor-pointer group"
+                      >
+                        <div
+                          className="aspect-square w-full rounded-xl overflow-hidden relative shadow-sm"
+                          style={!song.image_url ? { background: PASTEL_GRADIENTS[idx % PASTEL_GRADIENTS.length] } : undefined}
+                        >
+                          {song.image_url ? (
+                            <img src={song.image_url} alt={song.title} className="w-full h-full object-cover" />
+                          ) : (
+                            <span className={STRIPE_OVERLAY_CLASS} />
+                          )}
+                        </div>
+                        <p className="font-semibold truncate text-app-text">{song.title}</p>
+                      </button>
+                    ))
+                  )}
+                </div>
+              </>
+            )}
+
+            {activeTab === "activity" && (
+              <p className="text-app-text-muted text-sm py-8 text-center">No recent activity.</p>
+            )}
+          </div>
+        </PageLayout>
       </div>
     </>
   )

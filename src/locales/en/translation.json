@@ -28,13 +28,16 @@
     "chooseFile": "Choose File",
     "home": "Home",
     "premiumRequired": "Premium subscription required",
-    "upgradePlan": "Upgrade plan"
+    "upgradePlan": "Upgrade plan",
+    "yes": "Yes",
+    "no": "No"
   },
   "navigation": {
     "menu": "Menu",
     "home": "Home",
     "search": "Search",
     "favorites": "Favorites",
+    "library": "Library",
     "playlists": "Playlists",
     "mySongs": "My Songs",
     "settings": "Settings",
@@ -42,7 +45,8 @@
     "about": "About",
     "profile": "Profile",
     "goToProfile": "Go to Profile",
-    "management": "Management"
+    "management": "Management",
+    "friends": "Friends"
   },
   "pageTitles": {
     "home": "Home",
@@ -52,12 +56,14 @@
     "mySongs": "My Songs",
     "settings": "Settings",
     "profile": "Profile",
+    "editProfile": "Edit Profile",
     "subscriptions": "Subscription",
     "about": "About",
     "auth": "Authorization",
     "forgotPassword": "Forgot Password",
     "resetPassword": "Reset Password",
     "lyrics": "Lyrics",
+    "lyricsTranslation": "Lyrics Translation",
     "notFound": "Page Not Found"
   },
   "home": {
@@ -77,14 +83,33 @@
   },
   "settings": {
     "title": "Settings",
+    "subtitle": "Configure the app to your liking",
+    "tabs": {
+      "general": "General",
+      "playback": "Playback",
+      "notifications": "Notifications",
+      "privacy": "Privacy"
+    },
     "language": "Language",
+    "languageLabel": "Interface language",
     "languageDescription": "Choose your preferred interface language",
     "theme": "Theme",
+    "themeLabel": "Color scheme",
     "themeDescription": "Choose your preferred color scheme",
     "themeLight": "Light",
     "themeDark": "Dark",
     "autoReplay": "Auto replay",
     "autoReplayDescription": "Automatically restart the current track when it ends",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "pushNotifications": "Push notifications",
+    "emailNewsletters": "Email newsletters",
+    "notificationsDescription": "Notifications about new songs from your favorite artists.",
+    "newslettersDescription": "Weekly digest of new releases.",
+    "publicProfile": "Public profile",
+    "publicProfileDesc": "Allow others to see your profile and playlists.",
+    "listeningActivity": "Listening activity",
+    "listeningActivityDesc": "Show what you're listening to right now.",
     "quality": {
       "label": "Audio quality",
       "highQualityRequirePremium": "High and Very High quality require Premium",
@@ -92,12 +117,28 @@
       "autoDescription": "Adjust audio quality automatically based on your network connection."
     }
   },
+  "friends": {
+    "empty": "No friends yet"
+  },
+  "contextMenu": {
+    "addFriend": "Add friend",
+    "profile": "Profile",
+    "share": "Share",
+    "copyLink": "Copy link"
+  },
   "about": {
     "title": "About"
   },
   "favorites": {
     "title": "Favorite Songs",
-    "playlist": "Playlist"
+    "playlist": "Playlist",
+    "unitMin": "min",
+    "unitHour": "h",
+    "emptyTitle": "Nothing here yet",
+    "emptyHintBefore": "Tap",
+    "emptyHintAfter": "on any song and it will show up here. Your favorites — always at hand.",
+    "findMusic": "Find music",
+    "browseTops": "Browse charts"
   },
   "auth": {
     "authorization": "Authorization",
@@ -106,7 +147,7 @@
     "googleAuth": "Continue with Google"
   },
   "search": {
-    "placeholder": "Enter a search query to find songs, users, and playlists",
+    "placeholder": "What are you looking for?",
     "tabs": {
       "all": "All",
       "songs": "Songs",
@@ -117,6 +158,12 @@
   "subscriptions": {
     "title": "Choose Your Plan",
     "subtitle": "Unlock unlimited music and premium features",
+    "forever": "forever",
+    "month": "month",
+    "year": "year",
+    "noAds": "no ads",
+    "upgradeToPremium": "Upgrade to Premium",
+    "standardQuality": "standard quality",
     "currentPlan": "Current Plan",
     "availablePlans": "Available Plans",
     "whyGoPremium": "Why Go Premium?",
@@ -180,6 +227,13 @@
     "translateTo": "Translate to:"
   },
   "profile": {
+    "profile": "Profile",
+    "tabs": {
+      "playlists": "Playlists",
+      "mySongs": "My songs",
+      "following": "Following",
+      "activity": "Activity"
+    },
     "editProfile": "Edit Profile",
     "logout": "Logout",
     "songsListened": "Songs listened",
@@ -213,7 +267,8 @@
   "playlists": {
     "searchPlaylists": "Search playlists...",
     "loadingPlaylists": "Loading playlists...",
-    "failedToLoadPlaylists": "Failed to load playlists"
+    "failedToLoadPlaylists": "Failed to load playlists",
+    "noPlaylists": "No playlists yet"
   },
   "playlistsMenu": {
     "yourLibrary": "Your library"
@@ -221,15 +276,24 @@
   "playlistEditor": {
     "editPlaylist": "Edit Playlist",
     "createNewPlaylist": "Create New Playlist",
+    "subtitle": "Build your collection. You can add tracks later.",
     "editing": "Editing",
     "basicInformation": "Basic Information",
     "title": "Title",
+    "description": "Description",
+    "describePlaylist": "Tell us about this playlist…",
     "enterPlaylistTitle": "Enter playlist title",
     "visibility": "Visibility",
+    "public": "Public",
+    "private": "Private",
     "publicPlaylist": "Public Playlist",
     "anyoneCanSee": "Anyone can see this playlist",
     "onlyYouCanSee": "Only you can see this playlist",
     "coverImage": "Cover Image",
+    "uploadCover": "Upload cover",
+    "aiCover": "AI cover",
+    "emoji": "Emoji",
+    "pickEmoji": "Pick an emoji",
     "currentCover": "Current Cover",
     "updatePlaylist": "Update Playlist",
     "savePlaylist": "Save Playlist",
@@ -248,6 +312,28 @@
   "songEditor": {
     "editSong": "Edit Song",
     "createNewSong": "Create New Song",
+    "newSong": "New song",
+    "subtitle": "Upload a track and tell us about it",
+    "done": "done",
+    "draft": "Draft",
+    "publish": "Publish",
+    "uploaded": "Uploaded",
+    "uploadAudioPrompt": "Drag audio here",
+    "dragDropAudio": "Drag audio here",
+    "chooseFile": "Or choose a file",
+    "audioSizeLimit": "MP3, WAV, FLAC · up to 50 MB",
+    "format": "Format",
+    "size": "Size",
+    "replaceFile": "Replace file",
+    "basicInfoSubtitle": "What listeners will see",
+    "chars": "chars",
+    "describeInspiration": "Tell about the inspiration, process, instruments…",
+    "instrumental": "Instrumental",
+    "genresSubtitle": "Help listeners find this track",
+    "authorsSubtitle": "Who worked on this track",
+    "lyricsSubtitle": "Optional — add lyrics or generate with AI",
+    "preview": "Preview",
+    "titlePlaceholder": "Song title",
     "editing": "Editing",
     "basicInformation": "Basic Information",
     "title": "Title",
@@ -314,6 +400,11 @@
     "noSongsInQueue": "No songs in queue",
     "noSongPlaying": "No song playing",
     "noSongSelected": "No song selected"
+  },
+  "topbar": {
+    "searchPlaceholder": "Search songs, artists, playlists…",
+    "upgrade": "Upgrade",
+    "nowPlaying": "NOW PLAYING"
   },
   "management": {
     "title": "Management",

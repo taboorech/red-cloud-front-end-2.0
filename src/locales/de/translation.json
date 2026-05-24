@@ -28,13 +28,16 @@
     "chooseFile": "Datei wählen",
     "home": "Startseite",
     "premiumRequired": "Premium-Abonnement erforderlich",
-    "upgradePlan": "Plan upgraden"
+    "upgradePlan": "Plan upgraden",
+    "yes": "Ja",
+    "no": "Nein"
   },
   "navigation": {
     "menu": "Menü",
     "home": "Startseite",
     "search": "Suchen",
     "favorites": "Favoriten",
+    "library": "Bibliothek",
     "playlists": "Wiedergabelisten",
     "mySongs": "Meine Musik",
     "settings": "Einstellungen",
@@ -42,7 +45,8 @@
     "about": "Über",
     "profile": "Profil",
     "goToProfile": "Zum Profil",
-    "management": "Verwaltung"
+    "management": "Verwaltung",
+    "friends": "Freunde"
   },
   "pageTitles": {
     "home": "Startseite",
@@ -52,12 +56,14 @@
     "mySongs": "Meine Musik",
     "settings": "Einstellungen",
     "profile": "Profil",
+    "editProfile": "Profil bearbeiten",
     "subscriptions": "Abonnement",
     "about": "Über",
     "auth": "Autorisierung",
     "forgotPassword": "Passwort vergessen",
     "resetPassword": "Passwort zurücksetzen",
     "lyrics": "Liedtext",
+    "lyricsTranslation": "Liedtextübersetzung",
     "notFound": "Seite nicht gefunden"
   },
   "home": {
@@ -77,14 +83,33 @@
   },
   "settings": {
     "title": "Einstellungen",
+    "subtitle": "Passe die App nach deinen Wünschen an",
+    "tabs": {
+      "general": "Allgemein",
+      "playback": "Wiedergabe",
+      "notifications": "Benachrichtigungen",
+      "privacy": "Datenschutz"
+    },
     "language": "Sprache",
+    "languageLabel": "Sprache der Oberfläche",
     "languageDescription": "Wähle deine bevorzugte Sprache",
     "theme": "Design",
+    "themeLabel": "Farbschema",
     "themeDescription": "Wähle dein bevorzugtes Farbschema",
     "themeLight": "Hell",
     "themeDark": "Dunkel",
     "autoReplay": "Automatische Wiederholung",
     "autoReplayDescription": "Aktuellen Titel am Ende automatisch neu starten",
+    "enabled": "Aktiviert",
+    "disabled": "Deaktiviert",
+    "pushNotifications": "Push-Benachrichtigungen",
+    "emailNewsletters": "E-Mail-Newsletter",
+    "notificationsDescription": "Benachrichtigungen über neue Songs deiner Lieblingskünstler.",
+    "newslettersDescription": "Wöchentliche Übersicht neuer Veröffentlichungen.",
+    "publicProfile": "Öffentliches Profil",
+    "publicProfileDesc": "Erlaube anderen, dein Profil und deine Playlists zu sehen.",
+    "listeningActivity": "Hör-Aktivität",
+    "listeningActivityDesc": "Zeige, was du gerade hörst.",
     "quality": {
       "label": "Audioqualität",
       "highQualityRequirePremium": "Hohe Qualität erfordert Premium",
@@ -92,12 +117,28 @@
       "autoDescription": "Audioqualität automatisch an das Netzwerk anpassen."
     }
   },
+  "friends": {
+    "empty": "Noch keine Freunde"
+  },
+  "contextMenu": {
+    "addFriend": "Freund hinzufügen",
+    "profile": "Profil",
+    "share": "Teilen",
+    "copyLink": "Link kopieren"
+  },
   "about": {
     "title": "Über uns"
   },
   "favorites": {
     "title": "Lieblingssongs",
-    "playlist": "Playlist"
+    "playlist": "Playlist",
+    "unitMin": "Min.",
+    "unitHour": "Std.",
+    "emptyTitle": "Hier ist noch nichts",
+    "emptyHintBefore": "Tippe",
+    "emptyHintAfter": "auf einem Song und er erscheint hier. Deine Favoriten — immer griffbereit.",
+    "findMusic": "Musik finden",
+    "browseTops": "Charts durchstöbern"
   },
   "auth": {
     "authorization": "Anmeldung",
@@ -117,6 +158,12 @@
   "subscriptions": {
     "title": "Wähle deinen Plan",
     "subtitle": "Unbegrenzt Musik und Premium-Features freischalten",
+    "forever": "für immer",
+    "month": "Monat",
+    "year": "Jahr",
+    "noAds": "keine Werbung",
+    "upgradeToPremium": "Auf Premium upgraden",
+    "standardQuality": "Standardqualität",
     "currentPlan": "Aktueller Plan",
     "availablePlans": "Verfügbare Pläne",
     "whyGoPremium": "Warum Premium?",
@@ -180,6 +227,13 @@
     "translateTo": "Übersetzen in:"
   },
   "profile": {
+    "profile": "Profil",
+    "tabs": {
+      "playlists": "Playlists",
+      "mySongs": "Meine Songs",
+      "following": "Folge ich",
+      "activity": "Aktivität"
+    },
     "editProfile": "Profil bearbeiten",
     "logout": "Abmelden",
     "songsListened": "Gehörte Songs",
@@ -213,7 +267,8 @@
   "playlists": {
     "searchPlaylists": "Playlists suchen...",
     "loadingPlaylists": "Playlists werden geladen...",
-    "failedToLoadPlaylists": "Laden der Playlists fehlgeschlagen"
+    "failedToLoadPlaylists": "Laden der Playlists fehlgeschlagen",
+    "noPlaylists": "Noch keine Playlists"
   },
   "playlistsMenu": {
     "yourLibrary": "Deine Bibliothek"
@@ -221,15 +276,24 @@
   "playlistEditor": {
     "editPlaylist": "Playlist bearbeiten",
     "createNewPlaylist": "Neue Playlist erstellen",
+    "subtitle": "Stelle deine Sammlung zusammen. Du kannst später Titel hinzufügen.",
     "editing": "Bearbeite",
     "basicInformation": "Basisinfos",
     "title": "Titel",
+    "description": "Beschreibung",
+    "describePlaylist": "Erzähl uns von dieser Playlist…",
     "enterPlaylistTitle": "Titel eingeben",
     "visibility": "Sichtbarkeit",
+    "public": "Öffentlich",
+    "private": "Privat",
     "publicPlaylist": "Öffentlich",
     "anyoneCanSee": "Jeder kann diese Playlist sehen",
     "onlyYouCanSee": "Nur du kannst diese Playlist sehen",
     "coverImage": "Coverbild",
+    "uploadCover": "Cover hochladen",
+    "aiCover": "KI-Cover",
+    "emoji": "Emoji",
+    "pickEmoji": "Emoji auswählen",
     "currentCover": "Aktuelles Cover",
     "updatePlaylist": "Playlist aktualisieren",
     "savePlaylist": "Playlist speichern",
@@ -248,6 +312,28 @@
   "songEditor": {
     "editSong": "Song bearbeiten",
     "createNewSong": "Neuen Song erstellen",
+    "newSong": "Neuer Song",
+    "subtitle": "Lade einen Titel hoch und erzähle uns davon",
+    "done": "fertig",
+    "draft": "Entwurf",
+    "publish": "Veröffentlichen",
+    "uploaded": "Hochgeladen",
+    "uploadAudioPrompt": "Audio hierher ziehen",
+    "dragDropAudio": "Audio hierher ziehen",
+    "chooseFile": "Oder Datei auswählen",
+    "audioSizeLimit": "MP3, WAV, FLAC · bis 50 MB",
+    "format": "Format",
+    "size": "Größe",
+    "replaceFile": "Datei ersetzen",
+    "basicInfoSubtitle": "Was Hörer sehen werden",
+    "chars": "Zeichen",
+    "describeInspiration": "Erzähle von Inspiration, Prozess, Instrumenten…",
+    "instrumental": "Instrumental",
+    "genresSubtitle": "Hilf Hörern, diesen Titel zu finden",
+    "authorsSubtitle": "Wer an diesem Titel mitgearbeitet hat",
+    "lyricsSubtitle": "Optional — Songtext hinzufügen oder mit KI generieren",
+    "preview": "Vorschau",
+    "titlePlaceholder": "Songtitel",
     "editing": "Bearbeite",
     "basicInformation": "Basisinfos",
     "title": "Titel",
@@ -314,6 +400,11 @@
     "noSongsInQueue": "Keine Songs in der Warteschlange",
     "noSongPlaying": "Kein Song wird abgespielt",
     "noSongSelected": "Kein Song ausgewählt"
+  },
+  "topbar": {
+    "searchPlaceholder": "Songs, Künstler, Playlists suchen…",
+    "upgrade": "Upgrade",
+    "nowPlaying": "AKTUELL"
   },
   "management": {
     "title": "Verwaltung",

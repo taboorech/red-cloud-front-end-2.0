@@ -3,14 +3,13 @@ import { Link, useSearchParams, useNavigate } from "react-router";
 import { Formik, Form, Field, type FormikHelpers } from "formik";
 import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet-async";
-import Input from "../../components/input/input";
-import { Button } from "../../components/button/button";
 import { useConfirmResetPasswordMutation } from "../../store/api/auth.api";
-import {
-  resetPasswordSchema,
-  type ResetPasswordSchemaType,
-} from "../../validation/auth.schema";
+import { resetPasswordSchema, type ResetPasswordSchemaType } from "../../validation/auth.schema";
 import { zodValidate } from "../../utils/zod-validate";
+import classNames from "classnames";
+import AuthShell from "./components/auth-shell";
+import { inputClass, labelClass, brandButtonClass } from "./utils";
+import { BRAND_BUTTON_BASE } from "../../utils/tailwind-classes";
 
 const ResetPassword = () => {
   const { t } = useTranslation();
@@ -18,8 +17,7 @@ const ResetPassword = () => {
   const navigate = useNavigate();
   const token = searchParams.get("token");
 
-  const [confirmResetPassword, { isLoading }] =
-    useConfirmResetPasswordMutation();
+  const [confirmResetPassword, { isLoading }] = useConfirmResetPasswordMutation();
   const [success, setSuccess] = useState(false);
 
   if (!token) {
@@ -28,25 +26,20 @@ const ResetPassword = () => {
         <Helmet>
           <title>{t("pageTitles.resetPassword")}</title>
         </Helmet>
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0d0d0d] p-4">
-          <div className="w-full max-w-[450px] bg-white dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
-            <h1 className="text-2xl font-light text-gray-900 dark:text-white text-center mb-4">
-              Invalid link
-            </h1>
-            <p className="text-gray-500 dark:text-gray-400 text-sm text-center mb-8">
-              The password reset link is invalid or has expired. Please request
-              a new one.
+        <AuthShell>
+          <div className="w-full text-center">
+            <h1 className="text-3xl font-extrabold text-neutral-900 mb-3">Invalid link</h1>
+            <p className="text-neutral-600 text-sm mb-8 max-w-sm mx-auto">
+              The password reset link is invalid or has expired.
             </p>
-            <div className="flex justify-center">
-              <Link
-                to="/auth/forgot-password"
-                className="text-sm text-blue-600 dark:text-white hover:text-blue-500 dark:hover:text-gray-100 transition-colors"
-              >
-                Request new link
-              </Link>
-            </div>
+            <Link
+              to="/auth/forgot-password"
+              className={classNames(BRAND_BUTTON_BASE, "inline-flex items-center justify-center h-12 px-8 rounded-full")}
+            >
+              Request new link
+            </Link>
           </div>
-        </div>
+        </AuthShell>
       </>
     );
   }
@@ -56,15 +49,10 @@ const ResetPassword = () => {
     { setStatus }: FormikHelpers<ResetPasswordSchemaType>,
   ) => {
     try {
-      await confirmResetPassword({
-        token,
-        password: values.password,
-      }).unwrap();
+      await confirmResetPassword({ token, password: values.password }).unwrap();
       setSuccess(true);
     } catch (error: any) {
-      const message =
-        error?.data?.message ||
-        "Invalid or expired reset token. Please request a new link.";
+      const message = error?.data?.message || "Invalid or expired reset token. Please request a new link.";
       setStatus(message);
     }
   };
@@ -75,29 +63,21 @@ const ResetPassword = () => {
         <Helmet>
           <title>{t("pageTitles.resetPassword")}</title>
         </Helmet>
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0d0d0d] p-4">
-          <div className="w-full max-w-[450px] bg-white dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
-            <h1 className="text-2xl font-light text-gray-900 dark:text-white text-center mb-4">
-              Password reset successful
-            </h1>
-            <p className="text-gray-500 dark:text-gray-400 text-sm text-center mb-8">
-              Your password has been updated. You can now log in with your new
-              password.
+        <AuthShell>
+          <div className="w-full text-center">
+            <h1 className="text-3xl font-extrabold text-neutral-900 mb-3">Password reset</h1>
+            <p className="text-neutral-600 text-sm mb-8 max-w-sm mx-auto">
+              Your password has been updated. You can now log in with the new one.
             </p>
-            <div className="flex justify-center">
-              <Button
-                type="button"
-                variant="auth"
-                size="none"
-                rounded="md"
-                className="w-40 py-2"
-                onClick={() => navigate("/auth")}
-              >
-                Go to login
-              </Button>
-            </div>
+            <button
+              type="button"
+              onClick={() => navigate("/auth")}
+              className={classNames(BRAND_BUTTON_BASE, "inline-flex items-center justify-center h-12 px-8 rounded-full")}
+            >
+              Go to login
+            </button>
           </div>
-        </div>
+        </AuthShell>
       </>
     );
   }
@@ -107,80 +87,61 @@ const ResetPassword = () => {
       <Helmet>
         <title>{t("pageTitles.resetPassword")}</title>
       </Helmet>
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0d0d0d] p-4">
-        <div className="w-full max-w-[450px] bg-white dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl p-10">
-          <Formik
-            initialValues={{ password: "", confirmPassword: "" }}
-            validate={zodValidate(resetPasswordSchema)}
-            onSubmit={handleSubmit}
-          >
-            {({ errors, touched, status }) => (
-              <Form className="space-y-8">
-                <h1 className="text-2xl font-light text-gray-900 dark:text-white text-center">
-                  Set new password
-                </h1>
+      <AuthShell>
+        <Formik
+          initialValues={{ password: "", confirmPassword: "" }}
+          validate={zodValidate(resetPasswordSchema)}
+          onSubmit={handleSubmit}
+        >
+          {({ errors, touched, status }) => (
+            <Form className="w-full flex flex-col gap-5">
+              <div className="text-center mb-2">
+                <h1 className="text-3xl font-extrabold text-neutral-900 mb-2">Set new password</h1>
+                <p className="text-neutral-600 text-sm">Enter your new password below.</p>
+              </div>
 
-                <p className="text-gray-500 dark:text-gray-400 text-sm text-center">
-                  Enter your new password below.
-                </p>
+              <div className="flex flex-col gap-2">
+                <label className={labelClass}>
+                  New password
+                </label>
+                <Field name="password" type="password" placeholder="••••••••" className={inputClass} />
+                {touched.password && errors.password && (
+                  <span className="text-[11px] text-red-600">{errors.password}</span>
+                )}
+              </div>
 
-                <div className="space-y-6">
-                  <Field
-                    name="password"
-                    as={Input}
-                    type="password"
-                    placeholder="New password"
-                    error={
-                      touched.password && errors.password
-                        ? errors.password
-                        : undefined
-                    }
-                  />
+              <div className="flex flex-col gap-2">
+                <label className={labelClass}>
+                  Confirm password
+                </label>
+                <Field name="confirmPassword" type="password" placeholder="••••••••" className={inputClass} />
+                {touched.confirmPassword && errors.confirmPassword && (
+                  <span className="text-[11px] text-red-600">{errors.confirmPassword}</span>
+                )}
+              </div>
 
-                  <Field
-                    name="confirmPassword"
-                    as={Input}
-                    type="password"
-                    placeholder="Confirm new password"
-                    error={
-                      touched.confirmPassword && errors.confirmPassword
-                        ? errors.confirmPassword
-                        : undefined
-                    }
-                  />
+              {status && <p className="text-red-600 text-xs text-center">{status}</p>}
 
-                  {status && (
-                    <p className="text-red-500 text-xs text-center">{status}</p>
-                  )}
+              <button
+                type="submit"
+                disabled={isLoading}
+                className={brandButtonClass}
+              >
+                {isLoading ? "Saving…" : "Reset password"}
+              </button>
 
-                  <div className="pt-4 flex justify-center">
-                    <Button
-                      type="submit"
-                      variant="auth"
-                      size="none"
-                      rounded="md"
-                      className="w-40 py-2"
-                      loading={isLoading}
-                      disabled={isLoading}
-                    >
-                      Reset password
-                    </Button>
-                  </div>
-                </div>
-
-                <div className="flex justify-center">
-                  <Link
-                    to="/auth"
-                    className="text-sm text-blue-600 dark:text-white hover:text-blue-500 dark:hover:text-gray-100 transition-colors"
-                  >
-                    Back to login
-                  </Link>
-                </div>
-              </Form>
-            )}
-          </Formik>
-        </div>
-      </div>
+              <div className="text-center pt-2">
+                <Link
+                  to="/auth"
+                  className="text-sm text-neutral-700 hover:text-neutral-900 font-semibold transition-colors"
+                >
+                  ← Back to login
+                </Link>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </AuthShell>
     </>
   );
 };

@@ -1,16 +1,26 @@
-/**
- * Format duration from seconds to MM:SS format
- * @param seconds - duration in seconds
- * @returns formatted duration string (e.g., "3:45", "12:03")
- */
 import { SubscriptionType } from '../types/subscription.types'
 
+/**
+ * Format duration from seconds to M:SS / H:MM:SS format.
+ * Returns "0:00" for NaN / Infinity / falsy input so it's safe to feed
+ * directly from `HTMLAudioElement.currentTime` etc.
+ */
 export const formatDuration = (seconds: number): string => {
-  const h = Math.floor(seconds / 3600);
-  const m = Math.floor((seconds % 3600) / 60);
-  const s = seconds % 60;
+  if (!seconds || !Number.isFinite(seconds)) return '0:00';
+  const total = Math.floor(seconds);
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const s = total % 60;
   if (h > 0) return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
   return `${m}:${String(s).padStart(2, '0')}`;
+};
+
+/**
+ * Format a byte count to KB / MB with a single decimal place above 1 MB.
+ */
+export const formatBytes = (size: number): string => {
+  if (size < 1024 * 1024) return `${(size / 1024).toFixed(0)} KB`;
+  return `${(size / (1024 * 1024)).toFixed(1)} MB`;
 };
 
 /**

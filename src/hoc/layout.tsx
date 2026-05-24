@@ -1,70 +1,62 @@
-import AvatarBlock from "../components/avatar-block/avatar-block";
-import Menu from "../components/menu/menu";
-import PlaylistsMenu from "../components/playlists-menu/playlists-menu";
+import { Outlet } from "react-router";
+import { useState } from "react";
+import classNames from "classnames";
+import { IoMenu } from "react-icons/io5";
+import { useGetProfileQuery } from "../store/api/profile.api";
+import { Button } from "../components/button/button";
+import Sidebar from "../components/sidebar/sidebar";
+import Topbar from "../components/topbar/topbar";
 import StateSidebar from "../components/state-sidebar/state-sidebar";
 import Player from "../components/player/player";
-import { Outlet, useNavigate } from "react-router";
-import { useGetProfileQuery } from "../store/api/profile.api";
-import classNames from "classnames";
-import { useState } from "react";
-import { Button } from "../components/button/button";
-import { IoMenu } from "react-icons/io5";
 import MobileMenu from "../components/mobile-menu/mobile-menu";
 
 const Layout = () => {
   const { data: profile } = useGetProfileQuery();
-  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const profileClickHandler = () => {
-    if (profile) {
-      navigate('/profile');
-    }
-  }
-
   return (
-    <div className="h-screen flex p-2 gap-2 bg-gray-100 dark:bg-neutral-900">
-      <div className="absolute md:hidden top-5 left-5 z-30">
+    <div className="h-screen flex flex-col bg-app-base text-app-text">
+      <div className="absolute md:hidden top-4 left-4 z-30">
         <Button
           variant="snow"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
-          <IoMenu className="text-lg"/>
+          <IoMenu className="text-lg" />
         </Button>
       </div>
 
-      { mobileMenuOpen && 
-        <div className={classNames('fixed md:hidden bg-white dark:bg-black top-0 left-0 w-full h-screen z-30', !mobileMenuOpen ? 'hidden' : 'block')}>
-          <MobileMenu onClose={() => setMobileMenuOpen(false)} userRole={profile?.role} />
-        </div>
-      }
-
-      <div className="hidden md:flex flex-col w-1/6 gap-0">
-        <div className={classNames("flex-1", profile ? "cursor-pointer" : "")} onClick={profileClickHandler}>
-          <AvatarBlock 
-            isAuthenticated={!!profile}
-            avatarUrl={profile?.avatar}
-            userName={profile?.username ?? ""}
+      {mobileMenuOpen && (
+        <div
+          className={classNames(
+            "fixed md:hidden bg-app-elev top-0 left-0 w-full h-screen z-30",
+            !mobileMenuOpen ? "hidden" : "block"
+          )}
+        >
+          <MobileMenu
+            onClose={() => setMobileMenuOpen(false)}
+            userRole={profile?.role}
           />
         </div>
-        <div className="flex-3">
-          <Menu userRole={profile?.role} />
+      )}
+
+      <div className="flex-1 min-h-0 flex">
+        <Sidebar />
+
+        <main className="flex-1 min-w-0 flex flex-col">
+          <Topbar />
+          <div className="flex-1 min-h-0 overflow-y-auto">
+            <Outlet />
+          </div>
+        </main>
+
+        <div className="hidden lg:flex w-[300px] shrink-0">
+          <StateSidebar />
         </div>
       </div>
-      <main className="flex flex-col gap-5 w-full md:w-4/6 justify-between">
-        <div className="hidden md:block">
-          <PlaylistsMenu />
-        </div>
-        <div className="h-full overflow-y-auto">
-          <Outlet />
-        </div>
-        <Player />
-      </main>
-      <div className="hidden md:flex flex-col w-1/6">
-        <StateSidebar />
-      </div>
+
+      <Player />
     </div>
-  )
-}
+  );
+};
 
 export default Layout;

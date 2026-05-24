@@ -12,7 +12,7 @@ const Queue = () => {
       <div className="flex-1 overflow-y-auto min-h-0 py-3 gap-3 flex flex-col">
         {audio.queue.length === 0 ? (
           <div className="flex items-center justify-center h-full">
-            <div className="text-gray-500 dark:text-gray-400 text-sm">{t("sidebar.noSongsInQueue")}</div>
+            <div className="text-app-text-muted text-sm">{t("sidebar.noSongsInQueue")}</div>
           </div>
         ) : (
           audio.queue.map(({ song, isActive }, index) => (

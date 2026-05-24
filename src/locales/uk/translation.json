@@ -28,21 +28,25 @@
     "chooseFile": "Обрати файл",
     "home": "Головна",
     "premiumRequired": "Потрібна преміум підписка",
-    "upgradePlan": "Покращити план"
+    "upgradePlan": "Покращити план",
+    "yes": "Так",
+    "no": "Ні"
   },
   "navigation": {
     "menu": "Меню",
     "home": "Головна",
     "search": "Пошук",
     "favorites": "Улюблені",
-    "playlists": "Плейлісти",
+    "library": "Бібліотека",
+    "playlists": "Плейлисти",
     "mySongs": "Мої пісні",
     "settings": "Налаштування",
     "subscriptions": "Підписка",
     "about": "Про додаток",
     "profile": "Профіль",
     "goToProfile": "Перейти до профілю",
-    "management": "Управління"
+    "management": "Управління",
+    "friends": "Друзі"
   },
   "pageTitles": {
     "home": "Головна",
@@ -52,12 +56,14 @@
     "mySongs": "Мої пісні",
     "settings": "Налаштування",
     "profile": "Профіль",
+    "editProfile": "Редагування профілю",
     "subscriptions": "Підписка",
     "about": "Про нас",
     "auth": "Авторизація",
     "forgotPassword": "Відновлення паролю",
     "resetPassword": "Скидання паролю",
     "lyrics": "Текст пісні",
+    "lyricsTranslation": "Переклад тексту",
     "notFound": "Сторінка не знайдена"
   },
   "home": {
@@ -77,27 +83,62 @@
   },
   "settings": {
     "title": "Налаштування",
+    "subtitle": "Налаштуйте додаток під себе",
+    "tabs": {
+      "general": "Загальні",
+      "playback": "Програвання",
+      "notifications": "Сповіщення",
+      "privacy": "Конфіденційність"
+    },
     "language": "Мова",
+    "languageLabel": "Мова інтерфейсу",
     "languageDescription": "Оберіть бажану мову інтерфейсу",
     "theme": "Тема",
+    "themeLabel": "Кольорова схема",
     "themeDescription": "Оберіть бажану кольорову схему",
     "themeLight": "Світла",
     "themeDark": "Темна",
     "autoReplay": "Автоповтор",
     "autoReplayDescription": "Автоматично перезапускати поточний трек після завершення",
+    "enabled": "Увімкнено",
+    "disabled": "Вимкнено",
+    "pushNotifications": "Push-сповіщення",
+    "emailNewsletters": "Email-розсилка",
+    "notificationsDescription": "Сповіщення про нові пісні від ваших улюблених виконавців.",
+    "newslettersDescription": "Тижневий дайджест новинок.",
+    "publicProfile": "Публічний профіль",
+    "publicProfileDesc": "Дозволити іншим бачити ваш профіль і плейлисти.",
+    "listeningActivity": "Активність прослуховування",
+    "listeningActivityDesc": "Показувати, що ви слухаєте зараз.",
     "quality": {
       "label": "Якість відтворення",
       "highQualityRequirePremium": "Висока та дуже висока якість вимагають преміум-підписки",
-      "auto": "Автоматична настройка качества",
-      "autoDescription": "Автоматично регулируйте качество звука в зависимости от вашего сетевого соединения."
+      "auto": "Авто-вибір якості",
+      "autoDescription": "Автоматично регулювати якість звуку залежно від мережевого з'єднання."
     }
+  },
+  "friends": {
+    "empty": "Поки немає друзів"
+  },
+  "contextMenu": {
+    "addFriend": "Додати в друзі",
+    "profile": "Профіль",
+    "share": "Поділитися",
+    "copyLink": "Скопіювати посилання"
   },
   "about": {
     "title": "Про нас"
   },
   "favorites": {
     "title": "Улюблені пісні",
-    "playlist": "Плейлист"
+    "playlist": "Плейлист",
+    "unitMin": "хв",
+    "unitHour": "год",
+    "emptyTitle": "Поки що тут порожньо",
+    "emptyHintBefore": "Натискайте",
+    "emptyHintAfter": "на будь-якій пісні, і вона з'явиться тут. Ваші улюблені — завжди під рукою.",
+    "findMusic": "Знайти музику",
+    "browseTops": "Переглянути топи"
   },
   "auth": {
     "authorization": "Авторизація",
@@ -106,7 +147,7 @@
     "googleAuth": "Продовжити з Google"
   },
   "search": {
-    "placeholder": "Введіть запит для пошуку пісень, користувачів та плейлистів",
+    "placeholder": "Що шукаємо?",
     "tabs": {
       "all": "Все",
       "songs": "Пісні",
@@ -117,6 +158,12 @@
   "subscriptions": {
     "title": "Оберіть ваш план",
     "subtitle": "Отримайте необмежену музику та преміум функції",
+    "forever": "назавжди",
+    "month": "міс",
+    "year": "рік",
+    "noAds": "без реклами",
+    "upgradeToPremium": "Покращити до Premium",
+    "standardQuality": "стандартна якість",
     "currentPlan": "Поточний план",
     "availablePlans": "Доступні плани",
     "whyGoPremium": "Навіщо Преміум?",
@@ -180,6 +227,13 @@
     "translateTo": "Перекласти на:"
   },
   "profile": {
+    "profile": "Профіль",
+    "tabs": {
+      "playlists": "Плейлисти",
+      "mySongs": "Мої пісні",
+      "following": "Підписки",
+      "activity": "Активність"
+    },
     "editProfile": "Редагувати профіль",
     "logout": "Вийти",
     "songsListened": "Прослухано пісень",
@@ -215,7 +269,8 @@
   "playlists": {
     "searchPlaylists": "Пошук плейлистів...",
     "loadingPlaylists": "Завантаження плейлистів...",
-    "failedToLoadPlaylists": "Не вдалося завантажити плейлисти"
+    "failedToLoadPlaylists": "Не вдалося завантажити плейлисти",
+    "noPlaylists": "Ще немає плейлистів"
   },
   "playlistsMenu": {
     "yourLibrary": "Ваша бібліотека"
@@ -223,15 +278,24 @@
   "playlistEditor": {
     "editPlaylist": "Редагувати плейлист",
     "createNewPlaylist": "Створити новий плейлист",
+    "subtitle": "Зберіть свою добірку. Можете додати треки пізніше.",
     "editing": "Редагування",
     "basicInformation": "Основна інформація",
     "title": "Назва",
+    "description": "Опис",
+    "describePlaylist": "Розкажіть про цей плейлист…",
     "enterPlaylistTitle": "Введіть назву плейлисту",
     "visibility": "Видимість",
+    "public": "Публічний",
+    "private": "Приватний",
     "publicPlaylist": "Публічний плейлист",
     "anyoneCanSee": "Будь-хто може бачити цей плейлист",
     "onlyYouCanSee": "Тільки ви можете бачити цей плейлист",
     "coverImage": "Обкладинка",
+    "uploadCover": "Завантажити обкладинку",
+    "aiCover": "AI-обкладинка",
+    "emoji": "Емоджі",
+    "pickEmoji": "Оберіть емоджі",
     "currentCover": "Поточна обкладинка",
     "cancel": "Скасувати",
     "updatePlaylist": "Оновити плейлист",
@@ -252,6 +316,28 @@
   "songEditor": {
     "editSong": "Редагувати пісню",
     "createNewSong": "Створити нову пісню",
+    "newSong": "Нова пісня",
+    "subtitle": "Завантажте трек і розкажіть про нього",
+    "done": "готово",
+    "draft": "Чернетка",
+    "publish": "Опублікувати",
+    "uploaded": "Завантажений",
+    "uploadAudioPrompt": "Перетягніть аудіо сюди",
+    "dragDropAudio": "Перетягніть аудіо сюди",
+    "chooseFile": "Або обрати файл",
+    "audioSizeLimit": "MP3, WAV, FLAC · до 50 МБ",
+    "format": "Формат",
+    "size": "Розмір",
+    "replaceFile": "Замінити файл",
+    "basicInfoSubtitle": "Те, що побачать слухачі",
+    "chars": "символів",
+    "describeInspiration": "Розкажіть про натхнення, процес, інструменти…",
+    "instrumental": "Інструментал",
+    "genresSubtitle": "Допоможіть слухачам знайти трек",
+    "authorsSubtitle": "Хто працював над треком",
+    "lyricsSubtitle": "Опціонально — додайте текст або згенеруйте AI",
+    "preview": "Прев'ю",
+    "titlePlaceholder": "Назва пісні",
     "editing": "Редагування",
     "basicInformation": "Основна інформація",
     "title": "Назва",
@@ -322,6 +408,11 @@
     "noSongsInQueue": "Немає пісень в черзі",
     "noSongPlaying": "Немає пісні в відтворенні",
     "noSongSelected": "Немає обраної пісні"
+  },
+  "topbar": {
+    "searchPlaceholder": "Пошук пісень, виконавців, плейлистів…",
+    "upgrade": "Преміум",
+    "nowPlaying": "ЗАРАЗ ГРАЄ"
   },
   "management": {
     "title": "Управління",

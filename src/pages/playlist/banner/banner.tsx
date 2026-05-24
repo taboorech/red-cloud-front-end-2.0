@@ -50,7 +50,7 @@ const Banner = ({ playlist }: BannerProps) => {
       case 'shuffle':
         return <IoShuffle className="text-lg" />;
       default:
-        return <IoRepeat className="text-lg text-gray-400 dark:text-gray-600" />;
+        return <IoRepeat className="text-lg text-app-text-muted" />;
     }
   };
 
@@ -60,7 +60,6 @@ const Banner = ({ playlist }: BannerProps) => {
 
   const handleMoreOptions = () => {
     // TODO: Implement more options menu
-    console.log('More options for playlist:', playlist.title);
   };
 
   // Calculate total duration from songs

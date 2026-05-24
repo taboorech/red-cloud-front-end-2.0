@@ -44,7 +44,7 @@ const UsersTab = () => {
         <select
           value={banFilter}
           onChange={(e) => setBanFilter(e.target.value as BanFilter)}
-          className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white text-xs rounded-lg px-3 py-2 outline-none hover:border-gray-400 dark:hover:border-gray-600 focus:border-blue-500 transition-colors cursor-pointer"
+          className="bg-app-elev border border-app-line text-app-text text-xs rounded-lg px-3 py-2 outline-none hover:border-app-text-muted focus:border-brand-500 transition-colors cursor-pointer"
         >
           <option value="all">{t('management.filter.all')}</option>
           <option value="active">{t('management.filter.active')}</option>
@@ -54,7 +54,7 @@ const UsersTab = () => {
 
       {/* Users list */}
       {isLoading && (
-        <p className="text-sm text-gray-500">{t('common.loading')}</p>
+        <p className="text-sm text-app-text-muted">{t('common.loading')}</p>
       )}
 
       {!!error && (
@@ -62,7 +62,7 @@ const UsersTab = () => {
       )}
 
       {!isLoading && !error && users.length === 0 && (
-        <p className="text-sm text-gray-500">{t('management.noUsers')}</p>
+        <p className="text-sm text-app-text-muted">{t('management.noUsers')}</p>
       )}
 
       <div className="flex flex-col gap-3">

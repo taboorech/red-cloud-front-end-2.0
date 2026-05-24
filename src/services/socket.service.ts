@@ -36,14 +36,12 @@ class SocketService {
       this.isConnected = true;
       
       setTimeout(() => {
-        console.log('[SOCKET] Auto-requesting friends after connect...');
         this.getFriendsOnline();
       }, 1000);
     });
 
     this.socket.on('disconnect', (reason) => {
       this.isConnected = false;
-      console.log('[SOCKET] Disconnected from server, reason:', reason);
     });
 
     this.socket.on('connect_error', () => {

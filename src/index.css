@@ -2,6 +2,79 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --color-brand-50: #fff1f1;
+  --color-brand-100: #ffdede;
+  --color-brand-200: #ffc2c2;
+  --color-brand-300: #ff9696;
+  --color-brand-400: #ff5a5a;
+  --color-brand-500: #ef3636;
+  --color-brand-600: #dc2626;
+  --color-brand-700: #b91c1c;
+  --color-brand-800: #991b1b;
+  --color-brand-900: #7f1d1d;
+
+  --color-cream-50: #fbf6ee;
+  --color-cream-100: #f5ecd9;
+  --color-cream-200: #efe1c4;
+
+  /* Theme-aware tokens — values come from :root / html.dark below */
+  --color-app-base: var(--app-base);
+  --color-app-elev: var(--app-elev);
+  --color-app-elev-2: var(--app-elev-2);
+  --color-app-soft: var(--app-soft);
+  --color-app-soft-2: var(--app-soft-2);
+  --color-app-line: var(--app-line);
+  --color-app-text: var(--app-text);
+  --color-app-text-soft: var(--app-text-soft);
+  --color-app-text-muted: var(--app-text-muted);
+
+  /* Legacy surface tokens still bound to the dark scale for components
+     that intentionally stay dark (banners, gradients). */
+  --color-surface-0: #0a0a0a;
+  --color-surface-1: #111111;
+  --color-surface-2: #161616;
+  --color-surface-3: #1f1f1f;
+  --color-surface-4: #262626;
+  --color-surface-line: rgba(255, 255, 255, 0.08);
+}
+
+:root {
+  /* Light theme (default) */
+  --app-base: #fbf6ee;
+  --app-elev: #ffffff;
+  --app-elev-2: #f6efe1;
+  --app-soft: rgba(0, 0, 0, 0.04);
+  --app-soft-2: rgba(0, 0, 0, 0.07);
+  --app-line: rgba(0, 0, 0, 0.08);
+  --app-text: #0a0a0a;
+  --app-text-soft: #404040;
+  --app-text-muted: #737373;
+
+  color-scheme: light;
+}
+
+html.dark {
+  --app-base: #0a0a0a;
+  --app-elev: #111111;
+  --app-elev-2: #161616;
+  --app-soft: rgba(255, 255, 255, 0.04);
+  --app-soft-2: rgba(255, 255, 255, 0.07);
+  --app-line: rgba(255, 255, 255, 0.08);
+  --app-text: #f5f5f5;
+  --app-text-soft: #d4d4d4;
+  --app-text-muted: #a3a3a3;
+
+  color-scheme: dark;
+  background-color: var(--app-base);
+  color: var(--app-text);
+}
+
+html:not(.dark) {
+  background-color: var(--app-base);
+  color: var(--app-text);
+}
+
 @keyframes contextMenuFadeIn {
   from {
     opacity: 0;
@@ -11,4 +84,18 @@
     opacity: 1;
     transform: scale(1);
   }
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: var(--app-line);
+  border-radius: 9999px;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--app-soft-2);
 }

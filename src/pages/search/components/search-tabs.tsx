@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import classNames from 'classnames'
 
 export type SearchTab = 'all' | 'songs' | 'users' | 'playlists'
 
@@ -9,7 +10,7 @@ export interface SearchTabsProps {
 
 const SearchTabs = ({ activeTab, onTabChange }: SearchTabsProps) => {
   const { t } = useTranslation()
-  
+
   const tabs: { key: SearchTab; label: string }[] = [
     { key: 'all', label: t('search.tabs.all') },
     { key: 'songs', label: t('search.tabs.songs') },
@@ -18,16 +19,17 @@ const SearchTabs = ({ activeTab, onTabChange }: SearchTabsProps) => {
   ]
 
   return (
-    <div className="flex gap-2 mb-8 overflow-x-auto">
+    <div className="flex gap-2 overflow-x-auto sidebar-scroll">
       {tabs.map((tab) => (
         <button
           key={tab.key}
           onClick={() => onTabChange(tab.key)}
-          className={`px-6 py-2 rounded-full whitespace-nowrap cursor-pointer transition-colors ${
+          className={classNames(
+            "px-5 h-10 rounded-full whitespace-nowrap text-sm font-semibold transition-colors cursor-pointer",
             activeTab === tab.key
-              ? 'bg-gray-900 dark:bg-white text-white dark:text-black'
-              : 'bg-transparent text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
-          }`}
+              ? "bg-white text-black"
+              : "bg-app-soft text-app-text-soft hover:bg-app-soft-2 hover:text-app-text"
+          )}
         >
           {tab.label}
         </button>

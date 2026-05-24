@@ -2,6 +2,7 @@ import { useState } from "react";
 import Banner from "./banner/banner";
 import SongSection from "../../components/song-section/song-section";
 import Toggle from "../../components/toggle/toggle";
+import PageLayout from "../../components/page-layout/page-layout";
 import { useGetSongsQuery } from "../../store/api/songs.api";
 import { useGetRecommendationsQuery } from "../../store/api/recommendation.api";
 import { useTranslation } from 'react-i18next';
@@ -21,7 +22,7 @@ const Home = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-gray-900 dark:text-white text-lg">{t('common.loading')}</div>
+        <div className="text-gray-900 dark:text-app-text text-lg">{t('common.loading')}</div>
       </div>
     );
   }
@@ -31,7 +32,7 @@ const Home = () => {
       <Helmet>
         <title>{t('pageTitles.home')}</title>
       </Helmet>
-      <div className="flex flex-col h-full">
+      <PageLayout padded={false} className="flex flex-col pt-6 md:pt-8 pb-10 gap-6 md:gap-8">
         <section className="flex-shrink-0">
           <Banner
             text={t('banner.title')}
@@ -40,12 +41,12 @@ const Home = () => {
           />
         </section>
 
-        <div className="flex-1 overflow-y-auto pb-4 md:pb-10 min-h-0">
-          <div className="flex flex-col gap-4 md:gap-8 pt-4 md:pt-8">
+        <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-4 md:gap-8">
             {recommendations && recommendations.length > 0 && (
               <div className="flex flex-col gap-3">
-                <div className="flex items-center justify-between px-4 md:px-0">
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl md:text-2xl font-bold text-app-text">
                     {t('sections.recommendedForYou')}
                   </h2>
                   <Toggle
@@ -69,7 +70,7 @@ const Home = () => {
             )}
           </div>
         </div>
-      </div>
+      </PageLayout>
     </>
   );
 };

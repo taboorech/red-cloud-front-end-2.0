@@ -106,10 +106,8 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
     // Handle initial song state from server
     socketService.onSongStateConnected((state: SongStateRetrieval | null) => {
       if (state && state.updatedAt && state.updatedAt > lastSyncTimeRef.current) {
-        console.log('[AUDIO] Restoring song state from server:', state);
         const song = state.song;
         if (currentSong?.id === song.id) {
-          console.log('[AUDIO] Same song already playing, skipping restore');
           return;
         }
 
@@ -183,7 +181,6 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
     };
 
     const handleEnded = () => {
-      console.log('[AUDIO] Song ended');
       isTransitioningRef.current = true;
       nextSongRef.current();
     };
@@ -281,7 +278,6 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
   };
 
   const setPlayMode = (mode: 'normal' | 'repeat' | 'repeat-one' | 'shuffle') => {
-    console.log('[AUDIO] Setting play mode:', mode);
     setPlayModeState(mode);
     localStorage.setItem('audioPlayerPlayMode', mode);
   };
@@ -343,14 +339,12 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
   const nextSong = () => {
     const mode = playModeRef.current;
     const q = queueRef.current;
-    console.log('[AUDIO] Next song, play mode:', mode, 'queue length:', q.length);
 
     if (mode === 'repeat-one') {
       return
     }
 
     if (q.length === 0) {
-      console.log('[AUDIO] No songs in queue');
       setPlaying(false);
       return;
     }
@@ -366,12 +360,10 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
 
     const nextSongToPlay = q[nextIndex];
     if (!nextSongToPlay) {
-      console.log('[AUDIO] Next song not found at index:', nextIndex);
       setPlaying(false);
       return;
     }
     
-    console.log('[AUDIO] Playing next song:', nextSongToPlay.song.title);
     setCurrentIndex(nextIndex);
     currentIndexRef.current = nextIndex;
     setQueue(prev => prev.map((item, idx) => ({
@@ -412,15 +404,16 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
   };
 
   const playFromQueue = (index: number) => {
-    if (index >= 0 && index < queue.length) {
+    const q = queueRef.current;
+    if (index >= 0 && index < q.length) {
       setCurrentIndex(index);
-      const songToPlay = queue[index];
+      const songToPlay = q[index];
 
       setQueue(prev => prev.map((item, idx) => ({
         ...item,
         isActive: idx > index
       })));
-      
+
       playSong(songToPlay.song);
       setPlaying(true);
     }

@@ -1,78 +1,112 @@
 import { useState, useEffect } from "react";
-import { IoSearch } from "react-icons/io5";
-import List from "../../components/list/list";
-import Song from "../../components/song/song";
-import Input from "../../components/input/input";
+import { IoAdd } from "react-icons/io5";
+import { HiOutlineQueueList } from "react-icons/hi2";
 import { useLazyGetPlaylistsQuery } from "../../store/api/playlist.api";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet-async";
+import classNames from "classnames";
+import StripedCover from "../../components/striped-cover/striped-cover";
+import PageLayout from "../../components/page-layout/page-layout";
+import EmptyState from "../../components/empty-state/empty-state";
+import SearchInput from "../../components/search-input/search-input";
+import { PAGE_LABEL_BASE } from "../../utils/tailwind-classes";
 
 const Playlists = () => {
-  const { t } = useTranslation()
-  const [searchTerm, setSearchTerm] = useState('');
+  const { t } = useTranslation();
+  const [searchTerm, setSearchTerm] = useState("");
   const [getPlaylists, { data, error, isLoading }] = useLazyGetPlaylistsQuery();
   const navigate = useNavigate();
 
   useEffect(() => {
-    getPlaylists({ offset: 0, limit: 20, search: searchTerm || undefined });
+    getPlaylists({ offset: 0, limit: 50, search: searchTerm || undefined });
   }, [searchTerm, getPlaylists]);
 
   const playlists = data || [];
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
-
   if (isLoading) {
     return (
-      <div className="bg-white dark:bg-black p-4 rounded-md border border-gray-200 dark:border-transparent h-full flex items-center justify-center">
-        <div className="text-gray-900 dark:text-white text-lg">{t('playlists.loadingPlaylists')}</div>
-      </div>
+      <PageLayout className="text-app-text">{t("playlists.loadingPlaylists")}</PageLayout>
     );
   }
 
   if (error) {
     return (
-      <div className="bg-white dark:bg-black p-4 rounded-md border border-gray-200 dark:border-transparent h-full flex items-center justify-center">
-        <div className="text-red-400 text-lg">{t('playlists.failedToLoadPlaylists')}</div>
-      </div>
+      <PageLayout className="text-brand-400">{t("playlists.failedToLoadPlaylists")}</PageLayout>
     );
   }
 
   return (
     <>
       <Helmet>
-        <title>{t('pageTitles.playlists')}</title>
+        <title>{t("pageTitles.playlists")}</title>
       </Helmet>
-      <div className="bg-white dark:bg-black p-4 rounded-md border border-gray-200 dark:border-transparent h-full flex flex-col">
-        {/* Search Bar */}
-        <div className="mb-4 relative flex-shrink-0">
-          <Input
-            placeholder={t('playlists.searchPlaylists')}
-            value={searchTerm}
-            onChange={handleSearchChange}
-            className="pr-10"
-          />
-          <IoSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+      <PageLayout className="flex flex-col gap-6">
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <div className="flex flex-col gap-1">
+            <span className={classNames(PAGE_LABEL_BASE, "text-app-text-muted")}>
+              {t("navigation.library")}
+            </span>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-app-text">
+              {t("navigation.playlists")}
+            </h1>
+          </div>
+          <button
+            onClick={() => navigate("/playlists/new")}
+            className="inline-flex items-center gap-2 px-4 h-11 rounded-full bg-white text-black font-semibold hover:bg-neutral-200 transition cursor-pointer"
+          >
+            <IoAdd className="w-5 h-5" /> {t("common.create")}
+          </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto min-h-0">
-          <List gap={3}>
+        <SearchInput
+          value={searchTerm}
+          onChange={setSearchTerm}
+          placeholder={t("playlists.searchPlaylists")}
+          className="max-w-md"
+        />
+
+        {playlists.length === 0 ? (
+          <EmptyState
+            icon={<HiOutlineQueueList className="w-8 h-8" />}
+            title={t("playlists.noPlaylists")}
+            actions={
+              <button
+                onClick={() => navigate("/playlists/new")}
+                className="px-6 h-11 rounded-full bg-white text-black font-semibold hover:bg-neutral-200 transition cursor-pointer"
+              >
+                {t("common.create")}
+              </button>
+            }
+          />
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
             {playlists.map((playlist) => (
-              <Song 
+              <button
                 key={playlist.id}
-                title={playlist.title} 
-                variant="expanded"
-                image={playlist.image_url || ''}
                 onClick={() => navigate(`/playlist/${playlist.id}`)}
-              />
+                className="group flex flex-col gap-3 text-left bg-app-soft hover:bg-app-soft-2 border border-app-line rounded-xl p-3 transition cursor-pointer"
+              >
+                <StripedCover
+                  src={playlist.image_url}
+                  alt={playlist.title}
+                  seed={playlist.id}
+                  rounded="rounded-md"
+                  className="aspect-square w-full shadow-lg"
+                />
+                <div className="px-1">
+                  <p className="text-app-text font-semibold truncate">{playlist.title}</p>
+                  <p className="text-xs text-app-text-muted truncate">
+                    {playlist.is_public ? "Публічний" : "Приватний"}
+                  </p>
+                </div>
+              </button>
             ))}
-          </List>
-        </div>
-      </div>
+          </div>
+        )}
+      </PageLayout>
     </>
   );
-}
+};
 
 export default Playlists;
