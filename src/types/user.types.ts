@@ -2,9 +2,16 @@ export const UserRole = {
   USER: 'user',
   OPERATOR: 'operator',
   ADMIN: 'admin',
+  OWNER: 'owner',
 } as const;
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole];
+
+export const ASSIGNABLE_USER_ROLES = [
+  UserRole.USER,
+  UserRole.OPERATOR,
+  UserRole.ADMIN,
+] as const;
 
 export interface UserBan {
   id: string;

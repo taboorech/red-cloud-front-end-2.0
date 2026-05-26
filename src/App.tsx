@@ -22,6 +22,8 @@ import NotFound from './pages/not-found/not-found'
 import Favorites from './pages/favorites/favorites'
 import Settings from './pages/settings/settings'
 import Management from './pages/management/management'
+import RequireRole from './hoc/require-role'
+import { UserRole } from './types/user.types'
 
 const App = () => {
   return (
@@ -49,7 +51,14 @@ const App = () => {
           <Route path='/search' element={<Search />} />
           <Route path='/favorites' element={<Favorites />} />
           <Route path='/settings' element={<Settings />} />
-          <Route path='/management' element={<Management />} />
+          <Route
+            path='/management'
+            element={
+              <RequireRole roles={[UserRole.ADMIN, UserRole.OWNER]}>
+                <Management />
+              </RequireRole>
+            }
+          />
           <Route path='*' element={<NotFound />} />
         </Route>
       </Routes>

@@ -50,10 +50,7 @@ mainInstance.interceptors.response.use(
     const refreshToken = localStorage.getItem('refreshToken')
     if (refreshToken) {
       const originalRequest = error.config
-      if (
-        error.response &&
-        (error.response.status === 401 || error.response.status === 403)
-      ) {
+      if (error.response && error.response.status === 401) {
         try {
           const response = await mainInstanceRetry.get('/auth/refresh')
           if (response.status === 200) {

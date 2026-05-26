@@ -2,10 +2,8 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '../../../components/button/button'
 import { useUpdateUserRoleMutation, useChangeUserAccessMutation } from '../../../store/api/users.api'
-import { UserRole, type User } from '../../../types/user.types'
+import { ASSIGNABLE_USER_ROLES, UserRole, type User } from '../../../types/user.types'
 import Avatar from '../../../components/avatar-block/avatar/avatar'
-
-const ROLES = Object.values(UserRole)
 
 const UserRow = ({ user }: { user: User }) => {
   const { t } = useTranslation()
@@ -14,6 +12,7 @@ const UserRow = ({ user }: { user: User }) => {
   const [selectedRole, setSelectedRole] = useState(user.role ?? 'user')
 
   const isBanned = user.userBans?.some((b) => b.is_banned) ?? false
+  const isOwner = user.role === UserRole.OWNER
 
   const handleRoleChange = async (role: string) => {
     setSelectedRole(role)
@@ -34,6 +33,11 @@ const UserRow = ({ user }: { user: User }) => {
         <div className="min-w-0">
           <div className="flex items-center gap-2">
             <p className="text-sm font-medium truncate">{user.username}</p>
+            {isOwner && (
+              <span className="text-[10px] font-medium text-amber-500 bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.5 rounded-full uppercase tracking-wide">
+                {t('management.roles.owner')}
+              </span>
+            )}
             {isBanned && (
               <span className="text-[10px] font-medium text-red-500 bg-red-500/10 border border-red-500/20 px-1.5 py-0.5 rounded-full">
                 {t('management.banned')}
@@ -45,30 +49,40 @@ const UserRow = ({ user }: { user: User }) => {
       </div>
 
       {/* Role select */}
-      <select
-        value={selectedRole}
-        onChange={(e) => handleRoleChange(e.target.value)}
-        disabled={isUpdatingRole}
-        className="bg-app-elev border border-app-line text-app-text text-xs rounded-lg px-3 py-1.5 outline-none hover:border-app-text-muted focus:border-brand-500 transition-colors appearance-none cursor-pointer disabled:opacity-50 text-center"
-      >
-        {ROLES.map((role) => (
-          <option key={role} value={role}>
-            {t(`management.roles.${role}`)}
-          </option>
-        ))}
-      </select>
+      {isOwner ? (
+        <div className="text-app-text-muted text-xs px-3 py-1.5 select-none" title={t('management.ownerImmutable')}>
+          —
+        </div>
+      ) : (
+        <select
+          value={selectedRole}
+          onChange={(e) => handleRoleChange(e.target.value)}
+          disabled={isUpdatingRole}
+          className="bg-app-elev border border-app-line text-app-text text-xs rounded-lg px-3 py-1.5 outline-none hover:border-app-text-muted focus:border-brand-500 transition-colors appearance-none cursor-pointer disabled:opacity-50 text-center"
+        >
+          {ASSIGNABLE_USER_ROLES.map((role) => (
+            <option key={role} value={role}>
+              {t(`management.roles.${role}`)}
+            </option>
+          ))}
+        </select>
+      )}
 
       {/* Ban toggle */}
-      <Button
-        variant={isBanned ? 'outline' : 'danger'}
-        size="sm"
-        rounded="lg"
-        onClick={handleToggleBan}
-        loading={isChangingAccess}
-        disabled={isChangingAccess}
-      >
-        {isBanned ? t('management.pardon') : t('management.ban')}
-      </Button>
+      {isOwner ? (
+        <div className="w-[60px]" />
+      ) : (
+        <Button
+          variant={isBanned ? 'outline' : 'danger'}
+          size="sm"
+          rounded="lg"
+          onClick={handleToggleBan}
+          loading={isChangingAccess}
+          disabled={isChangingAccess}
+        >
+          {isBanned ? t('management.pardon') : t('management.ban')}
+        </Button>
+      )}
     </div>
   )
 }

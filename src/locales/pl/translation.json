@@ -429,8 +429,10 @@
     "roles": {
       "user": "Użytkownik",
       "operator": "Operator",
-      "admin": "Admin"
+      "admin": "Admin",
+      "owner": "Właściciel"
     },
+    "ownerImmutable": "Roli właściciela nie można zmienić",
     "ban": "Zablokuj",
     "pardon": "Odblokuj",
     "banned": "Zablokowany",

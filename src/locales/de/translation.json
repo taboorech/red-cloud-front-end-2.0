@@ -429,8 +429,10 @@
     "roles": {
       "user": "Benutzer",
       "operator": "Operator",
-      "admin": "Admin"
+      "admin": "Admin",
+      "owner": "Eigentümer"
     },
+    "ownerImmutable": "Eigentümer-Rolle kann nicht geändert werden",
     "ban": "Sperren",
     "pardon": "Entsperren",
     "banned": "Gesperrt",

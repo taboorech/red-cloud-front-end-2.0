@@ -429,8 +429,10 @@
     "roles": {
       "user": "Utilizador",
       "operator": "Operador",
-      "admin": "Admin"
+      "admin": "Admin",
+      "owner": "Proprietário"
     },
+    "ownerImmutable": "O papel de proprietário não pode ser alterado",
     "ban": "Bloquear",
     "pardon": "Desbloquear",
     "banned": "Bloqueado",

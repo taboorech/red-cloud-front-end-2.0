@@ -48,7 +48,7 @@ const Sidebar = () => {
         <NavLink to="/favorites" icon={MdFavorite}>
           {t("navigation.favorites")}
         </NavLink>
-        {profile?.role === UserRole.ADMIN && (
+        {(profile?.role === UserRole.ADMIN || profile?.role === UserRole.OWNER) && (
           <NavLink to="/management" icon={IoShieldCheckmark}>
             {t("navigation.management")}
           </NavLink>
