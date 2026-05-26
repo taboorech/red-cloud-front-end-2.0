@@ -118,6 +118,8 @@
     "exclusionsHeaderHide": "Vor bestimmten Freunden verbergen",
     "exclusionsHeaderShow": "Nur bestimmten Freunden anzeigen",
     "noFriendsToManage": "Noch keine Freunde zum Verwalten.",
+    "searchFriendsPlaceholder": "Freunde suchen...",
+    "noMatchingFriends": "Keine Freunde entsprechen der Suche.",
     "quality": {
       "label": "Audioqualität",
       "highQualityRequirePremium": "Hohe Qualität erfordert Premium",

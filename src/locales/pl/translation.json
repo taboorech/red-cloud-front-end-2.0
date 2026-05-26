@@ -118,6 +118,8 @@
     "exclusionsHeaderHide": "Ukryj przed wybranymi znajomymi",
     "exclusionsHeaderShow": "Pokazuj tylko wybranym znajomym",
     "noFriendsToManage": "Brak znajomych do zarządzania.",
+    "searchFriendsPlaceholder": "Szukaj znajomych...",
+    "noMatchingFriends": "Brak znajomych pasujących do wyszukiwania.",
     "quality": {
       "label": "Jakość dźwięku",
       "highQualityRequirePremium": "Wysoka jakość wymaga Premium",

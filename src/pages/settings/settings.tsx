@@ -12,6 +12,7 @@ import {
   HiOutlineBellAlert,
   HiOutlineShieldCheck,
   HiOutlineEye,
+  HiOutlineMagnifyingGlass,
 } from "react-icons/hi2"
 import { useNavigate } from "react-router"
 import { useTranslation } from "react-i18next"
@@ -98,6 +99,8 @@ const Settings = () => {
   const [updatePrivacy] = useUpdatePrivacyMutation()
   const [hideActivityFrom] = useHideActivityFromMutation()
   const [unhideActivityFrom] = useUnhideActivityFromMutation()
+  const [presenceSearch, setPresenceSearch] = useState("")
+  const [listeningSearch, setListeningSearch] = useState("")
 
   const listeningVisibility: VisibilityLevel = privacy?.listening_visibility ?? "friends"
   const presenceVisibility: VisibilityLevel = privacy?.presence_visibility ?? "friends"
@@ -406,43 +409,71 @@ const Settings = () => {
                 }
                 const hiddenIds =
                   scope === "presence" ? hiddenPresenceIds : hiddenListeningIds
+                const search =
+                  scope === "presence" ? presenceSearch : listeningSearch
+                const setSearch =
+                  scope === "presence" ? setPresenceSearch : setListeningSearch
+                const query = search.trim().toLowerCase()
+                const filteredFriends = query
+                  ? acceptedFriends.filter((f) =>
+                      f.username?.toLowerCase().includes(query),
+                    )
+                  : acceptedFriends
                 return (
-                  <ul className="flex flex-col divide-y divide-app-line">
-                    {acceptedFriends.map((friend) => {
-                      const checked = hiddenIds.has(friend.id)
-                      return (
-                        <li
-                          key={friend.id}
-                          className="flex items-center gap-3 py-2"
-                        >
-                          {friend.avatar ? (
-                            <img
-                              src={friend.avatar}
-                              alt={friend.username}
-                              className="w-8 h-8 rounded-full object-cover"
-                            />
-                          ) : (
-                            <span className="w-8 h-8 rounded-full bg-app-soft grid place-items-center text-xs text-app-text-muted">
-                              {friend.username?.slice(0, 1).toUpperCase()}
-                            </span>
-                          )}
-                          <span className="text-sm text-app-text flex-1 truncate">
-                            {friend.username}
-                          </span>
-                          <Checkbox
-                            checked={checked}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                hideActivityFrom({ friendId: friend.id, scope })
-                              } else {
-                                unhideActivityFrom({ friendId: friend.id, scope })
-                              }
-                            }}
-                          />
-                        </li>
-                      )
-                    })}
-                  </ul>
+                  <div className="flex flex-col gap-3">
+                    <div className="relative">
+                      <HiOutlineMagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-app-text-muted pointer-events-none" />
+                      <input
+                        type="text"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder={t("settings.searchFriendsPlaceholder")}
+                        className="w-full h-10 pl-9 pr-3 rounded-lg bg-app-soft border border-app-line text-sm text-app-text placeholder:text-app-text-muted focus:border-brand-500 focus:outline-none transition-colors"
+                      />
+                    </div>
+                    {filteredFriends.length === 0 ? (
+                      <p className="text-sm text-app-text-muted">
+                        {t("settings.noMatchingFriends")}
+                      </p>
+                    ) : (
+                      <ul className="flex flex-col divide-y divide-app-line">
+                        {filteredFriends.map((friend) => {
+                          const checked = hiddenIds.has(friend.id)
+                          return (
+                            <li
+                              key={friend.id}
+                              className="flex items-center gap-3 py-2"
+                            >
+                              {friend.avatar ? (
+                                <img
+                                  src={friend.avatar}
+                                  alt={friend.username}
+                                  className="w-8 h-8 rounded-full object-cover"
+                                />
+                              ) : (
+                                <span className="w-8 h-8 rounded-full bg-app-soft grid place-items-center text-xs text-app-text-muted">
+                                  {friend.username?.slice(0, 1).toUpperCase()}
+                                </span>
+                              )}
+                              <span className="text-sm text-app-text flex-1 truncate">
+                                {friend.username}
+                              </span>
+                              <Checkbox
+                                checked={checked}
+                                onChange={(e) => {
+                                  if (e.target.checked) {
+                                    hideActivityFrom({ friendId: friend.id, scope })
+                                  } else {
+                                    unhideActivityFrom({ friendId: friend.id, scope })
+                                  }
+                                }}
+                              />
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    )}
+                  </div>
                 )
               }
 

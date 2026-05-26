@@ -118,6 +118,8 @@
     "exclusionsHeaderHide": "Nascondi ad amici specifici",
     "exclusionsHeaderShow": "Mostra solo agli amici selezionati",
     "noFriendsToManage": "Nessun amico da gestire.",
+    "searchFriendsPlaceholder": "Cerca amici...",
+    "noMatchingFriends": "Nessun amico corrisponde alla ricerca.",
     "quality": {
       "label": "Qualità audio",
       "highQualityRequirePremium": "Alta qualità richiede Premium",
