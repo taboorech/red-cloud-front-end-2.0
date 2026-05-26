@@ -11,6 +11,8 @@ import {
   HiOutlineSpeakerWave,
   HiOutlineBellAlert,
   HiOutlineShieldCheck,
+  HiOutlineEye,
+  HiOutlineMagnifyingGlass,
 } from "react-icons/hi2"
 import { useNavigate } from "react-router"
 import { useTranslation } from "react-i18next"
@@ -28,6 +30,14 @@ import LockedCard from "../../components/editor-card/locked-card"
 import FieldHeader from "../../components/editor-card/field-header"
 import PageLayout from "../../components/page-layout/page-layout"
 import { BRAND_BUTTON_BASE } from "../../utils/tailwind-classes"
+import {
+  useGetPrivacyQuery,
+  useUpdatePrivacyMutation,
+  useHideActivityFromMutation,
+  useUnhideActivityFromMutation,
+} from "../../store/api/profile.api"
+import { useGetFriendsQuery } from "../../store/api/friends.api"
+import type { VisibilityLevel } from "../../types/privacy.types"
 
 const UI_LANGUAGES = [
   { code: "en", flag: "🇬🇧", name: "English" },
@@ -84,6 +94,36 @@ const Settings = () => {
   const [activeTab, setActiveTab] = useState<TabKey>("general")
   const isDirty = JSON.stringify(settings) !== JSON.stringify(savedSettingsRef.current)
 
+  const { data: privacy } = useGetPrivacyQuery(undefined, { skip: activeTab !== "privacy" })
+  const { data: friendsResponse } = useGetFriendsQuery(undefined, { skip: activeTab !== "privacy" })
+  const [updatePrivacy] = useUpdatePrivacyMutation()
+  const [hideActivityFrom] = useHideActivityFromMutation()
+  const [unhideActivityFrom] = useUnhideActivityFromMutation()
+  const [presenceSearch, setPresenceSearch] = useState("")
+  const [listeningSearch, setListeningSearch] = useState("")
+
+  const listeningVisibility: VisibilityLevel = privacy?.listening_visibility ?? "friends"
+  const presenceVisibility: VisibilityLevel = privacy?.presence_visibility ?? "friends"
+  const hiddenPresenceIds = new Set(privacy?.hidden_presence_user_ids ?? [])
+  const hiddenListeningIds = new Set(privacy?.hidden_listening_user_ids ?? [])
+  const acceptedFriends = (friendsResponse?.data ?? []).map((f) => f.friend)
+
+  const visibilityLabel = (opt: VisibilityLevel) =>
+    t(
+      opt === "everyone"
+        ? "settings.visibilityEveryone"
+        : opt === "friends"
+          ? "settings.visibilityFriends"
+          : "settings.visibilityNobody",
+    )
+
+  const exclusionsHeader = (visibility: VisibilityLevel) =>
+    t(
+      visibility === "nobody"
+        ? "settings.exclusionsHeaderShow"
+        : "settings.exclusionsHeaderHide",
+    )
+
   const update = useCallback(
     <K extends keyof SettingsState>(key: K, value: SettingsState[K]) => {
       setSettings((prev) => ({ ...prev, [key]: value }))
@@ -110,7 +150,7 @@ const Settings = () => {
     { key: "general", label: t("settings.tabs.general"), icon: IoSettingsOutline },
     { key: "playback", label: t("settings.tabs.playback"), icon: HiOutlineArrowPath },
     { key: "notifications", label: t("settings.tabs.notifications"), icon: HiOutlineBellAlert, locked: true },
-    { key: "privacy", label: t("settings.tabs.privacy"), icon: HiOutlineShieldCheck, locked: true },
+    { key: "privacy", label: t("settings.tabs.privacy"), icon: HiOutlineShieldCheck },
   ]
 
   return (
@@ -358,35 +398,159 @@ const Settings = () => {
               </>
             )}
 
-            {activeTab === "privacy" && (
-              <>
-                <LockedCard
-                  index="1"
-                  icon={<HiOutlineShieldCheck className="w-5 h-5" />}
-                  title={t("settings.publicProfile")}
-                  subtitle={t("settings.publicProfileDesc")}
-                  badge={t("comingSoon")}
-                >
-                  <label className="inline-flex items-center gap-3 cursor-not-allowed select-none opacity-80">
-                    <Checkbox checked onChange={() => {}} />
-                    <span className="text-sm text-app-text">{t("settings.enabled")}</span>
-                  </label>
-                </LockedCard>
+            {activeTab === "privacy" && (() => {
+              const renderExclusionList = (scope: "presence" | "listening") => {
+                if (acceptedFriends.length === 0) {
+                  return (
+                    <p className="text-sm text-app-text-muted">
+                      {t("settings.noFriendsToManage")}
+                    </p>
+                  )
+                }
+                const hiddenIds =
+                  scope === "presence" ? hiddenPresenceIds : hiddenListeningIds
+                const search =
+                  scope === "presence" ? presenceSearch : listeningSearch
+                const setSearch =
+                  scope === "presence" ? setPresenceSearch : setListeningSearch
+                const query = search.trim().toLowerCase()
+                const filteredFriends = query
+                  ? acceptedFriends.filter((f) =>
+                      f.username?.toLowerCase().includes(query),
+                    )
+                  : acceptedFriends
+                return (
+                  <div className="flex flex-col gap-3">
+                    <div className="relative">
+                      <HiOutlineMagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-app-text-muted pointer-events-none" />
+                      <input
+                        type="text"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder={t("settings.searchFriendsPlaceholder")}
+                        className="w-full h-10 pl-9 pr-3 rounded-lg bg-app-soft border border-app-line text-sm text-app-text placeholder:text-app-text-muted focus:border-brand-500 focus:outline-none transition-colors"
+                      />
+                    </div>
+                    {filteredFriends.length === 0 ? (
+                      <p className="text-sm text-app-text-muted">
+                        {t("settings.noMatchingFriends")}
+                      </p>
+                    ) : (
+                      <ul className="flex flex-col divide-y divide-app-line">
+                        {filteredFriends.map((friend) => {
+                          const checked = hiddenIds.has(friend.id)
+                          return (
+                            <li
+                              key={friend.id}
+                              className="flex items-center gap-3 py-2"
+                            >
+                              {friend.avatar ? (
+                                <img
+                                  src={friend.avatar}
+                                  alt={friend.username}
+                                  className="w-8 h-8 rounded-full object-cover"
+                                />
+                              ) : (
+                                <span className="w-8 h-8 rounded-full bg-app-soft grid place-items-center text-xs text-app-text-muted">
+                                  {friend.username?.slice(0, 1).toUpperCase()}
+                                </span>
+                              )}
+                              <span className="text-sm text-app-text flex-1 truncate">
+                                {friend.username}
+                              </span>
+                              <Checkbox
+                                checked={checked}
+                                onChange={(e) => {
+                                  if (e.target.checked) {
+                                    hideActivityFrom({ friendId: friend.id, scope })
+                                  } else {
+                                    unhideActivityFrom({ friendId: friend.id, scope })
+                                  }
+                                }}
+                              />
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    )}
+                  </div>
+                )
+              }
 
-                <LockedCard
-                  index="2"
-                  icon={<HiOutlineShieldCheck className="w-5 h-5" />}
-                  title={t("settings.listeningActivity")}
-                  subtitle={t("settings.listeningActivityDesc")}
-                  badge={t("comingSoon")}
-                >
-                  <label className="inline-flex items-center gap-3 cursor-not-allowed select-none opacity-80">
-                    <Checkbox checked onChange={() => {}} />
-                    <span className="text-sm text-app-text">{t("settings.enabled")}</span>
-                  </label>
-                </LockedCard>
-              </>
-            )}
+              return (
+                <>
+                  <Card>
+                    <CardHeader
+                      index="1"
+                      icon={<HiOutlineEye className="w-5 h-5" />}
+                      title={t("settings.presenceVisibility")}
+                      subtitle={t("settings.presenceVisibilityDesc")}
+                    />
+                    <div className="mt-3 flex flex-col gap-2">
+                      {(["everyone", "friends", "nobody"] as const).map((opt) => (
+                        <label
+                          key={opt}
+                          className="inline-flex items-center gap-3 cursor-pointer select-none"
+                        >
+                          <input
+                            type="radio"
+                            name="presence-visibility"
+                            value={opt}
+                            checked={presenceVisibility === opt}
+                            onChange={() => updatePrivacy({ presence_visibility: opt })}
+                            className="accent-brand-500 w-4 h-4 cursor-pointer"
+                          />
+                          <span className="text-sm text-app-text">
+                            {visibilityLabel(opt)}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                    <div className="mt-5 pt-4 border-t border-app-line">
+                      <p className="text-xs font-semibold text-app-text-muted uppercase tracking-wide mb-2">
+                        {exclusionsHeader(presenceVisibility)}
+                      </p>
+                      {renderExclusionList("presence")}
+                    </div>
+                  </Card>
+
+                  <Card>
+                    <CardHeader
+                      index="2"
+                      icon={<HiOutlineShieldCheck className="w-5 h-5" />}
+                      title={t("settings.listeningActivity")}
+                      subtitle={t("settings.listeningActivityDesc")}
+                    />
+                    <div className="mt-3 flex flex-col gap-2">
+                      {(["everyone", "friends", "nobody"] as const).map((opt) => (
+                        <label
+                          key={opt}
+                          className="inline-flex items-center gap-3 cursor-pointer select-none"
+                        >
+                          <input
+                            type="radio"
+                            name="listening-visibility"
+                            value={opt}
+                            checked={listeningVisibility === opt}
+                            onChange={() => updatePrivacy({ listening_visibility: opt })}
+                            className="accent-brand-500 w-4 h-4 cursor-pointer"
+                          />
+                          <span className="text-sm text-app-text">
+                            {visibilityLabel(opt)}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                    <div className="mt-5 pt-4 border-t border-app-line">
+                      <p className="text-xs font-semibold text-app-text-muted uppercase tracking-wide mb-2">
+                        {exclusionsHeader(listeningVisibility)}
+                      </p>
+                      {renderExclusionList("listening")}
+                    </div>
+                  </Card>
+                </>
+              )
+            })()}
           </div>
         </div>
 
