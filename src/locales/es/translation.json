@@ -456,6 +456,27 @@
       "coverGeneration": "Generación de portada",
       "lyricsTranscription": "Transcripción de letras",
       "searchUser": "Buscar por nombre, correo o ID..."
+    },
+    "plan": {
+      "title": "Editar suscripción",
+      "planLabel": "Plan",
+      "durationLabel": "Duración",
+      "apply": "Aplicar",
+      "gift": "Regalar",
+      "giftHint": "Extiende la suscripción actual o activa el plan seleccionado si el usuario no tiene ninguna",
+      "giftDisabledForever": "La suscripción ya es permanente — usa Aplicar para cambiarla",
+      "noPlan": "Sin plan",
+      "noPlans": "No hay planes disponibles",
+      "errorCustomDateRequired": "Selecciona una fecha de expiración",
+      "errorGeneric": "No se pudo actualizar el plan",
+      "duration": {
+        "forever": "Para siempre",
+        "1month": "1 mes",
+        "3months": "3 meses",
+        "6months": "6 meses",
+        "1year": "1 año",
+        "custom": "Personalizado"
+      }
     }
   }
 }

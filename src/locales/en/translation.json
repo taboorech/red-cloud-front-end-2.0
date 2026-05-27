@@ -456,6 +456,27 @@
       "coverGeneration": "Cover Generation",
       "lyricsTranscription": "Lyrics Transcription",
       "searchUser": "Search by username, email or ID..."
+    },
+    "plan": {
+      "title": "Edit subscription plan",
+      "planLabel": "Plan",
+      "durationLabel": "Duration",
+      "apply": "Apply",
+      "gift": "Gift",
+      "giftHint": "Extends current subscription, or activates the selected plan if user has none",
+      "giftDisabledForever": "Subscription is already permanent — use Apply to change it",
+      "noPlan": "No plan",
+      "noPlans": "No plans available",
+      "errorCustomDateRequired": "Please select an expiration date",
+      "errorGeneric": "Failed to update plan",
+      "duration": {
+        "forever": "Forever",
+        "1month": "1 month",
+        "3months": "3 months",
+        "6months": "6 months",
+        "1year": "1 year",
+        "custom": "Custom"
+      }
     }
   }
 }

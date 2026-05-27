@@ -456,6 +456,27 @@
       "coverGeneration": "Geração de capa",
       "lyricsTranscription": "Transcrição de letras",
       "searchUser": "Pesquisar por nome, e-mail ou ID..."
+    },
+    "plan": {
+      "title": "Editar assinatura",
+      "planLabel": "Plano",
+      "durationLabel": "Duração",
+      "apply": "Aplicar",
+      "gift": "Presentear",
+      "giftHint": "Estende a assinatura atual ou ativa o plano selecionado se o usuário não tiver nenhuma",
+      "giftDisabledForever": "A assinatura já é permanente — use Aplicar para alterá-la",
+      "noPlan": "Sem plano",
+      "noPlans": "Nenhum plano disponível",
+      "errorCustomDateRequired": "Selecione uma data de expiração",
+      "errorGeneric": "Falha ao atualizar o plano",
+      "duration": {
+        "forever": "Para sempre",
+        "1month": "1 mês",
+        "3months": "3 meses",
+        "6months": "6 meses",
+        "1year": "1 ano",
+        "custom": "Personalizado"
+      }
     }
   }
 }

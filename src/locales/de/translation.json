@@ -456,6 +456,27 @@
       "coverGeneration": "Cover-Generierung",
       "lyricsTranscription": "Text-Transkription",
       "searchUser": "Nach Benutzername, E-Mail oder ID suchen..."
+    },
+    "plan": {
+      "title": "Abonnement bearbeiten",
+      "planLabel": "Plan",
+      "durationLabel": "Dauer",
+      "apply": "Anwenden",
+      "gift": "Schenken",
+      "giftHint": "Verlängert das aktuelle Abonnement oder aktiviert den gewählten Plan, falls keines vorhanden ist",
+      "giftDisabledForever": "Abonnement ist bereits unbegrenzt — verwende Anwenden, um es zu ändern",
+      "noPlan": "Kein Plan",
+      "noPlans": "Keine Pläne verfügbar",
+      "errorCustomDateRequired": "Wähle ein Ablaufdatum",
+      "errorGeneric": "Plan konnte nicht aktualisiert werden",
+      "duration": {
+        "forever": "Unbegrenzt",
+        "1month": "1 Monat",
+        "3months": "3 Monate",
+        "6months": "6 Monate",
+        "1year": "1 Jahr",
+        "custom": "Benutzerdefiniert"
+      }
     }
   }
 }

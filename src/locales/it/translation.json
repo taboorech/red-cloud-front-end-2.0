@@ -456,6 +456,27 @@
       "coverGeneration": "Generazione copertina",
       "lyricsTranscription": "Trascrizione testi",
       "searchUser": "Cerca per nome utente, email o ID..."
+    },
+    "plan": {
+      "title": "Modifica abbonamento",
+      "planLabel": "Piano",
+      "durationLabel": "Durata",
+      "apply": "Applica",
+      "gift": "Regala",
+      "giftHint": "Estende l'abbonamento corrente o attiva il piano selezionato se l'utente non ne ha",
+      "giftDisabledForever": "L'abbonamento è già permanente — usa Applica per modificarlo",
+      "noPlan": "Nessun piano",
+      "noPlans": "Nessun piano disponibile",
+      "errorCustomDateRequired": "Seleziona una data di scadenza",
+      "errorGeneric": "Impossibile aggiornare il piano",
+      "duration": {
+        "forever": "Per sempre",
+        "1month": "1 mese",
+        "3months": "3 mesi",
+        "6months": "6 mesi",
+        "1year": "1 anno",
+        "custom": "Personalizzato"
+      }
     }
   }
 }

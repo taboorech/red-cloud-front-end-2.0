@@ -21,6 +21,13 @@ export interface UserBan {
   banned_at: string | null;
 }
 
+export interface UserSubscriptionSummary {
+  plan_id: number;
+  plan_title: string | null;
+  expires_at?: string | null;
+  status?: string;
+}
+
 export interface User {
   id: number;
   username: string;
@@ -30,6 +37,7 @@ export interface User {
   role?: string;
   country?: string;
   userBans?: UserBan[];
+  subscription?: UserSubscriptionSummary;
 }
 
 export interface ProfileResponse {

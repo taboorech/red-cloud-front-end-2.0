@@ -456,6 +456,27 @@
       "coverGeneration": "Génération de couverture",
       "lyricsTranscription": "Transcription de paroles",
       "searchUser": "Rechercher par nom, e-mail ou ID..."
+    },
+    "plan": {
+      "title": "Modifier l'abonnement",
+      "planLabel": "Forfait",
+      "durationLabel": "Durée",
+      "apply": "Appliquer",
+      "gift": "Offrir",
+      "giftHint": "Prolonge l'abonnement actuel ou active le forfait sélectionné si l'utilisateur n'en a pas",
+      "giftDisabledForever": "L'abonnement est déjà permanent — utilisez Appliquer pour le modifier",
+      "noPlan": "Aucun forfait",
+      "noPlans": "Aucun forfait disponible",
+      "errorCustomDateRequired": "Veuillez choisir une date d'expiration",
+      "errorGeneric": "Impossible de mettre à jour le forfait",
+      "duration": {
+        "forever": "Pour toujours",
+        "1month": "1 mois",
+        "3months": "3 mois",
+        "6months": "6 mois",
+        "1year": "1 an",
+        "custom": "Personnalisé"
+      }
     }
   }
 }
