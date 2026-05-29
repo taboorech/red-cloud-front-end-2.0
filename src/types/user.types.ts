@@ -2,9 +2,16 @@ export const UserRole = {
   USER: 'user',
   OPERATOR: 'operator',
   ADMIN: 'admin',
+  OWNER: 'owner',
 } as const;
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole];
+
+export const ASSIGNABLE_USER_ROLES = [
+  UserRole.USER,
+  UserRole.OPERATOR,
+  UserRole.ADMIN,
+] as const;
 
 export interface UserBan {
   id: string;
@@ -12,6 +19,13 @@ export interface UserBan {
   reason: string;
   is_banned: boolean;
   banned_at: string | null;
+}
+
+export interface UserSubscriptionSummary {
+  plan_id: number;
+  plan_title: string | null;
+  expires_at?: string | null;
+  status?: string;
 }
 
 export interface User {
@@ -23,6 +37,7 @@ export interface User {
   role?: string;
   country?: string;
   userBans?: UserBan[];
+  subscription?: UserSubscriptionSummary;
 }
 
 export interface ProfileResponse {

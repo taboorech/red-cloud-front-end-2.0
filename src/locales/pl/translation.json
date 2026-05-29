@@ -16,6 +16,7 @@
     "apply": "Zastosuj",
     "discard": "Odrzuć",
     "edit": "Edytuj",
+    "delete": "Usuń",
     "create": "Utwórz",
     "update": "Aktualizuj",
     "failed": "Błąd",
@@ -420,7 +421,35 @@
     "title": "Zarządzanie",
     "tabs": {
       "users": "Użytkownicy",
+      "songs": "Utwory",
+      "genres": "Gatunki",
       "aiUsage": "Użycie AI"
+    },
+    "songs": {
+      "searchPlaceholder": "Wyszukaj utwory po tytule...",
+      "filterPublic": "Tylko publiczne",
+      "filterHidden": "Tylko ukryte",
+      "hidden": "Ukryte",
+      "noAuthor": "Nieznany autor",
+      "noSongs": "Nie znaleziono utworów",
+      "confirmDelete": "Trwale usunąć ten utwór?",
+      "editTitle": "Edytuj utwór",
+      "titleLabel": "Tytuł",
+      "descriptionLabel": "Opis",
+      "languageLabel": "Język",
+      "visibilityLabel": "Widoczność",
+      "isPublic": "Publiczny (widoczny dla innych)",
+      "genresLabel": "Gatunki",
+      "errorGeneric": "Nie udało się zaktualizować utworu"
+    },
+    "genres": {
+      "newPlaceholder": "Nazwa nowego gatunku",
+      "add": "Dodaj",
+      "noGenres": "Brak gatunków",
+      "editTitle": "Edytuj gatunek",
+      "titleLabel": "Tytuł",
+      "confirmDelete": "Trwale usunąć ten gatunek?",
+      "errorGeneric": "Nie udało się zaktualizować gatunku"
     },
     "searchUsers": "Szukaj po nazwie lub e-mailu...",
     "loadError": "Nie udało się załadować danych",
@@ -429,8 +458,10 @@
     "roles": {
       "user": "Użytkownik",
       "operator": "Operator",
-      "admin": "Admin"
+      "admin": "Admin",
+      "owner": "Właściciel"
     },
+    "ownerImmutable": "Roli właściciela nie można zmienić",
     "ban": "Zablokuj",
     "pardon": "Odblokuj",
     "banned": "Zablokowany",
@@ -454,6 +485,27 @@
       "coverGeneration": "Generowanie okładki",
       "lyricsTranscription": "Transkrypcja tekstu",
       "searchUser": "Szukaj po nazwie, e-mailu lub ID..."
+    },
+    "plan": {
+      "title": "Edytuj subskrypcję",
+      "planLabel": "Plan",
+      "durationLabel": "Czas trwania",
+      "apply": "Zastosuj",
+      "gift": "Podaruj",
+      "giftHint": "Przedłuża aktualną subskrypcję lub aktywuje wybrany plan, jeśli jej nie ma",
+      "giftDisabledForever": "Subskrypcja jest już bezterminowa — użyj Apply, aby ją zmienić",
+      "noPlan": "Brak planu",
+      "noPlans": "Brak dostępnych planów",
+      "errorCustomDateRequired": "Wybierz datę wygaśnięcia",
+      "errorGeneric": "Nie udało się zaktualizować planu",
+      "duration": {
+        "forever": "Bezterminowo",
+        "1month": "1 miesiąc",
+        "3months": "3 miesiące",
+        "6months": "6 miesięcy",
+        "1year": "1 rok",
+        "custom": "Inny okres"
+      }
     }
   }
 }

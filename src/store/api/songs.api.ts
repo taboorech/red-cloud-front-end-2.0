@@ -104,6 +104,44 @@ export const songsApi = createApi({
       }),
       invalidatesTags: (_, __, songId) => [{ type: 'Song', id: songId }],
     }),
+    listSongsForModeration: builder.query<
+      Song[],
+      { search?: string; isPublic?: boolean; limit?: number; offset?: number }
+    >({
+      query: (params) => ({
+        url: '/v1/songs/moderation',
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: GetSongsResponse) => response.data,
+      providesTags: ['Song'],
+    }),
+    moderateUpdateSong: builder.mutation<
+      Song,
+      {
+        songId: number
+        title?: string
+        description?: string
+        language?: string
+        isPublic?: boolean
+        genres?: number[]
+      }
+    >({
+      query: ({ songId, ...body }) => ({
+        url: `/v1/songs/${songId}/moderation`,
+        method: 'PUT',
+        data: body,
+      }),
+      transformResponse: (response: UpdateSongResponse) => response.data,
+      invalidatesTags: (_, __, { songId }) => [{ type: 'Song', id: String(songId) }, 'Song'],
+    }),
+    moderateDeleteSong: builder.mutation<void, number>({
+      query: (songId) => ({
+        url: `/v1/songs/${songId}/moderation`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (_, __, songId) => [{ type: 'Song', id: String(songId) }, 'Song'],
+    }),
   }),
 });
 
@@ -117,4 +155,7 @@ export const {
   useToggleFavoriteSongMutation,
   useLikeSongMutation,
   useDislikeSongMutation,
+  useListSongsForModerationQuery,
+  useModerateUpdateSongMutation,
+  useModerateDeleteSongMutation,
 } = songsApi;

@@ -16,6 +16,7 @@
     "apply": "Apply",
     "discard": "Discard",
     "edit": "Edit",
+    "delete": "Delete",
     "create": "Create",
     "update": "Update",
     "failed": "Failed",
@@ -420,7 +421,35 @@
     "title": "Management",
     "tabs": {
       "users": "Users",
+      "songs": "Songs",
+      "genres": "Genres",
       "aiUsage": "AI Usage"
+    },
+    "songs": {
+      "searchPlaceholder": "Search songs by title...",
+      "filterPublic": "Public only",
+      "filterHidden": "Hidden only",
+      "hidden": "Hidden",
+      "noAuthor": "Unknown author",
+      "noSongs": "No songs found",
+      "confirmDelete": "Delete this song permanently?",
+      "editTitle": "Edit song",
+      "titleLabel": "Title",
+      "descriptionLabel": "Description",
+      "languageLabel": "Language",
+      "visibilityLabel": "Visibility",
+      "isPublic": "Public (visible to others)",
+      "genresLabel": "Genres",
+      "errorGeneric": "Failed to update song"
+    },
+    "genres": {
+      "newPlaceholder": "New genre title",
+      "add": "Add",
+      "noGenres": "No genres",
+      "editTitle": "Edit genre",
+      "titleLabel": "Title",
+      "confirmDelete": "Delete this genre permanently?",
+      "errorGeneric": "Failed to update genre"
     },
     "searchUsers": "Search by name or email...",
     "loadError": "Failed to load data",
@@ -429,8 +458,10 @@
     "roles": {
       "user": "User",
       "operator": "Operator",
-      "admin": "Admin"
+      "admin": "Admin",
+      "owner": "Owner"
     },
+    "ownerImmutable": "Owner role cannot be modified",
     "ban": "Ban",
     "pardon": "Unban",
     "banned": "Banned",
@@ -454,6 +485,27 @@
       "coverGeneration": "Cover Generation",
       "lyricsTranscription": "Lyrics Transcription",
       "searchUser": "Search by username, email or ID..."
+    },
+    "plan": {
+      "title": "Edit subscription plan",
+      "planLabel": "Plan",
+      "durationLabel": "Duration",
+      "apply": "Apply",
+      "gift": "Gift",
+      "giftHint": "Extends current subscription, or activates the selected plan if user has none",
+      "giftDisabledForever": "Subscription is already permanent — use Apply to change it",
+      "noPlan": "No plan",
+      "noPlans": "No plans available",
+      "errorCustomDateRequired": "Please select an expiration date",
+      "errorGeneric": "Failed to update plan",
+      "duration": {
+        "forever": "Forever",
+        "1month": "1 month",
+        "3months": "3 months",
+        "6months": "6 months",
+        "1year": "1 year",
+        "custom": "Custom"
+      }
     }
   }
 }

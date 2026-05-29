@@ -16,6 +16,7 @@
     "apply": "Застосувати",
     "discard": "Відхилити",
     "edit": "Редагувати",
+    "delete": "Видалити",
     "create": "Створити",
     "update": "Оновити",
     "failed": "Помилка",
@@ -428,7 +429,35 @@
     "title": "Управління",
     "tabs": {
       "users": "Користувачі",
+      "songs": "Пісні",
+      "genres": "Жанри",
       "aiUsage": "Використання ШІ"
+    },
+    "songs": {
+      "searchPlaceholder": "Пошук пісень за назвою...",
+      "filterPublic": "Лише публічні",
+      "filterHidden": "Лише приховані",
+      "hidden": "Приховано",
+      "noAuthor": "Невідомий автор",
+      "noSongs": "Пісень не знайдено",
+      "confirmDelete": "Видалити пісню назавжди?",
+      "editTitle": "Редагувати пісню",
+      "titleLabel": "Назва",
+      "descriptionLabel": "Опис",
+      "languageLabel": "Мова",
+      "visibilityLabel": "Видимість",
+      "isPublic": "Публічна (видна іншим)",
+      "genresLabel": "Жанри",
+      "errorGeneric": "Не вдалося оновити пісню"
+    },
+    "genres": {
+      "newPlaceholder": "Назва нового жанру",
+      "add": "Додати",
+      "noGenres": "Немає жанрів",
+      "editTitle": "Редагувати жанр",
+      "titleLabel": "Назва",
+      "confirmDelete": "Видалити жанр назавжди?",
+      "errorGeneric": "Не вдалося оновити жанр"
     },
     "searchUsers": "Пошук за ім'ям або email...",
     "loadError": "Не вдалося завантажити дані",
@@ -437,8 +466,10 @@
     "roles": {
       "user": "Користувач",
       "operator": "Оператор",
-      "admin": "Адмін"
+      "admin": "Адмін",
+      "owner": "Власник"
     },
+    "ownerImmutable": "Роль власника не можна змінити",
     "ban": "Заблокувати",
     "pardon": "Розблокувати",
     "banned": "Заблокований",
@@ -462,6 +493,27 @@
       "coverGeneration": "Генерація обкладинки",
       "lyricsTranscription": "Транскрипція тексту",
       "searchUser": "Пошук за ім'ям, email або ID..."
+    },
+    "plan": {
+      "title": "Змінити підписку",
+      "planLabel": "План",
+      "durationLabel": "Тривалість",
+      "apply": "Застосувати",
+      "gift": "Подарувати",
+      "giftHint": "Продовжує поточну підписку, або активує обраний план якщо її немає",
+      "giftDisabledForever": "Підписка вже безстрокова — використайте Apply щоб змінити її",
+      "noPlan": "Без плану",
+      "noPlans": "Плани недоступні",
+      "errorCustomDateRequired": "Оберіть дату закінчення",
+      "errorGeneric": "Не вдалося оновити план",
+      "duration": {
+        "forever": "Назавжди",
+        "1month": "1 місяць",
+        "3months": "3 місяці",
+        "6months": "6 місяців",
+        "1year": "1 рік",
+        "custom": "Інший термін"
+      }
     }
   }
 }

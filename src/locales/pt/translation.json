@@ -16,6 +16,7 @@
     "apply": "Aplicar",
     "discard": "Descartar",
     "edit": "Editar",
+    "delete": "Excluir",
     "create": "Criar",
     "update": "Atualizar",
     "failed": "Falhou",
@@ -420,7 +421,35 @@
     "title": "Gestão",
     "tabs": {
       "users": "Utilizadores",
+      "songs": "Músicas",
+      "genres": "Géneros",
       "aiUsage": "Uso de IA"
+    },
+    "songs": {
+      "searchPlaceholder": "Pesquisar músicas por título...",
+      "filterPublic": "Apenas públicas",
+      "filterHidden": "Apenas ocultas",
+      "hidden": "Oculta",
+      "noAuthor": "Autor desconhecido",
+      "noSongs": "Nenhuma música encontrada",
+      "confirmDelete": "Excluir esta música permanentemente?",
+      "editTitle": "Editar música",
+      "titleLabel": "Título",
+      "descriptionLabel": "Descrição",
+      "languageLabel": "Idioma",
+      "visibilityLabel": "Visibilidade",
+      "isPublic": "Pública (visível para outros)",
+      "genresLabel": "Géneros",
+      "errorGeneric": "Falha ao atualizar a música"
+    },
+    "genres": {
+      "newPlaceholder": "Nome do novo género",
+      "add": "Adicionar",
+      "noGenres": "Sem géneros",
+      "editTitle": "Editar género",
+      "titleLabel": "Título",
+      "confirmDelete": "Excluir este género permanentemente?",
+      "errorGeneric": "Falha ao atualizar o género"
     },
     "searchUsers": "Pesquisar por nome ou e-mail...",
     "loadError": "Falha ao carregar dados",
@@ -429,8 +458,10 @@
     "roles": {
       "user": "Utilizador",
       "operator": "Operador",
-      "admin": "Admin"
+      "admin": "Admin",
+      "owner": "Proprietário"
     },
+    "ownerImmutable": "O papel de proprietário não pode ser alterado",
     "ban": "Bloquear",
     "pardon": "Desbloquear",
     "banned": "Bloqueado",
@@ -454,6 +485,27 @@
       "coverGeneration": "Geração de capa",
       "lyricsTranscription": "Transcrição de letras",
       "searchUser": "Pesquisar por nome, e-mail ou ID..."
+    },
+    "plan": {
+      "title": "Editar assinatura",
+      "planLabel": "Plano",
+      "durationLabel": "Duração",
+      "apply": "Aplicar",
+      "gift": "Presentear",
+      "giftHint": "Estende a assinatura atual ou ativa o plano selecionado se o usuário não tiver nenhuma",
+      "giftDisabledForever": "A assinatura já é permanente — use Aplicar para alterá-la",
+      "noPlan": "Sem plano",
+      "noPlans": "Nenhum plano disponível",
+      "errorCustomDateRequired": "Selecione uma data de expiração",
+      "errorGeneric": "Falha ao atualizar o plano",
+      "duration": {
+        "forever": "Para sempre",
+        "1month": "1 mês",
+        "3months": "3 meses",
+        "6months": "6 meses",
+        "1year": "1 ano",
+        "custom": "Personalizado"
+      }
     }
   }
 }

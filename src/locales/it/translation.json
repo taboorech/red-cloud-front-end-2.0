@@ -16,6 +16,7 @@
     "apply": "Applica",
     "discard": "Scarta",
     "edit": "Modifica",
+    "delete": "Elimina",
     "create": "Crea",
     "update": "Aggiorna",
     "failed": "Fallito",
@@ -420,7 +421,35 @@
     "title": "Gestione",
     "tabs": {
       "users": "Utenti",
+      "songs": "Brani",
+      "genres": "Generi",
       "aiUsage": "Utilizzo IA"
+    },
+    "songs": {
+      "searchPlaceholder": "Cerca brani per titolo...",
+      "filterPublic": "Solo pubblici",
+      "filterHidden": "Solo nascosti",
+      "hidden": "Nascosto",
+      "noAuthor": "Autore sconosciuto",
+      "noSongs": "Nessun brano trovato",
+      "confirmDelete": "Eliminare definitivamente questo brano?",
+      "editTitle": "Modifica brano",
+      "titleLabel": "Titolo",
+      "descriptionLabel": "Descrizione",
+      "languageLabel": "Lingua",
+      "visibilityLabel": "Visibilità",
+      "isPublic": "Pubblico (visibile ad altri)",
+      "genresLabel": "Generi",
+      "errorGeneric": "Impossibile aggiornare il brano"
+    },
+    "genres": {
+      "newPlaceholder": "Nome del nuovo genere",
+      "add": "Aggiungi",
+      "noGenres": "Nessun genere",
+      "editTitle": "Modifica genere",
+      "titleLabel": "Titolo",
+      "confirmDelete": "Eliminare definitivamente questo genere?",
+      "errorGeneric": "Impossibile aggiornare il genere"
     },
     "searchUsers": "Cerca per nome o email...",
     "loadError": "Impossibile caricare i dati",
@@ -429,8 +458,10 @@
     "roles": {
       "user": "Utente",
       "operator": "Operatore",
-      "admin": "Admin"
+      "admin": "Admin",
+      "owner": "Proprietario"
     },
+    "ownerImmutable": "Il ruolo proprietario non può essere modificato",
     "ban": "Blocca",
     "pardon": "Sblocca",
     "banned": "Bloccato",
@@ -454,6 +485,27 @@
       "coverGeneration": "Generazione copertina",
       "lyricsTranscription": "Trascrizione testi",
       "searchUser": "Cerca per nome utente, email o ID..."
+    },
+    "plan": {
+      "title": "Modifica abbonamento",
+      "planLabel": "Piano",
+      "durationLabel": "Durata",
+      "apply": "Applica",
+      "gift": "Regala",
+      "giftHint": "Estende l'abbonamento corrente o attiva il piano selezionato se l'utente non ne ha",
+      "giftDisabledForever": "L'abbonamento è già permanente — usa Applica per modificarlo",
+      "noPlan": "Nessun piano",
+      "noPlans": "Nessun piano disponibile",
+      "errorCustomDateRequired": "Seleziona una data di scadenza",
+      "errorGeneric": "Impossibile aggiornare il piano",
+      "duration": {
+        "forever": "Per sempre",
+        "1month": "1 mese",
+        "3months": "3 mesi",
+        "6months": "6 mesi",
+        "1year": "1 anno",
+        "custom": "Personalizzato"
+      }
     }
   }
 }
