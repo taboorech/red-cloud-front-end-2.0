@@ -16,6 +16,7 @@
     "apply": "Застосувати",
     "discard": "Відхилити",
     "edit": "Редагувати",
+    "delete": "Видалити",
     "create": "Створити",
     "update": "Оновити",
     "failed": "Помилка",
@@ -428,7 +429,35 @@
     "title": "Управління",
     "tabs": {
       "users": "Користувачі",
+      "songs": "Пісні",
+      "genres": "Жанри",
       "aiUsage": "Використання ШІ"
+    },
+    "songs": {
+      "searchPlaceholder": "Пошук пісень за назвою...",
+      "filterPublic": "Лише публічні",
+      "filterHidden": "Лише приховані",
+      "hidden": "Приховано",
+      "noAuthor": "Невідомий автор",
+      "noSongs": "Пісень не знайдено",
+      "confirmDelete": "Видалити пісню назавжди?",
+      "editTitle": "Редагувати пісню",
+      "titleLabel": "Назва",
+      "descriptionLabel": "Опис",
+      "languageLabel": "Мова",
+      "visibilityLabel": "Видимість",
+      "isPublic": "Публічна (видна іншим)",
+      "genresLabel": "Жанри",
+      "errorGeneric": "Не вдалося оновити пісню"
+    },
+    "genres": {
+      "newPlaceholder": "Назва нового жанру",
+      "add": "Додати",
+      "noGenres": "Немає жанрів",
+      "editTitle": "Редагувати жанр",
+      "titleLabel": "Назва",
+      "confirmDelete": "Видалити жанр назавжди?",
+      "errorGeneric": "Не вдалося оновити жанр"
     },
     "searchUsers": "Пошук за ім'ям або email...",
     "loadError": "Не вдалося завантажити дані",

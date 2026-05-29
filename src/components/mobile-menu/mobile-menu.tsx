@@ -34,7 +34,11 @@ const MobileMenu = ({ onClose, userRole }: MobileMenuProps) => {
       { icon: <TbPremiumRights className="text-xl" />, label: t('navigation.subscriptions'), path: '/subscriptions' },
       { icon: <LuInfo className="text-xl" />, label: t('navigation.about'), path: '/about' },
     ];
-    if (userRole === UserRole.ADMIN || userRole === UserRole.OWNER) {
+    if (
+      userRole === UserRole.OPERATOR ||
+      userRole === UserRole.ADMIN ||
+      userRole === UserRole.OWNER
+    ) {
       items.push({ icon: <IoShieldCheckmark className="text-xl" />, label: t('navigation.management'), path: '/management' });
     }
     return items;

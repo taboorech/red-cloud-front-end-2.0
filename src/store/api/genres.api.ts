@@ -20,10 +20,36 @@ export const genresApi = createApi({
       }),
       providesTags: ['Genre'],
     }),
+    createGenre: builder.mutation<void, { title: string }>({
+      query: (body) => ({
+        url: '/v1/genres',
+        method: 'POST',
+        data: body,
+      }),
+      invalidatesTags: ['Genre'],
+    }),
+    updateGenre: builder.mutation<void, { id: number; title: string }>({
+      query: ({ id, title }) => ({
+        url: `/v1/genres/${id}`,
+        method: 'PUT',
+        data: { title },
+      }),
+      invalidatesTags: ['Genre'],
+    }),
+    deleteGenre: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `/v1/genres/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Genre'],
+    }),
   }),
 });
 
 export const {
   useGetGenresQuery,
-  useLazyGetGenresQuery
+  useLazyGetGenresQuery,
+  useCreateGenreMutation,
+  useUpdateGenreMutation,
+  useDeleteGenreMutation,
 } = genresApi;

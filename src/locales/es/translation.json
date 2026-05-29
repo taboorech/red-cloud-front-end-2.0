@@ -16,6 +16,7 @@
     "apply": "Aplicar",
     "discard": "Descartar",
     "edit": "Editar",
+    "delete": "Eliminar",
     "create": "Crear",
     "update": "Actualizar",
     "failed": "Fallido",
@@ -420,7 +421,35 @@
     "title": "Gestión",
     "tabs": {
       "users": "Usuarios",
+      "songs": "Canciones",
+      "genres": "Géneros",
       "aiUsage": "Uso de IA"
+    },
+    "songs": {
+      "searchPlaceholder": "Buscar canciones por título...",
+      "filterPublic": "Solo públicas",
+      "filterHidden": "Solo ocultas",
+      "hidden": "Oculta",
+      "noAuthor": "Autor desconocido",
+      "noSongs": "No se encontraron canciones",
+      "confirmDelete": "¿Eliminar esta canción permanentemente?",
+      "editTitle": "Editar canción",
+      "titleLabel": "Título",
+      "descriptionLabel": "Descripción",
+      "languageLabel": "Idioma",
+      "visibilityLabel": "Visibilidad",
+      "isPublic": "Pública (visible para otros)",
+      "genresLabel": "Géneros",
+      "errorGeneric": "No se pudo actualizar la canción"
+    },
+    "genres": {
+      "newPlaceholder": "Nombre del nuevo género",
+      "add": "Añadir",
+      "noGenres": "Sin géneros",
+      "editTitle": "Editar género",
+      "titleLabel": "Título",
+      "confirmDelete": "¿Eliminar este género permanentemente?",
+      "errorGeneric": "No se pudo actualizar el género"
     },
     "searchUsers": "Buscar por nombre o correo...",
     "loadError": "Error al cargar datos",

@@ -16,6 +16,7 @@
     "apply": "Appliquer",
     "discard": "Ignorer",
     "edit": "Modifier",
+    "delete": "Supprimer",
     "create": "Créer",
     "update": "Mettre à jour",
     "failed": "Échoué",
@@ -420,7 +421,35 @@
     "title": "Gestion",
     "tabs": {
       "users": "Utilisateurs",
+      "songs": "Morceaux",
+      "genres": "Genres",
       "aiUsage": "Utilisation IA"
+    },
+    "songs": {
+      "searchPlaceholder": "Rechercher des morceaux par titre...",
+      "filterPublic": "Publics uniquement",
+      "filterHidden": "Masqués uniquement",
+      "hidden": "Masqué",
+      "noAuthor": "Auteur inconnu",
+      "noSongs": "Aucun morceau trouvé",
+      "confirmDelete": "Supprimer ce morceau définitivement ?",
+      "editTitle": "Modifier le morceau",
+      "titleLabel": "Titre",
+      "descriptionLabel": "Description",
+      "languageLabel": "Langue",
+      "visibilityLabel": "Visibilité",
+      "isPublic": "Public (visible par les autres)",
+      "genresLabel": "Genres",
+      "errorGeneric": "Échec de la mise à jour du morceau"
+    },
+    "genres": {
+      "newPlaceholder": "Nom du nouveau genre",
+      "add": "Ajouter",
+      "noGenres": "Aucun genre",
+      "editTitle": "Modifier le genre",
+      "titleLabel": "Titre",
+      "confirmDelete": "Supprimer ce genre définitivement ?",
+      "errorGeneric": "Échec de la mise à jour du genre"
     },
     "searchUsers": "Rechercher par nom ou e-mail...",
     "loadError": "Échec du chargement des données",

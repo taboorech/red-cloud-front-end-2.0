@@ -16,6 +16,7 @@
     "apply": "Übernehmen",
     "discard": "Verwerfen",
     "edit": "Bearbeiten",
+    "delete": "Löschen",
     "create": "Erstellen",
     "update": "Aktualisieren",
     "failed": "Fehlgeschlagen",
@@ -420,7 +421,35 @@
     "title": "Verwaltung",
     "tabs": {
       "users": "Benutzer",
+      "songs": "Songs",
+      "genres": "Genres",
       "aiUsage": "KI-Nutzung"
+    },
+    "songs": {
+      "searchPlaceholder": "Songs nach Titel suchen...",
+      "filterPublic": "Nur öffentliche",
+      "filterHidden": "Nur ausgeblendete",
+      "hidden": "Ausgeblendet",
+      "noAuthor": "Unbekannter Autor",
+      "noSongs": "Keine Songs gefunden",
+      "confirmDelete": "Diesen Song dauerhaft löschen?",
+      "editTitle": "Song bearbeiten",
+      "titleLabel": "Titel",
+      "descriptionLabel": "Beschreibung",
+      "languageLabel": "Sprache",
+      "visibilityLabel": "Sichtbarkeit",
+      "isPublic": "Öffentlich (für andere sichtbar)",
+      "genresLabel": "Genres",
+      "errorGeneric": "Song konnte nicht aktualisiert werden"
+    },
+    "genres": {
+      "newPlaceholder": "Name des neuen Genres",
+      "add": "Hinzufügen",
+      "noGenres": "Keine Genres",
+      "editTitle": "Genre bearbeiten",
+      "titleLabel": "Titel",
+      "confirmDelete": "Dieses Genre dauerhaft löschen?",
+      "errorGeneric": "Genre konnte nicht aktualisiert werden"
     },
     "searchUsers": "Nach Name oder E-Mail suchen...",
     "loadError": "Daten konnten nicht geladen werden",

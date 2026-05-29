@@ -16,6 +16,7 @@
     "apply": "Apply",
     "discard": "Discard",
     "edit": "Edit",
+    "delete": "Delete",
     "create": "Create",
     "update": "Update",
     "failed": "Failed",
@@ -420,7 +421,35 @@
     "title": "Management",
     "tabs": {
       "users": "Users",
+      "songs": "Songs",
+      "genres": "Genres",
       "aiUsage": "AI Usage"
+    },
+    "songs": {
+      "searchPlaceholder": "Search songs by title...",
+      "filterPublic": "Public only",
+      "filterHidden": "Hidden only",
+      "hidden": "Hidden",
+      "noAuthor": "Unknown author",
+      "noSongs": "No songs found",
+      "confirmDelete": "Delete this song permanently?",
+      "editTitle": "Edit song",
+      "titleLabel": "Title",
+      "descriptionLabel": "Description",
+      "languageLabel": "Language",
+      "visibilityLabel": "Visibility",
+      "isPublic": "Public (visible to others)",
+      "genresLabel": "Genres",
+      "errorGeneric": "Failed to update song"
+    },
+    "genres": {
+      "newPlaceholder": "New genre title",
+      "add": "Add",
+      "noGenres": "No genres",
+      "editTitle": "Edit genre",
+      "titleLabel": "Title",
+      "confirmDelete": "Delete this genre permanently?",
+      "errorGeneric": "Failed to update genre"
     },
     "searchUsers": "Search by name or email...",
     "loadError": "Failed to load data",

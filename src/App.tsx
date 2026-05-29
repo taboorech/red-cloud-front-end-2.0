@@ -54,7 +54,7 @@ const App = () => {
           <Route
             path='/management'
             element={
-              <RequireRole roles={[UserRole.ADMIN, UserRole.OWNER]}>
+              <RequireRole roles={[UserRole.OPERATOR, UserRole.ADMIN, UserRole.OWNER]}>
                 <Management />
               </RequireRole>
             }

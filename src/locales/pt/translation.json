@@ -16,6 +16,7 @@
     "apply": "Aplicar",
     "discard": "Descartar",
     "edit": "Editar",
+    "delete": "Excluir",
     "create": "Criar",
     "update": "Atualizar",
     "failed": "Falhou",
@@ -420,7 +421,35 @@
     "title": "Gestão",
     "tabs": {
       "users": "Utilizadores",
+      "songs": "Músicas",
+      "genres": "Géneros",
       "aiUsage": "Uso de IA"
+    },
+    "songs": {
+      "searchPlaceholder": "Pesquisar músicas por título...",
+      "filterPublic": "Apenas públicas",
+      "filterHidden": "Apenas ocultas",
+      "hidden": "Oculta",
+      "noAuthor": "Autor desconhecido",
+      "noSongs": "Nenhuma música encontrada",
+      "confirmDelete": "Excluir esta música permanentemente?",
+      "editTitle": "Editar música",
+      "titleLabel": "Título",
+      "descriptionLabel": "Descrição",
+      "languageLabel": "Idioma",
+      "visibilityLabel": "Visibilidade",
+      "isPublic": "Pública (visível para outros)",
+      "genresLabel": "Géneros",
+      "errorGeneric": "Falha ao atualizar a música"
+    },
+    "genres": {
+      "newPlaceholder": "Nome do novo género",
+      "add": "Adicionar",
+      "noGenres": "Sem géneros",
+      "editTitle": "Editar género",
+      "titleLabel": "Título",
+      "confirmDelete": "Excluir este género permanentemente?",
+      "errorGeneric": "Falha ao atualizar o género"
     },
     "searchUsers": "Pesquisar por nome ou e-mail...",
     "loadError": "Falha ao carregar dados",
