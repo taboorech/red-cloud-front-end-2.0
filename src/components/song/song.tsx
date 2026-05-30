@@ -1,10 +1,12 @@
 import classNames from "classnames";
 import { BsSoundwave } from "react-icons/bs";
+import { MdDownloadDone } from "react-icons/md";
 import { useAudio } from "../../context/audio-context";
 import type { Song as SongType } from "../../types/song.types";
 import { useContextMenu } from "../../hooks/use-context-menu";
 import SongContextMenu from "../context-menu/menus/song-context-menu";
 import StripedCover from "../striped-cover/striped-cover";
+import { useDownloadedIds } from "../../hooks/use-downloads";
 
 type SongVariant = "small" | "expanded";
 
@@ -33,6 +35,8 @@ const Song = ({
 }: SongProps) => {
   const audio = useAudio();
   const contextMenu = useContextMenu();
+  const downloadedIds = useDownloadedIds();
+  const isDownloaded = !!song && downloadedIds.has(song.id);
 
   const handleClick = () => {
     if (onClick) {
@@ -95,11 +99,19 @@ const Song = ({
               )}
             </div>
           </div>
-          {duration && (
-            <span className="text-app-text-muted text-xs tabular-nums ml-auto pl-2 relative z-10">
-              {duration}
-            </span>
-          )}
+          <div className="ml-auto pl-2 relative z-10 flex items-center gap-2">
+            {isDownloaded && (
+              <MdDownloadDone
+                className="text-brand-400 w-4 h-4"
+                aria-label="Downloaded"
+              />
+            )}
+            {duration && (
+              <span className="text-app-text-muted text-xs tabular-nums">
+                {duration}
+              </span>
+            )}
+          </div>
         </div>
         {contextMenuNode}
       </>

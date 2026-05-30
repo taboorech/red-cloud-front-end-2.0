@@ -1,4 +1,26 @@
 {
+  "offline": {
+    "banner": "You are offline",
+    "cachedOnly": "only cached content is available",
+    "actionUnavailable": "This action requires an internet connection",
+    "aiUnavailable": "AI features are unavailable offline",
+    "searchUnavailable": "Search is unavailable offline. Connect to find songs, users and playlists."
+  },
+  "downloads": {
+    "download": "Download",
+    "remove": "Remove from downloads",
+    "downloading": "Downloading...",
+    "pageTitle": "Downloads",
+    "eyebrow": "Library",
+    "title": "Downloaded",
+    "emptyTitle": "No downloads yet",
+    "emptyHint": "Songs you download will appear here and play without internet.",
+    "browse": "Find music"
+  },
+  "playlist": {
+    "failedToLoad": "Failed to load playlist",
+    "empty": "This playlist is empty"
+  },
   "comingSoon": "Coming soon",
   "common": {
     "loading": "Loading...",
@@ -38,6 +60,7 @@
     "home": "Home",
     "search": "Search",
     "favorites": "Favorites",
+    "downloads": "Downloads",
     "library": "Library",
     "playlists": "Playlists",
     "mySongs": "My Songs",

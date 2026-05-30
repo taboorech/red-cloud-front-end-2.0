@@ -9,6 +9,7 @@ import Topbar from "../components/topbar/topbar";
 import StateSidebar from "../components/state-sidebar/state-sidebar";
 import Player from "../components/player/player";
 import MobileMenu from "../components/mobile-menu/mobile-menu";
+import OfflineBanner from "../components/offline-banner/offline-banner";
 
 const Layout = () => {
   const { data: profile } = useGetProfileQuery();
@@ -16,6 +17,7 @@ const Layout = () => {
 
   return (
     <div className="h-screen flex flex-col bg-app-base text-app-text">
+      <OfflineBanner />
       <div className="absolute md:hidden top-4 left-4 z-30">
         <Button
           variant="snow"

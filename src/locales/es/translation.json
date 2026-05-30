@@ -1,4 +1,26 @@
 {
+  "offline": {
+    "banner": "Estás sin conexión",
+    "cachedOnly": "solo está disponible el contenido en caché",
+    "actionUnavailable": "Esta acción requiere una conexión a internet",
+    "aiUnavailable": "Las funciones de IA no están disponibles sin conexión",
+    "searchUnavailable": "La búsqueda no está disponible sin conexión. Conéctate para encontrar canciones, usuarios y listas."
+  },
+  "downloads": {
+    "download": "Descargar",
+    "remove": "Quitar de descargas",
+    "downloading": "Descargando...",
+    "pageTitle": "Descargas",
+    "eyebrow": "Biblioteca",
+    "title": "Descargado",
+    "emptyTitle": "Aún no hay descargas",
+    "emptyHint": "Las canciones que descargues aparecerán aquí y se reproducirán sin internet.",
+    "browse": "Buscar música"
+  },
+  "playlist": {
+    "failedToLoad": "No se pudo cargar la lista",
+    "empty": "Esta lista está vacía"
+  },
   "comingSoon": "Próximamente",
   "common": {
     "loading": "Cargando...",
@@ -38,6 +60,7 @@
     "home": "Inicio",
     "search": "Buscar",
     "favorites": "Favoritos",
+    "downloads": "Descargas",
     "library": "Biblioteca",
     "playlists": "Listas de reproducción",
     "mySongs": "Mis canciones",

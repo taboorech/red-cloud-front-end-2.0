@@ -18,9 +18,11 @@ import { profileEditSchema } from "../../validation/profile.schema";
 import { zodValidate } from "../../utils/zod-validate";
 import { useTranslation } from "react-i18next";
 import { Helmet } from "react-helmet-async";
+import { useOnlineStatus } from "../../hooks/use-online-status";
 
 const ProfileEdit = () => {
   const { t } = useTranslation()
+  const isOnline = useOnlineStatus();
   const navigate = useNavigate();
   const { data: profile, isLoading } = useGetProfileQuery();
   const [updateProfile] = useUpdateProfileMutation();
@@ -120,6 +122,8 @@ const ProfileEdit = () => {
                         type="submit"
                         form="profile-edit-form"
                         variant={"outline"}
+                        disabled={!isOnline}
+                        title={!isOnline ? t('offline.actionUnavailable') : undefined}
                       >
                         {t('common.update')}
                       </Button>

@@ -1,6 +1,12 @@
 import React, { createContext, useContext, useState, useRef, useEffect, type ReactNode, useCallback } from "react";
 import { socketService, type SongState, type SongStateRetrieval } from "../services/socket.service";
 import type { Song } from "../types/song.types";
+import { getDownloadedAudioUrl } from "../utils/downloads";
+
+const resolveAudioSrc = async (song: Song): Promise<string> => {
+  const offline = await getDownloadedAudioUrl(song.id);
+  return offline ?? song.url;
+};
 
 interface QueueItem {
   song: Song;
@@ -37,7 +43,7 @@ interface AudioContextProps {
   nextSong: () => void;
   prevSong: () => void;
   playFromQueue: (index: number) => void;
-  playSong: (song: Song) => void;
+  playSong: (song: Song) => Promise<void>;
   audioRef: React.RefObject<HTMLAudioElement>;
 }
 
@@ -127,11 +133,17 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
 
           const audio = audioRef.current;
           if (audio) {
-            audio.src = song.url;
-            audio.load();
-            audio.currentTime = state.currentTime;
+            resolveAudioSrc(song)
+              .then((src) => {
+                audio.src = src;
+                audio.load();
+                audio.currentTime = state.currentTime;
+              })
+              .catch((err) => {
+                console.error('Socket sync: failed to resolve audio src:', err);
+              });
           }
-          
+
           lastSyncTimeRef.current = state.updatedAt;
         }
       }
@@ -295,24 +307,33 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
     }
   }, []);
 
-  const playSong = (song: Song) => {
+  const playSong = async (song: Song): Promise<void> => {
     isTransitioningRef.current = true;
     setCurrentSong(song);
     setCurrentTime(0);
-    
+
     const audio = audioRef.current;
-    if (audio) {
-      audio.src = song.url;
+    if (!audio) return;
+
+    try {
+      const src = await resolveAudioSrc(song);
+      audio.src = src;
       audio.currentTime = 0;
       audio.load();
-      
-      // Wait for the audio to be ready, then play
-      const onCanPlay = () => {
-        audio.removeEventListener('canplay', onCanPlay);
-        isTransitioningRef.current = false;
-        audio.play().catch(console.error);
-      };
-      audio.addEventListener('canplay', onCanPlay);
+
+      await new Promise<void>((resolve) => {
+        const onCanPlay = () => {
+          audio.removeEventListener('canplay', onCanPlay);
+          resolve();
+        };
+        audio.addEventListener('canplay', onCanPlay);
+      });
+
+      isTransitioningRef.current = false;
+      await audio.play();
+    } catch (err) {
+      isTransitioningRef.current = false;
+      console.error('playSong failed:', err);
     }
   };
 
@@ -421,9 +442,8 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
 
   return (
     <>
-      <audio 
+      <audio
         ref={audioRef}
-        src={currentSong?.url}
         preload="metadata"
       />
       

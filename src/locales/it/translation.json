@@ -1,4 +1,26 @@
 {
+  "offline": {
+    "banner": "Sei offline",
+    "cachedOnly": "è disponibile solo il contenuto memorizzato nella cache",
+    "actionUnavailable": "Questa azione richiede una connessione Internet",
+    "aiUnavailable": "Le funzioni IA non sono disponibili offline",
+    "searchUnavailable": "La ricerca non è disponibile offline. Connettiti per trovare brani, utenti e playlist."
+  },
+  "downloads": {
+    "download": "Scarica",
+    "remove": "Rimuovi dai download",
+    "downloading": "Download in corso...",
+    "pageTitle": "Download",
+    "eyebrow": "Libreria",
+    "title": "Scaricati",
+    "emptyTitle": "Nessun download",
+    "emptyHint": "I brani che scarichi appariranno qui e funzioneranno senza Internet.",
+    "browse": "Trova musica"
+  },
+  "playlist": {
+    "failedToLoad": "Impossibile caricare la playlist",
+    "empty": "Questa playlist è vuota"
+  },
   "comingSoon": "Prossimamente",
   "common": {
     "loading": "Caricamento...",
@@ -38,6 +60,7 @@
     "home": "Home",
     "search": "Cerca",
     "favorites": "Preferiti",
+    "downloads": "Download",
     "library": "Libreria",
     "playlists": "Playlist",
     "mySongs": "Le mie canzoni",

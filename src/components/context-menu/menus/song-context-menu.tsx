@@ -1,6 +1,7 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { MdFavoriteBorder, MdQueueMusic, MdPerson, MdMusicNote, MdPlaylistAdd, MdShare, MdHeadphones } from "react-icons/md";
+import { MdFavoriteBorder, MdQueueMusic, MdPerson, MdMusicNote, MdPlaylistAdd, MdShare, MdHeadphones, MdDownloadForOffline, MdDownloadDone } from "react-icons/md";
 import ContextMenu, { type ContextMenuPosition } from "../context-menu";
 import ContextMenuItem from "../context-menu-item";
 import ContextMenuSubmenu from "../context-menu-submenu";
@@ -11,6 +12,8 @@ import { PiHeartBreakFill } from "react-icons/pi";
 import { useLazyGetPlaylistsQuery } from "../../../store/api/playlist.api";
 import { useAudio } from "../../../context/audio-context";
 import { useFriends } from "../../../hooks/use-friends";
+import { useDownloadAction, useDownloadedIds } from "../../../hooks/use-downloads";
+import { useOnlineStatus } from "../../../hooks/use-online-status";
 
 interface SongContextMenuProps {
   song: Song;
@@ -21,14 +24,29 @@ interface SongContextMenuProps {
 }
 
 const SongContextMenu = ({ song, position, onClose, playlistId, onRemoveFromPlaylist }: SongContextMenuProps) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const audio = useAudio();
+  const isOnline = useOnlineStatus();
   const [toggleFavorite] = useToggleFavoriteSongMutation();
   const { data: favorites } = useGetFavoriteSongsQuery();
   const [getPlaylists, { data: playlists }] = useLazyGetPlaylistsQuery();
   const { friends } = useFriends();
+  const downloadedIds = useDownloadedIds();
+  const { download, remove, isPending } = useDownloadAction();
 
   const isFavorite = favorites?.some((s) => s.id === song.id) ?? false;
+  const isDownloaded = downloadedIds.has(song.id);
+  const isDownloading = isPending(song.id);
+
+  const handleToggleDownload = async () => {
+    if (isDownloaded) {
+      await remove(song.id);
+    } else {
+      await download(song);
+    }
+    onClose();
+  };
 
   useEffect(() => {
     getPlaylists({ offset: 0, limit: 50 });
@@ -96,6 +114,19 @@ const SongContextMenu = ({ song, position, onClose, playlistId, onRemoveFromPlay
         icon={isFavorite ? <PiHeartBreakFill /> : <MdFavoriteBorder />}
         danger={isFavorite}
         onClick={handleAddToFavorites}
+        disabled={!isOnline}
+      />
+      <ContextMenuItem
+        label={
+          isDownloading
+            ? t('downloads.downloading')
+            : isDownloaded
+              ? t('downloads.remove')
+              : t('downloads.download')
+        }
+        icon={isDownloaded ? <MdDownloadDone /> : <MdDownloadForOffline />}
+        onClick={handleToggleDownload}
+        disabled={isDownloading || (!isOnline && !isDownloaded)}
       />
       <ContextMenuSubmenu label="Share" icon={<MdShare />}>
         <ContextMenuItem label="Copy link" onClick={handleCopyLink} />

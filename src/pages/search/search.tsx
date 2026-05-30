@@ -14,6 +14,7 @@ import { useContextMenu } from '../../hooks/use-context-menu'
 import UserContextMenu from '../../components/context-menu/menus/user-context-menu'
 import PageLayout from '../../components/page-layout/page-layout'
 import type { User } from '../../types/user.types'
+import { useOnlineStatus } from '../../hooks/use-online-status'
 
 const tabToSearchType: Record<SearchTab, SearchType> = {
   all: SearchType.ALL,
@@ -24,6 +25,7 @@ const tabToSearchType: Record<SearchTab, SearchType> = {
 
 const Search = () => {
   const { t } = useTranslation()
+  const isOnline = useOnlineStatus()
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const { currentSong } = useAudio()
@@ -37,7 +39,7 @@ const Search = () => {
 
   const { data, isFetching } = useSearchQuery(
     { query: searchQuery, type: tabToSearchType[activeTab] },
-    { skip: searchQuery.trim().length === 0 }
+    { skip: searchQuery.trim().length === 0 || !isOnline }
   )
 
   const users = data?.users ?? []
@@ -162,7 +164,13 @@ const Search = () => {
 
         <SearchTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
-        {searchQuery.trim().length > 0 && renderResults()}
+        {!isOnline && searchQuery.trim().length > 0 && (
+          <p className="text-sm text-amber-500/90 bg-amber-500/10 border border-amber-500/20 rounded-lg px-4 py-3">
+            {t('offline.searchUnavailable')}
+          </p>
+        )}
+
+        {isOnline && searchQuery.trim().length > 0 && renderResults()}
 
         {userMenu.isOpen && menuUser && (
           <UserContextMenu

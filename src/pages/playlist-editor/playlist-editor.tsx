@@ -14,6 +14,7 @@ import {
 } from "../../store/api/playlist.api";
 import { useGeneratePlaylistCoverMutation, useGenerateImageMutation } from "../../store/api/ai.api";
 import { useTranslation } from "react-i18next";
+import { useOnlineStatus } from "../../hooks/use-online-status";
 import { Helmet } from "react-helmet-async";
 import PremiumOverlay from "../../components/premium-overlay/premium-overlay";
 import PageLayout from "../../components/page-layout/page-layout";
@@ -59,6 +60,7 @@ const drawEmojiCover = (emoji: string): Promise<File> =>
 
 const PlaylistEditor = () => {
   const { t } = useTranslation();
+  const isOnline = useOnlineStatus();
   const { playlistId } = useParams<{ playlistId: string }>();
   const navigate = useNavigate();
 
@@ -343,7 +345,8 @@ const PlaylistEditor = () => {
                       <button
                         type="button"
                         onClick={() => handleGenerateCover(values.title)}
-                        disabled={isAnyAiLoading || (coverMethod === 'ai-custom' && !aiCustomPrompt.trim())}
+                        disabled={isAnyAiLoading || (coverMethod === 'ai-custom' && !aiCustomPrompt.trim()) || !isOnline}
+                        title={!isOnline ? t('offline.aiUnavailable') : undefined}
                         className={classNames(BRAND_BUTTON_BASE, "w-full h-11 text-sm rounded-lg")}
                       >
                         {isAnyAiLoading ? t('playlistEditor.generating') : (
@@ -483,7 +486,8 @@ const PlaylistEditor = () => {
                   </button>
                   <button
                     type="submit"
-                    disabled={isSubmitting || isCreatingPlaylist || isUpdatingPlaylist}
+                    disabled={isSubmitting || isCreatingPlaylist || isUpdatingPlaylist || !isOnline}
+                    title={!isOnline ? t('offline.actionUnavailable') : undefined}
                     onClick={(e) => { e.preventDefault(); formikHandleSubmit(); }}
                     className={classNames(BRAND_BUTTON_BASE, "px-5 h-11 text-sm rounded-full")}
                   >

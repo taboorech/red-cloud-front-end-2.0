@@ -20,6 +20,7 @@ import About from './pages/about/about'
 import Search from './pages/search/search'
 import NotFound from './pages/not-found/not-found'
 import Favorites from './pages/favorites/favorites'
+import Downloads from './pages/downloads/downloads'
 import Settings from './pages/settings/settings'
 import Management from './pages/management/management'
 import RequireRole from './hoc/require-role'
@@ -50,6 +51,7 @@ const App = () => {
           <Route path='/about' element={<About />} />
           <Route path='/search' element={<Search />} />
           <Route path='/favorites' element={<Favorites />} />
+          <Route path='/downloads' element={<Downloads />} />
           <Route path='/settings' element={<Settings />} />
           <Route
             path='/management'

@@ -9,6 +9,7 @@ import { SubscriptionType } from "../../types/subscription.types"
 import PageLayout from "../../components/page-layout/page-layout"
 import { PAGE_LABEL_BASE } from "../../utils/tailwind-classes"
 import { Helmet } from "react-helmet-async"
+import { useOnlineStatus } from "../../hooks/use-online-status"
 
 interface SubscriptionFeature {
   text: string
@@ -29,6 +30,7 @@ interface SubscriptionPlan {
 
 const Subscriptions = () => {
   const { t } = useTranslation()
+  const isOnline = useOnlineStatus()
   const { currentPlan, isLoading } = useSubscription()
   const [selectedPeriod, setSelectedPeriod] = useState<"monthly" | "yearly">("monthly")
   const [getPaymentUrl, { isLoading: isPaymentLoading }] = useGetPaymentUrlMutation()
@@ -165,7 +167,8 @@ const Subscriptions = () => {
             </div>
             {currentPlanId !== 1 && (
               <button
-                disabled={isCancelLoading}
+                disabled={isCancelLoading || !isOnline}
+                title={!isOnline ? t('offline.actionUnavailable') : undefined}
                 onClick={async () => {
                   const confirmed = confirm(t('subscriptions.cancelConfirmDetailed'))
                   if (confirmed) {
@@ -276,7 +279,8 @@ const Subscriptions = () => {
                 </ul>
 
                 <button
-                  disabled={plan.unavailable || isPaymentLoading || isCancelLoading || isCurrent}
+                  disabled={plan.unavailable || isPaymentLoading || isCancelLoading || isCurrent || !isOnline}
+                  title={!isOnline ? t('offline.actionUnavailable') : undefined}
                   onClick={() => handlePlanSelection(plan)}
                   className={classNames(
                     "mt-6 h-11 rounded-full font-semibold text-sm transition cursor-pointer disabled:cursor-not-allowed",

@@ -1,10 +1,14 @@
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 import { useAudio } from "../../../context/audio-context";
 import { useToggleFavoriteSongMutation } from "../../../store/api/songs.api";
+import { useOnlineStatus } from "../../../hooks/use-online-status";
 import StripedCover from "../../striped-cover/striped-cover";
 
 const CurrentSong = () => {
+  const { t } = useTranslation();
   const { currentSong, setCurrentSong } = useAudio();
+  const isOnline = useOnlineStatus();
   const [toggleFavorite] = useToggleFavoriteSongMutation();
 
   if (!currentSong) {
@@ -41,7 +45,9 @@ const CurrentSong = () => {
       <button
         type="button"
         onClick={handleToggleFavorite}
-        className="w-8 h-8 grid place-items-center rounded-full text-brand-500 hover:bg-app-soft transition-colors cursor-pointer shrink-0"
+        disabled={!isOnline}
+        title={!isOnline ? t('offline.actionUnavailable') : undefined}
+        className="w-8 h-8 grid place-items-center rounded-full text-brand-500 hover:bg-app-soft transition-colors cursor-pointer shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
         aria-label="Like"
       >
         {currentSong.is_favorite ? (

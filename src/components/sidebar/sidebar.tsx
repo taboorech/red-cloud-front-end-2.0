@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import classNames from "classnames";
-import { MdHome, MdFavorite } from "react-icons/md";
+import { MdHome, MdFavorite, MdDownloadForOffline } from "react-icons/md";
 import { CiSearch } from "react-icons/ci";
 import { IoAdd, IoShieldCheckmark } from "react-icons/io5";
 import { HiOutlineQueueList } from "react-icons/hi2";
@@ -47,6 +47,9 @@ const Sidebar = () => {
         </NavLink>
         <NavLink to="/favorites" icon={MdFavorite}>
           {t("navigation.favorites")}
+        </NavLink>
+        <NavLink to="/downloads" icon={MdDownloadForOffline}>
+          {t("navigation.downloads")}
         </NavLink>
         {(profile?.role === UserRole.OPERATOR ||
           profile?.role === UserRole.ADMIN ||

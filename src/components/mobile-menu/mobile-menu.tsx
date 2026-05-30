@@ -3,7 +3,7 @@ import { UserRole } from "../../types/user.types";
 import { Button } from "../button/button";
 import MiniAvatar from "./mini-avatar/mini-avatar";
 import { useNavigate } from "react-router";
-import { IoHome, IoSearch, IoHeart, IoList, IoSettings, IoShieldCheckmark } from "react-icons/io5";
+import { IoHome, IoSearch, IoHeart, IoList, IoSettings, IoShieldCheckmark, IoCloudDownloadOutline } from "react-icons/io5";
 import { useCallback, useMemo } from "react";
 import { TbPremiumRights } from "react-icons/tb";
 import { LuInfo } from "react-icons/lu";
@@ -29,6 +29,7 @@ const MobileMenu = ({ onClose, userRole }: MobileMenuProps) => {
       { icon: <IoHome className="text-xl" />, label: t('navigation.home'), path: '/' },
       { icon: <IoSearch className="text-xl" />, label: t('navigation.search'), path: '/search' },
       { icon: <IoHeart className="text-xl" />, label: t('navigation.favorites'), path: '/favorites' },
+      { icon: <IoCloudDownloadOutline className="text-xl" />, label: t('navigation.downloads'), path: '/downloads' },
       { icon: <IoList className="text-xl" />, label: t('navigation.playlists'), path: '/playlists' },
       { icon: <IoSettings className="text-xl" />, label: t('navigation.settings'), path: '/settings' },
       { icon: <TbPremiumRights className="text-xl" />, label: t('navigation.subscriptions'), path: '/subscriptions' },

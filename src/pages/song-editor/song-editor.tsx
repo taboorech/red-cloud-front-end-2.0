@@ -25,6 +25,7 @@ import { useCreateSongMutation, useUpdateSongMutation, useGetSongQuery } from ".
 import type { Genre } from "../../types/genre.types";
 import type { User } from "../../types/user.types";
 import { useTranslation } from "react-i18next";
+import { useOnlineStatus } from "../../hooks/use-online-status";
 import { Helmet } from "react-helmet-async";
 import PremiumOverlay from "../../components/premium-overlay/premium-overlay";
 import StripedCover from "../../components/striped-cover/striped-cover";
@@ -50,6 +51,7 @@ const textareaClass =
 
 const SongEditor = () => {
   const { t } = useTranslation();
+  const isOnline = useOnlineStatus();
   const { songId } = useParams<{ songId: string }>();
   const navigate = useNavigate();
 
@@ -410,7 +412,8 @@ const SongEditor = () => {
                       <button
                         type="button"
                         onClick={() => formikHandleSubmit()}
-                        disabled={isSubmitting || isCreatingSong || isUpdatingSong}
+                        disabled={isSubmitting || isCreatingSong || isUpdatingSong || !isOnline}
+                        title={!isOnline ? t("offline.actionUnavailable") : undefined}
                         className={classNames(BRAND_BUTTON_BASE, "h-10 px-5 shadow-[0_0_28px_-4px_rgba(239,54,54,0.7)] text-sm rounded-full")}
                       >
                         {isSubmitting ? t("common.loading") : songId ? t("songEditor.updateSong") : t("songEditor.publish")}
@@ -879,7 +882,8 @@ const SongEditor = () => {
                             <button
                               type="button"
                               onClick={() => handleGenerateLyrics(setFieldValue, values)}
-                              disabled={(!useExistingSongFile && !lyricsAudioFile && !values.song) || generatingLyrics}
+                              disabled={(!useExistingSongFile && !lyricsAudioFile && !values.song) || generatingLyrics || !isOnline}
+                              title={!isOnline ? t("offline.aiUnavailable") : undefined}
                               className="ml-auto h-9 px-4 rounded-full bg-brand-500/20 hover:bg-brand-500/30 text-brand-300 text-sm font-semibold transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
                             >
                               {generatingLyrics ? t("songEditor.generating") : t("songEditor.generate")}
@@ -1040,7 +1044,8 @@ const SongEditor = () => {
                             <button
                               type="button"
                               onClick={() => handleGenerateImage(setFieldValue)}
-                              disabled={!aiImagePrompt.trim() || generatingImage}
+                              disabled={!aiImagePrompt.trim() || generatingImage || !isOnline}
+                              title={!isOnline ? t("offline.aiUnavailable") : undefined}
                               className={classNames(BRAND_BUTTON_BASE, "w-full h-10 text-sm inline-flex items-center justify-center gap-2 rounded-full")}
                             >
                               <IoSparkles /> {generatingImage ? t("songEditor.generating") : t("songEditor.generate")}

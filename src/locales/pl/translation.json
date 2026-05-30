@@ -1,4 +1,26 @@
 {
+  "offline": {
+    "banner": "Jesteś offline",
+    "cachedOnly": "dostępna jest tylko treść zapisana w pamięci podręcznej",
+    "actionUnavailable": "Ta akcja wymaga połączenia z internetem",
+    "aiUnavailable": "Funkcje AI nie są dostępne offline",
+    "searchUnavailable": "Wyszukiwanie nie jest dostępne offline. Połącz się, aby znaleźć piosenki, użytkowników i playlisty."
+  },
+  "downloads": {
+    "download": "Pobierz",
+    "remove": "Usuń z pobranych",
+    "downloading": "Pobieranie...",
+    "pageTitle": "Pobrane",
+    "eyebrow": "Biblioteka",
+    "title": "Pobrane",
+    "emptyTitle": "Brak pobranych",
+    "emptyHint": "Pobrane utwory pojawią się tutaj i będą działać bez internetu.",
+    "browse": "Znajdź muzykę"
+  },
+  "playlist": {
+    "failedToLoad": "Nie udało się załadować playlisty",
+    "empty": "Ta playlista jest pusta"
+  },
   "comingSoon": "Wkrótce",
   "common": {
     "loading": "Ładowanie...",
@@ -38,6 +60,7 @@
     "home": "Strona główna",
     "search": "Szukaj",
     "favorites": "Ulubione",
+    "downloads": "Pobrane",
     "library": "Biblioteka",
     "playlists": "Playlisty",
     "mySongs": "Moja muzyka",

@@ -1,4 +1,26 @@
 {
+  "offline": {
+    "banner": "Vous êtes hors ligne",
+    "cachedOnly": "seul le contenu en cache est disponible",
+    "actionUnavailable": "Cette action nécessite une connexion Internet",
+    "aiUnavailable": "Les fonctions IA ne sont pas disponibles hors ligne",
+    "searchUnavailable": "La recherche n'est pas disponible hors ligne. Connectez-vous pour trouver des chansons, utilisateurs et playlists."
+  },
+  "downloads": {
+    "download": "Télécharger",
+    "remove": "Retirer des téléchargements",
+    "downloading": "Téléchargement...",
+    "pageTitle": "Téléchargements",
+    "eyebrow": "Bibliothèque",
+    "title": "Téléchargé",
+    "emptyTitle": "Aucun téléchargement",
+    "emptyHint": "Les chansons téléchargées apparaîtront ici et fonctionneront sans Internet.",
+    "browse": "Trouver de la musique"
+  },
+  "playlist": {
+    "failedToLoad": "Échec du chargement de la playlist",
+    "empty": "Cette playlist est vide"
+  },
   "comingSoon": "Bientôt disponible",
   "common": {
     "loading": "Chargement...",
@@ -38,6 +60,7 @@
     "home": "Accueil",
     "search": "Rechercher",
     "favorites": "Favoris",
+    "downloads": "Téléchargements",
     "library": "Bibliothèque",
     "playlists": "Listes de lecture",
     "mySongs": "Mes musiques",

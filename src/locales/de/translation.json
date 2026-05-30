@@ -1,4 +1,26 @@
 {
+  "offline": {
+    "banner": "Sie sind offline",
+    "cachedOnly": "nur zwischengespeicherte Inhalte verfügbar",
+    "actionUnavailable": "Diese Aktion erfordert eine Internetverbindung",
+    "aiUnavailable": "KI-Funktionen sind offline nicht verfügbar",
+    "searchUnavailable": "Die Suche ist offline nicht verfügbar. Verbinden Sie sich, um Songs, Benutzer und Playlists zu finden."
+  },
+  "downloads": {
+    "download": "Herunterladen",
+    "remove": "Aus Downloads entfernen",
+    "downloading": "Wird heruntergeladen...",
+    "pageTitle": "Downloads",
+    "eyebrow": "Bibliothek",
+    "title": "Heruntergeladen",
+    "emptyTitle": "Noch keine Downloads",
+    "emptyHint": "Heruntergeladene Songs erscheinen hier und können ohne Internet abgespielt werden.",
+    "browse": "Musik finden"
+  },
+  "playlist": {
+    "failedToLoad": "Playlist konnte nicht geladen werden",
+    "empty": "Diese Playlist ist leer"
+  },
   "comingSoon": "Demnächst",
   "common": {
     "loading": "Laden...",
@@ -38,6 +60,7 @@
     "home": "Startseite",
     "search": "Suchen",
     "favorites": "Favoriten",
+    "downloads": "Downloads",
     "library": "Bibliothek",
     "playlists": "Wiedergabelisten",
     "mySongs": "Meine Musik",

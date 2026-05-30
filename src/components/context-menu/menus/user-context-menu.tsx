@@ -7,6 +7,7 @@ import ContextMenuItem from "../context-menu-item";
 import ContextMenuSubmenu from "../context-menu-submenu";
 import { useAddFriendMutation } from "../../../store/api/friends.api";
 import type { User } from "../../../types/user.types";
+import { useOnlineStatus } from "../../../hooks/use-online-status";
 
 interface UserContextMenuProps {
   user: User;
@@ -16,6 +17,7 @@ interface UserContextMenuProps {
 
 const UserContextMenu = ({ user, position, onClose }: UserContextMenuProps) => {
   const { t } = useTranslation();
+  const isOnline = useOnlineStatus();
   const navigate = useNavigate();
   const [addFriend, { isLoading }] = useAddFriendMutation();
 
@@ -44,7 +46,7 @@ const UserContextMenu = ({ user, position, onClose }: UserContextMenuProps) => {
         label={t("contextMenu.addFriend")}
         icon={<MdPersonAdd />}
         onClick={handleAddFriend}
-        disabled={isLoading}
+        disabled={isLoading || !isOnline}
       />
       <ContextMenuItem
         label={t("contextMenu.profile")}
